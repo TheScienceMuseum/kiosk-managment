@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Kiosk;
+use App\Policies\KioskPolicy;
+use App\Policies\UserPolicy;
+use App\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Laravel\Passport\Passport;
@@ -14,7 +18,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+        Kiosk::class => KioskPolicy::class,
+        User::class => UserPolicy::class,
     ];
 
     /**

@@ -19,6 +19,7 @@ class TestUsersTableSeeder extends Seeder
         ])->each(function (User $user) {
             $user->syncRoles([
                 'developer',
+                'administrator',
                 'content writer',
                 'kiosk admin',
             ]);

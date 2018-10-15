@@ -18,13 +18,17 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+
+    {{--@if (config('app.env') !== 'production')--}}
+        {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0/solar/bootstrap.min.css">--}}
+    {{--@endif--}}
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <nav class="navbar navbar-expand-md bg-dark navbar-dark">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ config('app.name') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -49,6 +53,19 @@
                                 @endif
                             </li>
                         @else
+
+                            @can('view all kiosks')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('admin.kiosks') }}">{{ __('Kiosks') }}</a>
+                                </li>
+                            @endcan
+
+                            @can('view all users')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.users') }}">{{ __('Users') }}</a>
+                            </li>
+                            @endcan
+
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>

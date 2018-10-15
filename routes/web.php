@@ -18,3 +18,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group([
+    'middleware' => 'auth',
+], function (\Illuminate\Routing\Router $router) {
+    $router->get('admin/users', 'AdminController@users')
+        ->name('admin.users');
+
+    $router->get('admin/kiosks', 'AdminController@kiosks')
+        ->name('admin.kiosks');
+});
