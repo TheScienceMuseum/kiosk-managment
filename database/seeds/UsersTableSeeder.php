@@ -11,6 +11,17 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\User::class)->create([
+            'name' => 'Lawrence',
+            'email' => 'lawrence@joipolloi.com',
+            'password' => \Illuminate\Support\Facades\Hash::make('123qweasd'),
+        ])->each(function (App\User $user) {
+            $user->syncRoles([
+                'developer',
+                'administrator',
+                'content writer',
+                'kiosk admin',
+            ]);
+        });
     }
 }
