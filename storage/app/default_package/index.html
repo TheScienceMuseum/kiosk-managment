@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="dialog">
+        <h1>Default Kiosk Package</h1>
+        <div>
+            Kiosk identity: <span id="kiosk_name"></span>
+        </div>
+        <div>
+            Kiosk Currently Displaying: <span id="kiosk_package"></span>
+        </div>
+        <div>
+            <span id="kiosk_lock"></span>
+            <button onclick="toggleKioskLocked()">Toggle Kiosk Lock</button>
+        </div>
+    </div>
+    <script>
+        const Config = require('electron').remote.require('electron-config');
+        const config = new Config();
+
+        document.getElementById('kiosk_name').innerText = config.get('identifier');
+        document.getElementById('kiosk_package').innerText = `Package: ${config.get('current_package_name')} Version: ${config.get('current_package_version')}`;
+        document.getElementById('kiosk_lock').innerText = `Kiosk is currently ${config.get('screen_unattended') ? 'unlocked' : 'locked'} for updates`;
+
+        function toggleKioskLocked() {
+            config.set('screen_unattended', ! config.get('screen_unattended'));
+            document.getElementById('kiosk_lock').innerText = `Kiosk is currently ${config.get('screen_unattended') ? 'unlocked' : 'locked'} for updates`;
+        }
+    </script>
+</body>
+</html>
