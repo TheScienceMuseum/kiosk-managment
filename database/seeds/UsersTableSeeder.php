@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
     {
         factory(App\User::class)->create([
             'name' => 'Joi Polloi',
-            'email' => 'developer@joipolloi.com',
+            'email' => 'dev@joipolloi.com',
             'password' => \Illuminate\Support\Facades\Hash::make(env('DB_SEED_USERS_TABLE_PASSWORD')),
         ])->each(function (App\User $user) {
             $user->syncRoles([
