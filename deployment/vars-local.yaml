@@ -1,0 +1,5 @@
+developer_user_password: "letmein"
+mysql_root_password: "rootytooty"
+mysql_user: "kiosk_manager"
+mysql_password: "letmeout"
+mysql_database: "kiosk_manager"

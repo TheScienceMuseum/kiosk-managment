@@ -1,0 +1,6 @@
+---
+- name: ensure application exists on server
+  git:
+    accept_hostkey: yes
+    dest: /var/www/kiosk_manager
+    repo: git@bitbucket.org:rckt/sciencemuseum-kiosk-management.git

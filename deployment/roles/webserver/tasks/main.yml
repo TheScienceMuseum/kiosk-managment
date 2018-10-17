@@ -1,0 +1,16 @@
+---
+- name: ensure nginx is installed
+  apt:
+    name: nginx
+
+- name: create virtualhost for nginx
+  template:
+    src: ./templates/nginx-vhost.conf
+    dest: /etc/nginx/sites-enabled/default
+
+- name: restart nginx
+  service:
+    name: "{{ item }}"
+    state: restarted
+  loop:
+  - nginx

@@ -1,0 +1,40 @@
+---
+- hosts: all
+  vars:
+    deploy_branch: develop
+    deploy_environment: local
+    deploy_hostname: kiosk-manager.test
+  become: true
+
+  pre_tasks:
+  - name: import variables for priovisioning
+    include_vars: "./vars-{{ deploy_environment }}.yaml"
+
+  roles:
+  - cache
+  - database
+  - php
+  - webserver
+
+  post_tasks:
+  - name: set nginx user as vagrant
+    replace:
+      path: /etc/nginx/nginx.conf
+      regexp: 'www-data'
+      replace: 'vagrant'
+      backup: yes
+
+  - name: set php-fpm user as vagrant
+    replace:
+      path: /etc/php/7.2/fpm/pool.d/www.conf
+      regexp: 'www-data'
+      replace: 'vagrant'
+      backup: yes
+
+  - name: restart services following local changes
+    service:
+      name: "{{ item }}"
+      state: restarted
+    loop:
+    - nginx
+    - php7.2-fpm

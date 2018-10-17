@@ -1,0 +1,7 @@
+---
+- hosts: all
+  gather_facts: False
+  tasks:
+  - name: ensure python is installed
+    become: true
+    raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal python-mysqldb python-apt)

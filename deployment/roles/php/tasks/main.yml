@@ -1,0 +1,21 @@
+---
+- name: ensure we are using ppa:ondrej/php for php
+  apt_repository:
+    repo: ppa:ondrej/php
+    update_cache: yes
+    state: present
+
+- name: ensure php7.2 and required extensions are installed
+  apt:
+    name: "{{ item }}"
+  loop:
+  - php7.2-fpm
+  - php7.2-mbstring
+  - php7.2-xml
+  - php7.2-zip
+  - php7.2-mysql
+  - php7.2-curl
+
+- name: ensure composer is installed
+  apt:
+    name: composer

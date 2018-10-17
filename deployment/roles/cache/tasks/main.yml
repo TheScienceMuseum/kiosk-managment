@@ -1,0 +1,4 @@
+---
+- name: ensure redis is installed
+  apt:
+    name: redis-server
