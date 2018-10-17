@@ -12,9 +12,9 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         factory(App\User::class)->create([
-            'name' => 'Lawrence',
-            'email' => 'lawrence@joipolloi.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('123qweasd'),
+            'name' => 'Joi Polloi',
+            'email' => 'developer@joipolloi.com',
+            'password' => \Illuminate\Support\Facades\Hash::make(env('DB_SEED_USERS_TABLE_PASSWORD')),
         ])->each(function (App\User $user) {
             $user->syncRoles([
                 'developer',
