@@ -1,6 +1,5 @@
 <?php
 
-use App\User;
 use Illuminate\Database\Seeder;
 
 class TestUsersTableSeeder extends Seeder
@@ -12,11 +11,10 @@ class TestUsersTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\User::class, 20)->create()->each(function (User $user) {
-            $user->syncRoles([
-                'content writer',
-                'kiosk admin',
-            ]);
-        });
+        // Create one user of each role
+        foreach (\Spatie\Permission\Models\Role::all() as $role) {
+            $user = factory(App\User::class)->create();
+            $user->assignRole($role);
+        }
     }
 }
