@@ -9,4 +9,5 @@ pipelines:
       - php composer-setup.php
       - php -r "unlink('composer-setup.php');"
       - ln -f -s .env.pipelines .env
+      - ./composer.phar install
       - ./vendor/bin/phpunit
