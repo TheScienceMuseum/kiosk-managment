@@ -128,7 +128,7 @@ class UserApiTest extends TestCase
             ->putJson('/api/user/' . $updatingUser->id, [
                 'name' => 'test updating user',
                 'email' => 'test-updating-user@example.com',
-                'roles' => ['developer', 'content writer'],
+                'roles' => ['developer', 'content author'],
             ]);
 
         $response->assertStatus(200)
@@ -138,7 +138,7 @@ class UserApiTest extends TestCase
                     'email' => 'test-updating-user@example.com',
                     'roles' => [
                         ['name' => 'developer'],
-                        ['name' => 'content writer'],
+                        ['name' => 'content author'],
                     ],
                 ],
             ]);
@@ -168,9 +168,10 @@ class UserApiTest extends TestCase
             ->assertExactJson([
                 "data" => [
                     ["name" => "developer"],
-                    ["name" => "administrator"],
-                    ["name" => "content writer"],
-                    ["name" => "kiosk admin"],
+                    ["name" => "admin"],
+                    ["name" => "content author"],
+                    ["name" => "content editor"],
+                    ["name" => "tech admin"],
                 ],
                 "links" => [
                     "first" => "http://kiosk-manager.test/api/user/role?page%5Bnumber%5D=1",
@@ -184,8 +185,8 @@ class UserApiTest extends TestCase
                     "last_page" => 1,
                     "path" => "http://kiosk-manager.test/api/user/role",
                     "per_page" => 10,
-                    "to" => 4,
-                    "total" => 4,
+                    "to" => 5,
+                    "total" => 5,
                 ]
             ]);
     }
