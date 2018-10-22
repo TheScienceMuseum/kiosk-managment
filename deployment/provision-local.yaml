@@ -17,6 +17,10 @@
   - webserver
 
   post_tasks:
+  - name: ensure xdebug is installed
+    apt:
+      name: php-xdebug
+
   - name: set nginx user as vagrant
     replace:
       path: /etc/nginx/nginx.conf
@@ -38,3 +42,20 @@
     loop:
     - nginx
     - php7.2-fpm
+
+  - name: set up .env file
+    copy:
+      remote_src: yes
+      src: /var/www/kiosk_manager/.env.example
+      dest: /var/www/kiosk_manager/.env
+
+  - name: set application key
+    shell: php artisan key:generate
+    args:
+      chdir: /var/www/kiosk_manager
+
+  - name: reset for the devlopment environment
+    shell: DB_SEED_USERS_TABLE_PASSWORD=123qweasd composer dev-reset-environment
+    args:
+      chdir: /var/www/kiosk_manager
+      creates: passport.log
