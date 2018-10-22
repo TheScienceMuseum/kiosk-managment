@@ -64,6 +64,5 @@ Route::name('api.')
     ->middleware(['api'])
     ->group(function (Router $router) {
         $router->post('health-check', 'KioskController@healthCheck')->name('kiosk.health-check');
-        $router->post('package-update', 'KioskController@packageUpdate')->name('kiosk.package-update');
         $router->post('register', 'KioskController@register')->name('kiosk.register');
     });

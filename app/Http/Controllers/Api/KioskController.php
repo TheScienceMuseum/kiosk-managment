@@ -98,15 +98,6 @@ class KioskController extends Controller
     }
 
     /**
-     * @param KioskPackageUpdateRequest $request
-     * @param Kiosk $kiosk
-     */
-    public function packageUpdate(KioskPackageUpdateRequest $request, Kiosk $kiosk)
-    {
-
-    }
-
-    /**
      * @param KioskRegisterRequest $request
      * @return KioskResource
      */
