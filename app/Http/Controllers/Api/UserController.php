@@ -48,9 +48,9 @@ class UserController extends Controller
 
     /**
      * @param UserStoreRequest $request
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return UserResource
      */
-    public function store(UserStoreRequest $request)
+    public function store(UserStoreRequest $request) : UserResource
     {
         $user = User::create([
             'name' => $request->input('name'),
@@ -71,7 +71,7 @@ class UserController extends Controller
             // send user invitation email
         }
 
-        return response(new UserResource($user), 201);
+        return new UserResource($user);
     }
 
     /**
@@ -79,7 +79,7 @@ class UserController extends Controller
      * @param User $user
      * @return UserResource
      */
-    public function show(UserShowRequest $request, User $user)
+    public function show(UserShowRequest $request, User $user) : UserResource
     {
         return new UserResource($user);
     }
@@ -89,8 +89,11 @@ class UserController extends Controller
      * @param User $user
      * @return UserResource
      */
-    public function update(UserUpdateRequest $request, User $user)
+    public function update(UserUpdateRequest $request, User $user) : UserResource
     {
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+
         if ($request->input('roles')) {
             $roles = array_map(function ($role) {
                 return Role::whereName($role)->first();
@@ -98,6 +101,8 @@ class UserController extends Controller
 
             $user->syncRoles($roles);
         }
+
+        $user->save();
 
         return new UserResource($user);
     }
@@ -117,9 +122,9 @@ class UserController extends Controller
 
     /**
      * @param UserRoleIndexRequest $request
-     * @return AnonymousResourceCollection
+     * @return ResourceCollection
      */
-    public function roleIndex(UserRoleIndexRequest $request) : AnonymousResourceCollection
+    public function roleIndex(UserRoleIndexRequest $request) : ResourceCollection
     {
         return UserRoleResource::collection(Role::jsonPaginate());
     }
