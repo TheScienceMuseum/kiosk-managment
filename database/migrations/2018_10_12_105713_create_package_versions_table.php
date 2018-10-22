@@ -17,6 +17,7 @@ class CreatePackageVersionsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('package_id');
             $table->unsignedInteger('version');
+            $table->boolean('approved')->default(false);
             $table->timestamps();
         });
     }

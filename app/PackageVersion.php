@@ -25,6 +25,7 @@ class PackageVersion extends Model
 {
     protected $fillable = [
         'version',
+        'approved',
     ];
 
     public function getPathAttribute()
