@@ -13,26 +13,97 @@ class PermissionsSeeder extends Seeder
      */
     public function run()
     {
-        $role_developer = Role::create(['name' => 'developer']);
-        $role_developer->givePermissionTo(Permission::create(['name' => 'view all logs']));
+        // User Permissions
+        $perm_create_new_users = Permission::create(['name' => 'create new users']);
+        $perm_view_all_users = Permission::create(['name' => 'view all users']);
+        $perm_edit_all_users = Permission::create(['name' => 'edit all users']);
+        $perm_destroy_all_users = Permission::create(['name' => 'destroy all users']);
+        $perm_view_all_user_roles = Permission::create(['name' => 'view all user roles']);
 
-        $role_admin = Role::create(['name' => 'administrator']);
-        $role_admin->givePermissionTo(Permission::create(['name' => 'create new users']));
-        $role_admin->givePermissionTo(Permission::create(['name' => 'view all users']));
-        $role_admin->givePermissionTo(Permission::create(['name' => 'edit all users']));
-        $role_admin->givePermissionTo(Permission::create(['name' => 'destroy all users']));
-        $role_admin->givePermissionTo(Permission::create(['name' => 'view all user roles']));
+        $perm_group_user = [
+            $perm_create_new_users,
+            $perm_view_all_users,
+            $perm_edit_all_users,
+            $perm_destroy_all_users,
+            $perm_view_all_user_roles,
+        ];
 
-        $role_content_writer = Role::create(['name' => 'content writer']);
-        $role_content_writer->givePermissionTo(Permission::create(['name' => 'edit package']));
-        $role_content_writer->givePermissionTo(Permission::create(['name' => 'build package']));
-        $role_content_writer->givePermissionTo(Permission::create(['name' => 'test package']));
+        // Package Permissions
+        $perm_create_package = Permission::create(['name' => 'create new packages']);
+        $perm_edit_package = Permission::create(['name' => 'edit all packages']);
+        $perm_build_package = Permission::create(['name' => 'publish all package']);
+        $perm_test_package = Permission::create(['name' => 'test all packages']);
 
-        $role_kiosk_admin = Role::create(['name' => 'kiosk admin']);
-        $role_kiosk_admin->givePermissionTo(Permission::create(['name' => 'create new kiosks']));
-        $role_kiosk_admin->givePermissionTo(Permission::create(['name' => 'view all kiosks']));
-        $role_kiosk_admin->givePermissionTo(Permission::create(['name' => 'edit all kiosks']));
-        $role_kiosk_admin->givePermissionTo(Permission::create(['name' => 'destroy all kiosks']));
-        $role_kiosk_admin->givePermissionTo(Permission::create(['name' => 'deploy packages to all kiosks']));
+        $perm_group_package = [
+            $perm_create_package,
+            $perm_edit_package,
+            $perm_build_package,
+            $perm_test_package,
+        ];
+
+        // Kiosk Permissions
+        $perm_create_new_kiosks = Permission::create(['name' => 'create new kiosks']);
+        $perm_view_all_kiosks = Permission::create(['name' => 'view all kiosks']);
+        $perm_edit_all_kiosks = Permission::create(['name' => 'edit all kiosks']);
+        $perm_destroy_all_kiosks = Permission::create(['name' => 'destroy all kiosks']);
+        $perm_deploy_packages_to_all_kiosks = Permission::create(['name' => 'deploy packages to all kiosks']);
+        $perm_view_kiosk_logs = Permission::create(['name' => 'view kiosk logs']);
+
+        $perm_group_kiosk = [
+            $perm_create_new_kiosks,
+            $perm_view_all_kiosks,
+            $perm_edit_all_kiosks,
+            $perm_destroy_all_kiosks,
+            $perm_deploy_packages_to_all_kiosks,
+            $perm_view_kiosk_logs,
+        ];
+
+        // System Developers get all permissions
+        Role::create(['name' => 'developer'])
+            ->syncPermissions(Permission::all());
+
+        // Admin
+        // General super user
+        Role::create(['name' => 'admin'])
+            ->syncPermissions(array_merge(
+                $perm_group_user,
+                $perm_group_package,
+                $perm_group_kiosk
+            ))
+        ;
+
+        // Tech Admin
+        // Overseeing the status of the kiosks,
+        // whether they are online and if they
+        // have correctly received packages.
+        // No access to editorial material.
+        Role::create(['name' => 'tech admin'])
+            ->syncPermissions(array_merge(
+                $perm_group_kiosk
+            ))
+        ;
+
+        // Content Author
+        // For creating/editing content in the system,
+        // but not allow to push to kiosks.
+        // No access to kiosk status.
+        Role::create(['name' => 'content author'])
+            ->syncPermissions(array_merge(
+                $perm_group_package
+            ))
+        ;
+
+        // Content Editor
+        // Able to sign off content,
+        // and push to kiosks.
+        // No access to kiosk status.
+        Role::create(['name' => 'content editor'])
+            ->syncPermissions(array_merge(
+                $perm_group_package,
+                [
+                    $perm_deploy_packages_to_all_kiosks
+                ]
+            ))
+        ;
     }
 }
