@@ -1,0 +1,12 @@
+image: php:7.2-fpm
+pipelines:
+  default:
+  - step:
+      script:
+      - apt-get update && apt-get install -qy git curl libmcrypt-dev
+      - pecl install mcrypt-1.0.1
+      - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+      - php composer-setup.php
+      - php -r "unlink('composer-setup.php');"
+      - ln -f -s .env.pipelines .env
+      - ./vendor/bin/phpunit
