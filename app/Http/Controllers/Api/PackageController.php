@@ -14,7 +14,6 @@ class PackageController extends Controller
         $kiosks = QueryBuilder::for(Package::class)
             ->allowedFilters([
                 'name',
-                'address',
             ])
             ->jsonPaginate()
         ;

@@ -14,23 +14,23 @@ class KioskPolicy
      * Determine whether the user can view the kiosk.
      *
      * @param  \App\User  $user
+     * @return mixed
+     */
+    public function index(User $user)
+    {
+        return $user->can('view all kiosks');
+    }
+
+    /**
+     * Determine whether the user can view the kiosk.
+     *
+     * @param  \App\User  $user
      * @param  \App\Kiosk  $kiosk
      * @return mixed
      */
     public function view(User $user, Kiosk $kiosk)
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can create kiosks.
-     *
-     * @param  \App\User  $user
-     * @return mixed
-     */
-    public function create(User $user)
-    {
-        //
+        return $user->can('view all kiosks');
     }
 
     /**
@@ -42,7 +42,18 @@ class KioskPolicy
      */
     public function update(User $user, Kiosk $kiosk)
     {
-        //
+        return $user->can('edit all kiosks');
+    }
+
+    /**
+     * Determine whether the user can deploy a package to the kiosk.
+     * @param User $user
+     * @param Kiosk $kiosk
+     * @return bool
+     */
+    public function assignPackage(User $user, Kiosk $kiosk)
+    {
+        return $user->can('deploy packages to all kiosks');
     }
 
     /**
@@ -53,30 +64,6 @@ class KioskPolicy
      * @return mixed
      */
     public function delete(User $user, Kiosk $kiosk)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the kiosk.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Kiosk  $kiosk
-     * @return mixed
-     */
-    public function restore(User $user, Kiosk $kiosk)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the kiosk.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Kiosk  $kiosk
-     * @return mixed
-     */
-    public function forceDelete(User $user, Kiosk $kiosk)
     {
         //
     }

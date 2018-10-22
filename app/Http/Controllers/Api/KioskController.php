@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\UnregisteredKioskFilter;
+use App\Http\Requests\KioskAssignPackageRequest;
 use App\Http\Requests\KioskDestroyRequest;
 use App\Http\Requests\KioskHealthCheckRequest;
 use App\Http\Requests\KioskIndexRequest;
@@ -12,6 +13,8 @@ use App\Http\Requests\KioskShowRequest;
 use App\Http\Requests\KioskUpdateRequest;
 use App\Http\Resources\KioskResource;
 use App\Kiosk;
+use App\Package;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Spatie\QueryBuilder\Filter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -26,7 +29,7 @@ class KioskController extends Controller
      * @param KioskIndexRequest $request
      * @return mixed
      */
-    public function index(KioskIndexRequest $request)
+    public function index(KioskIndexRequest $request) : ResourceCollection
     {
         $kiosks = QueryBuilder::for(Kiosk::class)
             ->allowedFilters([
@@ -45,7 +48,7 @@ class KioskController extends Controller
      * @param Kiosk $kiosk
      * @return KioskResource
      */
-    public function show(KioskShowRequest $request, Kiosk $kiosk)
+    public function show(KioskShowRequest $request, Kiosk $kiosk) : KioskResource
     {
         return new KioskResource($kiosk);
     }
@@ -55,13 +58,25 @@ class KioskController extends Controller
      * @param Kiosk $kiosk
      * @return KioskResource
      */
-    public function update(KioskUpdateRequest $request, Kiosk $kiosk)
+    public function update(KioskUpdateRequest $request, Kiosk $kiosk) : KioskResource
     {
         $kiosk->update([
             'name' => $request->input('name'),
             'location' => $request->input('location'),
             'asset_tag' => $request->input('asset_tag'),
         ]);
+
+        return new KioskResource($kiosk);
+    }
+
+    /**
+     * @param KioskAssignPackageRequest $request
+     * @param Kiosk $kiosk
+     * @return KioskResource
+     */
+    public function assignPackage(KioskAssignPackageRequest $request, Kiosk $kiosk, Package $package) : KioskResource
+    {
+        $kiosk->package()->associate($package);
 
         return new KioskResource($kiosk);
     }
@@ -83,7 +98,7 @@ class KioskController extends Controller
      * @param KioskHealthCheckRequest $request
      * @return KioskResource
      */
-    public function healthCheck(KioskHealthCheckRequest $request)
+    public function healthCheck(KioskHealthCheckRequest $request) : KioskResource
     {
         $kiosk = Kiosk::whereIdentifier($request->input('identifier'))
             ->firstOrFail()
@@ -101,7 +116,7 @@ class KioskController extends Controller
      * @param KioskRegisterRequest $request
      * @return KioskResource
      */
-    public function register(KioskRegisterRequest $request)
+    public function register(KioskRegisterRequest $request) : KioskResource
     {
         $kiosk = Kiosk::create([
             'identifier' => $request->input('identifier'),

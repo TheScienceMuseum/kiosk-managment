@@ -34,10 +34,10 @@ Route::name('api.')
             ->prefix('kiosk')
             ->group(function (Router $router) {
                 $router->get('', 'KioskController@index')->name('index');
-//                $router->post('', 'KioskController@store')->name('store');
                 $router->get('{kiosk}', 'KioskController@show')->name('show');
                 $router->put('{kiosk}', 'KioskController@update')->name('update');
                 $router->delete('{kiosk}', 'KioskController@destroy')->name('destroy');
+                $router->put('{kiosk}/assign/{package}', 'KioskController@assignPackage')->name('assign-package');
             });
 
         $router->name('package.')

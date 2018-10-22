@@ -22,7 +22,7 @@ class KioskResource extends JsonResource
             'client_version' => $this->client_version,
             'current_package' => $this->current_package === '@' ? null : $this->current_package,
             'last_seen_at' => $this->last_seen_at ? $this->last_seen_at->toAtomString() : null,
-            'package' => new PackageResource($this->package),
+            'package' => new KioskPackageResource($this->package),
             'path' => route('api.kiosk.show', $this),
         ];
     }

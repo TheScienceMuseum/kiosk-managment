@@ -13,6 +13,17 @@ class UserPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
+     * @return mixed
+     */
+    public function index(User $user)
+    {
+        return $user->can('view all users');
+    }
+
+    /**
+     * Determine whether the user can view the model.
+     *
+     * @param  \App\User  $user
      * @param  \App\User  $model
      * @return mixed
      */
@@ -41,7 +52,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->id === $model->id || $user->can('edit all users');
+        return $user->can('edit all users');
     }
 
     /**
@@ -54,29 +65,5 @@ class UserPolicy
     public function delete(User $user, User $model)
     {
         return $user->can('destroy all users');
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\User  $model
-     * @return mixed
-     */
-    public function restore(User $user, User $model)
-    {
-        return $user->can('destroy all users');
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\User  $model
-     * @return mixed
-     */
-    public function forceDelete(User $user, User $model)
-    {
-        return false;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Kiosk;
 use Illuminate\Foundation\Http\FormRequest;
 
 class KioskIndexRequest extends FormRequest
@@ -13,7 +14,7 @@ class KioskIndexRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user() && $this->user()->can('view all kiosks');
+        return $this->user()->can('index', Kiosk::class);
     }
 
     /**

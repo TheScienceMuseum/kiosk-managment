@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\ApiIndexRequest;
 use App\Kiosk;
 use App\User;
+use Illuminate\Support\Facades\Route;
 
 class ApiInformationController extends Controller
 {
@@ -17,6 +18,7 @@ class ApiInformationController extends Controller
             ],
         ];
 
+//        return array_map(function (\Illuminate\Routing\Route $route) { return $route->uri; }, (array) Route::getRoutes()->getIterator());
 
         return [
             'resources' => [

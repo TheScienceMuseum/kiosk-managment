@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PackageResource extends JsonResource
+class KioskPackageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,7 +18,6 @@ class PackageResource extends JsonResource
             'name' => $this->name,
             'versions' => PackageVersionResource::collection($this->versions),
             'current_version' => new PackageVersionResource($this->versions()->orderByDesc('version')->first()),
-            'kiosks' => KioskResource::collection($this->kiosks),
         ];
     }
 }

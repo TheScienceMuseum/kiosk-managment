@@ -13,7 +13,7 @@ class ApiIndexRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user();
+        return $this->user()->hasRole('developer');
     }
 
     /**

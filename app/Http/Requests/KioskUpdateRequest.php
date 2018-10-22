@@ -13,7 +13,7 @@ class KioskUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user() && $this->user()->can('view all kiosks');
+        return $this->user()->can('update', $this->route('kiosk'));
     }
 
     /**
