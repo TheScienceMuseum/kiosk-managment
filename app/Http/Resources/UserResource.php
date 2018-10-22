@@ -12,9 +12,7 @@ class UserResource extends Resource
         return [
             'name' => $this->name,
             'email' => $this->email,
-            'roles' => $this->roles->map(function (Role $role) {
-                return [ 'name' => $role->name ];
-            }),
+            'roles' => UserRoleResource::collection($this->roles),
             'path' => route('api.user.show', $this),
         ];
     }
