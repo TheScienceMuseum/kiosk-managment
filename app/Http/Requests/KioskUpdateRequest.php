@@ -26,7 +26,7 @@ class KioskUpdateRequest extends FormRequest
         return [
             'name' => 'required|string|unique:kiosks,name',
             'location' => 'required|string',
-            'asset_tag' => '',
+            'asset_tag' => 'string|unique:kiosks,asset_tag',
         ];
     }
 }
