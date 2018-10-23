@@ -6,8 +6,7 @@ pipelines:
       caches:
       - composer
       script:
-      - apt-get update && apt-get install -qy git curl libmcrypt-dev unzip
-      - pecl install mcrypt-1.0.1
+      - apt-get update && apt-get install -qy git curl unzip
       - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
       - php composer-setup.php
       - php -r "unlink('composer-setup.php');"
