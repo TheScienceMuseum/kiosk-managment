@@ -2,6 +2,7 @@ image: php:7.2-fpm
 pipelines:
   default:
   - step:
+      name: phpunit
       caches:
       - composer
       script:
@@ -14,8 +15,8 @@ pipelines:
       - ./composer.phar install --ignore-platform-reqs
       - ./vendor/bin/phpunit
   - step:
-      name: Deploy to AWS
-      deployment: Staging
+      name: deploy
+      deployment: staging
       trigger: manual
       image: atlassian/pipelines-awscli
       script:

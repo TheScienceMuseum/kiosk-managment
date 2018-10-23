@@ -1,0 +1,22 @@
+version: 0.0
+os: linux
+files:
+- source: /
+  destination: /var/www/kiosk_manager
+hooks:
+  BeforeInstall:
+  - location: deployment/aws/lifecycle/BeforeInstall.sh
+    timeout: 300
+    runas: root
+  AfterInstall:
+  - location: deployment/aws/lifecycle/AfterInstall.sh
+    timeout: 300
+    runas: root
+  ApplicationStop:
+  - location: deployment/aws/lifecycle/ApplicationStop.sh
+    timeout: 300
+    runas: root
+  ApplicationStart:
+  - location: deployment/aws/lifecycle/ApplicationStart.sh
+    timeout: 300
+    runas: root
