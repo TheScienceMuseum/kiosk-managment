@@ -13,12 +13,12 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "./", "/var/www/kiosk_manager"
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "./deployment/provision-python.yaml"
+    ansible.playbook = "./deployment/local/provision-python.yaml"
     ansible.compatibility_mode = "2.0"
   end
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "./deployment/provision-local.yaml"
+    ansible.playbook = "./deployment/local/provision-local.yaml"
     ansible.compatibility_mode = "2.0"
   end
 end
