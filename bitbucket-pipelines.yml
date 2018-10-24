@@ -11,7 +11,7 @@ definitions:
     - php -r "unlink('composer-setup.php');"
     - ln -f -s .env.pipelines .env
     - ./composer.phar install --ignore-platform-reqs
-    - ./vendor/bin/phpunit
+    - ./vendor/bin/phpunit --coverage-xml ./coverage-results/coverage.xml --log-junit ./test-reports/junit.xml
     - rm composer.phar .env
 
 pipelines:
