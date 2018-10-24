@@ -8,7 +8,6 @@ permissions:
   pattern: "**"
   owner: www-data
   group: www-data
-  mode: 644
 hooks:
   BeforeInstall:
   - location: deployment/aws/lifecycle/BeforeInstall.sh
