@@ -13,11 +13,22 @@ pipelines:
       - ln -f -s .env.pipelines .env
       - ./composer.phar install --ignore-platform-reqs
       - ./vendor/bin/phpunit
-  - step:
-      name: deploy
-      deployment: staging
-      trigger: manual
-      image: atlassian/pipelines-awscli
-      script:
-      - aws deploy push --application-name $APPLICATION_NAME --s3-location s3://$S3_BUCKET/$BITBUCKET_COMMIT --ignore-hidden-files
-      - aws deploy create-deployment --application-name $APPLICATION_NAME --s3-location bucket=$S3_BUCKET,key=$BITBUCKET_COMMIT,bundleType=zip --deployment-group-name="$DEPLOYMENT_GROUP_NAME"
+  branches:
+      develop:
+      - step:
+            name: deploy
+            deployment: staging
+            trigger: manual
+            image: atlassian/pipelines-awscli
+            script:
+            - aws deploy push --application-name $APPLICATION_NAME --s3-location s3://$S3_BUCKET/$BITBUCKET_COMMIT --ignore-hidden-files
+            - aws deploy create-deployment --application-name $APPLICATION_NAME --s3-location bucket=$S3_BUCKET,key=$BITBUCKET_COMMIT,bundleType=zip --deployment-group-name="Staging"
+      master:
+      - step:
+            name: deploy
+            deployment: production
+            trigger: manual
+            image: atlassian/pipelines-awscli
+            script:
+            - aws deploy push --application-name $APPLICATION_NAME --s3-location s3://$S3_BUCKET/$BITBUCKET_COMMIT --ignore-hidden-files
+            - aws deploy create-deployment --application-name $APPLICATION_NAME --s3-location bucket=$S3_BUCKET,key=$BITBUCKET_COMMIT,bundleType=zip --deployment-group-name="Production"
