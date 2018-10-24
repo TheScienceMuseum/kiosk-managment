@@ -3,6 +3,12 @@ os: linux
 files:
 - source: /
   destination: /var/www/kiosk_manager
+permissions:
+- object: /var/www/kiosk_manager
+  pattern: "**"
+  owner: www-data
+  group: www-data
+  mode: 644
 hooks:
   BeforeInstall:
   - location: deployment/aws/lifecycle/BeforeInstall.sh
