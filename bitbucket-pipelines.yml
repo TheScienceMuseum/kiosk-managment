@@ -1,34 +1,39 @@
 image: php:7.2-fpm
+definitions:
+  step: &phpunit
+    name: phpunit
+    caches:
+    - composer
+    script:
+    - apt-get update && apt-get install -qy git curl unzip
+    - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    - php composer-setup.php
+    - php -r "unlink('composer-setup.php');"
+    - ln -f -s .env.pipelines .env
+    - ./composer.phar install --ignore-platform-reqs
+    - ./vendor/bin/phpunit
+
 pipelines:
   default:
-  - step:
-      name: phpunit
-      caches:
-      - composer
-      script:
-      - apt-get update && apt-get install -qy git curl unzip
-      - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-      - php composer-setup.php
-      - php -r "unlink('composer-setup.php');"
-      - ln -f -s .env.pipelines .env
-      - ./composer.phar install --ignore-platform-reqs
-      - ./vendor/bin/phpunit
+  - step: *phpunit
   branches:
-      develop:
-      - step:
-            name: deploy
-            deployment: staging
-            trigger: manual
-            image: atlassian/pipelines-awscli
-            script:
-            - aws deploy push --application-name $APPLICATION_NAME --s3-location s3://$S3_BUCKET/$BITBUCKET_COMMIT --ignore-hidden-files
-            - aws deploy create-deployment --application-name $APPLICATION_NAME --s3-location bucket=$S3_BUCKET,key=$BITBUCKET_COMMIT,bundleType=zip --deployment-group-name="Staging"
-      master:
-      - step:
-            name: deploy
-            deployment: production
-            trigger: manual
-            image: atlassian/pipelines-awscli
-            script:
-            - aws deploy push --application-name $APPLICATION_NAME --s3-location s3://$S3_BUCKET/$BITBUCKET_COMMIT --ignore-hidden-files
-            - aws deploy create-deployment --application-name $APPLICATION_NAME --s3-location bucket=$S3_BUCKET,key=$BITBUCKET_COMMIT,bundleType=zip --deployment-group-name="Production"
+    develop:
+    - step: *phpunit
+    - step:
+        name: deploy to staging
+        deployment: staging
+        trigger: manual
+        image: atlassian/pipelines-awscli
+        script:
+        - aws deploy push --application-name $APPLICATION_NAME --s3-location s3://$S3_BUCKET/$BITBUCKET_COMMIT --ignore-hidden-files
+        - aws deploy create-deployment --application-name $APPLICATION_NAME --s3-location bucket=$S3_BUCKET,key=$BITBUCKET_COMMIT,bundleType=zip --deployment-group-name="Staging"
+    master:
+    - step: *phpunit
+    - step:
+        name: deploy to production
+        deployment: production
+        trigger: manual
+        image: atlassian/pipelines-awscli
+        script:
+        - aws deploy push --application-name $APPLICATION_NAME --s3-location s3://$S3_BUCKET/$BITBUCKET_COMMIT --ignore-hidden-files
+        - aws deploy create-deployment --application-name $APPLICATION_NAME --s3-location bucket=$S3_BUCKET,key=$BITBUCKET_COMMIT,bundleType=zip --deployment-group-name="Production"
