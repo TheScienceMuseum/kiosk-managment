@@ -10,6 +10,10 @@ permissions:
   group: www-data
 hooks:
   BeforeInstall:
+  ApplicationStop:
+  - location: deployment/aws/lifecycle/ApplicationStop.sh
+    timeout: 300
+    runas: root
   - location: deployment/aws/lifecycle/BeforeInstall.sh
     timeout: 300
     runas: root
@@ -17,11 +21,11 @@ hooks:
   - location: deployment/aws/lifecycle/AfterInstall.sh
     timeout: 300
     runas: root
-  ApplicationStop:
-  - location: deployment/aws/lifecycle/ApplicationStop.sh
-    timeout: 300
-    runas: root
   ApplicationStart:
   - location: deployment/aws/lifecycle/ApplicationStart.sh
+    timeout: 300
+    runas: root
+  ValidateService:
+  - location: deployment/aws/lifecycle/ValidateService.sh
     timeout: 300
     runas: root

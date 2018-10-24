@@ -10,18 +10,17 @@ fi
 sudo apt-get update
 sudo apt-get install -yq software-properties-common
 
-# Setup PHP7.2 and nginx
+# Setup PPA Repos
+sudo LC_ALL=C.UTF-8 add-apt-repository -yq ppa:certbot/certbot
 sudo LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
+
+# Install required servers
 sudo apt update
 sudo apt-get install -yq \
-    php7.2-fpm \
-    php7.2-mbstring php7.2-xml php7.2-zip php7.2-mysql php7.2-curl \
-    composer nginx
+    php7.2-fpm php7.2-mbstring php7.2-xml php7.2-zip php7.2-mysql php7.2-curl \
+    composer nginx curl python-certbot-nginx
 
-# Setup Certbot
-sudo add-apt-repository -yq ppa:certbot/certbot
-sudo apt update
-sudo apt-get install -yq python-certbot-nginx
+# Setup lets encrypt for domain
 sudo certbot -d $DEPLOYMENT_DOMAIN --nginx -n --agree-tos --email dev@joipolloi.com
 
 # Create nginx configuration
@@ -75,3 +74,6 @@ sudo chown -R www-data:www-data /var/www/kiosk_manager
 
 # Restart nginx for good times
 sudo service nginx restart
+
+# Ensure sentry cli is installed
+curl -sL https://sentry.io/get-cli/ | bash
