@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Start from the project repository
+cd /var/www/kiosk_manager;
+
 # Notify sentry of new deployed version
 export SENTRY_AUTH_TOKEN=4a38811e725648e9905aac77c3168acc1d1a9c5067f6442db7095fe5b393e5a9
 export SENTRY_ORG=joi-polloi
