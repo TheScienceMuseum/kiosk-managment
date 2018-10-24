@@ -22,11 +22,11 @@ pipelines:
     - step:
         name: deploy to staging
         deployment: staging
-        trigger: manual
         image: atlassian/pipelines-awscli
         script:
         - aws deploy push --application-name $APPLICATION_NAME --s3-location s3://$S3_BUCKET/$BITBUCKET_COMMIT --ignore-hidden-files
         - aws deploy create-deployment --application-name $APPLICATION_NAME --s3-location bucket=$S3_BUCKET,key=$BITBUCKET_COMMIT,bundleType=zip --deployment-group-name="Staging"
+
     master:
     - step: *phpunit
     - step:
