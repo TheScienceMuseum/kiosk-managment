@@ -1,9 +1,13 @@
 image: php:7.2-fpm
 definitions:
+  caches:
+    vendor: ./vendor
+
   setup-test-environment: &setup-test-environment
     name: setup testing environment
     caches:
     - composer
+    - vendor
     script:
     - apt-get update && apt-get install -qy git curl unzip
     - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -16,6 +20,7 @@ definitions:
     name: unit-tests
     caches:
     - composer
+    - vendor
     script:
     - ./vendor/bin/phpunit --filter Unit --coverage-xml ./coverage-results/coverage.xml --log-junit ./test-reports/junit.xml
 
@@ -23,6 +28,7 @@ definitions:
     name: feature-tests
     caches:
     - composer
+    - vendor
     script:
     - ./vendor/bin/phpunit --filter Feature --coverage-xml ./coverage-results/coverage.xml --log-junit ./test-reports/junit.xml
 
@@ -30,6 +36,7 @@ definitions:
     name: browser-tests
     caches:
     - composer
+    - vendor
     script:
     - ./vendor/bin/phpunit --filter Browser --log-junit ./test-reports/junit.xml
 
