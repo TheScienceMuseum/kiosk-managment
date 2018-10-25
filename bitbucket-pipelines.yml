@@ -38,7 +38,8 @@ definitions:
     - composer
     - vendor
     script:
-    - ./vendor/bin/phpunit --filter Browser --log-junit ./test-reports/junit.xml
+    - apt-get update && apt-get install -qy chromium-chromedriver
+    - php artisan dusk --log-junit ./test-reports/junit.xml
 
 pipelines:
   default:
