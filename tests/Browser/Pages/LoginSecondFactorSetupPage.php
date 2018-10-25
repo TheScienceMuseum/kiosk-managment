@@ -2,10 +2,13 @@
 
 namespace Tests\Browser\Pages;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 
-class HomePage extends Page
+class LoginSecondFactorSetupPage extends Page
 {
+    use DatabaseMigrations;
+
     /**
      * Get the URL for the page.
      *
@@ -13,7 +16,7 @@ class HomePage extends Page
      */
     public function url()
     {
-        return '/home';
+        return '/login';
     }
 
     /**
@@ -24,7 +27,8 @@ class HomePage extends Page
      */
     public function assert(Browser $browser)
     {
-        $browser->assertPathIs($this->url());
+        $browser->assertPathIs($this->url())
+            ->assertSee('Set up your two factor authentication by scanning the barcode below.');
     }
 
     /**
@@ -35,7 +39,8 @@ class HomePage extends Page
     public function elements()
     {
         return [
-
+            '@mfa-secret' => '#mfa_secret',
+            '@login' => '#login',
         ];
     }
 }

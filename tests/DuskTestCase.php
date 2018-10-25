@@ -40,4 +40,12 @@ abstract class DuskTestCase extends BaseTestCase
             )
         );
     }
+
+    protected function setUp()
+    {
+        parent::setUp();
+        foreach (static::$browsers as $browser) {
+            $browser->driver->manage()->deleteAllCookies();
+        }
+    }
 }
