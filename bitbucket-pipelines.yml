@@ -1,37 +1,37 @@
 image: php:7.2-fpm
 definitions:
-- step: &setup-test-environment
-  name: setup testing environment
-  caches:
-  - composer
-  script:
-  - apt-get update && apt-get install -qy git curl unzip
-  - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-  - php composer-setup.php
-  - php -r "unlink('composer-setup.php');"
-  - ln -f -s .env.pipelines .env
-  - ./composer.phar install --ignore-platform-reqs
+  setup-test-environment: &setup-test-environment
+    name: setup testing environment
+    caches:
+    - composer
+    script:
+    - apt-get update && apt-get install -qy git curl unzip
+    - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    - php composer-setup.php
+    - php -r "unlink('composer-setup.php');"
+    - ln -f -s .env.pipelines .env
+    - ./composer.phar install --ignore-platform-reqs
 
-- step: &unit-tests
-  name: unit-tests
-  caches:
-  - composer
-  script:
-  - ./vendor/bin/phpunit --filter Unit --coverage-xml ./coverage-results/coverage.xml --log-junit ./test-reports/junit.xml
+  unit-tests: &unit-tests
+    name: unit-tests
+    caches:
+    - composer
+    script:
+    - ./vendor/bin/phpunit --filter Unit --coverage-xml ./coverage-results/coverage.xml --log-junit ./test-reports/junit.xml
 
-- step: &feature-tests
-  name: feature-tests
-  caches:
-  - composer
-  script:
-  - ./vendor/bin/phpunit --filter Feature --coverage-xml ./coverage-results/coverage.xml --log-junit ./test-reports/junit.xml
+  feature-tests: &feature-tests
+    name: feature-tests
+    caches:
+    - composer
+    script:
+    - ./vendor/bin/phpunit --filter Feature --coverage-xml ./coverage-results/coverage.xml --log-junit ./test-reports/junit.xml
 
-- step: &browser-tests
-  name: browser-tests
-  caches:
-  - composer
-  script:
-  - ./vendor/bin/phpunit --filter Browser --log-junit ./test-reports/junit.xml
+  browser-tests: &browser-tests
+    name: browser-tests
+    caches:
+    - composer
+    script:
+    - ./vendor/bin/phpunit --filter Browser --log-junit ./test-reports/junit.xml
 
 pipelines:
   default:
