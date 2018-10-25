@@ -44,15 +44,17 @@ definitions:
 pipelines:
   default:
   - step: *setup-test-environment
-  - step: *unit-tests
-  - step: *feature-tests
-  - step: *browser-tests
-  branches:
-    develop:
-    - step: *setup-test-environment
+  - parallel:
     - step: *unit-tests
     - step: *feature-tests
     - step: *browser-tests
+  branches:
+    develop:
+    - step: *setup-test-environment
+    - parallel:
+      - step: *unit-tests
+      - step: *feature-tests
+      - step: *browser-tests
     - step:
         name: deploy to staging
         deployment: staging
@@ -63,9 +65,10 @@ pipelines:
 
     master:
     - step: *setup-test-environment
-    - step: *unit-tests
-    - step: *feature-tests
-    - step: *browser-tests
+    - parallel:
+      - step: *unit-tests
+      - step: *feature-tests
+      - step: *browser-tests
     - step:
         name: deploy to production
         deployment: production
