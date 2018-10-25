@@ -17,11 +17,16 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
 Route::group([
-    'middleware' => 'auth',
+    'middleware' => ['auth', 'mfa'],
 ], function (\Illuminate\Routing\Router $router) {
+    $router->post('/login/authorize', function () {
+        return redirect()->back();
+    })->name('auth.login.mfa');
+
+    $router->get('/home', 'HomeController@index')
+        ->name('home');
+
     $router->get('admin/users', 'AdminController@users')
         ->name('admin.users');
 
