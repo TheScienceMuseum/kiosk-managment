@@ -1,9 +1,13 @@
 image: php:7.2-fpm
 definitions:
-  step: &phpunit
-    name: phpunit
+  caches:
+    vendor: ./vendor
+
+  setup-test-environment: &setup-test-environment
+    name: setup testing environment
     caches:
     - composer
+    - vendor
     script:
     - apt-get update && apt-get install -qy git curl unzip
     - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -11,14 +15,60 @@ definitions:
     - php -r "unlink('composer-setup.php');"
     - ln -f -s .env.pipelines .env
     - ./composer.phar install --ignore-platform-reqs
-    - ./vendor/bin/phpunit --coverage-xml ./coverage-results/coverage.xml --log-junit ./test-reports/junit.xml
+
+  unit-tests: &unit-tests
+    name: unit-tests
+    caches:
+    - composer
+    - vendor
+    script:
+    - ln -f -s .env.pipelines .env
+    - ./vendor/bin/phpunit --filter Unit --log-junit ./test-reports/junit.xml
+    artifacts:
+    - test-reports/*.xml
+
+  feature-tests: &feature-tests
+    name: feature-tests
+    caches:
+    - composer
+    - vendor
+    script:
+    - ln -f -s .env.pipelines .env
+    - ./vendor/bin/phpunit --filter Feature --log-junit ./test-reports/junit.xml
+    artifacts:
+    - test-reports/*.xml
+
+  browser-tests: &browser-tests
+    name: browser-tests
+    caches:
+    - composer
+    - vendor
+    script:
+    - apt-get update && apt-get install -qy git curl unzip chromium-driver libpng-dev
+    - docker-php-ext-install gd
+    - ln -f -s .env.dusk.local .env
+    - touch ./database/database.sqlite
+    - php artisan serve > /dev/null &
+    - php artisan dusk --log-junit ./test-reports/junit.xml
+    artifacts:
+    - tests/Browser/screenshots/*.png
+    - test-reports/*.xml
 
 pipelines:
   default:
-  - step: *phpunit
+  - step: *setup-test-environment
+  - parallel:
+    - step: *unit-tests
+    - step: *feature-tests
+    - step: *browser-tests
+
   branches:
     develop:
-    - step: *phpunit
+    - step: *setup-test-environment
+    - parallel:
+      - step: *unit-tests
+      - step: *feature-tests
+      - step: *browser-tests
     - step:
         name: deploy to staging
         deployment: staging
@@ -28,7 +78,11 @@ pipelines:
         - aws deploy create-deployment --application-name $APPLICATION_NAME --s3-location bucket=$S3_BUCKET,key=$BITBUCKET_COMMIT,bundleType=zip --deployment-group-name="Staging"
 
     master:
-    - step: *phpunit
+    - step: *setup-test-environment
+    - parallel:
+      - step: *unit-tests
+      - step: *feature-tests
+      - step: *browser-tests
     - step:
         name: deploy to production
         deployment: production

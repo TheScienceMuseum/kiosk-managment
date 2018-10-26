@@ -15,6 +15,7 @@
   - php7.2-zip
   - php7.2-mysql
   - php7.2-curl
+  - php7.2-gd
 
 - name: ensure composer is installed
   apt:

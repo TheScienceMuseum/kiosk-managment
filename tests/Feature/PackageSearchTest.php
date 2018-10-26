@@ -5,22 +5,15 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\ResetsDatabase;
 use Tests\TestCase;
-use Tests\UsesUsers;
+use Tests\ActsAs;
 
 class PackageSearchTest extends TestCase
 {
-    use ResetsDatabase, UsesUsers, WithFaker;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->setUpUsers();
-    }
+    use ResetsDatabase, ActsAs, WithFaker;
 
     public function testGettingAListOfPackages()
     {
-        $response = $this->actingAs($this->userDeveloper, 'api')
+        $response = $this->actingAsDeveloper()
             ->get('/api/package')
         ;
 
@@ -29,7 +22,7 @@ class PackageSearchTest extends TestCase
 
     public function testGettingAListOfPackagesFilteredByName()
     {
-        $response = $this->actingAs($this->userDeveloper, 'api')
+        $response = $this->actingAsDeveloper()
             ->get('/api/package?filter[name]=default')
         ;
 

@@ -15,6 +15,7 @@
   - database
   - php
   - webserver
+  - headless-browser
 
   post_tasks:
   - name: ensure xdebug is installed

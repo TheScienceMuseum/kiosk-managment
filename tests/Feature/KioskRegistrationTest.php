@@ -5,19 +5,17 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\ResetsDatabase;
 use Tests\TestCase;
-use Tests\UsesUsers;
+use Tests\ActsAs;
 
 class KioskRegistrationTest extends TestCase
 {
-    use ResetsDatabase, UsesUsers, WithFaker;
+    use ResetsDatabase, ActsAs, WithFaker;
 
     protected $kioskIdentifier;
 
     public function setUp()
     {
         parent::setUp();
-
-        $this->setUpUsers();
 
         $this->kioskIdentifier = implode('-', $this->faker->words());
     }
@@ -56,7 +54,7 @@ class KioskRegistrationTest extends TestCase
 
         $kiosk_api_path = json_decode($response->getContent())->data->path;
 
-        $response = $this->actingAs($this->userTechAdmin, 'api')
+        $response = $this->actingAsTechAdmin()
             ->get($kiosk_api_path);
 
         $response->assertStatus(200);

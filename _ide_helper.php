@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.7.8 on 2018-10-13 14:56:25.
+ * Generated for Laravel 5.7.9 on 2018-10-26 08:27:11.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -3128,6 +3128,19 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Get a lock instance.
+         *
+         * @param string $name
+         * @param int $seconds
+         * @return \Illuminate\Contracts\Cache\Lock 
+         * @static 
+         */ 
+        public static function lock($name, $seconds = 0)
+        {
+            return \Illuminate\Cache\RedisStore::lock($name, $seconds);
+        }
+        
+        /**
          * Remove all items from the cache.
          *
          * @return bool 
@@ -3135,29 +3148,41 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function flush()
         {
-            return \Illuminate\Cache\FileStore::flush();
+            return \Illuminate\Cache\RedisStore::flush();
         }
         
         /**
-         * Get the Filesystem instance.
+         * Get the Redis connection instance.
          *
-         * @return \Illuminate\Filesystem\Filesystem 
+         * @return \Predis\ClientInterface 
          * @static 
          */ 
-        public static function getFilesystem()
+        public static function connection()
         {
-            return \Illuminate\Cache\FileStore::getFilesystem();
+            return \Illuminate\Cache\RedisStore::connection();
         }
         
         /**
-         * Get the working directory of the cache.
+         * Set the connection name to be used.
          *
-         * @return string 
+         * @param string $connection
+         * @return void 
          * @static 
          */ 
-        public static function getDirectory()
+        public static function setConnection($connection)
         {
-            return \Illuminate\Cache\FileStore::getDirectory();
+            \Illuminate\Cache\RedisStore::setConnection($connection);
+        }
+        
+        /**
+         * Get the Redis database instance.
+         *
+         * @return \Illuminate\Contracts\Redis\Factory 
+         * @static 
+         */ 
+        public static function getRedis()
+        {
+            return \Illuminate\Cache\RedisStore::getRedis();
         }
         
         /**
@@ -3168,7 +3193,19 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getPrefix()
         {
-            return \Illuminate\Cache\FileStore::getPrefix();
+            return \Illuminate\Cache\RedisStore::getPrefix();
+        }
+        
+        /**
+         * Set the cache key prefix.
+         *
+         * @param string $prefix
+         * @return void 
+         * @static 
+         */ 
+        public static function setPrefix($prefix)
+        {
+            \Illuminate\Cache\RedisStore::setPrefix($prefix);
         }
          
     }
@@ -6406,6 +6443,7 @@ namespace Illuminate\Support\Facades {
          * @param string|array|\Illuminate\Contracts\Mail\Mailable $view
          * @param string|null $queue
          * @return mixed 
+         * @throws \InvalidArgumentException
          * @static 
          */ 
         public static function queue($view, $queue = null)
@@ -6448,6 +6486,7 @@ namespace Illuminate\Support\Facades {
          * @param string|array|\Illuminate\Contracts\Mail\Mailable $view
          * @param string|null $queue
          * @return mixed 
+         * @throws \InvalidArgumentException
          * @static 
          */ 
         public static function later($delay, $view, $queue = null)
@@ -7639,6 +7678,75 @@ namespace Illuminate\Support\Facades {
         public static function hasMacro($name)
         {
             return \Illuminate\Routing\Redirector::hasMacro($name);
+        }
+         
+    }
+
+    /**
+     * 
+     *
+     * @method static \Illuminate\Redis\Connections\Connection connection(string $name = null)
+     * @see \Illuminate\Redis\RedisManager
+     * @see \Illuminate\Contracts\Redis\Factory
+     */ 
+    class Redis {
+        
+        /**
+         * Get a Redis connection by name.
+         *
+         * @param string|null $name
+         * @return \Illuminate\Redis\Connections\Connection 
+         * @static 
+         */ 
+        public static function connection($name = null)
+        {
+            return \Illuminate\Redis\RedisManager::connection($name);
+        }
+        
+        /**
+         * Resolve the given connection by name.
+         *
+         * @param string|null $name
+         * @return \Illuminate\Redis\Connections\Connection 
+         * @throws \InvalidArgumentException
+         * @static 
+         */ 
+        public static function resolve($name = null)
+        {
+            return \Illuminate\Redis\RedisManager::resolve($name);
+        }
+        
+        /**
+         * Return all of the created connections.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function connections()
+        {
+            return \Illuminate\Redis\RedisManager::connections();
+        }
+        
+        /**
+         * Enable the firing of Redis command events.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function enableEvents()
+        {
+            \Illuminate\Redis\RedisManager::enableEvents();
+        }
+        
+        /**
+         * Disable the firing of Redis command events.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function disableEvents()
+        {
+            \Illuminate\Redis\RedisManager::disableEvents();
         }
          
     }
@@ -9331,7 +9439,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $key
          * @param string|array|null $default
-         * @return string|array 
+         * @return string|array|null 
          * @static 
          */ 
         public static function server($key = null, $default = null)
@@ -9356,7 +9464,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $key
          * @param string|array|null $default
-         * @return string|array 
+         * @return string|array|null 
          * @static 
          */ 
         public static function header($key = null, $default = null)
@@ -9500,7 +9608,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $key
          * @param string|array|null $default
-         * @return string|array 
+         * @return string|array|null 
          * @static 
          */ 
         public static function query($key = null, $default = null)
@@ -9513,7 +9621,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $key
          * @param string|array|null $default
-         * @return string|array 
+         * @return string|array|null 
          * @static 
          */ 
         public static function post($key = null, $default = null)
@@ -9538,7 +9646,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $key
          * @param string|array|null $default
-         * @return string|array 
+         * @return string|array|null 
          * @static 
          */ 
         public static function cookie($key = null, $default = null)
@@ -9990,7 +10098,8 @@ namespace Illuminate\Support\Facades {
      * @method static \Illuminate\Routing\RouteRegistrar name(string $value)
      * @method static \Illuminate\Routing\RouteRegistrar namespace(string $value)
      * @method static \Illuminate\Routing\Router|\Illuminate\Routing\RouteRegistrar group(array|\Closure|string $attributes, \Closure|string $routes)
-     * @method static \Illuminate\Routing\Route redirect(string $uri, string $destination, int $status = 301)
+     * @method static \Illuminate\Routing\Route redirect(string $uri, string $destination, int $status = 302)
+     * @method static \Illuminate\Routing\Route permanentRedirect(string $uri, string $destination)
      * @method static \Illuminate\Routing\Route view(string $uri, string $view, array $data = [])
      * @method static void bind(string $key, string|callable $binder)
      * @method static \Illuminate\Routing\Route current()
@@ -13635,6 +13744,1549 @@ namespace Illuminate\Support\Facades {
  
 }
 
+namespace PragmaRX\Google2FALaravel { 
+
+    /**
+     * 
+     *
+     */ 
+    class Facade {
+        
+        /**
+         * Authenticator boot.
+         *
+         * @param $request
+         * @return \Google2FA 
+         * @static 
+         */ 
+        public static function boot($request)
+        {
+            return \PragmaRX\Google2FALaravel\Google2FA::boot($request);
+        }
+        
+        /**
+         * Check if the 2FA is activated for the user.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function isActivated()
+        {
+            return \PragmaRX\Google2FALaravel\Google2FA::isActivated();
+        }
+        
+        /**
+         * Set current auth as valid.
+         *
+         * @static 
+         */ 
+        public static function login()
+        {
+            return \PragmaRX\Google2FALaravel\Google2FA::login();
+        }
+        
+        /**
+         * OTP logout.
+         *
+         * @static 
+         */ 
+        public static function logout()
+        {
+            return \PragmaRX\Google2FALaravel\Google2FA::logout();
+        }
+        
+        /**
+         * Verify the OTP.
+         *
+         * @param $secret
+         * @param $one_time_password
+         * @return mixed 
+         * @static 
+         */ 
+        public static function verifyGoogle2FA($secret, $one_time_password)
+        {
+            return \PragmaRX\Google2FALaravel\Google2FA::verifyGoogle2FA($secret, $one_time_password);
+        }
+        
+        /**
+         * Find a valid One Time Password.
+         *
+         * @param $secret
+         * @param $key
+         * @param $window
+         * @param $startingTimestamp
+         * @param $timestamp
+         * @param string $oldTimestamp
+         * @return bool 
+         * @static 
+         */ 
+        public static function findValidOTP($secret, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp = '__not_set__')
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::findValidOTP($secret, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp);
+        }
+        
+        /**
+         * Generate a digit secret key in base32 format.
+         *
+         * @param int $length
+         * @param string $prefix
+         * @return string 
+         * @static 
+         */ 
+        public static function generateSecretKey($length = 16, $prefix = '')
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::generateSecretKey($length, $prefix);
+        }
+        
+        /**
+         * Get the current one time password for a key.
+         *
+         * @param $secret
+         * @return string 
+         * @static 
+         */ 
+        public static function getCurrentOtp($secret)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getCurrentOtp($secret);
+        }
+        
+        /**
+         * Get key regeneration.
+         *
+         * @return mixed 
+         * @static 
+         */ 
+        public static function getKeyRegeneration()
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getKeyRegeneration();
+        }
+        
+        /**
+         * Get OTP length.
+         *
+         * @return mixed 
+         * @static 
+         */ 
+        public static function getOneTimePasswordLength()
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getOneTimePasswordLength();
+        }
+        
+        /**
+         * Get secret.
+         *
+         * @param string|null $secret
+         * @return mixed 
+         * @static 
+         */ 
+        public static function getSecret($secret = null)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getSecret($secret);
+        }
+        
+        /**
+         * Returns the current Unix Timestamp divided by the $keyRegeneration
+         * period.
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function getTimestamp()
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getTimestamp();
+        }
+        
+        /**
+         * Get the OTP window.
+         *
+         * @param null|int $window
+         * @return mixed 
+         * @static 
+         */ 
+        public static function getWindow($window = null)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getWindow($window);
+        }
+        
+        /**
+         * Takes the secret key and the timestamp and returns the one time
+         * password.
+         *
+         * @param string $secret - Secret key in binary form.
+         * @param int $counter - Timestamp as returned by getTimestamp.
+         * @throws SecretKeyTooShortException
+         * @return string 
+         * @static 
+         */ 
+        public static function oathHotp($secret, $counter)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::oathHotp($secret, $counter);
+        }
+        
+        /**
+         * Extracts the OTP from the SHA1 hash.
+         *
+         * @param string $hash
+         * @return int 
+         * @static 
+         */ 
+        public static function oathTruncate($hash)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::oathTruncate($hash);
+        }
+        
+        /**
+         * Remove invalid chars from a base 32 string.
+         *
+         * @param $string
+         * @return mixed 
+         * @static 
+         */ 
+        public static function removeInvalidChars($string)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::removeInvalidChars($string);
+        }
+        
+        /**
+         * Setter for the enforce Google Authenticator compatibility property.
+         *
+         * @param mixed $enforceGoogleAuthenticatorCompatibility
+         * @return $this 
+         * @static 
+         */ 
+        public static function setEnforceGoogleAuthenticatorCompatibility($enforceGoogleAuthenticatorCompatibility)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::setEnforceGoogleAuthenticatorCompatibility($enforceGoogleAuthenticatorCompatibility);
+        }
+        
+        /**
+         * Set key regeneration.
+         *
+         * @param mixed $keyRegeneration
+         * @static 
+         */ 
+        public static function setKeyRegeneration($keyRegeneration)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::setKeyRegeneration($keyRegeneration);
+        }
+        
+        /**
+         * Set OTP length.
+         *
+         * @param mixed $oneTimePasswordLength
+         * @static 
+         */ 
+        public static function setOneTimePasswordLength($oneTimePasswordLength)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::setOneTimePasswordLength($oneTimePasswordLength);
+        }
+        
+        /**
+         * Set secret.
+         *
+         * @param mixed $secret
+         * @static 
+         */ 
+        public static function setSecret($secret)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::setSecret($secret);
+        }
+        
+        /**
+         * Set the OTP window.
+         *
+         * @param mixed $window
+         * @static 
+         */ 
+        public static function setWindow($window)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::setWindow($window);
+        }
+        
+        /**
+         * Verifies a user inputted key against the current timestamp. Checks $window
+         * keys either side of the timestamp.
+         *
+         * @param string $key - User specified key
+         * @param null|string $secret
+         * @param null|int $window
+         * @param null|int $timestamp
+         * @param null|string|int $oldTimestamp
+         * @return bool|int 
+         * @static 
+         */ 
+        public static function verify($key, $secret = null, $window = null, $timestamp = null, $oldTimestamp = '__not_set__')
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::verify($key, $secret, $window, $timestamp, $oldTimestamp);
+        }
+        
+        /**
+         * Verifies a user inputted key against the current timestamp. Checks $window
+         * keys either side of the timestamp.
+         *
+         * @param string $secret
+         * @param string $key - User specified key
+         * @param null|int $window
+         * @param null|int $timestamp
+         * @param null|string|int $oldTimestamp
+         * @return bool|int 
+         * @static 
+         */ 
+        public static function verifyKey($secret, $key, $window = null, $timestamp = null, $oldTimestamp = '__not_set__')
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::verifyKey($secret, $key, $window, $timestamp, $oldTimestamp);
+        }
+        
+        /**
+         * Verifies a user inputted key against the current timestamp. Checks $window
+         * keys either side of the timestamp, but ensures that the given key is newer than
+         * the given oldTimestamp. Useful if you need to ensure that a single key cannot
+         * be used twice.
+         *
+         * @param string $secret
+         * @param string $key - User specified key
+         * @param int $oldTimestamp - The timestamp from the last verified key
+         * @param int|null $window
+         * @param int|null $timestamp
+         * @return bool|int - false (not verified) or the timestamp of the verified key
+         * @static 
+         */ 
+        public static function verifyKeyNewer($secret, $key, $oldTimestamp, $window = null, $timestamp = null)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::verifyKeyNewer($secret, $key, $oldTimestamp, $window, $timestamp);
+        }
+        
+        /**
+         * Creates a Google QR code url.
+         *
+         * @param string $company
+         * @param string $holder
+         * @param string $secret
+         * @param int $size
+         * @throws InsecureCallException
+         * @return string 
+         * @static 
+         */ 
+        public static function getQRCodeGoogleUrl($company, $holder, $secret, $size = 200)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getQRCodeGoogleUrl($company, $holder, $secret, $size);
+        }
+        
+        /**
+         * Generates a QR code data url to display inline.
+         *
+         * @param string $company
+         * @param string $holder
+         * @param string $secret
+         * @param int $size
+         * @param string $encoding Default to UTF-8
+         * @return string 
+         * @static 
+         */ 
+        public static function getQRCodeInline($company, $holder, $secret, $size = 200, $encoding = 'utf-8')
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getQRCodeInline($company, $holder, $secret, $size, $encoding);
+        }
+        
+        /**
+         * Creates a QR code url.
+         *
+         * @param $company
+         * @param $holder
+         * @param $secret
+         * @return string 
+         * @static 
+         */ 
+        public static function getQRCodeUrl($company, $holder, $secret)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getQRCodeUrl($company, $holder, $secret);
+        }
+        
+        /**
+         * AllowInsecureCallToGoogleApis setter.
+         *
+         * @param mixed $allowInsecureCallToGoogleApis
+         * @return \PragmaRX\Google2FA\QRCode 
+         * @static 
+         */ 
+        public static function setAllowInsecureCallToGoogleApis($allowInsecureCallToGoogleApis)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::setAllowInsecureCallToGoogleApis($allowInsecureCallToGoogleApis);
+        }
+        
+        /**
+         * Generate a digit secret key in base32 format.
+         *
+         * @param int $length
+         * @return string 
+         * @static 
+         */ 
+        public static function generateBase32RandomKey($length = 16, $prefix = '')
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::generateBase32RandomKey($length, $prefix);
+        }
+        
+        /**
+         * Decodes a base32 string into a binary string.
+         *
+         * @param string $b32
+         * @throws InvalidCharactersException
+         * @return int 
+         * @static 
+         */ 
+        public static function base32Decode($b32)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::base32Decode($b32);
+        }
+        
+        /**
+         * Encode a string to Base32.
+         *
+         * @param $string
+         * @return mixed 
+         * @static 
+         */ 
+        public static function toBase32($string)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::toBase32($string);
+        }
+        
+        /**
+         * Get the request property.
+         *
+         * @return mixed 
+         * @static 
+         */ 
+        public static function getRequest()
+        {
+            return \PragmaRX\Google2FALaravel\Google2FA::getRequest();
+        }
+        
+        /**
+         * Set the request property.
+         *
+         * @param mixed $request
+         * @return $this 
+         * @static 
+         */ 
+        public static function setRequest($request)
+        {
+            return \PragmaRX\Google2FALaravel\Google2FA::setRequest($request);
+        }
+        
+        /**
+         * Get a session var value.
+         *
+         * @param null $var
+         * @return mixed 
+         * @static 
+         */ 
+        public static function sessionGet($var = null, $default = null)
+        {
+            return \PragmaRX\Google2FALaravel\Google2FA::sessionGet($var, $default);
+        }
+         
+    }
+
+    /**
+     * 
+     *
+     */ 
+    class Facade {
+        
+        /**
+         * Authenticator boot.
+         *
+         * @param $request
+         * @return \Google2FA 
+         * @static 
+         */ 
+        public static function boot($request)
+        {
+            return \PragmaRX\Google2FALaravel\Google2FA::boot($request);
+        }
+        
+        /**
+         * Check if the 2FA is activated for the user.
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function isActivated()
+        {
+            return \PragmaRX\Google2FALaravel\Google2FA::isActivated();
+        }
+        
+        /**
+         * Set current auth as valid.
+         *
+         * @static 
+         */ 
+        public static function login()
+        {
+            return \PragmaRX\Google2FALaravel\Google2FA::login();
+        }
+        
+        /**
+         * OTP logout.
+         *
+         * @static 
+         */ 
+        public static function logout()
+        {
+            return \PragmaRX\Google2FALaravel\Google2FA::logout();
+        }
+        
+        /**
+         * Verify the OTP.
+         *
+         * @param $secret
+         * @param $one_time_password
+         * @return mixed 
+         * @static 
+         */ 
+        public static function verifyGoogle2FA($secret, $one_time_password)
+        {
+            return \PragmaRX\Google2FALaravel\Google2FA::verifyGoogle2FA($secret, $one_time_password);
+        }
+        
+        /**
+         * Find a valid One Time Password.
+         *
+         * @param $secret
+         * @param $key
+         * @param $window
+         * @param $startingTimestamp
+         * @param $timestamp
+         * @param string $oldTimestamp
+         * @return bool 
+         * @static 
+         */ 
+        public static function findValidOTP($secret, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp = '__not_set__')
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::findValidOTP($secret, $key, $window, $startingTimestamp, $timestamp, $oldTimestamp);
+        }
+        
+        /**
+         * Generate a digit secret key in base32 format.
+         *
+         * @param int $length
+         * @param string $prefix
+         * @return string 
+         * @static 
+         */ 
+        public static function generateSecretKey($length = 16, $prefix = '')
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::generateSecretKey($length, $prefix);
+        }
+        
+        /**
+         * Get the current one time password for a key.
+         *
+         * @param $secret
+         * @return string 
+         * @static 
+         */ 
+        public static function getCurrentOtp($secret)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getCurrentOtp($secret);
+        }
+        
+        /**
+         * Get key regeneration.
+         *
+         * @return mixed 
+         * @static 
+         */ 
+        public static function getKeyRegeneration()
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getKeyRegeneration();
+        }
+        
+        /**
+         * Get OTP length.
+         *
+         * @return mixed 
+         * @static 
+         */ 
+        public static function getOneTimePasswordLength()
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getOneTimePasswordLength();
+        }
+        
+        /**
+         * Get secret.
+         *
+         * @param string|null $secret
+         * @return mixed 
+         * @static 
+         */ 
+        public static function getSecret($secret = null)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getSecret($secret);
+        }
+        
+        /**
+         * Returns the current Unix Timestamp divided by the $keyRegeneration
+         * period.
+         *
+         * @return int 
+         * @static 
+         */ 
+        public static function getTimestamp()
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getTimestamp();
+        }
+        
+        /**
+         * Get the OTP window.
+         *
+         * @param null|int $window
+         * @return mixed 
+         * @static 
+         */ 
+        public static function getWindow($window = null)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getWindow($window);
+        }
+        
+        /**
+         * Takes the secret key and the timestamp and returns the one time
+         * password.
+         *
+         * @param string $secret - Secret key in binary form.
+         * @param int $counter - Timestamp as returned by getTimestamp.
+         * @throws SecretKeyTooShortException
+         * @return string 
+         * @static 
+         */ 
+        public static function oathHotp($secret, $counter)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::oathHotp($secret, $counter);
+        }
+        
+        /**
+         * Extracts the OTP from the SHA1 hash.
+         *
+         * @param string $hash
+         * @return int 
+         * @static 
+         */ 
+        public static function oathTruncate($hash)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::oathTruncate($hash);
+        }
+        
+        /**
+         * Remove invalid chars from a base 32 string.
+         *
+         * @param $string
+         * @return mixed 
+         * @static 
+         */ 
+        public static function removeInvalidChars($string)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::removeInvalidChars($string);
+        }
+        
+        /**
+         * Setter for the enforce Google Authenticator compatibility property.
+         *
+         * @param mixed $enforceGoogleAuthenticatorCompatibility
+         * @return $this 
+         * @static 
+         */ 
+        public static function setEnforceGoogleAuthenticatorCompatibility($enforceGoogleAuthenticatorCompatibility)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::setEnforceGoogleAuthenticatorCompatibility($enforceGoogleAuthenticatorCompatibility);
+        }
+        
+        /**
+         * Set key regeneration.
+         *
+         * @param mixed $keyRegeneration
+         * @static 
+         */ 
+        public static function setKeyRegeneration($keyRegeneration)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::setKeyRegeneration($keyRegeneration);
+        }
+        
+        /**
+         * Set OTP length.
+         *
+         * @param mixed $oneTimePasswordLength
+         * @static 
+         */ 
+        public static function setOneTimePasswordLength($oneTimePasswordLength)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::setOneTimePasswordLength($oneTimePasswordLength);
+        }
+        
+        /**
+         * Set secret.
+         *
+         * @param mixed $secret
+         * @static 
+         */ 
+        public static function setSecret($secret)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::setSecret($secret);
+        }
+        
+        /**
+         * Set the OTP window.
+         *
+         * @param mixed $window
+         * @static 
+         */ 
+        public static function setWindow($window)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::setWindow($window);
+        }
+        
+        /**
+         * Verifies a user inputted key against the current timestamp. Checks $window
+         * keys either side of the timestamp.
+         *
+         * @param string $key - User specified key
+         * @param null|string $secret
+         * @param null|int $window
+         * @param null|int $timestamp
+         * @param null|string|int $oldTimestamp
+         * @return bool|int 
+         * @static 
+         */ 
+        public static function verify($key, $secret = null, $window = null, $timestamp = null, $oldTimestamp = '__not_set__')
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::verify($key, $secret, $window, $timestamp, $oldTimestamp);
+        }
+        
+        /**
+         * Verifies a user inputted key against the current timestamp. Checks $window
+         * keys either side of the timestamp.
+         *
+         * @param string $secret
+         * @param string $key - User specified key
+         * @param null|int $window
+         * @param null|int $timestamp
+         * @param null|string|int $oldTimestamp
+         * @return bool|int 
+         * @static 
+         */ 
+        public static function verifyKey($secret, $key, $window = null, $timestamp = null, $oldTimestamp = '__not_set__')
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::verifyKey($secret, $key, $window, $timestamp, $oldTimestamp);
+        }
+        
+        /**
+         * Verifies a user inputted key against the current timestamp. Checks $window
+         * keys either side of the timestamp, but ensures that the given key is newer than
+         * the given oldTimestamp. Useful if you need to ensure that a single key cannot
+         * be used twice.
+         *
+         * @param string $secret
+         * @param string $key - User specified key
+         * @param int $oldTimestamp - The timestamp from the last verified key
+         * @param int|null $window
+         * @param int|null $timestamp
+         * @return bool|int - false (not verified) or the timestamp of the verified key
+         * @static 
+         */ 
+        public static function verifyKeyNewer($secret, $key, $oldTimestamp, $window = null, $timestamp = null)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::verifyKeyNewer($secret, $key, $oldTimestamp, $window, $timestamp);
+        }
+        
+        /**
+         * Creates a Google QR code url.
+         *
+         * @param string $company
+         * @param string $holder
+         * @param string $secret
+         * @param int $size
+         * @throws InsecureCallException
+         * @return string 
+         * @static 
+         */ 
+        public static function getQRCodeGoogleUrl($company, $holder, $secret, $size = 200)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getQRCodeGoogleUrl($company, $holder, $secret, $size);
+        }
+        
+        /**
+         * Generates a QR code data url to display inline.
+         *
+         * @param string $company
+         * @param string $holder
+         * @param string $secret
+         * @param int $size
+         * @param string $encoding Default to UTF-8
+         * @return string 
+         * @static 
+         */ 
+        public static function getQRCodeInline($company, $holder, $secret, $size = 200, $encoding = 'utf-8')
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getQRCodeInline($company, $holder, $secret, $size, $encoding);
+        }
+        
+        /**
+         * Creates a QR code url.
+         *
+         * @param $company
+         * @param $holder
+         * @param $secret
+         * @return string 
+         * @static 
+         */ 
+        public static function getQRCodeUrl($company, $holder, $secret)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::getQRCodeUrl($company, $holder, $secret);
+        }
+        
+        /**
+         * AllowInsecureCallToGoogleApis setter.
+         *
+         * @param mixed $allowInsecureCallToGoogleApis
+         * @return \PragmaRX\Google2FA\QRCode 
+         * @static 
+         */ 
+        public static function setAllowInsecureCallToGoogleApis($allowInsecureCallToGoogleApis)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::setAllowInsecureCallToGoogleApis($allowInsecureCallToGoogleApis);
+        }
+        
+        /**
+         * Generate a digit secret key in base32 format.
+         *
+         * @param int $length
+         * @return string 
+         * @static 
+         */ 
+        public static function generateBase32RandomKey($length = 16, $prefix = '')
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::generateBase32RandomKey($length, $prefix);
+        }
+        
+        /**
+         * Decodes a base32 string into a binary string.
+         *
+         * @param string $b32
+         * @throws InvalidCharactersException
+         * @return int 
+         * @static 
+         */ 
+        public static function base32Decode($b32)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::base32Decode($b32);
+        }
+        
+        /**
+         * Encode a string to Base32.
+         *
+         * @param $string
+         * @return mixed 
+         * @static 
+         */ 
+        public static function toBase32($string)
+        {
+            //Method inherited from \PragmaRX\Google2FA\Google2FA            
+            return \PragmaRX\Google2FALaravel\Google2FA::toBase32($string);
+        }
+        
+        /**
+         * Get the request property.
+         *
+         * @return mixed 
+         * @static 
+         */ 
+        public static function getRequest()
+        {
+            return \PragmaRX\Google2FALaravel\Google2FA::getRequest();
+        }
+        
+        /**
+         * Set the request property.
+         *
+         * @param mixed $request
+         * @return $this 
+         * @static 
+         */ 
+        public static function setRequest($request)
+        {
+            return \PragmaRX\Google2FALaravel\Google2FA::setRequest($request);
+        }
+        
+        /**
+         * Get a session var value.
+         *
+         * @param null $var
+         * @return mixed 
+         * @static 
+         */ 
+        public static function sessionGet($var = null, $default = null)
+        {
+            return \PragmaRX\Google2FALaravel\Google2FA::sessionGet($var, $default);
+        }
+         
+    }
+ 
+}
+
+namespace Sentry\SentryLaravel { 
+
+    /**
+     * 
+     *
+     */ 
+    class SentryFacade {
+        
+        /**
+         * Destruct all objects contain link to this object
+         * 
+         * This method can not delete shutdown handler
+         *
+         * @static 
+         */ 
+        public static function close_all_children_link()
+        {
+            return \Raven_Client::close_all_children_link();
+        }
+        
+        /**
+         * Installs any available automated hooks (such as error_reporting).
+         *
+         * @static 
+         */ 
+        public static function install()
+        {
+            return \Raven_Client::install();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getRelease()
+        {
+            return \Raven_Client::getRelease();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setRelease($value)
+        {
+            return \Raven_Client::setRelease($value);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getEnvironment()
+        {
+            return \Raven_Client::getEnvironment();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setEnvironment($value)
+        {
+            return \Raven_Client::setEnvironment($value);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getAppPath()
+        {
+            return \Raven_Client::getAppPath();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setAppPath($value)
+        {
+            return \Raven_Client::setAppPath($value);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getExcludedAppPaths()
+        {
+            return \Raven_Client::getExcludedAppPaths();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setExcludedAppPaths($value)
+        {
+            return \Raven_Client::setExcludedAppPaths($value);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getPrefixes()
+        {
+            return \Raven_Client::getPrefixes();
+        }
+        
+        /**
+         * 
+         *
+         * @param array $value
+         * @return \Raven_Client 
+         * @static 
+         */ 
+        public static function setPrefixes($value)
+        {
+            return \Raven_Client::setPrefixes($value);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getSendCallback()
+        {
+            return \Raven_Client::getSendCallback();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setSendCallback($value)
+        {
+            return \Raven_Client::setSendCallback($value);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getTransport()
+        {
+            return \Raven_Client::getTransport();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getServerEndpoint($value = '')
+        {
+            return \Raven_Client::getServerEndpoint($value);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getUserAgent()
+        {
+            return \Raven_Client::getUserAgent();
+        }
+        
+        /**
+         * Set a custom transport to override how Sentry events are sent upstream.
+         * 
+         * The bound function will be called with ``$client`` and ``$data`` arguments
+         * and is responsible for encoding the data, authenticating, and sending
+         * the data to the upstream Sentry server.
+         *
+         * @param Callable $value Function to be called
+         * @return \Raven_Client 
+         * @static 
+         */ 
+        public static function setTransport($value)
+        {
+            return \Raven_Client::setTransport($value);
+        }
+        
+        /**
+         * 
+         *
+         * @return string[]|\Raven_Processor[] 
+         * @static 
+         */ 
+        public static function getDefaultProcessors()
+        {
+            return \Raven_Client::getDefaultProcessors();
+        }
+        
+        /**
+         * Sets the Raven_Processor sub-classes to be used when data is processed before being
+         * sent to Sentry.
+         *
+         * @param $options
+         * @return \Raven_Processor[] 
+         * @static 
+         */ 
+        public static function setProcessorsFromOptions($options)
+        {
+            return \Raven_Client::setProcessorsFromOptions($options);
+        }
+        
+        /**
+         * Parses a Raven-compatible DSN and returns an array of its values.
+         *
+         * @param string $dsn Raven compatible DSN
+         * @return array parsed DSN
+         * @see http://raven.readthedocs.org/en/latest/config/#the-sentry-dsn
+         * @static 
+         */ 
+        public static function parseDSN($dsn)
+        {
+            return \Raven_Client::parseDSN($dsn);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getLastError()
+        {
+            return \Raven_Client::getLastError();
+        }
+        
+        /**
+         * Given an identifier, returns a Sentry searchable string.
+         *
+         * @param mixed $ident
+         * @return mixed 
+         * @codeCoverageIgnore 
+         * @static 
+         */ 
+        public static function getIdent($ident)
+        {
+            return \Raven_Client::getIdent($ident);
+        }
+        
+        /**
+         * 
+         *
+         * @param string $message The message (primary description) for the event.
+         * @param array $params params to use when formatting the message.
+         * @param string $level Log level group
+         * @param bool|array $stack
+         * @param mixed $vars
+         * @return string|null 
+         * @deprecated 
+         * @codeCoverageIgnore 
+         * @static 
+         */ 
+        public static function message($message, $params = array(), $level = 'info', $stack = false, $vars = null)
+        {
+            return \Raven_Client::message($message, $params, $level, $stack, $vars);
+        }
+        
+        /**
+         * 
+         *
+         * @param \Exception $exception
+         * @return string|null 
+         * @deprecated 
+         * @codeCoverageIgnore 
+         * @static 
+         */ 
+        public static function exception($exception)
+        {
+            return \Raven_Client::exception($exception);
+        }
+        
+        /**
+         * Log a message to sentry
+         *
+         * @param string $message The message (primary description) for the event.
+         * @param array $params params to use when formatting the message.
+         * @param array $data Additional attributes to pass with this event (see Sentry docs).
+         * @param bool|array $stack
+         * @param mixed $vars
+         * @return string|null 
+         * @static 
+         */ 
+        public static function captureMessage($message, $params = array(), $data = array(), $stack = false, $vars = null)
+        {
+            return \Raven_Client::captureMessage($message, $params, $data, $stack, $vars);
+        }
+        
+        /**
+         * Log an exception to sentry
+         *
+         * @param \Throwable|\Exception $exception The Throwable/Exception object.
+         * @param array $data Additional attributes to pass with this event (see Sentry docs).
+         * @param mixed $logger
+         * @param mixed $vars
+         * @return string|null 
+         * @static 
+         */ 
+        public static function captureException($exception, $data = null, $logger = null, $vars = null)
+        {
+            return \Raven_Client::captureException($exception, $data, $logger, $vars);
+        }
+        
+        /**
+         * Capture the most recent error (obtained with ``error_get_last``).
+         *
+         * @return string|null 
+         * @static 
+         */ 
+        public static function captureLastError()
+        {
+            return \Raven_Client::captureLastError();
+        }
+        
+        /**
+         * Log an query to sentry
+         *
+         * @param string|null $query
+         * @param string $level
+         * @param string $engine
+         * @static 
+         */ 
+        public static function captureQuery($query, $level = 'info', $engine = '')
+        {
+            return \Raven_Client::captureQuery($query, $level, $engine);
+        }
+        
+        /**
+         * Return the last captured event's ID or null if none available.
+         *
+         * @static 
+         */ 
+        public static function getLastEventID()
+        {
+            return \Raven_Client::getLastEventID();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function get_default_data()
+        {
+            return \Raven_Client::get_default_data();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function capture($data, $stack = null, $vars = null)
+        {
+            return \Raven_Client::capture($data, $stack, $vars);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function sanitize($data)
+        {
+            return \Raven_Client::sanitize($data);
+        }
+        
+        /**
+         * Process data through all defined Raven_Processor sub-classes
+         *
+         * @param array $data Associative array of data to log
+         * @static 
+         */ 
+        public static function process($data)
+        {
+            return \Raven_Client::process($data);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function sendUnsentErrors()
+        {
+            return \Raven_Client::sendUnsentErrors();
+        }
+        
+        /**
+         * 
+         *
+         * @param array $data
+         * @return string|bool 
+         * @static 
+         */ 
+        public static function encode($data)
+        {
+            return \Raven_Client::encode($data);
+        }
+        
+        /**
+         * Wrapper to handle encoding and sending data to the Sentry API server.
+         *
+         * @param array $data Associative array of data to log
+         * @static 
+         */ 
+        public static function send($data)
+        {
+            return \Raven_Client::send($data);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getAuthHeader()
+        {
+            return \Raven_Client::getAuthHeader();
+        }
+        
+        /**
+         * Translate a PHP Error constant into a Sentry log level group
+         *
+         * @param string $severity PHP E_$x error constant
+         * @return string Sentry log level group
+         * @static 
+         */ 
+        public static function translateSeverity($severity)
+        {
+            return \Raven_Client::translateSeverity($severity);
+        }
+        
+        /**
+         * Provide a map of PHP Error constants to Sentry logging groups to use instead
+         * of the defaults in translateSeverity()
+         *
+         * @param array $map
+         * @static 
+         */ 
+        public static function registerSeverityMap($map)
+        {
+            return \Raven_Client::registerSeverityMap($map);
+        }
+        
+        /**
+         * Convenience function for setting a user's ID and Email
+         *
+         * @deprecated 
+         * @param string $id User's ID
+         * @param string|null $email User's email
+         * @param array $data Additional user data
+         * @codeCoverageIgnore 
+         * @static 
+         */ 
+        public static function set_user_data($id, $email = null, $data = array())
+        {
+            return \Raven_Client::set_user_data($id, $email, $data);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function onShutdown()
+        {
+            return \Raven_Client::onShutdown();
+        }
+        
+        /**
+         * Sets user context.
+         *
+         * @param array $data Associative array of user data
+         * @param bool $merge Merge existing context with new context
+         * @static 
+         */ 
+        public static function user_context($data, $merge = true)
+        {
+            return \Raven_Client::user_context($data, $merge);
+        }
+        
+        /**
+         * Appends tags context.
+         *
+         * @param array $data Associative array of tags
+         * @static 
+         */ 
+        public static function tags_context($data)
+        {
+            return \Raven_Client::tags_context($data);
+        }
+        
+        /**
+         * Appends additional context.
+         *
+         * @param array $data Associative array of extra data
+         * @static 
+         */ 
+        public static function extra_context($data)
+        {
+            return \Raven_Client::extra_context($data);
+        }
+        
+        /**
+         * 
+         *
+         * @param array $processors
+         * @static 
+         */ 
+        public static function setProcessors($processors)
+        {
+            return \Raven_Client::setProcessors($processors);
+        }
+        
+        /**
+         * 
+         *
+         * @return object|null 
+         * @static 
+         */ 
+        public static function getLastSentryError()
+        {
+            return \Raven_Client::getLastSentryError();
+        }
+        
+        /**
+         * 
+         *
+         * @return bool 
+         * @static 
+         */ 
+        public static function getShutdownFunctionHasBeenSet()
+        {
+            return \Raven_Client::getShutdownFunctionHasBeenSet();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function close_curl_resource()
+        {
+            return \Raven_Client::close_curl_resource();
+        }
+        
+        /**
+         * 
+         *
+         * @param \Raven_Serializer $serializer
+         * @static 
+         */ 
+        public static function setSerializer($serializer)
+        {
+            return \Raven_Client::setSerializer($serializer);
+        }
+        
+        /**
+         * 
+         *
+         * @param \Raven_ReprSerializer $reprSerializer
+         * @static 
+         */ 
+        public static function setReprSerializer($reprSerializer)
+        {
+            return \Raven_Client::setReprSerializer($reprSerializer);
+        }
+        
+        /**
+         * Cleans up the PHP version string by extracting junk from the extra part of the version.
+         *
+         * @param string $extra
+         * @return string 
+         * @static 
+         */ 
+        public static function cleanup_php_version($extra = '-3+ubuntu16.04.1+deb.sury.org+1')
+        {
+            return \Raven_Client::cleanup_php_version($extra);
+        }
+         
+    }
+ 
+}
+
 
 namespace  { 
 
@@ -15982,6 +17634,8 @@ namespace  {
 
     class Mail extends \Illuminate\Support\Facades\Mail {}
 
+    class MultiFactorAuth extends \PragmaRX\Google2FALaravel\Facade {}
+
     class Notification extends \Illuminate\Support\Facades\Notification {}
 
     class Password extends \Illuminate\Support\Facades\Password {}
@@ -15989,6 +17643,8 @@ namespace  {
     class Queue extends \Illuminate\Support\Facades\Queue {}
 
     class Redirect extends \Illuminate\Support\Facades\Redirect {}
+
+    class Redis extends \Illuminate\Support\Facades\Redis {}
 
     class Request extends \Illuminate\Support\Facades\Request {}
 
@@ -16007,6 +17663,10 @@ namespace  {
     class Validator extends \Illuminate\Support\Facades\Validator {}
 
     class View extends \Illuminate\Support\Facades\View {}
+
+    class Google2FA extends \PragmaRX\Google2FALaravel\Facade {}
+
+    class Sentry extends \Sentry\SentryLaravel\SentryFacade {}
  
 }
 

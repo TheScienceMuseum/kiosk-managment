@@ -10,10 +10,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $package_id
  * @property int $version
+ * @property int $approved
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $path
  * @property-read \App\Package $package
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereApproved($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion wherePackageId($value)

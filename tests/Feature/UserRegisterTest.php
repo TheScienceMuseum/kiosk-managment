@@ -4,23 +4,17 @@ namespace Tests\Feature;
 
 use App\User;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\ActsAs;
 use Tests\ResetsDatabase;
 use Tests\TestCase;
 
 class UserRegisterTest extends TestCase
 {
-    use ResetsDatabase, WithFaker;
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->adminUser = User::first();
-    }
+    use ActsAs, ResetsDatabase, WithFaker;
 
     public function testCreatingAUserWithMissingDataFails()
     {
-        $response = $this->actingAs($this->adminUser, 'api')
+        $response = $this->actingAsAdmin()
             ->postJson('/api/user', [])
         ;
 
@@ -38,7 +32,7 @@ class UserRegisterTest extends TestCase
 
     public function testCreatingAUserWithInvalidDataFails()
     {
-        $response = $this->actingAs($this->adminUser, 'api')
+        $response = $this->actingAsAdmin()
             ->postJson('/api/user', [
                 'name' => 123,
                 'email' => 'not-an-email-address',
@@ -64,7 +58,7 @@ class UserRegisterTest extends TestCase
         $email = $this->faker->email;
         $send_invite = false;
 
-        $response = $this->actingAs($this->adminUser, 'api')
+        $response = $this->actingAsAdmin()
             ->postJson('/api/user', [
                 'name' => $name,
                 'email' => $email,
@@ -89,7 +83,7 @@ class UserRegisterTest extends TestCase
         $email = $this->faker->email;
         $send_invite = false;
 
-        $response = $this->actingAs($this->adminUser, 'api')
+        $response = $this->actingAsAdmin()
             ->postJson('/api/user', [
                 'name' => $name,
                 'email' => $email,

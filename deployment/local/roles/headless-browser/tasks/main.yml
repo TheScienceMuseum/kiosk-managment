@@ -1,0 +1,4 @@
+---
+- name: ensure headless chromium with chromedriver are installed
+  apt:
+    name: chromium-chromedriver

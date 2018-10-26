@@ -5,19 +5,17 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\ResetsDatabase;
 use Tests\TestCase;
-use Tests\UsesUsers;
+use Tests\ActsAs;
 
 class KioskSearchTest extends TestCase
 {
-    use ResetsDatabase, UsesUsers, WithFaker;
+    use ResetsDatabase, ActsAs, WithFaker;
 
     protected $kioskIdentifier;
 
     public function setUp()
     {
         parent::setUp();
-
-        $this->setUpUsers();
 
         $this->kioskIdentifier = implode('-', $this->faker->words());
 
@@ -31,7 +29,7 @@ class KioskSearchTest extends TestCase
 
     public function testGettingAListOfRegisteredKiosks()
     {
-        $response = $this->actingAs($this->userDeveloper, 'api')
+        $response = $this->actingAsDeveloper()
             ->get('/api/kiosk?filter[registered]=true')
         ;
 
@@ -46,7 +44,7 @@ class KioskSearchTest extends TestCase
 
     public function testGettingAListOfUnregisteredKiosks()
     {
-        $response = $this->actingAs($this->userDeveloper, 'api')
+        $response = $this->actingAsDeveloper()
             ->get('/api/kiosk?filter[registered]=false')
         ;
 
