@@ -13,7 +13,6 @@ definitions:
     - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
     - php composer-setup.php
     - php -r "unlink('composer-setup.php');"
-    - ln -f -s .env.pipelines .env
     - ./composer.phar install --ignore-platform-reqs
 
   unit-tests: &unit-tests
@@ -22,6 +21,7 @@ definitions:
     - composer
     - vendor
     script:
+    - ln -f -s .env.pipelines .env
     - ./vendor/bin/phpunit --filter Unit --coverage-xml ./coverage-results/coverage.xml --log-junit ./test-reports/junit.xml
 
   feature-tests: &feature-tests
@@ -30,6 +30,7 @@ definitions:
     - composer
     - vendor
     script:
+    - ln -f -s .env.pipelines .env
     - ./vendor/bin/phpunit --filter Feature --coverage-xml ./coverage-results/coverage.xml --log-junit ./test-reports/junit.xml
 
   browser-tests: &browser-tests
@@ -39,8 +40,8 @@ definitions:
     - vendor
     script:
     - apt-get update && apt-get install -qy git curl unzip chromium-driver
-    - cp .env.dusk.local .env
-    - php artisan dusk --log-junit ./test-reports/junit.xml
+    - ln -f -s .env.pipelines .env
+    - php artisan dusk --log-junit ./test-reports/junit.xml --verbose
 
 pipelines:
   default:
