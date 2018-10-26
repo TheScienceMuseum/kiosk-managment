@@ -64,4 +64,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'remember_token'
     ];
 
+    public function setMfaSecretAttribute($value)
+    {
+        $this->attributes['mfa_secret'] = encrypt($value);
+    }
+
+    public function getMfaSecretAttribute($value)
+    {
+        return $value ? decrypt($value) : null;
+    }
 }
