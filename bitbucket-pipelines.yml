@@ -22,9 +22,8 @@ definitions:
     - composer
     - vendor
     script:
-    - pecl install xdebug-2.6.0 && docker-php-ext-enable xdebug
     - ln -f -s .env.pipelines .env
-    - ./vendor/bin/phpunit --filter Unit --coverage-xml ./coverage-results/coverage.xml --log-junit ./test-reports/junit.xml
+    - ./vendor/bin/phpunit --filter Unit --log-junit ./test-reports/junit.xml
 
   feature-tests: &feature-tests
     name: feature-tests
@@ -32,9 +31,8 @@ definitions:
     - composer
     - vendor
     script:
-    - pecl install xdebug-2.6.0 && docker-php-ext-enable xdebug
     - ln -f -s .env.pipelines .env
-    - ./vendor/bin/phpunit --filter Feature --coverage-xml ./coverage-results/coverage.xml --log-junit ./test-reports/junit.xml
+    - ./vendor/bin/phpunit --filter Feature --log-junit ./test-reports/junit.xml
 
   browser-tests: &browser-tests
     name: browser-tests
