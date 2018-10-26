@@ -43,7 +43,7 @@ definitions:
     - apt-get update && apt-get install -qy git curl unzip chromium-driver
     - ln -f -s .env.pipelines .env
     - touch ./database/database.sqlite
-    - php artisan dusk --log-junit ./test-reports/junit.xml --verbose
+    - php artisan dusk --log-junit ./test-reports/junit.xml
 
 pipelines:
   default:
