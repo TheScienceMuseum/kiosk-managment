@@ -44,10 +44,7 @@ definitions:
     script:
     - apt-get update && apt-get install -qy git curl unzip chromium-driver
     - ln -f -s .env.pipelines .env
-    - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-    - php composer-setup.php
-    - php -r "unlink('composer-setup.php');"
-    - ./composer.phar dev-reset-environment
+    - touch ./database/database.sqlite
     - php artisan dusk --log-junit ./test-reports/junit.xml --verbose
 
 pipelines:
