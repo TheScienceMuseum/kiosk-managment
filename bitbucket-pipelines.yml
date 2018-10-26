@@ -40,9 +40,11 @@ definitions:
     - composer
     - vendor
     script:
-    - apt-get update && apt-get install -qy git curl unzip chromium-driver
-    - ln -f -s .env.pipelines .env
+    - apt-get update && apt-get install -qy git curl unzip chromium-driver libpng-dev
+    - docker-php-ext-install gd
+    - ln -f -s .env.dusk.local .env
     - touch ./database/database.sqlite
+    - php artisan serve &
     - php artisan dusk --log-junit ./test-reports/junit.xml
 
 pipelines:

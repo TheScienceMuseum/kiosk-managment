@@ -38,8 +38,8 @@ class LoginPage extends Page
             '@input-email' => '#email',
             '@input-password' => '#password',
             '@input-remember' => '#remember',
-            '@submit-login' => 'form[action="http://kiosk-manager.test/login"] button[type="submit"]',
-            '@forgot-password' => 'form[action="http://kiosk-manager.test/login"] a[href="http://kiosk-manager.test/password/reset"]',
+            '@submit-login' => 'form[action="' . route('login') . '"] button[type="submit"]',
+            '@forgot-password' => 'form[action="' . route('login') . '"] a[href="' . route('password.request') . '"]',
         ];
     }
 }
