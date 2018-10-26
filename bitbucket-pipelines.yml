@@ -13,6 +13,7 @@ definitions:
     - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
     - php composer-setup.php
     - php -r "unlink('composer-setup.php');"
+    - ln -f -s .env.pipelines .env
     - ./composer.phar install --ignore-platform-reqs
 
   unit-tests: &unit-tests
@@ -50,6 +51,7 @@ pipelines:
     - step: *unit-tests
     - step: *feature-tests
     - step: *browser-tests
+
   branches:
     develop:
     - step: *setup-test-environment
