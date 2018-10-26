@@ -38,7 +38,7 @@ definitions:
     - composer
     - vendor
     script:
-    - apt-get update && apt-get install -qy chromium-chromedriver
+    - apt-get update && apt-get install -qy chromium-driver
     - php artisan dusk --log-junit ./test-reports/junit.xml
 
 pipelines:
