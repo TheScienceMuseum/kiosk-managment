@@ -39,6 +39,7 @@ definitions:
     - vendor
     script:
     - apt-get update && apt-get install -qy git curl unzip chromium-driver
+    - cp .env.dusk.local .env
     - php artisan dusk --log-junit ./test-reports/junit.xml
 
 pipelines:
