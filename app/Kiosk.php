@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $location
  * @property string|null $asset_tag
  * @property string $identifier
- * @property string $client_version
- * @property string $current_package
+ * @property string|null $client_version
+ * @property string|null $current_package
  * @property int|null $package_id
  * @property \Illuminate\Support\Carbon|null $last_seen_at
  * @property \Illuminate\Support\Carbon|null $created_at
