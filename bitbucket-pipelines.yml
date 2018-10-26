@@ -24,6 +24,8 @@ definitions:
     script:
     - ln -f -s .env.pipelines .env
     - ./vendor/bin/phpunit --filter Unit --log-junit ./test-reports/junit.xml
+    artifacts:
+    - test-reports/*.xml
 
   feature-tests: &feature-tests
     name: feature-tests
@@ -33,6 +35,8 @@ definitions:
     script:
     - ln -f -s .env.pipelines .env
     - ./vendor/bin/phpunit --filter Feature --log-junit ./test-reports/junit.xml
+    artifacts:
+    - test-reports/*.xml
 
   browser-tests: &browser-tests
     name: browser-tests
@@ -44,8 +48,11 @@ definitions:
     - docker-php-ext-install gd
     - ln -f -s .env.dusk.local .env
     - touch ./database/database.sqlite
-    - php artisan serve &
+    - php artisan serve > /dev/null &
     - php artisan dusk --log-junit ./test-reports/junit.xml
+    artifacts:
+    - tests/Browser/screenshots/*.png
+    - test-reports/*.xml
 
 pipelines:
   default:
