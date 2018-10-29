@@ -16,7 +16,7 @@ class TestKiosksTableSeeder extends Seeder
             'name' => null,
             'location' => null,
             'asset_tag' => null,
-            'identifier' => 'test-kiosk-one',
+            'identifier' => 'test-kiosk-registered',
         ]);
 
         $kiosk->package()->associate(\App\Package::whereName('default')->first());
