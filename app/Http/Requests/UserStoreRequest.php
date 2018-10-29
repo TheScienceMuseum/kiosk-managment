@@ -28,7 +28,7 @@ class UserStoreRequest extends FormRequest
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'send_invite' => 'required|boolean',
-            'roles' => 'array',
+            'roles' => 'array|required',
             'roles.*' => 'exists:roles,name',
         ];
     }
