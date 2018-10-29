@@ -65,4 +65,5 @@ Route::name('api.')
     ->group(function (Router $router) {
         $router->post('health-check', 'KioskController@healthCheck')->name('kiosk.health-check');
         $router->post('register', 'KioskController@register')->name('kiosk.register');
+        $router->post('package-download', 'KioskController@download')->name('kiosk.package.download');
     });
