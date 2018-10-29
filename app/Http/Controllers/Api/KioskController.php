@@ -10,8 +10,10 @@ use App\Http\Requests\KioskIndexRequest;
 use App\Http\Requests\KioskPackageDownloadRequest;
 use App\Http\Requests\KioskPackageUpdateRequest;
 use App\Http\Requests\KioskRegisterRequest;
+use App\Http\Requests\KioskShowLogsRequest;
 use App\Http\Requests\KioskShowRequest;
 use App\Http\Requests\KioskUpdateRequest;
+use App\Http\Resources\KioskLogsResource;
 use App\Http\Resources\KioskResource;
 use App\Kiosk;
 use App\Package;
@@ -59,6 +61,16 @@ class KioskController extends Controller
     }
 
     /**
+     * @param KioskShowLogsRequest $request
+     * @param Kiosk $kiosk
+     * @return KioskLogsResource
+     */
+    public function showLogs(KioskShowLogsRequest $request, Kiosk $kiosk) : KioskLogsResource
+    {
+        return new KioskLogsResource($kiosk);
+    }
+
+    /**
      * @param KioskUpdateRequest $request
      * @param Kiosk $kiosk
      * @return KioskResource
@@ -99,6 +111,16 @@ class KioskController extends Controller
         $kiosk->client_version = $request->input('client.version');
         $kiosk->current_package = $request->input('package.name') . '@' . $request->input('package.version');
         $kiosk->save();
+
+        if ($request->input('logs')) {
+            foreach ($request->input('logs') as $logEntry) {
+                $kiosk->logs()->create([
+                    'level' => $logEntry['level'],
+                    'message' => $logEntry['message'],
+                    'created_at' => $logEntry['timestamp'],
+                ]);
+            }
+        }
 
         return new KioskResource($kiosk);
     }
@@ -141,6 +163,10 @@ class KioskController extends Controller
         return new KioskResource($kiosk);
     }
 
+    /**
+     * @param Request $request
+     * @return Kiosk
+     */
     private function getKioskFromRequest(Request $request) : Kiosk
     {
         $kiosk = Kiosk::whereIdentifier($request->input('identifier'))

@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $approved
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $file
+ * @property-read mixed $file_name
  * @property-read mixed $path
  * @property-read \App\Package $package
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereApproved($value)

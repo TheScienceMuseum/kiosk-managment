@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\KioskLog[] $logs
  * @property-read \App\Package|null $package
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereAssetTag($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereClientVersion($value)
@@ -56,5 +57,10 @@ class Kiosk extends Model
     public function package()
     {
         return $this->belongsTo(Package::class);
+    }
+
+    public function logs()
+    {
+        return $this->hasMany(KioskLog::class);
     }
 }
