@@ -20,6 +20,8 @@ class LoginTest extends DuskTestCase
     public function testFirstLoginOfARegisteredUserShowsMultiFactorAuthRegistration()
     {
         $user = User::first();
+        $user->mfa_secret = null;
+        $user->save();
 
         $this->browse(function (Browser $browser) use ($user) {
             $loginPage = $browser->visit(new LoginPage);
