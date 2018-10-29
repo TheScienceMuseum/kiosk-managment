@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $current_version
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Kiosk[] $kiosks
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\PackageVersion[] $versions
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Package whereCreatedAt($value)
