@@ -31,7 +31,7 @@ class KioskHealthCheckRequest extends FormRequest
             'logs' => 'array',
             'logs.*' => 'array',
             'logs.*.timestamp' => 'date|required_with:logs.*',
-            'logs.*.line' => 'string|required_with:logs.*',
+            'logs.*.message' => 'string|required_with:logs.*',
         ];
     }
 }

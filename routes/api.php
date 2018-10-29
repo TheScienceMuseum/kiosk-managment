@@ -35,6 +35,7 @@ Route::name('api.')
             ->group(function (Router $router) {
                 $router->get('', 'KioskController@index')->name('index');
                 $router->get('{kiosk}', 'KioskController@show')->name('show');
+                $router->get('{kiosk}/logs', 'KioskController@showLogs')->name('show.logs');
                 $router->put('{kiosk}', 'KioskController@update')->name('update');
                 $router->delete('{kiosk}', 'KioskController@destroy')->name('destroy');
                 $router->put('{kiosk}/assign/{package}', 'KioskController@assignPackage')->name('assign-package');
