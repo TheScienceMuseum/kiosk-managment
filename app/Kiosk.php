@@ -57,4 +57,9 @@ class Kiosk extends Model
     {
         return $this->belongsTo(Package::class);
     }
+
+    public function logs()
+    {
+        return $this->hasMany(KioskLog::class);
+    }
 }
