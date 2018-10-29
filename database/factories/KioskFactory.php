@@ -9,6 +9,5 @@ $factory->define(App\Kiosk::class, function (Faker $faker) {
         'location' => $faker->city,
         'asset_tag' => $faker->unique()->uuid,
         'identifier' => $faker->unique()->uuid,
-        'last_seen_at' => now(),
     ];
 });

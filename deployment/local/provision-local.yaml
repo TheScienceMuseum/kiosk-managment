@@ -22,6 +22,10 @@
     apt:
       name: php-xdebug
 
+  - name: ensure sqlite extention is installed
+    apt:
+      name: php7.2-sqlite3
+
   - name: set nginx user as vagrant
     replace:
       path: /etc/nginx/nginx.conf

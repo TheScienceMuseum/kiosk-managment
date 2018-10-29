@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -30,10 +31,23 @@ class PackageVersion extends Model
         'approved',
     ];
 
+    public function getFileNameAttribute()
+    {
+        return snake_case($this->package->name) . '_' . $this->version . '.package';
+    }
+
     public function getPathAttribute()
     {
-        $packageFile = snake_case($this->package->name) . '_' . $this->version . '.package';
-        return config('app.url') . \Storage::disk(config('filesystems.cloud'))->url('packages/'.$packageFile);
+        return storage_path('app/public/packages/' . $this->file_name);
+    }
+
+    public function getFileAttribute()
+    {
+        return \Storage::disk(config('filesystems.cloud'))->get(storage_path('app/public/packages/' . $this->file_name));
+//        try {
+//        } catch (FileNotFoundException $e) {
+//            return null;
+//        }
     }
 
     public function package()

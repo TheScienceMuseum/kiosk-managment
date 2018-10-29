@@ -51,13 +51,13 @@
 
                             @can('view all kiosks')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('admin.kiosks') }}">{{ __('Kiosks') }}</a>
+                                    <a class="nav-link" href="{{ route('admin.kiosk') }}">{{ __('Kiosks') }}</a>
                                 </li>
                             @endcan
 
                             @can('view all users')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.users') }}">{{ __('Users') }}</a>
+                                <a class="nav-link" href="{{ route('admin.user') }}">{{ __('Users') }}</a>
                             </li>
                             @endcan
 

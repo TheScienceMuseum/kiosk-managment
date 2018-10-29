@@ -7,6 +7,7 @@ use App\Http\Requests\KioskAssignPackageRequest;
 use App\Http\Requests\KioskDestroyRequest;
 use App\Http\Requests\KioskHealthCheckRequest;
 use App\Http\Requests\KioskIndexRequest;
+use App\Http\Requests\KioskPackageDownloadRequest;
 use App\Http\Requests\KioskPackageUpdateRequest;
 use App\Http\Requests\KioskRegisterRequest;
 use App\Http\Requests\KioskShowRequest;
@@ -14,6 +15,7 @@ use App\Http\Requests\KioskUpdateRequest;
 use App\Http\Resources\KioskResource;
 use App\Kiosk;
 use App\Package;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Spatie\QueryBuilder\Filter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -34,7 +36,10 @@ class KioskController extends Controller
         $kiosks = QueryBuilder::for(Kiosk::class)
             ->allowedFilters([
                 'name',
-                'address',
+                'location',
+                'asset_tag',
+                'client_version',
+                'current_package',
                 Filter::custom('registered', UnregisteredKioskFilter::class)
             ])
             ->jsonPaginate()
@@ -70,18 +75,6 @@ class KioskController extends Controller
     }
 
     /**
-     * @param KioskAssignPackageRequest $request
-     * @param Kiosk $kiosk
-     * @return KioskResource
-     */
-    public function assignPackage(KioskAssignPackageRequest $request, Kiosk $kiosk, Package $package) : KioskResource
-    {
-        $kiosk->package()->associate($package);
-
-        return new KioskResource($kiosk);
-    }
-
-    /**
      * @param KioskDestroyRequest $request
      * @param Kiosk $kiosk
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
@@ -100,9 +93,7 @@ class KioskController extends Controller
      */
     public function healthCheck(KioskHealthCheckRequest $request) : KioskResource
     {
-        $kiosk = Kiosk::whereIdentifier($request->input('identifier'))
-            ->firstOrFail()
-        ;
+        $kiosk = $this->getKioskFromRequest($request);
 
         $kiosk->last_seen_at = now();
         $kiosk->client_version = $request->input('client.version');
@@ -125,5 +116,40 @@ class KioskController extends Controller
         ]);
 
         return new KioskResource($kiosk);
+    }
+
+    public function download(KioskPackageDownloadRequest $request)
+    {
+        $kiosk = $this->getKioskFromRequest($request);
+
+        if ($kiosk->package->current_version) {
+            return response()->download($kiosk->package->current_version->path);
+        }
+
+        return abort(404);
+    }
+
+    /**
+     * @param KioskAssignPackageRequest $request
+     * @param Kiosk $kiosk
+     * @return KioskResource
+     */
+    public function assignPackage(KioskAssignPackageRequest $request, Kiosk $kiosk, Package $package) : KioskResource
+    {
+        $kiosk->package()->associate($package);
+
+        return new KioskResource($kiosk);
+    }
+
+    private function getKioskFromRequest(Request $request) : Kiosk
+    {
+        $kiosk = Kiosk::whereIdentifier($request->input('identifier'))
+            ->firstOrFail()
+        ;
+
+        $kiosk->last_seen_at = now();
+        $kiosk->save();
+
+        return $kiosk;
     }
 }

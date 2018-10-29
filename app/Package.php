@@ -38,4 +38,9 @@ class Package extends Model
     {
         return $this->hasMany(PackageVersion::class);
     }
+
+    public function getCurrentVersionAttribute()
+    {
+        return $this->versions()->orderByDesc('version')->first();
+    }
 }

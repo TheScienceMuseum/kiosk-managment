@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserUpdateRequest extends FormRequest
+class KioskPackageDownloadRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class UserUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('update', $this->route('user'));
+        return true;
     }
 
     /**
@@ -24,11 +24,8 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'email' => 'required|unique:users,email,' . $this->route('user')->id,
-            'roles' => 'array|required',
-            'roles.*' => 'exists:roles,name',
+            'identifier' => 'required|string',
+            'client.version' => 'required|string',
         ];
     }
-
 }
