@@ -41,6 +41,7 @@ class Kiosk extends Model
         'location',
         'asset_tag',
         'identifier',
+        'last_seen_at',
         'client_version',
         'current_package',
     ];

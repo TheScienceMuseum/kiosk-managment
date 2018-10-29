@@ -28,8 +28,10 @@ Route::group([
         ->name('home');
 
     $router->get('admin/users', 'AdminController@users')
-        ->name('admin.users');
+        ->name('admin.user');
 
-    $router->get('admin/kiosks', 'AdminController@kiosks')
-        ->name('admin.kiosks');
+    $router->get('admin/kiosks', 'AdminController@kioskIndex')
+        ->name('admin.kiosk');
+    $router->get('admin/kiosks/{kiosk}', 'AdminController@kioskShow')
+        ->name('admin.kiosk.show');
 });
