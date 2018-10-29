@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\KioskClient;
 
 use Tests\ActsAs;
 use Tests\ResetsDatabase;
