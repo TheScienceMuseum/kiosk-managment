@@ -14,14 +14,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $identifier
  * @property string|null $client_version
  * @property string|null $current_package
- * @property int|null $package_id
+ * @property int|null $assigned_package_version_id
  * @property \Illuminate\Support\Carbon|null $last_seen_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\PackageVersion|null $assigned_package_version
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\KioskLog[] $logs
- * @property-read \App\Package|null $package
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereAssetTag($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereAssignedPackageVersionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereClientVersion($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereCurrentPackage($value)
@@ -31,7 +32,6 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereLastSeenAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereLocation($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk wherePackageId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereUpdatedAt($value)
  * @mixin \Eloquent
  */
@@ -66,7 +66,10 @@ class Kiosk extends Model
 
     public function getCurrentPackageAttribute()
     {
-        return $this->attributes['current_package'] === '@' ? null : $this->attributes['current_package'];
+        return (
+            empty($this->attributes['current_package']) ||
+            $this->attributes['current_package'] === '@'
+        ) ? null : $this->attributes['current_package'];
     }
 
     public function assigned_package_version()

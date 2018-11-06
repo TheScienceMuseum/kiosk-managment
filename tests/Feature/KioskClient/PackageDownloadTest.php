@@ -30,19 +30,17 @@ class PackageDownloadTest extends TestCase
         $response->assertStatus(200)
             ->assertJson([
                 'data' => [
-                    'name' => null,
-                    'location' => null,
-                    'asset_tag' => null,
+                    'name' => true,
+                    'location' => true,
+                    'asset_tag' => true,
                     'identifier' => $this->kioskIdentifier,
                     'client_version' => '1.0.0',
                     'current_package' => null,
                     'last_seen_at' => true,
                     'package' => [
                         'name' => 'default',
-                        'current_version' => [
-                            'version' => '1',
-                            'package_path' => true,
-                        ],
+                        'version' => 1,
+                        'path' => true,
                     ],
                     'path' => true,
                 ],
@@ -70,27 +68,27 @@ class PackageDownloadTest extends TestCase
         $response->assertStatus(200)
             ->assertJson([
                 'data' => [
-                    'name' => null,
-                    'location' => null,
-                    'asset_tag' => null,
+                    'name' => true,
+                    'location' => true,
+                    'asset_tag' => true,
                     'identifier' => $this->kioskIdentifier,
                     'client_version' => '1.0.0',
                     'current_package' => null,
                     'last_seen_at' => true,
                     'package' => [
                         'name' => 'default',
-                        'current_version' => [
-                            'version' => '1',
-                            'package_path' => true,
-                        ],
+                        'version' => 1,
+                        'path' => true,
                     ],
                     'path' => true,
                 ],
             ])
         ;
 
+        $packageData = json_decode($response->getContent());
+
         $response = $this->actingAsRegisteredKiosk()
-            ->postJson('/api/kiosk/package-download', [
+            ->postJson($packageData->data->package->path, [
                 'identifier' => $this->kioskIdentifier,
                 'client' => [
                     'version' => '1.0.0',

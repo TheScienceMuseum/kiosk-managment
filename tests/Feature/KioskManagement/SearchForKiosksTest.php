@@ -22,7 +22,7 @@ class SearchForKiosksTest extends TestCase
         ;
 
         $response->assertStatus(200)
-            ->assertDontSee('"name": "null"')
+            ->assertDontSee('"name":"null"')
         ;
     }
 
@@ -36,8 +36,6 @@ class SearchForKiosksTest extends TestCase
                 ]))
         ;
 
-        $response->assertStatus(200)
-
-        ;
+        $response->assertStatus(200);
     }
 }
