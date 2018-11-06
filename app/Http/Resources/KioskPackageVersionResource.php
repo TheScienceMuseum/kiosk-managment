@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class KioskPackageResource extends JsonResource
+class KioskPackageVersionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,9 +15,9 @@ class KioskPackageResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'name' => $this->name,
-            'versions' => PackageVersionResource::collection($this->versions),
-            'current_version' => new PackageVersionResource($this->versions()->orderByDesc('version')->first()),
+            'name' => $this->package->name,
+            'version' => (int) $this->version,
+            'path' => route('api.kiosk.package.download', [$this->package, $this]),
         ];
     }
 }

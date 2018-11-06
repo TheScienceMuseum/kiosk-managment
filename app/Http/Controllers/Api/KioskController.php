@@ -17,6 +17,7 @@ use App\Http\Resources\KioskLogsResource;
 use App\Http\Resources\KioskResource;
 use App\Kiosk;
 use App\Package;
+use App\PackageVersion;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Spatie\QueryBuilder\Filter;
@@ -87,6 +88,19 @@ class KioskController extends Controller
     }
 
     /**
+     * @param KioskAssignPackageRequest $request
+     * @param Kiosk $kiosk
+     * @param PackageVersion $packageVersion
+     * @return KioskResource
+     */
+    public function assignPackage(KioskAssignPackageRequest $request, Kiosk $kiosk, PackageVersion $packageVersion) : KioskResource
+    {
+        $kiosk->assigned_package_version()->associate($packageVersion);
+
+        return new KioskResource($kiosk);
+    }
+
+    /**
      * @param KioskDestroyRequest $request
      * @param Kiosk $kiosk
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
@@ -114,11 +128,13 @@ class KioskController extends Controller
 
         if ($request->input('logs')) {
             foreach ($request->input('logs') as $logEntry) {
-                $kiosk->logs()->create([
-                    'level' => $logEntry['level'],
-                    'message' => $logEntry['message'],
-                    'created_at' => $logEntry['timestamp'],
-                ]);
+                if ($kiosk->logs()->whereTimestamp($logEntry['timestamp'])->get()->count() === 0) {
+                    $kiosk->logs()->create([
+                        'level' => $logEntry['level'],
+                        'message' => $logEntry['message'],
+                        'timestamp' => $logEntry['timestamp'],
+                    ]);
+                }
             }
         }
 
@@ -140,27 +156,15 @@ class KioskController extends Controller
         return new KioskResource($kiosk);
     }
 
-    public function download(KioskPackageDownloadRequest $request)
+    public function download(KioskPackageDownloadRequest $request, Package $package, PackageVersion $packageVersion)
     {
         $kiosk = $this->getKioskFromRequest($request);
 
-        if ($kiosk->package->current_version) {
-            return response()->download($kiosk->package->current_version->path);
+        if ($packageVersion->archive_path) {
+            return response()->download($packageVersion->archive_path);
         }
 
         return abort(404);
-    }
-
-    /**
-     * @param KioskAssignPackageRequest $request
-     * @param Kiosk $kiosk
-     * @return KioskResource
-     */
-    public function assignPackage(KioskAssignPackageRequest $request, Kiosk $kiosk, Package $package) : KioskResource
-    {
-        $kiosk->package()->associate($package);
-
-        return new KioskResource($kiosk);
     }
 
     /**

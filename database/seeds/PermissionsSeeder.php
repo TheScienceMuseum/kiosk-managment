@@ -30,14 +30,16 @@ class PermissionsSeeder extends Seeder
 
         // Package Permissions
         $perm_create_package = Permission::create(['name' => 'create new packages']);
+        $perm_view_package = Permission::create(['name' => 'view all packages']);
         $perm_edit_package = Permission::create(['name' => 'edit all packages']);
-        $perm_build_package = Permission::create(['name' => 'publish all package']);
+        $perm_publish_package = Permission::create(['name' => 'publish all packages']);
         $perm_test_package = Permission::create(['name' => 'test all packages']);
 
         $perm_group_package = [
             $perm_create_package,
+            $perm_view_package,
             $perm_edit_package,
-            $perm_build_package,
+            $perm_publish_package,
             $perm_test_package,
         ];
 
@@ -89,7 +91,12 @@ class PermissionsSeeder extends Seeder
         // No access to kiosk status.
         Role::create(['name' => 'content author'])
             ->syncPermissions(array_merge(
-                $perm_group_package
+                [
+                    $perm_create_package,
+                    $perm_view_package,
+                    $perm_edit_package,
+                    $perm_test_package,
+                ]
             ))
         ;
 

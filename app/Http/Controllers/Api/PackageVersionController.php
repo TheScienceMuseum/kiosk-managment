@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\PackageVersionResource;
+use App\Package;
 use App\PackageVersion;
 use Illuminate\Http\Request;
 
@@ -18,24 +20,19 @@ class PackageVersionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @param Package $package
+     * @return PackageVersionResource
      */
-    public function store(Request $request)
+    public function store(Request $request, Package $package) : PackageVersionResource
     {
-        //
+        $packageVersion = $package->versions()->create([
+            'version' => $package->versions()->count() === 0 ? 1 : $package->versions()->count() + 1,
+        ]);
+
+        return new PackageVersionResource($packageVersion);
     }
 
     /**
@@ -50,17 +47,6 @@ class PackageVersionController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\PackageVersion  $packageVersion
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(PackageVersion $packageVersion)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -68,17 +54,6 @@ class PackageVersionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, PackageVersion $packageVersion)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\PackageVersion  $packageVersion
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(PackageVersion $packageVersion)
     {
         //
     }

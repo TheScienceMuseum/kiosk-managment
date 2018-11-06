@@ -48,6 +48,11 @@
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                         @else
+                            @can('view all kiosks')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('admin.package') }}">{{ __('Packages') }}</a>
+                                </li>
+                            @endcan
 
                             @can('view all kiosks')
                                 <li class="nav-item">
@@ -100,5 +105,19 @@
             @yield('content')
         </main>
     </div>
+    <script>
+        window.application_config = {
+            translation: <?php
+                // copy all translations from /resources/lang/CURRENT_LOCALE/* to global JS variable
+                $lang_files = File::files(resource_path() . '/lang/' . App::getLocale());
+                $trans = [];
+                foreach ($lang_files as $f) {
+                    $filename = pathinfo($f)['filename'];
+                    $trans[$filename] = trans($filename);
+                }
+                echo json_encode($trans);
+                ?>,
+        };
+    </script>
 </body>
 </html>

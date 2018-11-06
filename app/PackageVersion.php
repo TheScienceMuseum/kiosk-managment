@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * App\PackageVersion
@@ -11,17 +11,15 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $package_id
  * @property int $version
- * @property int $approved
+ * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read mixed $file
- * @property-read mixed $file_name
- * @property-read mixed $path
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Kiosk[] $kiosks
  * @property-read \App\Package $package
- * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereApproved($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion wherePackageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereVersion($value)
  * @mixin \Eloquent
@@ -30,26 +28,33 @@ class PackageVersion extends Model
 {
     protected $fillable = [
         'version',
-        'approved',
+        'status',
     ];
 
-    public function getFileNameAttribute()
+    /**
+     * @param $value
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function setStatusAttribute($value)
     {
-        return snake_case($this->package->name) . '_' . $this->version . '.package';
+        Validator::make([
+            'status' => $value,
+        ], [
+            'title' => 'required|in:draft,pending,approved',
+        ])->validate();
+
+        $this->attributes['status'] = $value;
     }
 
-    public function getPathAttribute()
+    public function getArchivePathAttribute()
     {
-        return storage_path('app/public/packages/' . $this->file_name);
+        return \Storage::disk(config('filesystems.cloud'))
+            ->path('public/packages/'.$this->package->name . '_' . $this->version . '.package');
     }
 
-    public function getFileAttribute()
+    public function kiosks()
     {
-        return \Storage::disk(config('filesystems.cloud'))->get(storage_path('app/public/packages/' . $this->file_name));
-//        try {
-//        } catch (FileNotFoundException $e) {
-//            return null;
-//        }
+        return $this->hasMany(Kiosk::class);
     }
 
     public function package()

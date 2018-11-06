@@ -16,4 +16,11 @@ return [
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
+    'mfa' => [
+        'header' => 'Multi-Factor Authentication',
+        'opt_field_label' => 'Auth Code',
+        'opt_field_help' => 'Enter an authentication code from your app.',
+        'opt_submit' => 'Submit',
+    ],
+
 ];

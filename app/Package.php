@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read mixed $current_version
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Kiosk[] $kiosks
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\PackageVersion[] $versions
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Package whereCreatedAt($value)
@@ -25,11 +24,16 @@ class Package extends Model
     protected $fillable = ['name'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
     public function kiosks()
     {
-        return $this->hasMany(Kiosk::class);
+        return $this->hasManyThrough(
+            Kiosk::class,
+            PackageVersion::class,
+            'id',
+            'assigned_package_version_id'
+        );
     }
 
     /**
@@ -38,10 +42,5 @@ class Package extends Model
     public function versions()
     {
         return $this->hasMany(PackageVersion::class);
-    }
-
-    public function getCurrentVersionAttribute()
-    {
-        return $this->versions()->orderByDesc('version')->first();
     }
 }

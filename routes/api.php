@@ -38,7 +38,7 @@ Route::name('api.')
                 $router->get('{kiosk}/logs', 'KioskController@showLogs')->name('show.logs');
                 $router->put('{kiosk}', 'KioskController@update')->name('update');
                 $router->delete('{kiosk}', 'KioskController@destroy')->name('destroy');
-                $router->put('{kiosk}/assign/{package}', 'KioskController@assignPackage')->name('assign-package');
+                $router->put('{kiosk}/assign/{packageVersion}', 'KioskController@assignPackage')->name('assign-package');
             });
 
         $router->name('package.')
@@ -49,6 +49,10 @@ Route::name('api.')
                 $router->get('{package}', 'PackageController@show')->name('show');
                 $router->put('{package}', 'PackageController@update')->name('update');
                 $router->delete('{package}', 'PackageController@destroy')->name('destroy');
+
+                $router->post('{package}/version', 'PackageVersionController@store')->name('version.store');
+                $router->get('{package}/version/{packageVersion}', 'PackageVersionController@show')->name('version.show');
+                $router->put('{package}/version/{packageVersion}', 'PackageVersionController@update')->name('version.update');
             });
     });
 
@@ -66,5 +70,5 @@ Route::name('api.')
     ->group(function (Router $router) {
         $router->post('health-check', 'KioskController@healthCheck')->name('kiosk.health-check');
         $router->post('register', 'KioskController@register')->name('kiosk.register');
-        $router->post('package-download', 'KioskController@download')->name('kiosk.package.download');
+        $router->post('package/{package}/version/{packageVersion}/download', 'KioskController@download')->name('kiosk.package.download');
     });

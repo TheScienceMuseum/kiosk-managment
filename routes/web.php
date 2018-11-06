@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
 Route::group([
@@ -24,14 +20,27 @@ Route::group([
         return redirect()->back();
     })->name('auth.login.mfa');
 
-    $router->get('/home', 'HomeController@index')
+    $router->get('/', 'HomeController@index')
         ->name('home');
 
-    $router->get('admin/users', 'AdminController@users')
-        ->name('admin.user');
+    $router->group([
+        'namespace' => 'Admin',
+    ], function (\Illuminate\Routing\Router $router) {
+        $router->get('admin/users', 'UserController@index')
+            ->name('admin.user');
+        $router->get('admin/users/{user}', 'UserController@show')
+            ->name('admin.user.show');
 
-    $router->get('admin/kiosks', 'AdminController@kioskIndex')
-        ->name('admin.kiosk');
-    $router->get('admin/kiosks/{kiosk}', 'AdminController@kioskShow')
-        ->name('admin.kiosk.show');
+        $router->get('admin/packages', 'PackageController@index')
+            ->name('admin.package');
+        $router->get('admin/packages/{package}', 'PackageController@show')
+            ->name('admin.package.show');
+
+        $router->get('admin/kiosks', 'KioskController@index')
+            ->name('admin.kiosk');
+        $router->get('admin/kiosks/{kiosk}', 'KioskController@show')
+            ->name('admin.kiosk.show');
+        $router->post('admin/kiosks/{kiosk}', 'KioskController@update')
+            ->name('admin.kiosk.update');
+    });
 });
