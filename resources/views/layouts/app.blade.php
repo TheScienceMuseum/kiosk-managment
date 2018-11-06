@@ -100,5 +100,19 @@
             @yield('content')
         </main>
     </div>
+    <script>
+        window.application_config = {
+            translation: <?php
+                // copy all translations from /resources/lang/CURRENT_LOCALE/* to global JS variable
+                $lang_files = File::files(resource_path() . '/lang/' . App::getLocale());
+                $trans = [];
+                foreach ($lang_files as $f) {
+                    $filename = pathinfo($f)['filename'];
+                    $trans[$filename] = trans($filename);
+                }
+                echo json_encode($trans);
+                ?>,
+        };
+    </script>
 </body>
 </html>
