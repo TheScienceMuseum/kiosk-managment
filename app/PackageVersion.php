@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * App\PackageVersion
@@ -30,26 +30,27 @@ class PackageVersion extends Model
 {
     protected $fillable = [
         'version',
-        'approved',
+        'status',
     ];
 
-    public function getFileNameAttribute()
+    /**
+     * @param $value
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function setStatusAttribute($value)
     {
-        return snake_case($this->package->name) . '_' . $this->version . '.package';
+        Validator::make([
+            'status' => $value,
+        ], [
+            'title' => 'required|in:draft,pending,approved',
+        ])->validate();
+
+        $this->attributes['status'] = $value;
     }
 
-    public function getPathAttribute()
+    public function kiosks()
     {
-        return storage_path('app/public/packages/' . $this->file_name);
-    }
-
-    public function getFileAttribute()
-    {
-        return \Storage::disk(config('filesystems.cloud'))->get(storage_path('app/public/packages/' . $this->file_name));
-//        try {
-//        } catch (FileNotFoundException $e) {
-//            return null;
-//        }
+        return $this->hasMany(Kiosk::class);
     }
 
     public function package()

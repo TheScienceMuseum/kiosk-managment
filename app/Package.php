@@ -25,11 +25,16 @@ class Package extends Model
     protected $fillable = ['name'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
      */
     public function kiosks()
     {
-        return $this->hasMany(Kiosk::class);
+        return $this->hasManyThrough(
+            Kiosk::class,
+            PackageVersion::class,
+            'id',
+            'assigned_package_version_id'
+        );
     }
 
     /**
@@ -38,10 +43,5 @@ class Package extends Model
     public function versions()
     {
         return $this->hasMany(PackageVersion::class);
-    }
-
-    public function getCurrentVersionAttribute()
-    {
-        return $this->versions()->orderByDesc('version')->first();
     }
 }

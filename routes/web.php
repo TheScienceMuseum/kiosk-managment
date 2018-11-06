@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
 Route::group([
@@ -24,7 +20,7 @@ Route::group([
         return redirect()->back();
     })->name('auth.login.mfa');
 
-    $router->get('/home', 'HomeController@index')
+    $router->get('/', 'HomeController@index')
         ->name('home');
 
     $router->group([
@@ -40,11 +36,11 @@ Route::group([
         $router->get('admin/packages/{package}', 'PackageController@show')
             ->name('admin.package.show');
 
-        $router->get('admin/kiosks', 'Admin\KioskController@index')
+        $router->get('admin/kiosks', 'KioskController@index')
             ->name('admin.kiosk');
-        $router->get('admin/kiosks/{kiosk}', 'Admin\KioskController@show')
+        $router->get('admin/kiosks/{kiosk}', 'KioskController@show')
             ->name('admin.kiosk.show');
-        $router->post('admin/kiosks/{kiosk}', 'Admin\KioskController@update')
+        $router->post('admin/kiosks/{kiosk}', 'KioskController@update')
             ->name('admin.kiosk.update');
     });
 });

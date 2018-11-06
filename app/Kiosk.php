@@ -54,9 +54,24 @@ class Kiosk extends Model
         'last_seen_at',
     ];
 
-    public function package()
+    static protected function allLocations()
     {
-        return $this->belongsTo(Package::class);
+        return array_pluck(
+            Kiosk::whereNotNull('location')
+                ->groupBy(['location'])
+                ->get(['location']),
+            'location'
+        );
+    }
+
+    public function getCurrentPackageAttribute()
+    {
+        return $this->attributes['current_package'] === '@' ? null : $this->attributes['current_package'];
+    }
+
+    public function assigned_package_version()
+    {
+        return $this->belongsTo(PackageVersion::class);
     }
 
     public function logs()

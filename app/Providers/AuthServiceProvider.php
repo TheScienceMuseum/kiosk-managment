@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use App\Kiosk;
+use App\Package;
+use App\PackageVersion;
 use App\Policies\KioskPolicy;
+use App\Policies\PackagePolicy;
+use App\Policies\PackageVersionPolicy;
 use App\Policies\UserPolicy;
 use App\User;
 use Illuminate\Support\Facades\Gate;
@@ -19,6 +23,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Kiosk::class => KioskPolicy::class,
+        Package::class => PackagePolicy::class,
+        PackageVersion::class => PackageVersionPolicy::class,
         User::class => UserPolicy::class,
     ];
 

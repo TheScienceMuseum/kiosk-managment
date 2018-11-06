@@ -14,10 +14,11 @@ class KioskPackageResource extends JsonResource
      */
     public function toArray($request)
     {
+        $current_version = $this->versions()->orderByDesc('version')->first();
+
         return [
             'name' => $this->name,
-            'versions' => PackageVersionResource::collection($this->versions),
-            'current_version' => new PackageVersionResource($this->versions()->orderByDesc('version')->first()),
+            'version' => $current_version->version,
         ];
     }
 }
