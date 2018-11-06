@@ -24,10 +24,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Route::bind('kioskIdentifier', function($kioskIdentifier) {
-            return Kiosk::whereIdentifier($kioskIdentifier)->firstOrFail();
-        });
-
         parent::boot();
     }
 

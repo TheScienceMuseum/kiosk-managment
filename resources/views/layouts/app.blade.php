@@ -48,6 +48,11 @@
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                         @else
+                            @can('view all kiosks')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('admin.package') }}">{{ __('Packages') }}</a>
+                                </li>
+                            @endcan
 
                             @can('view all kiosks')
                                 <li class="nav-item">
