@@ -114,11 +114,13 @@ class KioskController extends Controller
 
         if ($request->input('logs')) {
             foreach ($request->input('logs') as $logEntry) {
-                $kiosk->logs()->create([
-                    'level' => $logEntry['level'],
-                    'message' => $logEntry['message'],
-                    'created_at' => $logEntry['timestamp'],
-                ]);
+                if ($kiosk->logs()->whereTimestamp($logEntry['timestamp'])->get()->count() === 0) {
+                    $kiosk->logs()->create([
+                        'level' => $logEntry['level'],
+                        'message' => $logEntry['message'],
+                        'timestamp' => $logEntry['timestamp'],
+                    ]);
+                }
             }
         }
 

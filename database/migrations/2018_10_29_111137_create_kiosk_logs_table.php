@@ -18,11 +18,13 @@ class CreateKioskLogsTable extends Migration
             $table->unsignedInteger('kiosk_id');
             $table->string('level');
             $table->text('message');
+            $table->string('timestamp');
             $table->timestamps();
         });
 
         Schema::table('kiosk_logs', function (Blueprint $table) {
             $table->foreign('kiosk_id')->references('id')->on('kiosks');
+            $table->index('timestamp');
         });
     }
 

@@ -15,6 +15,7 @@ class KioskLog extends Model
     protected $fillable = [
         'level',
         'message',
+        'timestamp',
     ];
 
     public function kiosk()
