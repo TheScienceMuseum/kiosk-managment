@@ -39,7 +39,7 @@ class LoginTest extends DuskTestCase
         });
     }
 
-    public function testSecondLoginOfARegisteredUserWithIncorrectSecondFactor()
+    public function testSecondLoginOfARegisteredUserWithIncorrectSecondFactorFails()
     {
         $user = User::first();
         $user->mfa_secret = $this->mfaSecret;
@@ -63,10 +63,9 @@ class LoginTest extends DuskTestCase
         });
     }
 
-    public function testSecondLoginOfARegisteredUserWithCorrectSecondFactor()
+    public function testSecondLoginOfARegisteredUserWithCorrectSecondFactorSucceeds()
     {
         $user = User::first();
-
         $user->mfa_secret = $this->mfaSecret;
         $user->save();
 
