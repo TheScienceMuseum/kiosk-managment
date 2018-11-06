@@ -9,11 +9,11 @@ permissions:
   owner: www-data
   group: www-data
 hooks:
-  BeforeInstall:
   ApplicationStop:
   - location: deployment/aws/lifecycle/ApplicationStop.sh
     timeout: 300
     runas: root
+  BeforeInstall:
   - location: deployment/aws/lifecycle/BeforeInstall.sh
     timeout: 300
     runas: root
