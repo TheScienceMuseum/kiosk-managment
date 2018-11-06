@@ -17,8 +17,12 @@ class CreatePackageVersionsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('package_id');
             $table->unsignedInteger('version');
-            $table->boolean('approved')->default(false);
+            $table->string('status')->default('draft');
             $table->timestamps();
+        });
+
+        Schema::table('package_versions', function (Blueprint $table) {
+            $table->foreign('package_id')->references('id')->on('packages');
         });
     }
 
