@@ -40,7 +40,7 @@ Route::group([
             ->name('admin.kiosk');
         $router->get('admin/kiosks/{kiosk}', 'KioskController@show')
             ->name('admin.kiosk.show');
-        $router->post('admin/kiosks/{kiosk}', 'KioskController@update')
+        $router->put('admin/kiosks/{kiosk}', 'KioskController@update')
             ->name('admin.kiosk.update');
     });
 });

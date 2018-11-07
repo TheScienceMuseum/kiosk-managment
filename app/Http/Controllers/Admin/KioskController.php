@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\KioskIndexRequest;
 use App\Http\Requests\KioskShowRequest;
+use App\Http\Requests\KioskUpdateRequest;
 use App\Kiosk;
 
 class KioskController extends Controller
@@ -27,5 +28,14 @@ class KioskController extends Controller
         return view('admin.kiosks.show', [
             'kiosk' => $kiosk,
         ]);
+    }
+
+    public function update(KioskUpdateRequest $request, Kiosk $kiosk)
+    {
+        app('App\Http\Controllers\Api\KioskController')->update($request, $kiosk);
+
+        return redirect()
+            ->route('admin.kiosk.show', [$kiosk])
+            ->with(['status' => __('kiosk.action.update.success')]);
     }
 }

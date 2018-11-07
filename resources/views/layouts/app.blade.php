@@ -68,7 +68,7 @@
 
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ auth()->user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -90,7 +90,7 @@
         </nav>
 
         @if(session('error'))
-        <div class="content">
+        <div class="container pt-3">
             <div class="row">
                 <div class="col-12">
                     <div class="alert alert-danger">
@@ -101,15 +101,27 @@
         </div>
         @endif
 
+        @if(session()->exists('status'))
+            <div class="container pt-3">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            {{ session()->get('status') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
         <main class="py-4">
             @yield('content')
         </main>
     </div>
     <script>
         window.application_config = {
-            translation: <?php
+            translations: <?php
                 // copy all translations from /resources/lang/CURRENT_LOCALE/* to global JS variable
-                $lang_files = File::files(resource_path() . '/lang/' . App::getLocale());
+                $lang_files = File::files(resource_path() . '/lang/' . app()->getLocale());
                 $trans = [];
                 foreach ($lang_files as $f) {
                     $filename = pathinfo($f)['filename'];

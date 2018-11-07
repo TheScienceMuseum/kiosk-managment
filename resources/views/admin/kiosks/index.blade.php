@@ -55,7 +55,7 @@
                         <tbody>
                         @forelse($kiosks as $kiosk)
                         <tr>
-                            <td>
+                            <td class="align-middle">
                                 @if($kiosk->name)
                                     <strong>{{ $kiosk->name }}</strong>
                                 @else
@@ -66,14 +66,16 @@
                                 <br>
                                 <small>Last Seen: {{ $kiosk->last_seen_at ? $kiosk->last_seen_at->diffForHumans() : __('never') }}</small>
                             </td>
-                            <td>
+                            <td class="align-middle">
                                 <strong>Running:</strong> {{ $kiosk->current_package ? $kiosk->current_package : __('none') }}<br>
                                 <strong>Assigned:</strong> {{ $kiosk->package ? $kiosk->package->name . '@' . $kiosk->package->current_version->version : __('none') }}
                             </td>
                             <td class="text-right align-middle">
-                                <a class="btn btn-sm btn-primary" href="{{ route('admin.kiosk.show', $kiosk) }}">
-                                    View
-                                </a>
+                                <div class="btn-group-vertical">
+                                    <a class="btn btn-sm btn-primary" href="{{ route('admin.kiosk.show', $kiosk) }}">
+                                        Edit Kiosk
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                         @empty
