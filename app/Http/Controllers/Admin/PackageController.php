@@ -6,7 +6,7 @@ use App\Http\Requests\PackageIndexRequest;
 
 class PackageController extends Controller
 {
-    public function packageIndex(PackageIndexRequest $request)
+    public function index(PackageIndexRequest $request)
     {
         $packages = app('App\Http\Controllers\Api\PackageController')->index($request);
 
