@@ -33,6 +33,7 @@ definitions:
     - composer
     - vendor
     script:
+    - apt-get update && apt-get install -qy git
     - ln -f -s .env.pipelines .env
     - ./vendor/bin/phpunit --filter Feature --log-junit ./test-reports/junit.xml
     artifacts:
