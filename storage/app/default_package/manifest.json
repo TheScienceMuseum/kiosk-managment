@@ -1,6 +1,6 @@
 {
   "name": "default",
-  "version": "1",
+  "version": 2,
   "main": "index.html",
   "requirements": {
     "client_version": "0.0.1"

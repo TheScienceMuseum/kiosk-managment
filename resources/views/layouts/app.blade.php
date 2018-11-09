@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Kiosk Management System') }}</title>
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
@@ -50,25 +50,25 @@
                         @else
                             @can('view all kiosks')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('admin.package') }}">{{ __('Packages') }}</a>
+                                    <a class="nav-link" href="{{ route('admin.packages') }}">{{ __('Packages') }}</a>
                                 </li>
                             @endcan
 
                             @can('view all kiosks')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('admin.kiosk') }}">{{ __('Kiosks') }}</a>
+                                    <a class="nav-link" href="{{ route('admin.kiosks') }}">{{ __('Kiosks') }}</a>
                                 </li>
                             @endcan
 
                             @can('view all users')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.user') }}">{{ __('Users') }}</a>
+                                <a class="nav-link" href="{{ route('admin.users') }}">{{ __('Users') }}</a>
                             </li>
                             @endcan
 
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                    {{ auth()->user()->name }} <span class="caret"></span>
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -89,16 +89,30 @@
             </div>
         </nav>
 
-        @if(session('error'))
-        <div class="content">
+        @if($errors->count())
+        <div class="container pt-3">
             <div class="row">
                 <div class="col-12">
                     <div class="alert alert-danger">
-                        {{ session('error') }}
+                        @foreach ($errors->all() as $message)
+                            <span class="text-muted">{{ $message }}</span>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
+        @endif
+
+        @if(session()->exists('status'))
+            <div class="container pt-3">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            {{ session()->get('status') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endif
 
         <main class="py-4">
@@ -107,9 +121,9 @@
     </div>
     <script>
         window.application_config = {
-            translation: <?php
+            translations: <?php
                 // copy all translations from /resources/lang/CURRENT_LOCALE/* to global JS variable
-                $lang_files = File::files(resource_path() . '/lang/' . App::getLocale());
+                $lang_files = File::files(resource_path() . '/lang/' . app()->getLocale());
                 $trans = [];
                 foreach ($lang_files as $f) {
                     $filename = pathinfo($f)['filename'];

@@ -16,7 +16,7 @@ class CreateKiosksTable extends Migration
         Schema::create('kiosks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique()->nullable();
-            $table->string('location')->unique()->nullable();
+            $table->string('location')->nullable();
             $table->string('asset_tag')->unique()->nullable();
             $table->string('identifier')->unique();
             $table->string('client_version')->nullable();

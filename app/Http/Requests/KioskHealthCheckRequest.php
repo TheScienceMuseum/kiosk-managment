@@ -26,8 +26,10 @@ class KioskHealthCheckRequest extends FormRequest
         return [
             'identifier' => 'required|string',
             'client.version' => 'required|string',
-            'package.name' => '',
-            'package.version' => '',
+            'running_package' => 'array',
+            'running_package.name' => 'string|nullable',
+            'running_package.version' => 'numeric|nullable',
+            'running_package.manually_set' => 'numeric|nullable',
             'logs' => 'array',
             'logs.*' => 'array',
             'logs.*.timestamp' => 'date|required_with:logs.*',

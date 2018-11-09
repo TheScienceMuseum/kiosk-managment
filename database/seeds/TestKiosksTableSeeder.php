@@ -21,8 +21,5 @@ class TestKiosksTableSeeder extends Seeder
 
         $kiosk->assigned_package_version()->associate(\App\Package::whereName('default')->first()->versions()->first());
         $kiosk->save();
-
-        // Create a few kiosks that are fully set up
-        factory(App\Kiosk::class, 4)->create();
     }
 }

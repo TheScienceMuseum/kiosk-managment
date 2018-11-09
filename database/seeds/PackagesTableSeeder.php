@@ -11,20 +11,25 @@ class PackagesTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Package::class)
+        factory(App\Package::class, 1)
             ->create([
                 'name' => 'default',
             ])
             ->each(function (\App\Package $package) {
                 $package
                     ->versions()
-                    ->save(
+                    ->saveMany([
                         factory(\App\PackageVersion::class)
                             ->make([
-                                'version' => '1',
-                            ])
-                    );
+                                'version' => 1,
+                                'status' => 'approved',
+                            ]),
+                        factory(\App\PackageVersion::class)
+                            ->make([
+                                'version' => 2,
+                                'status' => 'approved',
+                            ]),
+                    ]);
             });
-
     }
 }

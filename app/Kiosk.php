@@ -19,7 +19,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $manually_set_at
  * @property-read \App\PackageVersion|null $assigned_package_version
+ * @property-read mixed $currently_running_package
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\KioskLog[] $logs
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereAssetTag($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereAssignedPackageVersionId($value)
@@ -31,6 +33,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereIdentifier($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereLastSeenAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereLocation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereManuallySetAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereUpdatedAt($value)
  * @mixin \Eloquent
@@ -45,6 +48,7 @@ class Kiosk extends Model
         'last_seen_at',
         'client_version',
         'current_package',
+
     ];
 
     protected $dates = [
@@ -52,9 +56,10 @@ class Kiosk extends Model
         'updated_at',
         'deleted_at',
         'last_seen_at',
+        'manually_set_at',
     ];
 
-    static protected function allLocations()
+    static public function allLocations()
     {
         return array_pluck(
             Kiosk::whereNotNull('location')
@@ -72,9 +77,31 @@ class Kiosk extends Model
         ) ? null : $this->attributes['current_package'];
     }
 
+    public function getCurrentlyRunningPackageAttribute()
+    {
+        if ($this->current_package) {
+            $packageData = explode('@', $this->current_package);
+            $packageName = $packageData[0];
+            $packageVersion = $packageData[1];
+
+            $foundVersion = PackageVersion::whereVersion($packageVersion)->whereHas('package', function ($query) use ($packageName) {
+                $query->where('name', '=', $packageName);
+            })->first();
+
+            if ($foundVersion) {
+                $packageName = $foundVersion->package->name;
+                $packageVersion = $foundVersion->version;
+            }
+
+            return $packageName . ' version ' . $packageVersion;
+        }
+
+        return null;
+    }
+
     public function assigned_package_version()
     {
-        return $this->belongsTo(PackageVersion::class);
+        return $this->belongsTo(PackageVersion::class, 'assigned_package_version_id');
     }
 
     public function logs()

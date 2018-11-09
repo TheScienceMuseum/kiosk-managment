@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Validator;
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $archive_path
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Kiosk[] $kiosks
  * @property-read \App\Package $package
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereCreatedAt($value)
@@ -40,7 +41,7 @@ class PackageVersion extends Model
         Validator::make([
             'status' => $value,
         ], [
-            'title' => 'required|in:draft,pending,approved',
+            'status' => 'required|in:draft,pending,approved',
         ])->validate();
 
         $this->attributes['status'] = $value;
@@ -54,7 +55,7 @@ class PackageVersion extends Model
 
     public function kiosks()
     {
-        return $this->hasMany(Kiosk::class);
+        return $this->hasMany(Kiosk::class, 'assigned_package_version_id');
     }
 
     public function package()

@@ -55,25 +55,27 @@
                         <tbody>
                         @forelse($kiosks as $kiosk)
                         <tr>
-                            <td>
+                            <td class="align-middle">
                                 @if($kiosk->name)
                                     <strong>{{ $kiosk->name }}</strong>
                                 @else
-                                    <strong class="text-muted">Unregistered</strong>
+                                    <strong class="text-muted">{{ $kiosk->identifier }} <small>(unregistered)</small></strong>
                                 @endif
                                 <br>
                                 <small>Identity: {{ $kiosk->identifier }}</small>
                                 <br>
                                 <small>Last Seen: {{ $kiosk->last_seen_at ? $kiosk->last_seen_at->diffForHumans() : __('never') }}</small>
                             </td>
-                            <td>
+                            <td class="align-middle">
                                 <strong>Running:</strong> {{ $kiosk->current_package ? $kiosk->current_package : __('none') }}<br>
-                                <strong>Assigned:</strong> {{ $kiosk->package ? $kiosk->package->name . '@' . $kiosk->package->current_version->version : __('none') }}
+                                <strong>Assigned:</strong> {{ $kiosk->assigned_package_version ? $kiosk->assigned_package_version->package->name . '@' . $kiosk->assigned_package_version->version : __('none') }}
                             </td>
                             <td class="text-right align-middle">
-                                <a class="btn btn-sm btn-primary" href="{{ route('admin.kiosk.show', $kiosk) }}">
-                                    View
-                                </a>
+                                <div class="btn-group-vertical">
+                                    <a class="btn btn-sm btn-primary" href="{{ route('admin.kiosks.show', [$kiosk]) }}">
+                                        Edit Kiosk
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                         @empty
