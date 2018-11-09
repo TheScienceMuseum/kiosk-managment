@@ -21,6 +21,7 @@ class KioskResource extends JsonResource
             'identifier' => $this->identifier,
             'client_version' => $this->client_version,
             'current_package' => $this->current_package,
+            'manually_set' => $this->manually_set_at ? $this->manually_set_at->timestamp : null,
             'last_seen_at' => $this->last_seen_at ? $this->last_seen_at->toAtomString() : null,
             'package' => new KioskPackageVersionResource($this->assigned_package_version),
             'path' => route('api.kiosk.show', $this),

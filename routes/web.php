@@ -25,22 +25,27 @@ Route::group([
 
     $router->group([
         'namespace' => 'Admin',
+        'prefix' => 'admin',
     ], function (\Illuminate\Routing\Router $router) {
-        $router->get('admin/users', 'UserController@index')
-            ->name('admin.user');
-        $router->get('admin/users/{user}', 'UserController@show')
-            ->name('admin.user.show');
+        $router->get('users', 'UserController@index')
+            ->name('admin.users');
+        $router->get('users/{user}', 'UserController@show')
+            ->name('admin.users.show');
 
-        $router->get('admin/packages', 'PackageController@index')
-            ->name('admin.package');
-        $router->get('admin/packages/{package}', 'PackageController@show')
-            ->name('admin.package.show');
+        $router->get('packages', 'PackageController@index')
+            ->name('admin.packages');
+        $router->get('packages/create', 'PackageController@create')
+            ->name('admin.packages.create');
+        $router->get('packages/{package}', 'PackageController@show')
+            ->name('admin.packages.show');
+        $router->put('packages/{package}', 'PackageController@update')
+            ->name('admin.packages.update');
 
-        $router->get('admin/kiosks', 'KioskController@index')
-            ->name('admin.kiosk');
-        $router->get('admin/kiosks/{kiosk}', 'KioskController@show')
-            ->name('admin.kiosk.show');
-        $router->put('admin/kiosks/{kiosk}', 'KioskController@update')
-            ->name('admin.kiosk.update');
+        $router->get('kiosks', 'KioskController@index')
+            ->name('admin.kiosks');
+        $router->get('kiosks/{kiosk}', 'KioskController@show')
+            ->name('admin.kiosks.show');
+        $router->put('kiosks/{kiosk}', 'KioskController@update')
+            ->name('admin.kiosks.update');
     });
 });

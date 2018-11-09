@@ -6,31 +6,36 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
-                        Users
+                        Packages
                         <div class="btn-group btn-group-sm">
                             <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#collapsible-filters">
                                 Filters
                             </button>
+                            <a class="btn btn-success" href="{{ route('admin.packages.create') }}">
+                                Create
+                            </a>
                         </div>
                     </div>
                     <div class="card-body collapse @if(!empty(request('filter'))) show @endif" id="collapsible-filters">
                         <form>
                             <div class="form-group row">
                                 <div class="col-lg mb-3">
-                                    <input type="text" class="form-control" name="filter[name]" placeholder="Name" value="{{ request('filter.name') }}">
+                                    <input type="text" class="form-control" name="filter[name]" placeholder="Kiosk Name" value="{{ request('filter.name') }}">
                                 </div>
 
                                 <div class="col-lg mb-3">
-                                    <input type="text" class="form-control" name="filter[email]" placeholder="Email" value="{{ request('filter.email') }}">
+
                                 </div>
 
                                 <div class="col-lg mb-3 align-middle">
-                                    <select class="custom-select" name="filter[role]">
-                                        <option value="">Filter by Role</option>
-                                        @foreach($filters->roles as $role)
-                                            <option value="{{ $role }}" @if(request('filter.role') === $role) selected @endif>{{ ucwords($role) }}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="filter-registered-true" name="filter[registered]" class="custom-control-input" value="true" @if(request('filter.registered') === 'true') checked @endif>
+                                        <label class="custom-control-label" for="filter-registered-true">Registered</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="filter-registered-false" name="filter[registered]" class="custom-control-input" value="false" @if(request('filter.registered') === 'false') checked @endif>
+                                        <label class="custom-control-label" for="filter-registered-false">Unregistered</label>
+                                    </div>
                                 </div>
                             </div>
 
@@ -46,20 +51,18 @@
                     </div>
                     <table class="table table-hover mb-0">
                         <tbody>
-                        @forelse($users as $user)
+                        @forelse($packages as $package)
                             <tr>
                                 <td>
-                                    <strong>{{ $user->name }}</strong>
+                                    <strong>{{ $package->name }}</strong>
                                     <br>
-                                    <small>{{ $user->email }}</small>
+                                    <small>Running on {{ count($package->kiosks) }} kiosks</small>
                                 </td>
-                                <td class="text-uppercase align-middle">
-                                    @foreach($user->roles as $role)
-                                        <h5><span class="badge badge-info">{{ $role->name }}</span></h5>
-                                    @endforeach
+                                <td>
+
                                 </td>
                                 <td class="text-right align-middle">
-                                    <a class="btn btn-sm btn-primary" href="{{ route('admin.user.show', $user) }}">
+                                    <a class="btn btn-sm btn-primary" href="{{ route('admin.packages.show', $package) }}">
                                         View
                                     </a>
                                 </td>
@@ -72,7 +75,7 @@
                         </tbody>
                     </table>
                     <div class="card-footer">
-                        {{ $users->links() }}
+                        {{ $packages->links() }}
                     </div>
                 </div>
             </div>

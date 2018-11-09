@@ -18,6 +18,7 @@ use App\Http\Resources\KioskResource;
 use App\Kiosk;
 use App\Package;
 use App\PackageVersion;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Spatie\QueryBuilder\Filter;
@@ -84,6 +85,12 @@ class KioskController extends Controller
             'asset_tag' => $request->input('asset_tag'),
         ]);
 
+        if ($request->has('manually_set')) {
+            $kiosk->manually_set_at = $request->input('manually_set');
+        }
+
+        $kiosk->save();
+
         return new KioskResource($kiosk);
     }
 
@@ -95,6 +102,7 @@ class KioskController extends Controller
      */
     public function assignPackage(KioskAssignPackageRequest $request, Kiosk $kiosk, PackageVersion $packageVersion) : KioskResource
     {
+        $packageVersion = PackageVersion::whereStatus('approved')->findOrFail($packageVersion->id);
         $kiosk->assigned_package_version()->associate($packageVersion);
 
         return new KioskResource($kiosk);
@@ -121,9 +129,31 @@ class KioskController extends Controller
     {
         $kiosk = $this->getKioskFromRequest($request);
 
+        /**
+         * Set the manually set timestamp to null if:
+         *  request manually set timestamp is null
+         * OR
+         *  the server side updated_at is more recent than the request
+         *  manually_set timestamp and the server side manually_set
+         *  timestamp is null
+         */
+        if ($request->input('running_package.manually_set') === null) {
+            $kiosk->manually_set_at = null;
+        }
+
+        if (
+            $kiosk->manually_set_at === null &&
+            $kiosk->updated_at->timestamp > $request->input('running_package.manually_set')
+        ) {
+            $kiosk->manually_set_at = null;
+        } else {
+            $kiosk->manually_set_at = $request->input('running_package.manually_set');
+        }
+
         $kiosk->last_seen_at = now();
         $kiosk->client_version = $request->input('client.version');
-        $kiosk->current_package = $request->input('package.name') . '@' . $request->input('package.version');
+        $kiosk->current_package = $request->input('running_package.name') . '@' . $request->input('running_package.version');
+
         $kiosk->save();
 
         if ($request->input('logs')) {
@@ -176,9 +206,6 @@ class KioskController extends Controller
         $kiosk = Kiosk::whereIdentifier($request->input('identifier'))
             ->firstOrFail()
         ;
-
-        $kiosk->last_seen_at = now();
-        $kiosk->save();
 
         return $kiosk;
     }

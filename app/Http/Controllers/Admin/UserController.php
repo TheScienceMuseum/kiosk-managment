@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\UserIndexRequest;
 use App\Http\Requests\UserShowRequest;
+use App\User;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -12,7 +13,7 @@ class UserController extends Controller
     {
         $users = app('App\Http\Controllers\Api\UserController')->index($request);
 
-        return view('admin.user.index', [
+        return view('admin.users.index', [
             'users' => $users,
             'filters' => (object) [
                 'roles' => array_pluck(Role::all(), 'name'),
@@ -24,8 +25,6 @@ class UserController extends Controller
     {
         $user = app('App\Http\Controllers\Api\UserController')->show($request, $user);
 
-        return view('admin.user.show', [
-            'user' => $user,
-        ]);
+        return view('admin.users.show', compact('user'));
     }
 }

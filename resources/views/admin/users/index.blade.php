@@ -6,13 +6,10 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between">
-                        Packages
+                        Users
                         <div class="btn-group btn-group-sm">
                             <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#collapsible-filters">
                                 Filters
-                            </button>
-                            <button class="btn btn-success" type="button" onclick="window.location = '/admin/packages/create'">
-                                Create
                             </button>
                         </div>
                     </div>
@@ -20,22 +17,20 @@
                         <form>
                             <div class="form-group row">
                                 <div class="col-lg mb-3">
-                                    <input type="text" class="form-control" name="filter[name]" placeholder="Kiosk Name" value="{{ request('filter.name') }}">
+                                    <input type="text" class="form-control" name="filter[name]" placeholder="Name" value="{{ request('filter.name') }}">
                                 </div>
 
                                 <div class="col-lg mb-3">
-
+                                    <input type="text" class="form-control" name="filter[email]" placeholder="Email" value="{{ request('filter.email') }}">
                                 </div>
 
                                 <div class="col-lg mb-3 align-middle">
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="filter-registered-true" name="filter[registered]" class="custom-control-input" value="true" @if(request('filter.registered') === 'true') checked @endif>
-                                        <label class="custom-control-label" for="filter-registered-true">Registered</label>
-                                    </div>
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="filter-registered-false" name="filter[registered]" class="custom-control-input" value="false" @if(request('filter.registered') === 'false') checked @endif>
-                                        <label class="custom-control-label" for="filter-registered-false">Unregistered</label>
-                                    </div>
+                                    <select class="custom-select" name="filter[role]">
+                                        <option value="">Filter by Role</option>
+                                        @foreach($filters->roles as $role)
+                                            <option value="{{ $role }}" @if(request('filter.role') === $role) selected @endif>{{ ucwords($role) }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 
@@ -51,18 +46,20 @@
                     </div>
                     <table class="table table-hover mb-0">
                         <tbody>
-                        @forelse($packages as $package)
+                        @forelse($users as $user)
                             <tr>
                                 <td>
-                                    <strong>{{ $package->name }}</strong>
+                                    <strong>{{ $user->name }}</strong>
                                     <br>
-                                    <small>Running on {{ count($package->kiosks) }} kiosks</small>
+                                    <small>{{ $user->email }}</small>
                                 </td>
-                                <td>
-
+                                <td class="text-uppercase align-middle">
+                                    @foreach($user->roles as $role)
+                                        <h5><span class="badge badge-info">{{ $role->name }}</span></h5>
+                                    @endforeach
                                 </td>
                                 <td class="text-right align-middle">
-                                    <a class="btn btn-sm btn-primary" href="{{ route('admin.package.show', $package) }}">
+                                    <a class="btn btn-sm btn-primary" href="{{ route('admin.users.show', $user) }}">
                                         View
                                     </a>
                                 </td>
@@ -75,7 +72,7 @@
                         </tbody>
                     </table>
                     <div class="card-footer">
-                        {{ $packages->links() }}
+                        {{ $users->links() }}
                     </div>
                 </div>
             </div>

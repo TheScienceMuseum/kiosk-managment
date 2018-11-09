@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Kiosk Management System') }}</title>
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
@@ -50,19 +50,19 @@
                         @else
                             @can('view all kiosks')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('admin.package') }}">{{ __('Packages') }}</a>
+                                    <a class="nav-link" href="{{ route('admin.packages') }}">{{ __('Packages') }}</a>
                                 </li>
                             @endcan
 
                             @can('view all kiosks')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('admin.kiosk') }}">{{ __('Kiosks') }}</a>
+                                    <a class="nav-link" href="{{ route('admin.kiosks') }}">{{ __('Kiosks') }}</a>
                                 </li>
                             @endcan
 
                             @can('view all users')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.user') }}">{{ __('Users') }}</a>
+                                <a class="nav-link" href="{{ route('admin.users') }}">{{ __('Users') }}</a>
                             </li>
                             @endcan
 
@@ -89,12 +89,14 @@
             </div>
         </nav>
 
-        @if(session('error'))
+        @if($errors->count())
         <div class="container pt-3">
             <div class="row">
                 <div class="col-12">
                     <div class="alert alert-danger">
-                        {{ session('error') }}
+                        @foreach ($errors->all() as $message)
+                            <span class="text-muted">{{ $message }}</span>
+                        @endforeach
                     </div>
                 </div>
             </div>
