@@ -20,8 +20,12 @@ class PackageVersionController extends Controller
      */
     public function store(Request $request, Package $package) : PackageVersionResource
     {
+        $previousVersion = PackageVersion::wherePackageId($package->id)->latest('version')->first();
+
         $packageVersion = $package->versions()->create([
             'version' => $package->versions()->count() === 0 ? 1 : $package->versions()->count() + 1,
+            'status' => 'draft',
+            'data' => $previousVersion ? $previousVersion->data : null,
         ]);
 
         return new PackageVersionResource($packageVersion);
