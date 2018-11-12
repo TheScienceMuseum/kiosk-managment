@@ -72,6 +72,25 @@ echo "$NGINX_CONFIGURATION" | sudo tee /etc/nginx/sites-enabled/default > /dev/n
 sudo mkdir -p /var/www/kiosk_manager
 sudo chown -R www-data:www-data /var/www/kiosk_manager
 
+# Create Supervisor config
+read -r -d '' SUPERVISORCONF <<-EOF
+[program:horizon]
+process_name=%(program_name)s
+command=php /var/www/kiosk_manager/artisan horizon
+autostart=true
+autorestart=true
+user=www-data
+redirect_stderr=true
+stdout_logfile=/var/www/kiosk_manager/storage/logs/horizon.log
+EOF
+
+echo "$SUPERVISORCONF" | sudo tee /etc/supervisor/conf.d/horizon.conf > /dev/null
+
+# reload and set up the horizon job
+supervisorctl reread
+supervisorctl reload
+supervisorctl restart horizon
+
 # Restart nginx for good times
 sudo service nginx restart
 

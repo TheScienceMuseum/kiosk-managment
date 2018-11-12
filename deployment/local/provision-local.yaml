@@ -16,6 +16,7 @@
   - php
   - webserver
   - headless-browser
+  - supervisord
 
   post_tasks:
   - name: ensure xdebug is installed
