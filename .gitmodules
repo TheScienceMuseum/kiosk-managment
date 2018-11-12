@@ -1,0 +1,3 @@
+[submodule "storage/app/kiosk-package-interface"]
+	path = storage/app/kiosk-package-interface
+	url = git@bitbucket.org:rckt/sciencemuseum-kiosks-interface.git
