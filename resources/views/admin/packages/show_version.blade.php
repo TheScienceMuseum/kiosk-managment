@@ -26,7 +26,7 @@
 
                                 @if ($version->status !== 'approved')
                                 <button class="btn btn-success" type="submit" name="status" value="draft">
-                                    Save
+                                    Save @if ($version->status !== 'draft') (will reset version to draft) @endif
                                 </button>
                                 @endif
                             </div>
