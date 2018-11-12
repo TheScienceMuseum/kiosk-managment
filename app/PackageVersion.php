@@ -30,6 +30,7 @@ class PackageVersion extends Model
     protected $fillable = [
         'version',
         'status',
+        'data',
     ];
 
     /**

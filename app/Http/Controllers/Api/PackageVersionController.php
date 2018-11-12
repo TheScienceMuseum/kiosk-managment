@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\PackageVersionShowRequest;
+use App\Http\Requests\PackageVersionUpdateRequest;
 use App\Http\Resources\PackageVersionResource;
 use App\Package;
 use App\PackageVersion;
@@ -9,16 +11,6 @@ use Illuminate\Http\Request;
 
 class PackageVersionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -38,23 +30,31 @@ class PackageVersionController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\PackageVersion  $packageVersion
-     * @return \Illuminate\Http\Response
+     * @param PackageVersionShowRequest $request
+     * @param Package $package
+     * @param  \App\PackageVersion $packageVersion
+     * @return PackageVersionResource
      */
-    public function show(PackageVersion $packageVersion)
+    public function show(PackageVersionShowRequest $request, Package $package, PackageVersion $packageVersion) : PackageVersionResource
     {
-        //
+        return new PackageVersionResource($packageVersion);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\PackageVersion  $packageVersion
-     * @return \Illuminate\Http\Response
+     * @param PackageVersionUpdateRequest $request
+     * @param Package $package
+     * @param  \App\PackageVersion $packageVersion
+     * @return PackageVersionResource
      */
-    public function update(Request $request, PackageVersion $packageVersion)
+    public function update(PackageVersionUpdateRequest $request, Package $package, PackageVersion $packageVersion) : PackageVersionResource
     {
-        //
+        $packageVersion->update([
+            'data' => $request->input('data'),
+            'status' => $request->input('status'),
+        ]);
+
+        return new PackageVersionResource($packageVersion);
     }
 }

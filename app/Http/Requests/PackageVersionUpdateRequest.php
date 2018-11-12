@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PackageVersionStoreRequest extends FormRequest
+class PackageVersionUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class PackageVersionStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'data' => 'required|json',
+            'status' => 'required|in:draft,pending,approved',
         ];
     }
 }
