@@ -36,6 +36,8 @@ Route::group([
             ->name('admin.packages');
         $router->get('packages/create', 'PackageController@create')
             ->name('admin.packages.create');
+        $router->post('packages', 'PackageController@store')
+            ->name('admin.packages.store');
         $router->get('packages/{package}', 'PackageController@show')
             ->name('admin.packages.show');
         $router->put('packages/{package}', 'PackageController@update')
