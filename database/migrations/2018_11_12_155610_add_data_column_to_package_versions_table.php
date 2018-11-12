@@ -14,7 +14,7 @@ class AddDataColumnToPackageVersionsTable extends Migration
     public function up()
     {
         Schema::table('package_versions', function (Blueprint $table) {
-            $table->json('data');
+            $table->json('data')->nullable();
         });
     }
 
