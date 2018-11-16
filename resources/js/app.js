@@ -13,3 +13,9 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+(function() {
+    $('.submitsApprovalForm').on('click', function (ev) {
+        var $target = $(ev.currentTarget);
+        $target.parent().parent().find('form').submit();
+    });
+})();
