@@ -94,6 +94,36 @@ return [
                 'processes' => 10,
                 'tries' => 3,
             ],
+            'supervisor-long-running' => [
+                'connection' => 'redis-long-running',
+                'queue' => [
+                    'long-running'
+                ],
+                'balance' => 'simple',
+                'processes' => 3,
+                'tries' => 1,
+                'timeout' => 1800,
+            ],
+        ],
+
+        'staging' => [
+            'supervisor-1' => [
+                'connection' => 'redis',
+                'queue' => ['default'],
+                'balance' => 'simple',
+                'processes' => 3,
+                'tries' => 3,
+            ],
+            'supervisor-long-running' => [
+                'connection' => 'redis-long-running',
+                'queue' => [
+                    'long-running'
+                ],
+                'balance' => 'simple',
+                'processes' => 3,
+                'tries' => 1,
+                'timeout' => 1800,
+            ],
         ],
 
         'local' => [
@@ -103,6 +133,16 @@ return [
                 'balance' => 'simple',
                 'processes' => 3,
                 'tries' => 3,
+            ],
+            'supervisor-long-running' => [
+                'connection' => 'redis-long-running',
+                'queue' => [
+                    'long-running'
+                ],
+                'balance' => 'simple',
+                'processes' => 3,
+                'tries' => 1,
+                'timeout' => 1800,
             ],
         ],
     ],
