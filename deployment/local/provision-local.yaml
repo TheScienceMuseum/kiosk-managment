@@ -11,6 +11,7 @@
     include_vars: "./vars-{{ deploy_environment }}.yaml"
 
   roles:
+  - nodejs
   - cache
   - database
   - php

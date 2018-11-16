@@ -91,6 +91,11 @@ supervisorctl reread
 supervisorctl reload
 supervisorctl restart horizon
 
+# setup nodejs and yarn
+curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+sudo apt-get install -y nodejs build-essential
+sudo npm install -g yarn
+
 # Restart nginx for good times
 sudo service nginx restart
 
