@@ -11,11 +11,13 @@
     include_vars: "./vars-{{ deploy_environment }}.yaml"
 
   roles:
+  - nodejs
   - cache
   - database
   - php
   - webserver
   - headless-browser
+  - supervisord
 
   post_tasks:
   - name: ensure xdebug is installed

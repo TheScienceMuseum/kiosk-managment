@@ -36,10 +36,21 @@ Route::group([
             ->name('admin.packages');
         $router->get('packages/create', 'PackageController@create')
             ->name('admin.packages.create');
+        $router->post('packages', 'PackageController@store')
+            ->name('admin.packages.store');
         $router->get('packages/{package}', 'PackageController@show')
             ->name('admin.packages.show');
-        $router->put('packages/{package}', 'PackageController@update')
-            ->name('admin.packages.update');
+
+        $router->post('packages/{package}/version', 'PackageVersionController@store')
+            ->name('admin.packages.versions.store');
+        $router->get('packages/{package}/version/{packageVersion}', 'PackageVersionController@show')
+            ->name('admin.packages.versions.show');
+        $router->put('packages/{package}/version/{packageVersion}', 'PackageVersionController@update')
+            ->name('admin.packages.versions.update');
+        $router->get('packages/{package}/version/{packageVersion}/download', 'PackageVersionController@download')
+            ->name('admin.packages.versions.download');
+        $router->post('packages/{package}/version/{packageVersion}/approve', 'PackageVersionController@approve')
+            ->name('admin.packages.versions.approve');
 
         $router->get('kiosks', 'KioskController@index')
             ->name('admin.kiosks');

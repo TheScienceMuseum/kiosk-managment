@@ -50,19 +50,19 @@
                         @else
                             @can('view all kiosks')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('admin.packages') }}">{{ __('Packages') }}</a>
+                                    <a class="nav-link" href="{{ route('admin.packages') }}">{{ __('packages.title') }}</a>
                                 </li>
                             @endcan
 
                             @can('view all kiosks')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('admin.kiosks') }}">{{ __('Kiosks') }}</a>
+                                    <a class="nav-link" href="{{ route('admin.kiosks') }}">{{ __('kiosks.title') }}</a>
                                 </li>
                             @endcan
 
                             @can('view all users')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.users') }}">{{ __('Users') }}</a>
+                                <a class="nav-link" href="{{ route('admin.users') }}">{{ __('users.title') }}</a>
                             </li>
                             @endcan
 

@@ -40,8 +40,8 @@
                                         <label class="col-sm-4 col-form-label">Allocated Package</label>
                                         <div class="col-sm-8">
                                             <select class="custom-select" name="assigned_package_version">
+                                                <option value="" selected>No Package Version Assigned</option>
                                                 @forelse($approvedPackageVersions as $package => $packageVersions)
-                                                    <option value="" selected>No Package Version Assigned</option>
                                                     <optgroup label="{{ $package }}">
                                                         @foreach($packageVersions as $version)
                                                             <option value="{{ $version->id }}"

@@ -26,7 +26,7 @@ class PackageStoreRequest extends FormRequest
     {
         return [
             // @TODO: ensure that only package names with alpha chars are allowed
-            'name' => 'required|string|unique:packages',
+            'name' => 'required|alpha_num|string|unique:packages',
         ];
     }
 }

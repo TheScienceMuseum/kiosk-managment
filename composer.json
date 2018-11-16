@@ -6,12 +6,13 @@
     "type": "project",
     "require": {
         "php": "^7.2",
-        "ext-json": "*",
         "ext-gd": "*",
+        "ext-json": "*",
         "bacon/bacon-qr-code": "1.0.3",
         "doctrine/dbal": "^2.8",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
+        "laravel/horizon": "^1.4",
         "laravel/passport": "^7.0",
         "laravel/tinker": "^1.0",
         "mpociot/laravel-apidoc-generator": "^2.1",
@@ -55,7 +56,7 @@
     },
     "scripts": {
         "test": "./vendor/bin/phpunit && php artisan dusk",
-        "dev-reset-environment": "php artisan migrate:refresh && php artisan db:seed && php artisan passport:install > passport.log",
+        "dev-reset-environment": "php artisan migrate:refresh && php artisan db:seed && php artisan db:seed --class TestDatabaseSeeder && php artisan passport:install > passport.log",
         "dev-documents-update": "php artisan api:generate --routePrefix=\"api/*\" --output=\"./docs/\" --actAsUserId=1 --bindings user,1",
         "dev-ide-helper": "php artisan ide-helper:generate && php artisan ide-helper:model --write --reset && php artisan ide-helper:meta",
         "post-root-package-install": [

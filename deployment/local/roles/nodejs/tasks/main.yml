@@ -1,0 +1,23 @@
+---
+- name: get the nodesource setup script
+  get_url:
+    url: https://deb.nodesource.com/setup_11.x
+    dest: /home/vagrant/nodesource.sh
+    mode: 0744
+
+- name: run the nodesource setup script
+  command: bash /home/vagrant/nodesource.sh
+
+- name: ensure nodejs is installed
+  apt:
+    name: nodejs
+
+- name: ensure build-essentials is installed
+  apt:
+    name: build-essential
+
+- name: ensure yarn is installed
+  npm:
+    name: yarn
+    global: yes
+    state: present

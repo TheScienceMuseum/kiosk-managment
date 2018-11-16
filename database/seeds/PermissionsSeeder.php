@@ -13,6 +13,11 @@ class PermissionsSeeder extends Seeder
      */
     public function run()
     {
+        // Backend Permissions
+        $perm_view_queue_dashboard = Permission::create(['name' => 'view queue dashboard']);
+
+        $perm_group_backend = [$perm_view_queue_dashboard];
+
         // User Permissions
         $perm_create_new_users = Permission::create(['name' => 'create new users']);
         $perm_view_all_users = Permission::create(['name' => 'view all users']);

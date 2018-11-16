@@ -1,0 +1,14 @@
+---
+- name: install supervisord
+  apt:
+    name: supervisor
+
+- name: create horizon configuration
+  template:
+    src: ./templates/horizon-supervisor.conf
+    dest: /etc/supervisor/conf.d/horizon.conf
+
+- name: reread and reload the horizon configuration
+  supervisorctl:
+    name: horizon
+    state: restarted

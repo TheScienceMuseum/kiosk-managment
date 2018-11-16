@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\PackageIndexRequest;
+use App\Http\Requests\PackageStoreRequest;
 use App\Package;
 
 class PackageController extends Controller
@@ -22,6 +23,13 @@ class PackageController extends Controller
     public function create(\Request $request)
     {
         return view('admin.packages.create');
+    }
+
+    public function store(PackageStoreRequest $request)
+    {
+        $package = app('App\Http\Controllers\Api\PackageController')->store($request);
+
+        return redirect(route('admin.packages.show', [$package]));
     }
 
     public function show(\Request $request, Package $package)
