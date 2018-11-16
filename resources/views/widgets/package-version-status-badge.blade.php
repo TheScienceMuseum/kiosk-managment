@@ -11,6 +11,10 @@
         <span class="badge badge-secondary">
     @break
 
+    @case('failed')
+        <span class="badge badge-danger">
+    @break
+
 @endswitch
     {{ $status }}
 </span>

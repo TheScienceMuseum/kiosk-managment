@@ -47,6 +47,10 @@ Route::group([
             ->name('admin.packages.versions.show');
         $router->put('packages/{package}/version/{packageVersion}', 'PackageVersionController@update')
             ->name('admin.packages.versions.update');
+        $router->get('packages/{package}/version/{packageVersion}/download', 'PackageVersionController@download')
+            ->name('admin.packages.versions.download');
+        $router->post('packages/{package}/version/{packageVersion}/approve', 'PackageVersionController@approve')
+            ->name('admin.packages.versions.approve');
 
         $router->get('kiosks', 'KioskController@index')
             ->name('admin.kiosks');

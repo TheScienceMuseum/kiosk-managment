@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\PackageVersionSubmittedForApproval;
 use App\Http\Requests\PackageVersionShowRequest;
 use App\Http\Requests\PackageVersionUpdateRequest;
 use App\Http\Resources\PackageVersionResource;
+use App\Jobs\BuildPackage;
+use App\Jobs\BuildPackageFromVersion;
 use App\Package;
 use App\PackageVersion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PackageVersionController extends Controller
 {
@@ -54,10 +58,17 @@ class PackageVersionController extends Controller
      */
     public function update(PackageVersionUpdateRequest $request, Package $package, PackageVersion $packageVersion) : PackageVersionResource
     {
+        $currentVersion = (object) $packageVersion->toArray();
+
         $packageVersion->update([
             'data' => $request->input('data'),
             'status' => $request->input('status'),
         ]);
+
+        if ($request->input('status') === 'pending' && $currentVersion->status === 'draft') {
+            // The package has been submitted for approval, triggering event
+            event(new PackageVersionSubmittedForApproval($packageVersion));
+        }
 
         return new PackageVersionResource($packageVersion);
     }

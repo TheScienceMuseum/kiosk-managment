@@ -31,11 +31,11 @@
 
                                 <div class="col-lg mb-3 align-middle">
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="filter-registered-true" name="filter[registered]" class="custom-control-input" value="true" @if(request('filter.registered') === 'true') checked @endif>
+                                        <input type="radio" id="filter-registered-true" name="filter[registered]" class="custom-control-input" value="1" @if(request('filter.registered') === '1') checked @endif>
                                         <label class="custom-control-label" for="filter-registered-true">Registered</label>
                                     </div>
                                     <div class="custom-control custom-radio custom-control-inline">
-                                        <input type="radio" id="filter-registered-false" name="filter[registered]" class="custom-control-input" value="false" @if(request('filter.registered') === 'false') checked @endif>
+                                        <input type="radio" id="filter-registered-false" name="filter[registered]" class="custom-control-input" value="0" @if(request('filter.registered') === '0') checked @endif>
                                         <label class="custom-control-label" for="filter-registered-false">Unregistered</label>
                                     </div>
                                 </div>

@@ -14,7 +14,7 @@
                             @method('put')
 
                             <div class="form-group">
-                                <textarea class="form-control" name="data" rows="20">{{ $version->data }}</textarea>
+                                <textarea class="form-control" name="data" rows="20" @if($version->status === 'approved') disabled @endif>{{ $version->data }}</textarea>
                             </div>
 
                             <div class="form-group text-right">

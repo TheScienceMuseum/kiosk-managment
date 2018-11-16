@@ -20,6 +20,10 @@ class PackageVersionController extends Controller
 
     public function show(PackageVersionShowRequest $request, Package $package, PackageVersion $packageVersion)
     {
+        if ($packageVersion->status !== 'draft' && $packageVersion->progress < 100) {
+            return redirect(route('admin.packages.show', [$package]))->withErrors('Cannot edit a package that is being built.');
+        }
+
         $version = app('App\Http\Controllers\Api\PackageVersionController')->show($request, $package, $packageVersion);
 
         return view('admin.packages.show_version', compact('version'));
@@ -27,8 +31,26 @@ class PackageVersionController extends Controller
 
     public function update(PackageVersionUpdateRequest $request, Package $package, PackageVersion $packageVersion)
     {
-        $version = app('App\Http\Controllers\Api\PackageVersionController')->update($request, $package, $packageVersion);
+        app('App\Http\Controllers\Api\PackageVersionController')->update($request, $package, $packageVersion);
 
-        return view('admin.packages.show_version', compact('version'));
+        return redirect(route('admin.packages.show', [$package]));
+    }
+
+    public function download(\Request $request, Package $package, PackageVersion $packageVersion)
+    {
+        if ($packageVersion->archive_path_exists) {
+            return response()->download($packageVersion->archive_path);
+        }
+
+        return abort(404);
+    }
+
+    public function approve(\Request $request, Package $package, PackageVersion $packageVersion)
+    {
+        $packageVersion->update([
+            'status' => 'approved',
+        ]);
+
+        return redirect(route('admin.packages.show', [$package]));
     }
 }
