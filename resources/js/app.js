@@ -20,9 +20,12 @@ require('./bootstrap');
     });
 })();
 
-window.checkCurrentUserPermissions = function(permissionToCheck) {
-    const window = document.defaultView;
-    const currentUserPermissions = window.current_user.permissions.map(permission => permission.name);
-    return window._.includes(currentUserPermissions, permissionToCheck)
+window.user = {
+    permissions: current_user.permissions.map(permission => permission.name),
 
+    can: function(permissionToCheck = null) {
+        return _.includes(this.permissions, permissionToCheck);
+    }
 };
+
+// require('./components/Example');
