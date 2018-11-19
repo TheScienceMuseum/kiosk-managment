@@ -132,6 +132,16 @@
                 echo json_encode($trans);
                 ?>,
         };
+
+        @guest
+            window.current_user = null;
+        @else
+            window.current_user = {
+                permissions: <?php
+                    echo Auth::user()->getAllPermissions();
+                ?>
+            };
+        @endguest
     </script>
 </body>
 </html>
