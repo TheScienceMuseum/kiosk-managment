@@ -20,7 +20,7 @@ class PackageVersionController extends Controller
 
     public function show(PackageVersionShowRequest $request, Package $package, PackageVersion $packageVersion)
     {
-        if ($packageVersion->status !== 'draft' && $packageVersion->progress < 100) {
+        if (!in_array($packageVersion->status, ['draft', 'failed']) && $packageVersion->progress < 100) {
             return redirect(route('admin.packages.show', [$package]))->withErrors('Cannot edit a package that is being built.');
         }
 
