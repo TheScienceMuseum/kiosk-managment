@@ -63,15 +63,11 @@ class BuildPackageFromVersion implements ShouldQueue
             $this->updateProgress($this->packageVersion, 1);
 
             // clone
-            $this->updateProgress($this->packageVersion, 14);
+            $this->updateProgress($this->packageVersion, 20);
             File::copyDirectory($this->getDisk()->path('kiosk-package-interface'), $this->getDisk()->path($this->buildDirectory));
 
-            // install deps
-            $this->updateProgress($this->packageVersion, 28);
-            $this->createProcess(['yarn', 'install'], $this->buildDirectory)->mustRun();
-
             // import package data
-            $this->updateProgress($this->packageVersion, 42);
+            $this->updateProgress($this->packageVersion, 40);
             $packageData = array_merge(json_decode($this->packageVersion->data, true), [
                 'name' => $this->packageVersion->package->name,
                 'version' => (int)$this->packageVersion->version,
@@ -79,17 +75,13 @@ class BuildPackageFromVersion implements ShouldQueue
 
             $this->getDisk()->put($this->buildDirectory . '/public/manifest.json', json_encode($packageData));
 
-            // build package
-            $this->updateProgress($this->packageVersion, 56);
-            $this->createProcess(['yarn', 'build'], $this->buildDirectory)->mustRun();
-
             // compress package
-            $this->updateProgress($this->packageVersion, 70);
+            $this->updateProgress($this->packageVersion, 60);
             $archiveFilename = $this->packageVersion->package->name . '_' . $this->packageVersion->version . '.package';
-            $this->createProcess(['tar', '-czvf', '../' . $archiveFilename, '.'], $this->buildDirectory . '/build')->mustRun();
+            $this->createProcess(['tar', '-czvf', $archiveFilename, '.'], $this->buildDirectory)->mustRun();
 
             // copy the package
-            $this->updateProgress($this->packageVersion, 84);
+            $this->updateProgress($this->packageVersion, 80);
             $this->getDisk()->delete('public/packages/' . $archiveFilename);
             $this->getDisk()->copy($this->buildDirectory . '/' . $archiveFilename, 'public/packages/' . $archiveFilename);
 

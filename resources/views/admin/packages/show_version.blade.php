@@ -18,7 +18,7 @@
                             </div>
 
                             <div class="form-group text-right">
-                                @if ($version->status === 'draft')
+                                @if (in_array($version->status, ['draft', 'failed']))
                                 <button class="btn btn-secondary" type="submit" name="status" value="pending">
                                     Submit For Approval
                                 </button>

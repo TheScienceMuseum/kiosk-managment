@@ -27,7 +27,7 @@
                                 {{ __('packages.running_on', ['count' => $version->kiosks->count()]) }}
                             </td>
                             <td class="w-25 align-middle text-right">
-                                @if ($version->status !== 'draft' && $version->progress < 100)
+                                @if (!in_array($version->status, ['draft', 'failed']) && $version->progress < 100)
                                     <div class="progress" title="Progress of package build">
                                         <div class="progress-bar bg-secondary progress-bar-striped progress-bar-animated"
                                              role="progressbar"
@@ -51,6 +51,11 @@
                                         <a class="btn btn-secondary" href="{{ route('admin.packages.versions.download', [$package, $version]) }}">
                                             {{ __('packages.download_version') }}
                                         </a>
+                                        @endif
+                                        @if($version->status === 'failed')
+                                            <a class="btn btn-secondary text-light submitsApprovalForm">
+                                                {{ __('packages.force_rebuild') }}
+                                            </a>
                                         @endif
                                         <a class="btn btn-info" href="{{ route('admin.packages.versions.show', [$package, $version]) }}">
                                             {{ __('packages.view_version') }}

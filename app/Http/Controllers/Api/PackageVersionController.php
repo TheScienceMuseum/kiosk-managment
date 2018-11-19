@@ -65,7 +65,7 @@ class PackageVersionController extends Controller
             'status' => $request->input('status'),
         ]);
 
-        if ($request->input('status') === 'pending' && $currentVersion->status === 'draft') {
+        if ($request->input('status') === 'pending' && in_array($currentVersion->status,  ['draft', 'failed'])) {
             // The package has been submitted for approval, triggering event
             event(new PackageVersionSubmittedForApproval($packageVersion));
         }
