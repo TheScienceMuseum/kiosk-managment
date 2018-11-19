@@ -19,3 +19,10 @@ require('./bootstrap');
         $target.parent().parent().find('form').submit();
     });
 })();
+
+window.checkCurrentUserPermissions = function(permissionToCheck) {
+    const window = document.defaultView;
+    const currentUserPermissions = window.current_user.permissions.map(permission => permission.name);
+    return window._.includes(currentUserPermissions, permissionToCheck)
+
+};
