@@ -20,12 +20,8 @@ require('./bootstrap');
     });
 })();
 
-window.user = {
-    permissions: current_user.permissions.map(permission => permission.name),
+window.user = require('./helpers').user;
 
-    can: function(permissionToCheck = null) {
-        return _.includes(this.permissions, permissionToCheck);
-    }
-};
+window.translate = require('./helpers').translate;
 
 // require('./components/Example');
