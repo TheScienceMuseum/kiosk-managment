@@ -62,7 +62,7 @@
 
                             @can('view all users')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.users') }}">{{ __('users.title') }}</a>
+                                <a class="nav-link" href="/admin/users">{{ __('users.title') }}</a>
                             </li>
                             @endcan
 

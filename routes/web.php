@@ -27,8 +27,6 @@ Route::group([
         'namespace' => 'Admin',
         'prefix' => 'admin',
     ], function (\Illuminate\Routing\Router $router) {
-        $router->get('users', 'UserController@index')
-            ->name('admin.users');
         $router->get('users/{user}', 'UserController@show')
             ->name('admin.users.show');
 
