@@ -22,7 +22,8 @@ definitions:
     caches:
     - node
     script:
-    - npm install -g yarn
+    - npm install -g yarn cross-env
+    - yarn install
     - yarn run prod
 
   unit-tests: &unit-tests
