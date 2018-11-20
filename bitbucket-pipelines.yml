@@ -78,6 +78,7 @@ pipelines:
     - step: *browser-tests
 
   branches:
+    develop:
     - parallel:
       - step: *setup-test-environment
       - step: *build-assets
