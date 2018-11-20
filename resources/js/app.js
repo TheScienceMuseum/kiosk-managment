@@ -19,3 +19,5 @@ require('./bootstrap');
         $target.parent().parent().find('form').submit();
     });
 })();
+
+require('./components/App');
