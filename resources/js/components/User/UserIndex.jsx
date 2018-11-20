@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import api from '../../api';
 
 class UserIndex extends Component {
     constructor() {
@@ -9,7 +10,8 @@ class UserIndex extends Component {
     };
 
     componentDidMount() {
-
+       api.userIndex()
+           .then(({data}) => this.setState({users: data}))
     }
 
 
