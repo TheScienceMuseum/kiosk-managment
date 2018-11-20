@@ -1,9 +1,6 @@
 node_modules/
 /public/hot
 /public/storage
-/public/css/*
-/public/js/*
-/public/images/*
 /storage/*.key
 /vendor
 /docs
@@ -17,3 +14,10 @@ Homestead.yaml
 .phpunit.result.cache
 .DS_Store
 *.retry
+!.gitkeep
+
+# keep the built asset folders, but not the files
+/public/css/*
+/public/js/*
+/public/images/*
+/public/mix-manifest.json
