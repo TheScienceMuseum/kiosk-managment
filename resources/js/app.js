@@ -19,9 +19,3 @@ require('./bootstrap');
         $target.parent().parent().find('form').submit();
     });
 })();
-
-window.user = require('./helpers').user;
-
-window.translate = require('./helpers').translate;
-
-// require('./components/Example');

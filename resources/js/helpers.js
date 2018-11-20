@@ -6,6 +6,6 @@ exports.user = {
     }
 };
 
-exports.translate = (shortString) => {
+exports.trans = (shortString) => {
     return _.get(window.application_config.translations, shortString, shortString);
 };
