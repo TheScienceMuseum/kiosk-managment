@@ -16,6 +16,18 @@ definitions:
     - ln -f -s .env.pipelines .env
     - ./composer.phar install --ignore-platform-reqs
 
+  build-assets: &build-assets
+    name: build frontend assets
+    image: node:11
+    caches:
+    - node
+    script:
+    - npm install -g yarn cross-env
+    - yarn install
+    - yarn run prod
+    artifacts:
+    - public/**
+
   unit-tests: &unit-tests
     name: unit-tests
     caches:
@@ -58,6 +70,7 @@ definitions:
 pipelines:
   default:
   - step: *setup-test-environment
+  - step: *build-assets
   - parallel:
     - step: *unit-tests
     - step: *feature-tests
@@ -66,6 +79,7 @@ pipelines:
   branches:
     develop:
     - step: *setup-test-environment
+    - step: *build-assets
     - parallel:
       - step: *unit-tests
       - step: *feature-tests
@@ -80,6 +94,7 @@ pipelines:
 
     master:
     - step: *setup-test-environment
+    - step: *build-assets
     - parallel:
       - step: *unit-tests
       - step: *feature-tests
