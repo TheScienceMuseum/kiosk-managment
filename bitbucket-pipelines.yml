@@ -25,6 +25,8 @@ definitions:
     - npm install -g yarn cross-env
     - yarn install
     - yarn run prod
+    artifacts:
+    - public/**
 
   unit-tests: &unit-tests
     name: unit-tests
