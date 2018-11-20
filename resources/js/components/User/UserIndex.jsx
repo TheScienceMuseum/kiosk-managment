@@ -129,7 +129,7 @@ class UserIndex extends Component {
             filter: {
                 name: '',
                 email: '',
-                role: 'Select'
+                role: 'Any'
             }
         });
     };
