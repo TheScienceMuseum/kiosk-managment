@@ -10,6 +10,7 @@ return [
     'view_version' => 'View Version',
     'download_version' => 'Download Version',
     'approve_version' => 'Approve Version',
+    'force_rebuild' => 'Rebuild Version',
     'running_on' => 'Running on :count kiosks'
 
 ];
