@@ -69,17 +69,18 @@ definitions:
 
 pipelines:
   default:
-  - step: *setup-test-environment
-  - step: *build-assets
+  - parallel:
+    - step: *setup-test-environment
+    - step: *build-assets
   - parallel:
     - step: *unit-tests
     - step: *feature-tests
     - step: *browser-tests
 
   branches:
-    develop:
-    - step: *setup-test-environment
-    - step: *build-assets
+    - parallel:
+      - step: *setup-test-environment
+      - step: *build-assets
     - parallel:
       - step: *unit-tests
       - step: *feature-tests
@@ -93,8 +94,9 @@ pipelines:
         - aws deploy create-deployment --application-name $APPLICATION_NAME --s3-location bucket=$S3_BUCKET,key=$BITBUCKET_COMMIT,bundleType=zip --deployment-group-name="Staging"
 
     master:
-    - step: *setup-test-environment
-    - step: *build-assets
+    - parallel:
+      - step: *setup-test-environment
+      - step: *build-assets
     - parallel:
       - step: *unit-tests
       - step: *feature-tests
