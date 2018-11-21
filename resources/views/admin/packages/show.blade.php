@@ -38,24 +38,30 @@
                                         ></div>
                                     </div>
                                 @else
-                                    <form class="d-none" action="{{ route('admin.packages.versions.approve', [$package, $version]) }}" method="post">
+                                    <form class="d-none approvalForm" action="{{ route('admin.packages.versions.approve', [$package, $version]) }}" method="post">
                                         @csrf
+                                    </form>
+                                    <form class="d-none forcedRebuildForm" action="{{ route('admin.packages.versions.update', [$package, $version]) }}" method="post">
+                                        @csrf
+                                        @method('put')
+                                        <input type="text" name="data" value="{{ $version->data }}">
+                                        <input type="text" name="status" value="pending">
                                     </form>
                                     <div class="btn-group btn-group-sm">
                                         @if($version->status === 'pending')
-                                        <a class="btn btn-success submitsApprovalForm">
+                                        <a class="btn btn-success submitsForm" data-target="approvalForm">
                                             {{ __('packages.approve_version') }}
                                         </a>
+                                        @endif
+                                        @if($version->status === 'failed')
+                                            <a class="btn btn-secondary text-light submitsForm" data-target="forcedRebuildForm">
+                                                {{ __('packages.force_rebuild') }}
+                                            </a>
                                         @endif
                                         @if($version->archive_path_exists)
                                         <a class="btn btn-secondary" href="{{ route('admin.packages.versions.download', [$package, $version]) }}">
                                             {{ __('packages.download_version') }}
                                         </a>
-                                        @endif
-                                        @if($version->status === 'failed')
-                                            <a class="btn btn-secondary text-light submitsApprovalForm">
-                                                {{ __('packages.force_rebuild') }}
-                                            </a>
                                         @endif
                                         <a class="btn btn-info" href="{{ route('admin.packages.versions.show', [$package, $version]) }}">
                                             {{ __('packages.view_version') }}

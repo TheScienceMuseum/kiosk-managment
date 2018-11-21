@@ -14,9 +14,13 @@ require('./bootstrap');
  */
 
 (function() {
-    $('.submitsApprovalForm').on('click', function (ev) {
-        var $target = $(ev.currentTarget);
-        $target.parent().parent().find('form').submit();
+    $('.submitsForm').on('click', function (ev) {
+        const $target = $(ev.currentTarget);
+        const $targetForm = $target.parent()
+            .parent()
+            .find(`form.${$target.data('target')}`);
+
+        $targetForm.submit();
     });
 })();
 
