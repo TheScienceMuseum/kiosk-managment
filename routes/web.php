@@ -22,7 +22,9 @@ Route::group([
 
     $router->get('/', 'HomeController@index')
         ->name('home');
-
+    $router->get('/logout', function() {
+        return redirect('home');
+    });
     $router->group([
         'namespace' => 'Admin',
         'prefix' => 'admin',

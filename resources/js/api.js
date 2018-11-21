@@ -8,4 +8,8 @@ exports.userIndex = () => {
 exports.userRoleIndex = () => {
     return axios.get('/api/user/role')
         .then(({data}) => data);
-}
+};
+
+exports.userLogout = () => {
+    return axios.post('/logout');
+};
