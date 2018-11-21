@@ -24,6 +24,36 @@
     {{--@endif--}}
 </head>
 <body>
-    @yield('content')
+    <main>
+        @yield('content')
+    </main>
+
+    <script>
+        window.application_config = {
+            translations: <?php
+            // copy all translations from /resources/lang/CURRENT_LOCALE/* to global JS variable
+            $lang_files = File::files(resource_path() . '/lang/' . app()->getLocale());
+            $trans = [];
+            foreach ($lang_files as $f) {
+                $filename = pathinfo($f)['filename'];
+                $trans[$filename] = trans($filename);
+            }
+            echo json_encode($trans);
+            ?>,
+        };
+
+        @guest
+            window.current_user = null;
+        @else
+            window.current_user = {
+            permissions: <?php
+            echo json_encode(Auth::user()->getAllPermissions());
+            ?>,
+            name: <?php
+            echo json_encode(Auth::user()->name);
+            ?>
+        };
+        @endguest
+    </script>
 </body>
 </html>

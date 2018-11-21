@@ -31,8 +31,7 @@ class UserIndex extends Component {
            });
 
     }
-
-
+    
     render() {
         let { users } = this.state;
         const { roles, filter } = this.state;
