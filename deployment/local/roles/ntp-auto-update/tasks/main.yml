@@ -6,7 +6,7 @@
   - ntpdate
   - ntp
 
-- name: ensure ntpdate is installed
+- name: ensure network time update cron job is set up
   cron:
     name: network time updater
     minute: 5
