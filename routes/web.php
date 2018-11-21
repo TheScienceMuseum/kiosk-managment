@@ -50,8 +50,6 @@ Route::group([
         $router->post('packages/{package}/version/{packageVersion}/approve', 'PackageVersionController@approve')
             ->name('admin.packages.versions.approve');
 
-        $router->get('kiosks/{kiosk}', 'KioskController@show')
-            ->name('admin.kiosks.show');
         $router->put('kiosks/{kiosk}', 'KioskController@update')
             ->name('admin.kiosks.update');
     });

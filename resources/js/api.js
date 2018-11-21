@@ -22,4 +22,9 @@ exports.userShow = (id) => {
 exports.kioskIndex = () => {
     return axios.get('/api/kiosk')
         .then(({data}) => data);
+};
+
+exports.kioskShow = (id) => {
+    return axios.get(`/api/kiosk/${id}`)
+        .then(({data}) => data);
 }

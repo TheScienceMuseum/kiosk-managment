@@ -9,6 +9,9 @@ return [
     'location' => 'Location',
     'any' => 'Any',
     'view' => 'View',
-    'location' => 'Location'
+    'delete' => 'Delete Kiosk',
+    'edit' => 'Edit Kiosk',
+    'tag' => 'Asset Tag',
+    'identifier' => 'Identifier',
 
 ];
