@@ -31,7 +31,6 @@ definitions:
     name: unit-tests
     caches:
     - composer
-    - vendor
     script:
     - ln -f -s .env.pipelines .env
     - ./vendor/bin/phpunit --filter Unit --log-junit ./test-reports/junit.xml
@@ -42,7 +41,6 @@ definitions:
     name: feature-tests
     caches:
     - composer
-    - vendor
     script:
     - apt-get update && apt-get install -qy git
     - ln -f -s .env.pipelines .env
@@ -54,7 +52,6 @@ definitions:
     name: browser-tests
     caches:
     - composer
-    - vendor
     script:
     - apt-get update && apt-get install -qy git curl unzip chromium-driver libpng-dev
     - docker-php-ext-install gd
