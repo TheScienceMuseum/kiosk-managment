@@ -13,3 +13,8 @@ exports.userRoleIndex = () => {
 exports.userLogout = () => {
     return axios.post('/logout');
 };
+
+exports.userShow = (id) => {
+    return axios.get(`/api/user/${id}`)
+        .then(({data}) => data);
+};

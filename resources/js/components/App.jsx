@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import UserIndex from './User/UserIndex';
+import UserShow from './User/UserShow';
 import {BrowserRouter, Route} from 'react-router-dom';
 import NavigationBar from "./NavigationBar";
 
@@ -10,6 +11,7 @@ export default class App extends Component {
             <div className="App">
                 <NavigationBar />
                 <Route exact path='/admin/users' component={UserIndex} />
+                <Route path='/admin/users/:user_id' render={({match}) => <UserShow match={match} />} />
             </div>
 
         );

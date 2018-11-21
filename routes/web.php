@@ -29,8 +29,8 @@ Route::group([
         'namespace' => 'Admin',
         'prefix' => 'admin',
     ], function (\Illuminate\Routing\Router $router) {
-        $router->get('users/{user}', 'UserController@show')
-            ->name('admin.users.show');
+//        $router->get('users/{user}', 'UserController@show')
+//            ->name('admin.users.show');
 
         $router->get('packages', 'PackageController@index')
             ->name('admin.packages');

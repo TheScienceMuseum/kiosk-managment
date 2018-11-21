@@ -16,4 +16,6 @@ return [
     'tech_admin' => 'Tech Admin',
     'content_author' => 'Content Author',
     'content_editor' => 'Content Editor',
+    'delete' => 'Delete User',
+    'edit' => 'Edit User',
 ];
