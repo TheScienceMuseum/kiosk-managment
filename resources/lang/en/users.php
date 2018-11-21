@@ -9,6 +9,7 @@ return [
     'email' => 'Email',
     'role' => 'Role',
     'any' => 'Any',
+    'create' => 'Create New User',
     'reset' => 'Reset Filters',
     'developer' => 'Developer',
     'admin' => 'Admin',

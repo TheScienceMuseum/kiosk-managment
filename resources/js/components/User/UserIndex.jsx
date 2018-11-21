@@ -31,7 +31,7 @@ class UserIndex extends Component {
            });
 
     }
-    
+
     render() {
         let { users } = this.state;
         const { roles, filter } = this.state;
@@ -44,12 +44,15 @@ class UserIndex extends Component {
         });
 
         return (
-            <Container>
+            <Container className="py-4">
                 <Card>
                     <CardHeader>
                         <Row>
                             <Col><h4>{trans('users.title')}</h4></Col>
-                            <Col><Button className="float-right" onClick={this.filterToggle} color="dark">{trans('users.filter')}</Button></Col>
+                            <Col className="d-flex justify-content-end">
+                                <Button className="mr-3" color="success">{trans('users.create')}</Button>
+                                <Button onClick={this.filterToggle} color="dark">{trans('users.filter')}</Button>
+                            </Col>
                         </Row>
                     </CardHeader>
                         <Collapse isOpen={this.state.filterToggle}>
