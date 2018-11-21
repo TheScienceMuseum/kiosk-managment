@@ -10,7 +10,7 @@ class KioskIndex extends Component {
         toggleFilter: false,
         filter: {
             name: '',
-            location: '',
+            location: trans('kiosks.any')
         }
     };
 
@@ -21,8 +21,13 @@ class KioskIndex extends Component {
     }
 
     render() {
-        const {kiosks} = this.state;
+        let {kiosks} = this.state;
+        const {filter} = this.state;
         const locations = kiosks.map(kiosk => kiosk.location);
+
+        if (filter.name) kiosks = kiosks.filter(kiosk => kiosk.name.includes(filter.name));
+        if (filter.location !== trans('kiosks.any') ) kiosks = kiosks.filter(kiosk => kiosk.location === filter.location);
+
         return (
             <Container className="py-4">
                 <Card>
