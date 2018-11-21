@@ -1,13 +1,10 @@
 image: php:7.2-fpm
 definitions:
-  caches:
-    vendor: ./vendor
 
   setup-test-environment: &setup-test-environment
     name: setup testing environment
     caches:
     - composer
-    - vendor
     script:
     - apt-get update && apt-get install -qy git curl unzip
     - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -15,6 +12,8 @@ definitions:
     - php -r "unlink('composer-setup.php');"
     - ln -f -s .env.pipelines .env
     - ./composer.phar install --ignore-platform-reqs
+    artifacts:
+    - vendor/**
 
   build-assets: &build-assets
     name: build frontend assets
