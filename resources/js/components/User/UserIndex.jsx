@@ -39,7 +39,7 @@ class UserIndex extends Component {
 
         if (filter.name) users = users.filter(user => user.name.toLowerCase().includes(filter.name.toLowerCase()));
         if (filter.email) users = users.filter(user => user.email.toLowerCase().includes(filter.email.toLowerCase()));
-        if (filter.role !== 'Any') users = users.filter(user => {
+        if (filter.role !== trans('users.any')) users = users.filter(user => {
             const userRoles = user.roles.map(role => trans(`users.${role.name.replace(' ', '_')}`));
             return userRoles.includes(filter.role);
         });
