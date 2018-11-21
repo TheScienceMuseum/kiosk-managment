@@ -60,7 +60,7 @@ class BuildPackageFromVersion implements ShouldQueue
                 $this->getDisk()->delete($this->packageVersion->archive_path);
             }
 
-            $this->updateProgress($this->packageVersion, 1);
+            $this->updateProgress($this->packageVersion, 10);
 
             // clone
             $this->updateProgress($this->packageVersion, 20);
@@ -78,12 +78,12 @@ class BuildPackageFromVersion implements ShouldQueue
             // compress package
             $this->updateProgress($this->packageVersion, 60);
             $archiveFilename = $this->packageVersion->package->name . '_' . $this->packageVersion->version . '.package';
-            $this->createProcess(['tar', '-czvf', $archiveFilename, '.'], $this->buildDirectory)->mustRun();
+            $this->createProcess(['tar', '-czvf', '../' . $archiveFilename, '.'], $this->buildDirectory)->mustRun();
 
             // copy the package
             $this->updateProgress($this->packageVersion, 80);
             $this->getDisk()->delete('public/packages/' . $archiveFilename);
-            $this->getDisk()->copy($this->buildDirectory . '/' . $archiveFilename, 'public/packages/' . $archiveFilename);
+            $this->getDisk()->copy($this->buildDirectory . '/../' . $archiveFilename, 'public/packages/' . $archiveFilename);
 
             // finish the process
             $this->updateProgress($this->packageVersion, 100);
