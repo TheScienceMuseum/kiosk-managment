@@ -1,0 +1,14 @@
+---
+- name: ensure ntpdate and ntp are installed
+  apt:
+    name: "{{ item }}"
+  loop:
+  - ntpdate
+  - ntp
+
+- name: ensure ntpdate is installed
+  cron:
+    name: network time updater
+    minute: 5
+    user: root
+    job: "service ntp stop && ntpdate ntp.ubuntu.com && timedatectl set-ntp on && ntpd -gq && service ntp start"
