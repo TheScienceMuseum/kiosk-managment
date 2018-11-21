@@ -29,8 +29,6 @@ Route::group([
         'namespace' => 'Admin',
         'prefix' => 'admin',
     ], function (\Illuminate\Routing\Router $router) {
-//        $router->get('users/{user}', 'UserController@show')
-//            ->name('admin.users.show');
 
         $router->get('packages', 'PackageController@index')
             ->name('admin.packages');
@@ -52,8 +50,6 @@ Route::group([
         $router->post('packages/{package}/version/{packageVersion}/approve', 'PackageVersionController@approve')
             ->name('admin.packages.versions.approve');
 
-        $router->get('kiosks', 'KioskController@index')
-            ->name('admin.kiosks');
         $router->get('kiosks/{kiosk}', 'KioskController@show')
             ->name('admin.kiosks.show');
         $router->put('kiosks/{kiosk}', 'KioskController@update')

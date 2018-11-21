@@ -4,6 +4,7 @@ import UserIndex from './User/UserIndex';
 import UserShow from './User/UserShow';
 import {BrowserRouter, Route} from 'react-router-dom';
 import NavigationBar from "./NavigationBar";
+import KioskIndex from "./Kiosk/KioskIndex";
 
 export default class App extends Component {
     render() {
@@ -13,6 +14,7 @@ export default class App extends Component {
                 <Route exact path='/' />
                 <Route exact path='/admin/users' component={UserIndex} />
                 <Route path='/admin/users/:user_id' render={({match}) => <UserShow match={match} />} />
+                <Route exact path='/admin/kiosks' component={KioskIndex} />
             </div>
 
         );
