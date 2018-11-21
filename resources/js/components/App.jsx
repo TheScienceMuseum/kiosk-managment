@@ -10,6 +10,7 @@ export default class App extends Component {
         return (
             <div className="App">
                 <NavigationBar />
+                <Route exact path='/' />
                 <Route exact path='/admin/users' component={UserIndex} />
                 <Route path='/admin/users/:user_id' render={({match}) => <UserShow match={match} />} />
             </div>

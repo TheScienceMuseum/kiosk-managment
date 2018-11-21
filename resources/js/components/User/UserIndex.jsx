@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import api from '../../api';
-import { Card, CardHeader, CardBody, CardTitle, CardSubtitle, Button, ListGroup, ListGroupItem, Container, Row, Col, Badge, Collapse, Form, FormGroup, Label, Input, ButtonGroup} from 'reactstrap';
+import { Card, CardHeader, CardBody, CardTitle, CardSubtitle, Button, ListGroup, ListGroupItem, Container, Row, Col, Badge, Collapse, Form, FormGroup, Label, Input, CardFooter} from 'reactstrap';
 import {trans} from '../../helpers';
 
 class UserIndex extends Component {
@@ -90,7 +90,7 @@ class UserIndex extends Component {
                                 const userId = _.last(user.path.split('/'));
 
                                 return (
-                                    <ListGroupItem key={index}>
+                                    <ListGroupItem key={index} className="rounded-0">
                                         <Row>
                                             <Col>
                                               <CardTitle>{user.name}</CardTitle>
@@ -109,6 +109,9 @@ class UserIndex extends Component {
                                 )
                             })}
                         </ListGroup>
+                    <CardFooter>
+
+                    </CardFooter>
                 </Card>
             </Container>
         );

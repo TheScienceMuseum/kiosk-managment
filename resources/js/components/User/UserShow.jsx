@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Card, CardHeader, Container, Col, Row, Button, ListGroup, ListGroupItem, Badge} from 'reactstrap';
-import {trans} from "../../helpers";
+import {user as loggedInUser, trans} from "../../helpers";
 import {userShow} from '../../api.js';
 
 class UserShow extends Component {
@@ -35,8 +35,12 @@ class UserShow extends Component {
                                 </a>
                             </Col>
                             <Col className="d-flex justify-content-end">
-                                <Button className="mr-3" color="danger">{trans('users.delete')}</Button>
-                                <Button color="primary">{trans('users.edit')}</Button>
+                                {loggedInUser.can('destroy all users') &&
+                                    <Button className="mr-3" color="danger">{trans('users.delete')}</Button>
+                                }
+                                {loggedInUser.can('edit all users') &&
+                                    <Button color="primary">{trans('users.edit')}</Button>
+                                }
                             </Col>
                         </Row>
                     </CardHeader>

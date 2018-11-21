@@ -2,14 +2,13 @@ import React, {Component} from 'react';
 import {Navbar, NavbarBrand, Nav, NavItem, NavLink, Container, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Form} from 'reactstrap';
 import {user, trans} from '../helpers';
 import {userLogout} from '../api';
-
 class NavigationBar extends Component {
     render() {
         return (
             <div>
                 <Navbar color="dark">
                     <Container>
-                        <NavbarBrand href="/">Kiosk Manager</NavbarBrand>
+                        <NavbarBrand href="/" style={{color: 'white'}}>Kiosk Manager</NavbarBrand>
                         <Nav className="ml-auto">
                             {user.can('view all packages') &&
                                 <NavItem>
@@ -40,7 +39,6 @@ class NavigationBar extends Component {
                                         </DropdownItem>
                                     </DropdownMenu>
                                 </UncontrolledDropdown>
-
                             }
                         </Nav>
                     </Container>
@@ -49,7 +47,8 @@ class NavigationBar extends Component {
         );
     }
 
-    logout = () => {
+    logout = (e) => {
+        // e.preventDefault();
         userLogout()
     }
 }
