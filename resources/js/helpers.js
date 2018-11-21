@@ -1,6 +1,6 @@
 exports.user = {
+    name: current_user.name,
     permissions: current_user.permissions.map(permission => permission.name),
-
     can: function(permissionToCheck = null) {
         return _.includes(this.permissions, permissionToCheck);
     }
