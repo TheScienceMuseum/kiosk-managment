@@ -9,6 +9,7 @@ use App\Http\Requests\PackageVersionStoreRequest;
 use App\Http\Requests\PackageVersionUpdateRequest;
 use App\Package;
 use App\PackageVersion;
+use Illuminate\Support\Facades\Storage;
 
 class PackageVersionController extends Controller
 {
@@ -46,7 +47,7 @@ class PackageVersionController extends Controller
     public function download(\Request $request, Package $package, PackageVersion $packageVersion)
     {
         if ($packageVersion->archive_path_exists) {
-            return response()->download($packageVersion->archive_path);
+            return Storage::disk(config('filesystems.packages'))->download($packageVersion->archive_path);
         }
 
         return abort(404);

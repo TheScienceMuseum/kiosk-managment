@@ -28,6 +28,10 @@ return [
 
     'cloud' => env('FILESYSTEM_CLOUD', 's3'),
 
+    'assets' => env('FILESYSTEM_ASSETS', 'testing-assets'),
+    'builds' => env('FILESYSTEM_BUILDS', 'testing-builds'),
+    'packages' => env('FILESYSTEM_PACKAGES', 'testing-packages'),
+
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks
@@ -85,6 +89,26 @@ return [
         'build-temp' => [
             'driver' => 'local',
             'root' => storage_path('app/builds'),
+        ],
+
+        /**
+         * The following disks are for use when testing the application
+         * under phpunit.
+         */
+
+        'testing-assets' => [
+            'driver' => 'local',
+            'root' => storage_path('app/testing/assets'),
+        ],
+
+        'testing-builds' => [
+            'driver' => 'local',
+            'root' => storage_path('app/testing/builds'),
+        ],
+
+        'testing-packages' => [
+            'driver' => 'local',
+            'root' => storage_path('app/testing/packages'),
         ],
 
     ],

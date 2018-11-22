@@ -52,7 +52,7 @@ class BuildPackageFromVersion implements ShouldQueue
 
         try {
             if ($this->packageVersion->archive_path_exists) {
-                Storage::disk('packages')->delete($this->packageVersion->archive_path);
+                Storage::disk(config('filesystems.packages'))->delete($this->packageVersion->archive_path);
             }
 
             $this->updateProgress($this->packageVersion, 10);
@@ -62,7 +62,7 @@ class BuildPackageFromVersion implements ShouldQueue
             Storage::disk('build-temp')
                 ->put(
                     $this->buildDirectory . '/interface.tar.gz',
-                    Storage::disk('builds')->get(config('kiosk.interface-file'))
+                    Storage::disk(config('filesystems.builds'))->get(config('kiosk.interface-file'))
                 );
 
             // extract the kiosk interface tarball
@@ -89,10 +89,10 @@ class BuildPackageFromVersion implements ShouldQueue
             // copy the package
             $this->updateProgress($this->packageVersion, 80);
             if ($this->packageVersion->archive_path_exists) {
-                Storage::disk('packages')->delete($this->packageVersion->archive_path);
+                Storage::disk(config('filesystems.packages'))->delete($this->packageVersion->archive_path);
             }
 
-            Storage::disk('packages')->put($this->packageVersion->archive_path, Storage::disk('build-temp')->get($archiveFilename));
+            Storage::disk(config('filesystems.packages'))->put($this->packageVersion->archive_path, Storage::disk('build-temp')->get($archiveFilename));
 
             // finish the process
             $this->updateProgress($this->packageVersion, 100);

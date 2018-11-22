@@ -58,16 +58,15 @@ class PackageVersion extends Model
         $this->attributes['status'] = $value;
     }
 
-    public function getArchivePathAttribute()
+    public function getArchivePathAttribute() : string
     {
-        return \Storage::disk('packages')
-            ->path($this->package->name . '_' . $this->version . '.package');
+        return $this->package->name . '_' . $this->version . '.package';
     }
 
     public function getArchivePathExistsAttribute() : bool
     {
-        return \Storage::disk('packages')
-            ->exists($this->package->name . '_' . $this->version . '.package');
+        return \Storage::disk(config('filesystems.packages'))
+            ->exists($this->archive_path);
     }
 
     public function kiosks()
