@@ -60,13 +60,14 @@ class PackageVersion extends Model
 
     public function getArchivePathAttribute()
     {
-        return \Storage::disk(config('filesystems.cloud'))
-            ->path('public/packages/'.$this->package->name . '_' . $this->version . '.package');
+        return \Storage::disk('packages')
+            ->path($this->package->name . '_' . $this->version . '.package');
     }
 
-    public function getArchivePathExistsAttribute()
+    public function getArchivePathExistsAttribute() : bool
     {
-        return file_exists($this->archive_path);
+        return \Storage::disk('packages')
+            ->exists($this->package->name . '_' . $this->version . '.package');
     }
 
     public function kiosks()

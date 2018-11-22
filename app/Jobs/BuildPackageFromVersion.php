@@ -41,39 +41,45 @@ class BuildPackageFromVersion implements ShouldQueue
     public function __construct(PackageVersion $packageVersion)
     {
         $this->packageVersion = $packageVersion;
-        $this->buildDirectory = 'builds/package-build-' . str_random();
+        $this->buildDirectory = 'package-build-' . str_random();
 
-        \Log::info('Queued a build of package version id: ' . $this->packageVersion->id . ' in directory ' . $this->buildDirectory);
+        \Log::info('Queued a build of package version id: ' . $this->packageVersion->id . ' in directory ' . Storage::disk('build-temp')->path($this->buildDirectory));
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
         \Log::info('Starting build of package version id: ' . $this->packageVersion->id . ' in directory ' . $this->buildDirectory);
 
         try {
-            if ($this->getDisk()->exists($this->packageVersion->archive_path)) {
-                $this->getDisk()->delete($this->packageVersion->archive_path);
+            if ($this->packageVersion->archive_path_exists) {
+                Storage::disk('packages')->delete($this->packageVersion->archive_path);
             }
 
             $this->updateProgress($this->packageVersion, 10);
 
-            // clone
+            // download kiosk interface tarball
+            $this->updateProgress($this->packageVersion, 15);
+            Storage::disk('build-temp')
+                ->put(
+                    $this->buildDirectory . '/interface.tar.gz',
+                    Storage::disk('builds')->get(config('kiosk.interface-file'))
+                );
+
+            // extract the kiosk interface tarball
             $this->updateProgress($this->packageVersion, 20);
-            File::copyDirectory($this->getDisk()->path('kiosk-package-interface'), $this->getDisk()->path($this->buildDirectory));
+            $this->createProcess(['tar', '-xzvf', 'interface.tar.gz'], $this->buildDirectory)->mustRun();
+
+            // delete the tarball
+            $this->updateProgress($this->packageVersion, 25);
+            Storage::disk('build-temp')->delete($this->buildDirectory . '/interface.tar.gz');
 
             // import package data
             $this->updateProgress($this->packageVersion, 40);
-            $packageData = array_merge(json_decode($this->packageVersion->data, true), [
+            $packageData = array_merge($this->packageVersion->data, [
                 'name' => $this->packageVersion->package->name,
                 'version' => (int)$this->packageVersion->version,
             ]);
-
-            $this->getDisk()->put($this->buildDirectory . '/public/manifest.json', json_encode($packageData));
+            Storage::disk('build-temp')->put($this->buildDirectory . '/manifest.json', json_encode($packageData));
 
             // compress package
             $this->updateProgress($this->packageVersion, 60);
@@ -82,8 +88,11 @@ class BuildPackageFromVersion implements ShouldQueue
 
             // copy the package
             $this->updateProgress($this->packageVersion, 80);
-            $this->getDisk()->delete('public/packages/' . $archiveFilename);
-            $this->getDisk()->copy($this->buildDirectory . '/../' . $archiveFilename, 'public/packages/' . $archiveFilename);
+            if ($this->packageVersion->archive_path_exists) {
+                Storage::disk('packages')->delete($this->packageVersion->archive_path);
+            }
+
+            Storage::disk('packages')->put($this->packageVersion->archive_path, Storage::disk('build-temp')->get($archiveFilename));
 
             // finish the process
             $this->updateProgress($this->packageVersion, 100);
@@ -98,7 +107,9 @@ class BuildPackageFromVersion implements ShouldQueue
             \Log::error('Could not build package version id: ' . $this->packageVersion->id . ' due to error: ' . $e->getMessage());
         } finally {
             // we use a terminal shell here, laravel checks every file, performance impact is crazy
-            $this->createProcess(['rm', '-rf', $this->buildDirectory])->mustRun();
+            if (config('app.env') !== 'local') {
+                $this->createProcess(['rm', '-rf', $this->buildDirectory])->mustRun();
+            }
         }
     }
 
@@ -118,7 +129,7 @@ class BuildPackageFromVersion implements ShouldQueue
     private function createProcess(array $command, string $cwd = '') : Process
     {
         $process = new Process($command);
-        $process->setWorkingDirectory($this->getDisk()->path($cwd));
+        $process->setWorkingDirectory(Storage::disk('build-temp')->path($cwd));
         $process->setTimeout(3600);
         $process->setIdleTimeout(3600);
 
@@ -134,10 +145,5 @@ class BuildPackageFromVersion implements ShouldQueue
         $packageVersion->update([
             'progress' => (int) $progress,
         ]);
-    }
-
-    private function getDisk() : Filesystem
-    {
-        return Storage::disk('local');
     }
 }
