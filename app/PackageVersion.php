@@ -39,10 +39,9 @@ class PackageVersion extends Model
         'progress',
     ];
 
-//    When moving to fully api driven package creation, uncomment this.
-//    protected $casts = [
-//        'data' => 'json',
-//    ];
+    protected $casts = [
+        'data' => 'json',
+    ];
 
     /**
      * @param $value

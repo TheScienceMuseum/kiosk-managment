@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Http\Requests\AdminPackageVersionUpdateRequest;
 use App\Http\Requests\PackageVersionShowRequest;
 use App\Http\Requests\PackageVersionStoreRequest;
 use App\Http\Requests\PackageVersionUpdateRequest;
@@ -29,9 +30,15 @@ class PackageVersionController extends Controller
         return view('admin.packages.show_version', compact('version'));
     }
 
-    public function update(PackageVersionUpdateRequest $request, Package $package, PackageVersion $packageVersion)
+    public function update(AdminPackageVersionUpdateRequest $request, Package $package, PackageVersion $packageVersion)
     {
-        app('App\Http\Controllers\Api\PackageVersionController')->update($request, $package, $packageVersion);
+        $apiRequest = new PackageVersionUpdateRequest();
+        $apiRequest->replace([
+            'status' => $request->input('status'),
+            'data' => json_decode($request->input('data')),
+        ]);
+
+        app('App\Http\Controllers\Api\PackageVersionController')->update($apiRequest, $package, $packageVersion);
 
         return redirect(route('admin.packages.show', [$package]));
     }
