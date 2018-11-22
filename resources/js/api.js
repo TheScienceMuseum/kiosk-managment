@@ -1,7 +1,7 @@
 const axios = require('axios');
 
-exports.userIndex = () => {
-    return axios.get('/api/user')
+exports.userIndex = (apiQueryString) => {
+    return axios.get(`/api/user?${apiQueryString}`)
         .then(({data}) => data);
 };
 
@@ -27,4 +27,4 @@ exports.kioskIndex = () => {
 exports.kioskShow = (id) => {
     return axios.get(`/api/kiosk/${id}`)
         .then(({data}) => data);
-}
+};

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import api from '../../api';
-import { Card, CardHeader, CardBody, CardTitle, CardSubtitle, Button, ListGroup, ListGroupItem,
-    Container, Row, Col, Badge, Collapse, Form, FormGroup, Label, Input, CardFooter,
-    Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Card, CardHeader, CardBody, CardTitle, CardSubtitle, Button, ButtonGroup, ListGroup, ListGroupItem,
+    Container, Row, Col, Badge, Collapse, Form, FormGroup, Label, Input, CardFooter, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import queryString from 'query-string';
 import {trans} from '../../helpers';
 
 class UserIndex extends Component {
@@ -21,11 +21,20 @@ class UserIndex extends Component {
     };
 
     componentDidMount() {
-       api.userIndex()
+        const queryObj = queryString.parse(this.props.location.search);
+        const apiQueryObj = {};
+        if (queryObj.page) apiQueryObj['page[number]'] = queryObj.page;
+        if (queryObj.name) apiQueryObj['filter[name]'] = queryObj.name;
+        if (queryObj.email) apiQueryObj['filter[email]'] = queryObj.email;
+        if (queryObj.role !== trans('users.any')) apiQueryObj['filter[role]'] = queryObj.role;
+        const apiQueryString = queryString.stringify(apiQueryObj);
+        
+        api.userIndex(apiQueryString)
            .then(data => this.setState({
                users: data.data,
                links: data.links,
                meta: data.meta,
+               filter: queryObj
            }));
        api.userRoleIndex()
            .then(({data}) => {
@@ -36,7 +45,7 @@ class UserIndex extends Component {
 
     render() {
         let { users } = this.state;
-        const { roles, filter, links, meta } = this.state;
+        const { roles, links, meta } = this.state;
         return (
             <Container className="py-4">
                 <Card>
@@ -62,7 +71,7 @@ class UserIndex extends Component {
                                         <Col>
                                             <FormGroup className="mr-3">
                                                 <Label for="user-email-filter">{trans('users.email')}</Label>
-                                                <Input type="email" name="email" id="user-email-filter" onChange={this.handleChange} value={this.state.filter.email}/>
+                                                <Input type="text" name="email" id="user-email-filter" onChange={this.handleChange} value={this.state.filter.email}/>
                                             </FormGroup>
                                         </Col>
                                         <Col>
@@ -75,12 +84,15 @@ class UserIndex extends Component {
                                             </FormGroup>
                                         </Col>
                                     </Row>
-                                        <Button className="float-right mb-2" outline color="danger" onClick={this.resetFilters}>{trans('users.reset')}</Button>
+                                    <Row className="float-right">
+                                        <Button className="mb-2 mr-3" outline color="danger" href="/admin/users">{trans('users.reset')}</Button>
+                                        <Button className="mb-2" color="dark">{trans('users.apply_filter')}</Button>
+                                    </Row>
                                 </Form>
                             </CardBody>
                         </Collapse>
                         <ListGroup>
-                            {users.map((user, index) => {
+                            { users.map((user, index) => {
                                 const userId = _.last(user.path.split('/'));
 
                                 return (
@@ -103,10 +115,13 @@ class UserIndex extends Component {
                                 )
                             })}
                         </ListGroup>
-                    <CardFooter>
-                        <Pagination>
-                            <PaginationItem>
-                                <PaginationLink>Test</PaginationLink>
+                    <CardFooter className=" d-flex justify-content-center" >
+                        <Pagination size="lg">
+                            <PaginationItem disabled={!links.prev}>
+                                <PaginationLink previous href={`/admin/users?${this.increaseOrDecreasePagination('down')}`}/>
+                            </PaginationItem>
+                            <PaginationItem disabled={!links.next}>
+                                <PaginationLink next href={`/admin/users?${this.increaseOrDecreasePagination('up')}`}/>
                             </PaginationItem>
                         </Pagination>
                     </CardFooter>
@@ -127,15 +142,13 @@ class UserIndex extends Component {
         })
     };
 
-    resetFilters = (e) => {
-        e.preventDefault();
-        this.setState({
-            filter: {
-                name: '',
-                email: '',
-                role: trans('users.any')
-            }
-        });
+    increaseOrDecreasePagination = (direction) => {
+        const queryObj = queryString.parse(this.props.location.search);
+        if(!queryObj.page) queryObj.page = 1;
+
+        if (direction === 'up') queryObj.page = parseInt(queryObj.page) + 1;
+        else if (direction === 'down') queryObj.page = parseInt(queryObj.page) - 1;
+        return queryString.stringify(queryObj);
     };
 }
 

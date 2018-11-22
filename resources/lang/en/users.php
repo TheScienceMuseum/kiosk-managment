@@ -18,4 +18,5 @@ return [
     'content_editor' => 'Content Editor',
     'delete' => 'Delete User',
     'edit' => 'Edit User',
+    'apply_filter' => 'Apply Filters',
 ];
