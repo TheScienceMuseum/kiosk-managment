@@ -34,7 +34,11 @@ class UserIndex extends Component {
                users: data.data,
                links: data.links,
                meta: data.meta,
-               filter: queryObj
+               filter: {
+                   name: queryObj.name || '',
+                   email: queryObj.email || '',
+                   role: queryObj.role || trans('users.any')
+               }
            }));
        api.userRoleIndex()
            .then(({data}) => {
