@@ -13,7 +13,7 @@ class TestUsersTableSeeder extends Seeder
     {
         // Create one user of each role
         foreach (\Spatie\Permission\Models\Role::all() as $role) {
-            $user = factory(App\User::class, 15)->create([
+            $user = factory(App\User::class)->create([
                 'name' => $role->name,
             ]);
 
