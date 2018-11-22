@@ -28,6 +28,10 @@ return [
 
     'cloud' => env('FILESYSTEM_CLOUD', 's3'),
 
+    'assets' => env('FILESYSTEM_ASSETS', 'testing-assets'),
+    'builds' => env('FILESYSTEM_BUILDS', 'testing-builds'),
+    'packages' => env('FILESYSTEM_PACKAGES', 'testing-packages'),
+
     /*
     |--------------------------------------------------------------------------
     | Filesystem Disks
@@ -55,13 +59,56 @@ return [
             'visibility' => 'public',
         ],
 
-        's3' => [
+        'assets' => [
             'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
+            'key' => env('FILESYSTEM_ASSETS_STORAGE_KEY'),
+            'secret' => env('FILESYSTEM_ASSETS_STORAGE_SECRET'),
+            'region' => env('FILESYSTEM_ASSETS_STORAGE_REGION'),
+            'bucket' => env('FILESYSTEM_ASSETS_STORAGE_BUCKET'),
+            'url' => env('FILESYSTEM_ASSETS_STORAGE_URL'),
+        ],
+
+        'builds' => [
+            'driver' => 's3',
+            'key' => env('FILESYSTEM_BUILD_STORAGE_KEY'),
+            'secret' => env('FILESYSTEM_BUILD_STORAGE_SECRET'),
+            'region' => env('FILESYSTEM_BUILD_STORAGE_REGION'),
+            'bucket' => env('FILESYSTEM_BUILD_STORAGE_BUCKET'),
+            'url' => env('FILESYSTEM_BUILD_STORAGE_URL'),
+        ],
+
+        'packages' => [
+            'driver' => 's3',
+            'key' => env('FILESYSTEM_PACKAGE_STORAGE_KEY'),
+            'secret' => env('FILESYSTEM_PACKAGE_STORAGE_SECRET'),
+            'region' => env('FILESYSTEM_PACKAGE_STORAGE_REGION'),
+            'bucket' => env('FILESYSTEM_PACKAGE_STORAGE_BUCKET'),
+            'url' => env('FILESYSTEM_PACKAGE_STORAGE_URL'),
+        ],
+
+        'build-temp' => [
+            'driver' => 'local',
+            'root' => storage_path('app/builds'),
+        ],
+
+        /**
+         * The following disks are for use when testing the application
+         * under phpunit.
+         */
+
+        'testing-assets' => [
+            'driver' => 'local',
+            'root' => storage_path('app/testing/assets'),
+        ],
+
+        'testing-builds' => [
+            'driver' => 'local',
+            'root' => storage_path('app/testing/builds'),
+        ],
+
+        'testing-packages' => [
+            'driver' => 'local',
+            'root' => storage_path('app/testing/packages'),
         ],
 
     ],

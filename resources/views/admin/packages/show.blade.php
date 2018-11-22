@@ -44,7 +44,7 @@
                                     <form class="d-none forcedRebuildForm" action="{{ route('admin.packages.versions.update', [$package, $version]) }}" method="post">
                                         @csrf
                                         @method('put')
-                                        <input type="text" name="data" value="{{ $version->data }}">
+                                        <input type="text" name="data" value="{{ json_encode($version->data) }}">
                                         <input type="text" name="status" value="pending">
                                     </form>
                                     <div class="btn-group btn-group-sm">

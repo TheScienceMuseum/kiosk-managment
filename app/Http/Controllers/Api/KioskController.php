@@ -21,6 +21,7 @@ use App\PackageVersion;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Facades\Storage;
 use Spatie\QueryBuilder\Filter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -190,8 +191,8 @@ class KioskController extends Controller
     {
         $kiosk = $this->getKioskFromRequest($request);
 
-        if ($packageVersion->archive_path) {
-            return response()->download($packageVersion->archive_path);
+        if ($packageVersion->archive_path_exists) {
+            return Storage::disk(config('filesystems.packages'))->download($packageVersion->archive_path);
         }
 
         return abort(404);

@@ -27,7 +27,7 @@ class PackageVersionPolicy
 
     public function update(User $user, PackageVersion $packageVersion)
     {
-        //
+        return $user->can('edit all packages');
     }
 
     public function delete(User $user, PackageVersion $packageVersion)
