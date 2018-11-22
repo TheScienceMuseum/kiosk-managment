@@ -39,10 +39,9 @@ class PackageVersion extends Model
         'progress',
     ];
 
-//    When moving to fully api driven package creation, uncomment this.
-//    protected $casts = [
-//        'data' => 'json',
-//    ];
+    protected $casts = [
+        'data' => 'json',
+    ];
 
     /**
      * @param $value
@@ -59,15 +58,15 @@ class PackageVersion extends Model
         $this->attributes['status'] = $value;
     }
 
-    public function getArchivePathAttribute()
+    public function getArchivePathAttribute() : string
     {
-        return \Storage::disk(config('filesystems.cloud'))
-            ->path('public/packages/'.$this->package->name . '_' . $this->version . '.package');
+        return $this->package->name . '_' . $this->version . '.package';
     }
 
-    public function getArchivePathExistsAttribute()
+    public function getArchivePathExistsAttribute() : bool
     {
-        return file_exists($this->archive_path);
+        return \Storage::disk(config('filesystems.packages'))
+            ->exists($this->archive_path);
     }
 
     public function kiosks()

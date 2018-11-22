@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Http\Requests\AdminPackageVersionUpdateRequest;
 use App\Http\Requests\PackageVersionShowRequest;
 use App\Http\Requests\PackageVersionStoreRequest;
 use App\Http\Requests\PackageVersionUpdateRequest;
 use App\Package;
 use App\PackageVersion;
+use Illuminate\Support\Facades\Storage;
 
 class PackageVersionController extends Controller
 {
@@ -29,9 +31,15 @@ class PackageVersionController extends Controller
         return view('admin.packages.show_version', compact('version'));
     }
 
-    public function update(PackageVersionUpdateRequest $request, Package $package, PackageVersion $packageVersion)
+    public function update(AdminPackageVersionUpdateRequest $request, Package $package, PackageVersion $packageVersion)
     {
-        app('App\Http\Controllers\Api\PackageVersionController')->update($request, $package, $packageVersion);
+        $apiRequest = new PackageVersionUpdateRequest();
+        $apiRequest->replace([
+            'status' => $request->input('status'),
+            'data' => json_decode($request->input('data')),
+        ]);
+
+        app('App\Http\Controllers\Api\PackageVersionController')->update($apiRequest, $package, $packageVersion);
 
         return redirect(route('admin.packages.show', [$package]));
     }
@@ -39,7 +47,7 @@ class PackageVersionController extends Controller
     public function download(\Request $request, Package $package, PackageVersion $packageVersion)
     {
         if ($packageVersion->archive_path_exists) {
-            return response()->download($packageVersion->archive_path);
+            return Storage::disk(config('filesystems.packages'))->download($packageVersion->archive_path);
         }
 
         return abort(404);

@@ -13,7 +13,7 @@ class PackageVersionUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('update', $this->route('packageVersion'));
     }
 
     /**
@@ -24,7 +24,7 @@ class PackageVersionUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data' => 'required|json',
+            'data' => 'required|array',
             'status' => 'required|in:draft,pending,approved',
         ];
     }
