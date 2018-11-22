@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import api from '../../api';
-import { Card, CardHeader, CardBody, CardTitle, CardSubtitle, Button, ListGroup, ListGroupItem, Container, Row, Col, Badge, Collapse, Form, FormGroup, Label, Input, CardFooter} from 'reactstrap';
+import { Card, CardHeader, CardBody, CardTitle, CardSubtitle, Button, ListGroup, ListGroupItem,
+    Container, Row, Col, Badge, Collapse, Form, FormGroup, Label, Input, CardFooter,
+    Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import {trans} from '../../helpers';
 
 class UserIndex extends Component {
@@ -34,15 +36,7 @@ class UserIndex extends Component {
 
     render() {
         let { users } = this.state;
-        const { roles, filter } = this.state;
-
-        if (filter.name) users = users.filter(user => user.name.toLowerCase().includes(filter.name.toLowerCase()));
-        if (filter.email) users = users.filter(user => user.email.toLowerCase().includes(filter.email.toLowerCase()));
-        if (filter.role !== trans('users.any')) users = users.filter(user => {
-            const userRoles = user.roles.map(role => trans(`users.${role.name.replace(' ', '_')}`));
-            return userRoles.includes(filter.role);
-        });
-
+        const { roles, filter, links, meta } = this.state;
         return (
             <Container className="py-4">
                 <Card>
@@ -110,7 +104,11 @@ class UserIndex extends Component {
                             })}
                         </ListGroup>
                     <CardFooter>
-
+                        <Pagination>
+                            <PaginationItem>
+                                <PaginationLink>Test</PaginationLink>
+                            </PaginationItem>
+                        </Pagination>
                     </CardFooter>
                 </Card>
             </Container>
