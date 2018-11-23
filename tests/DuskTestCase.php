@@ -49,4 +49,10 @@ abstract class DuskTestCase extends BaseTestCase
             $browser->driver->manage()->deleteAllCookies();
         }
     }
+
+    protected function tearDown()
+    {
+        session()->flush();
+        parent::tearDown();
+    }
 }
