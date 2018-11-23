@@ -20,11 +20,11 @@ class UsersIndexTest extends DuskTestCase
             $usersIndexPage = $this->loginAs($browser, User::first())
                 ->visit(new UsersIndexPage());
 
-            $usersIndexPage2 = $usersIndexPage->pause(1000)
+            $usersIndexPage2 = $usersIndexPage->waitForText('View')
                 ->click('@pagination-next-page')
                 ->on(new UsersIndexPage());
 
-            $usersIndexPage2->pause(1000)
+            $usersIndexPage2->waitForText('View')
                 ->assertQueryStringHas('page', '2')
                 ->assertSee('Test User')
                 ->click('@pagination-prev-page')
