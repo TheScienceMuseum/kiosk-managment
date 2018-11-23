@@ -60,6 +60,12 @@ class PackageVersionController extends Controller
     {
         $currentVersion = (object) $packageVersion->toArray();
 
+        if ($request->input('status') === 'approved' && $currentVersion->status !== 'approved') {
+            if ($request->user()->cannot('approve', $packageVersion)) {
+                abort(403);
+            }
+        }
+
         $packageVersion->update([
             'data' => $request->input('data'),
             'status' => $request->input('status'),

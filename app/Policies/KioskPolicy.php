@@ -6,15 +6,17 @@ use App\User;
 use App\Kiosk;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * Class KioskPolicy
+ * @package App\Policies
+ */
 class KioskPolicy
 {
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view the kiosk.
-     *
-     * @param  \App\User  $user
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
     public function index(User $user)
     {
@@ -22,11 +24,9 @@ class KioskPolicy
     }
 
     /**
-     * Determine whether the user can view the kiosk.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Kiosk  $kiosk
-     * @return mixed
+     * @param User $user
+     * @param Kiosk $kiosk
+     * @return bool
      */
     public function view(User $user, Kiosk $kiosk)
     {
@@ -34,11 +34,9 @@ class KioskPolicy
     }
 
     /**
-     * Determine whether the user can update the kiosk.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Kiosk  $kiosk
-     * @return mixed
+     * @param User $user
+     * @param Kiosk $kiosk
+     * @return bool
      */
     public function update(User $user, Kiosk $kiosk)
     {
@@ -46,7 +44,6 @@ class KioskPolicy
     }
 
     /**
-     * Determine whether the user can deploy a package to the kiosk.
      * @param User $user
      * @param Kiosk $kiosk
      * @return bool
@@ -57,14 +54,22 @@ class KioskPolicy
     }
 
     /**
-     * Determine whether the user can delete the kiosk.
-     *
-     * @param  \App\User  $user
-     * @param  \App\Kiosk  $kiosk
-     * @return mixed
+     * @param User $user
+     * @param Kiosk $kiosk
+     * @return bool
+     */
+    public function viewLogs(User $user, Kiosk $kiosk)
+    {
+        return $user->can('view kiosk logs');
+    }
+
+    /**
+     * @param User $user
+     * @param Kiosk $kiosk
+     * @return bool
      */
     public function delete(User $user, Kiosk $kiosk)
     {
-        //
+        return $user->can('destroy all kiosks');
     }
 }
