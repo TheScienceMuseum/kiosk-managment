@@ -40,6 +40,7 @@ class UsersIndexPage extends Page
             '@pagination-prev-page' => '#pagination-prev-page',
             '@users-filter-toggle-button' => '.card-header .row .col .btn-dark',
             '@users-filter-apply-button' => 'form .float-right.row button',
+            '@users-filter-reset-button' => 'form .float-right.row a.btn-outline-danger',
         ];
     }
 }
