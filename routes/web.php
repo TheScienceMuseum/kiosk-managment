@@ -14,6 +14,12 @@
 Auth::routes();
 
 Route::group([
+    'middleware' => [],
+], function (\Illuminate\Routing\Router $router) {
+    $router->get('download/client/{os}', 'DownloadController@downloadKioskClient');
+});
+
+Route::group([
     'middleware' => ['auth', 'mfa'],
 ], function (\Illuminate\Routing\Router $router) {
     $router->post('/login/authorize', function () {

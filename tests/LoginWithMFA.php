@@ -1,12 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: josh
- * Date: 22/11/2018
- * Time: 16:55
- */
 
 namespace Tests;
+
 
 use App\User;
 use Laravel\Dusk\Browser;
