@@ -10,3 +10,4 @@
 * [Provisioning a server for the application](docs/PROVISIONING.md)
 * [Deploying the application](docs/DEPLOYMENT.md)
 * [Working with the codebase](docs/DEVELOPING.md)
+* [Current feature set (via tests)](docs/TEST-COVERAGE-FEATURES.md)

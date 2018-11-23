@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "79b4b2e5eb1d14ec904dbb10c99b6c8a",
+    "content-hash": "79441e2dcfccb90049f1417e7aa3d9bc",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1787,6 +1787,70 @@
             ],
             "description": "Flysystem adapter for the AWS S3 SDK v3.x",
             "time": "2018-10-08T07:53:55+00:00"
+        },
+        {
+            "name": "league/html-to-markdown",
+            "version": "4.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/html-to-markdown.git",
+                "reference": "f9a879a068c68ff47b722de63f58bec79e448f9d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/f9a879a068c68ff47b722de63f58bec79e448f9d",
+                "reference": "f9a879a068c68ff47b722de63f58bec79e448f9d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-xml": "*",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "mikehaertl/php-shellcommand": "~1.1.0",
+                "phpunit/phpunit": "4.*",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "bin": [
+                "bin/html-to-markdown"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\HTMLToMarkdown\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nick Cernis",
+                    "email": "nick@cern.is",
+                    "homepage": "http://modernnerd.net",
+                    "role": "Original Author"
+                },
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "An HTML-to-markdown conversion helper for PHP",
+            "homepage": "https://github.com/thephpleague/html-to-markdown",
+            "keywords": [
+                "html",
+                "markdown"
+            ],
+            "time": "2018-09-18T12:18:08+00:00"
         },
         {
             "name": "league/oauth2-server",
@@ -5669,6 +5733,61 @@
                 "test"
             ],
             "time": "2016-01-20T08:20:44+00:00"
+        },
+        {
+            "name": "hollodotme/phpunit-testdox-markdown",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hollodotme/phpunit-testdox-markdown.git",
+                "reference": "d9218ddbfcd2a462b4fe59e1694775cc35e9452a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hollodotme/phpunit-testdox-markdown/zipball/d9218ddbfcd2a462b4fe59e1694775cc35e9452a",
+                "reference": "d9218ddbfcd2a462b4fe59e1694775cc35e9452a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "tm/tooly-composer-script": "~1.2"
+            },
+            "type": "library",
+            "extra": {
+                "tools": {
+                    "phpunit": {
+                        "url": "https://phar.phpunit.de/phpunit-7.phar",
+                        "only-dev": true
+                    },
+                    "coveralls": {
+                        "url": "https://github.com/php-coveralls/php-coveralls/releases/download/v2.0.0/php-coveralls.phar",
+                        "only-dev": true
+                    },
+                    "phpmetrics": {
+                        "url": "https://github.com/phpmetrics/PhpMetrics/releases/download/v2.3.2/phpmetrics.phar",
+                        "only-dev": true
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "hollodotme\\PHPUnit\\TestListeners\\TestDox\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Holger Woltersdorf",
+                    "email": "hw@hollo.me"
+                }
+            ],
+            "description": "A PHPUnit test listener that creates a testdox markdown file with grouped dataset output",
+            "time": "2018-05-21T20:46:54+00:00"
         },
         {
             "name": "justinrainbow/json-schema",
