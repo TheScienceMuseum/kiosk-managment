@@ -31,4 +31,12 @@ class UsersIndexTest extends DuskTestCase
                 ->on(new UsersIndexPage());
         });
     }
+
+    public function testUserFiltersFunctionCorrectly()
+    {
+        $this->browse(function (Browser $browser) {
+            $usersIndexPage = $this->loginAs($browser, User::first())
+                ->visit(new UsersIndexPage());
+        });
+    }
 }

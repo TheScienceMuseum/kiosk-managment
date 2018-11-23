@@ -83,7 +83,7 @@ class UserIndex extends Component {
                                                 <Label for="user-role-filter">{trans('users.role')}</Label>
                                                 <Input type="select" name="role" id="user-role-filter" onChange={this.handleChange} value={this.state.filter.role}>
                                                     <option>{trans('users.any')}</option>
-                                                    {roles.map(role => <option key={role.name}>{trans(`users.${role.name.replace(' ', '_')}`)}</option>)}
+                                                    {roles.map(role => <option key={role.name} value={trans(`users.${role.name.replace(' ', '_')}`)}>{trans(`users.${role.name.replace(' ', '_')}`)}</option>)}
                                                 </Input>
                                             </FormGroup>
                                         </Col>

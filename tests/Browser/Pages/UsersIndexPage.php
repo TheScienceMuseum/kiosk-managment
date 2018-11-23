@@ -38,6 +38,8 @@ class UsersIndexPage extends Page
         return [
             '@pagination-next-page' => 'nav ul li a[href="/admin/users?page=2"]',
             '@pagination-prev-page' => 'nav ul li a[href="/admin/users?page=1"]',
+            '@users-filter-toggle-button' => '.card-header .row .col .btn-dark',
+            '@users-filter-apply-button' => 'form .float-right.row button',
         ];
     }
 }
