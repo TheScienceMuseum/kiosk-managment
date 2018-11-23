@@ -10,11 +10,14 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\LoginWithMFA;
 use Tests\ResetsDatabaseInDusk;
 
-class UsersIndexTest extends DuskTestCase
+class UsersPaginationTest extends DuskTestCase
 {
     use ResetsDatabaseInDusk, LoginWithMFA;
 
-    public function testPaginationButtonsFunctionCorrectly()
+    /**
+     * @throws \Throwable
+     */
+    public function testPaginationButtonsFunctionCorrectlyWithNoFilter()
     {
         $this->browse(function (Browser $browser) {
             $usersIndexPage = $this->loginAs($browser, User::first())
@@ -32,11 +35,11 @@ class UsersIndexTest extends DuskTestCase
         });
     }
 
-    public function testUserFiltersFunctionCorrectly()
-    {
-        $this->browse(function (Browser $browser) {
-            $usersIndexPage = $this->loginAs($browser, User::first())
-                ->visit(new UsersIndexPage());
-        });
-    }
+//    public function testPaginationButtonsFunctionCorrectlyWithFilterApplied()
+//    {
+//        $this->browse(function (Browser $browser) {
+//            $usersIndexPage = $this->loginAs($browser, User::first())
+//                ->visit(new UsersIndexPage());
+//        });
+//    }
 }
