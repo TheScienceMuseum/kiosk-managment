@@ -122,10 +122,10 @@ class UserIndex extends Component {
                     <CardFooter className=" d-flex justify-content-center" >
                         <Pagination size="lg">
                             <PaginationItem disabled={!links.prev}>
-                                <PaginationLink previous href={`/admin/users?${this.increaseOrDecreasePagination('down')}`}/>
+                                <PaginationLink id="pagination-prev-page" previous href={`/admin/users?${this.increaseOrDecreasePagination('down')}`}/>
                             </PaginationItem>
                             <PaginationItem disabled={!links.next}>
-                                <PaginationLink next href={`/admin/users?${this.increaseOrDecreasePagination('up')}`}/>
+                                <PaginationLink id="pagination-next-page" next href={`/admin/users?${this.increaseOrDecreasePagination('up')}`}/>
                             </PaginationItem>
                         </Pagination>
                     </CardFooter>

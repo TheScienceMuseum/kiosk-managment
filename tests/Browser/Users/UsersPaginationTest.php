@@ -35,11 +35,31 @@ class UsersPaginationTest extends DuskTestCase
         });
     }
 
-//    public function testPaginationButtonsFunctionCorrectlyWithFilterApplied()
-//    {
-//        $this->browse(function (Browser $browser) {
-//            $usersIndexPage = $this->loginAs($browser, User::first())
-//                ->visit(new UsersIndexPage());
-//        });
-//    }
+    public function testPaginationButtonsFunctionCorrectlyWithFilterApplied()
+    {
+        $this->browse(function (Browser $browser) {
+            $usersIndexPage = $this->loginAs($browser, User::first())
+                ->visit(new UsersIndexPage());
+
+            $filteredUsersIndexPage = $usersIndexPage->click('@users-filter-toggle-button')
+                ->pause(500)
+                ->assertSee('Apply Filters')
+                ->type('email', 'example')
+                ->click('@users-filter-apply-button')
+                ->on(new UsersIndexPage());
+
+            $filteredUsersIndexPage2 = $filteredUsersIndexPage->waitForText('View')
+                ->assertQueryStringHas('email', 'example')
+                ->assertSeeIn('ul.list-group', 'admin')
+                ->click('@pagination-next-page')
+                ->on(new UsersIndexPage());
+
+            $filteredUsersIndexPage2->waitForText('View')
+                ->assertQueryStringHas('page', '2')
+                ->assertQueryStringHas('email', 'example')
+                ->assertSeeIn('ul.list-group', 'content editor')
+                ->click('@pagination-prev-page')
+                ->on(new UsersIndexPage());
+        });
+    }
 }

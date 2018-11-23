@@ -36,8 +36,8 @@ class UsersIndexPage extends Page
     public function elements()
     {
         return [
-            '@pagination-next-page' => 'nav ul li a[href="/admin/users?page=2"]',
-            '@pagination-prev-page' => 'nav ul li a[href="/admin/users?page=1"]',
+            '@pagination-next-page' => '#pagination-next-page',
+            '@pagination-prev-page' => '#pagination-prev-page',
             '@users-filter-toggle-button' => '.card-header .row .col .btn-dark',
             '@users-filter-apply-button' => 'form .float-right.row button',
         ];
