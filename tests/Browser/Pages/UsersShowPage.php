@@ -43,7 +43,7 @@ class UsersShowPage extends Page
     public function elements()
     {
         return [
-            '@view-user-button' => '.list-group-item .row .col a[href=/admin/users/1] button',
+            '@view-first-user-button' => '.list-group-item .row .col a[href=/admin/users/1] button',
         ];
     }
 }
