@@ -1,4 +1,4 @@
-image: php:7.2-fpm
+image: acocdeninja/laravel-phpunit
 definitions:
 
   setup-test-environment: &setup-test-environment
@@ -6,12 +6,8 @@ definitions:
     caches:
     - composer
     script:
-    - apt-get update && apt-get install -qy git curl unzip
-    - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-    - php composer-setup.php
-    - php -r "unlink('composer-setup.php');"
     - ln -f -s .env.pipelines .env
-    - ./composer.phar install --ignore-platform-reqs
+    - composer install --ignore-platform-reqs
     artifacts:
     - vendor/**
 
