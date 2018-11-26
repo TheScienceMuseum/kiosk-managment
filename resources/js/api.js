@@ -2,7 +2,10 @@ const axios = require('axios');
 
 exports.userIndex = (apiQueryString) => {
     return axios.get(`/api/user?${apiQueryString}`)
-        .then(({data}) => data);
+        .then(({data}) => {
+            // if (window.location.href.includes('role=Developer')) window.alert(JSON.stringify(data));
+            return data;
+        });
 };
 
 exports.userRoleIndex = () => {

@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use App\User;
+use Illuminate\Support\Facades\Log;
 use Tests\Browser\Pages\UsersIndexPage;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
@@ -66,8 +67,7 @@ class UsersFilterTest extends DuskTestCase
                 ->assertDontSeeIn('ul.list-group', 'example');
         });
     }
-
-    // NOT WORKING ATM - TODO FIX
+//  TODO: Figure out why this doesn't work
 //    /**
 //     * @throws \Throwable
 //     */
@@ -75,7 +75,6 @@ class UsersFilterTest extends DuskTestCase
 //    {
 //        $this->browse(function (Browser $browser) {
 //            $usersIndexPage = $this->loginAs($browser, User::first())
-//                ->resize(1920, 1080)
 //                ->visit(new UsersIndexPage());
 //
 //            $filteredUsersIndexPage = $usersIndexPage->click('@users-filter-toggle-button')
@@ -85,9 +84,9 @@ class UsersFilterTest extends DuskTestCase
 //                ->click('@users-filter-apply-button')
 //                ->on(new UsersIndexPage());
 //
-//            $filteredUsersIndexPage->click('@users-filter-toggle-button')
-//                ->assertQueryStringHas('role', 'Developer')
-//                ->pause(10000)
+//            $filteredUsersIndexPage->assertQueryStringHas('role', 'Developer')
+//                ->click('@users-filter-toggle-button')
+//                ->waitForText('View')
 //                ->assertSeeIn('ul.list-group', 'JP Developer');
 //        });
 //    }
@@ -96,7 +95,6 @@ class UsersFilterTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $usersIndexPage = $this->loginAs($browser, User::first())
-                ->resize(1920, 1080)
                 ->visit(new UsersIndexPage());
 
             $filteredUsersIndexPage = $usersIndexPage->click('@users-filter-toggle-button')
@@ -111,7 +109,7 @@ class UsersFilterTest extends DuskTestCase
                 ->assertDontSeeIn('ul.list-group', 'JP Developer')
                 ->click('@users-filter-toggle-button')
                 ->pause(500)
-                ->assertSee('Apply Filters')
+                ->assertSee('Reset Filters')
                 ->click('@users-filter-reset-button')
                 ->on(new UsersIndexPage());
 
