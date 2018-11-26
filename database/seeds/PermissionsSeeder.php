@@ -37,6 +37,7 @@ class PermissionsSeeder extends Seeder
         $perm_create_package = Permission::create(['name' => 'create new packages']);
         $perm_view_package = Permission::create(['name' => 'view all packages']);
         $perm_edit_package = Permission::create(['name' => 'edit all packages']);
+        $perm_delete_package = Permission::create(['name' => 'delete all packages']);
         $perm_publish_package = Permission::create(['name' => 'publish all packages']);
         $perm_test_package = Permission::create(['name' => 'test all packages']);
 
@@ -46,6 +47,7 @@ class PermissionsSeeder extends Seeder
             $perm_edit_package,
             $perm_publish_package,
             $perm_test_package,
+            $perm_delete_package,
         ];
 
         // Kiosk Permissions
@@ -86,7 +88,8 @@ class PermissionsSeeder extends Seeder
         // No access to editorial material.
         Role::create(['name' => 'tech admin'])
             ->syncPermissions(array_merge(
-                $perm_group_kiosk
+                $perm_group_kiosk,
+                [$perm_view_package]
             ))
         ;
 

@@ -7,11 +7,9 @@ use App\Http\Requests\PackageVersionShowRequest;
 use App\Http\Requests\PackageVersionUpdateRequest;
 use App\Http\Resources\PackageVersionResource;
 use App\Jobs\BuildPackage;
-use App\Jobs\BuildPackageFromVersion;
 use App\Package;
 use App\PackageVersion;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class PackageVersionController extends Controller
 {
@@ -59,6 +57,12 @@ class PackageVersionController extends Controller
     public function update(PackageVersionUpdateRequest $request, Package $package, PackageVersion $packageVersion) : PackageVersionResource
     {
         $currentVersion = (object) $packageVersion->toArray();
+
+        if ($request->input('status') === 'approved' && $currentVersion->status !== 'approved') {
+            if ($request->user()->cannot('approve', $packageVersion)) {
+                abort(403);
+            }
+        }
 
         $packageVersion->update([
             'data' => $request->input('data'),

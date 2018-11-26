@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class KioskDestroyRequest extends FormRequest
+class PackageShowRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class KioskDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('delete', $this->route('kiosk'));
+        return $this->user()->can('view', $this->route('package'));
     }
 
     /**

@@ -52,7 +52,7 @@ class BuildPackage extends Command
             return;
         }
 
-        dispatch(new BuildPackageFromVersion($packageVersion));
+        BuildPackageFromVersion::dispatch($packageVersion)->onQueue('long-running');
 
         return;
     }

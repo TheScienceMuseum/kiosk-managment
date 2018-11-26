@@ -16,6 +16,7 @@
         "laravel/passport": "^7.0",
         "laravel/tinker": "^1.0",
         "league/flysystem-aws-s3-v3": "^1.0",
+        "league/html-to-markdown": "^4.8",
         "mpociot/laravel-apidoc-generator": "^2.1",
         "pragmarx/google2fa-laravel": "^0.2.0",
         "predis/predis": "^1.1",
@@ -56,7 +57,7 @@
         }
     },
     "scripts": {
-        "test": "./vendor/bin/phpunit && php artisan dusk",
+        "test-features": "./vendor/bin/phpunit --testdox-html docs/tests/features.html && php artisan helpers:convert-html-to-markdown docs/tests/features.html docs/TEST-COVERAGE-FEATURES.md && rm -rf docs/tests",
         "dev-reset-environment": "php artisan migrate:refresh && php artisan db:seed && php artisan db:seed --class TestDatabaseSeeder && php artisan passport:install > passport.log",
         "dev-documents-update": "php artisan api:generate --routePrefix=\"api/*\" --output=\"./docs/\" --actAsUserId=1 --bindings user,1",
         "dev-ide-helper": "php artisan ide-helper:generate && php artisan ide-helper:model --write --reset && php artisan ide-helper:meta",
