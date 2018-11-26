@@ -1,4 +1,4 @@
-image: acocdeninja/laravel-phpunit
+image: acodeninja/laravel-phpunit
 definitions:
 
   setup-test-environment: &setup-test-environment
