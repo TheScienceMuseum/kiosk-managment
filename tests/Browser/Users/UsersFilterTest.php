@@ -67,29 +67,30 @@ class UsersFilterTest extends DuskTestCase
                 ->assertDontSeeIn('ul.list-group', 'example');
         });
     }
-//  TODO: Figure out why this doesn't work
-//    /**
-//     * @throws \Throwable
-//     */
-//    public function testUsersCanBeFilteredByRole()
-//    {
-//        $this->browse(function (Browser $browser) {
-//            $usersIndexPage = $this->loginAs($browser, User::first())
-//                ->visit(new UsersIndexPage());
-//
-//            $filteredUsersIndexPage = $usersIndexPage->click('@users-filter-toggle-button')
-//                ->pause(500)
-//                ->assertSee('Apply Filters')
-//                ->select('role', 'Developer')
-//                ->click('@users-filter-apply-button')
-//                ->on(new UsersIndexPage());
-//
-//            $filteredUsersIndexPage->assertQueryStringHas('role', 'Developer')
-//                ->click('@users-filter-toggle-button')
-//                ->waitForText('View')
-//                ->assertSeeIn('ul.list-group', 'JP Developer');
-//        });
-//    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function testUsersCanBeFilteredByRole()
+    {
+        $this->browse(function (Browser $browser) {
+            $usersIndexPage = $this->loginAs($browser, User::first())
+                ->visit(new UsersIndexPage());
+
+            $filteredUsersIndexPage = $usersIndexPage->click('@users-filter-toggle-button')
+                ->pause(500)
+                ->assertSee('Apply Filters')
+                ->select('role', 'developer')
+                ->click('@users-filter-apply-button')
+                ->on(new UsersIndexPage());
+
+            $filteredUsersIndexPage->click('@users-filter-toggle-button')
+                ->assertQueryStringHas('role', 'developer')
+                ->click('@users-filter-toggle-button')
+                ->waitForText('View')
+                ->assertSeeIn('ul.list-group', 'JP Developer');
+        });
+    }
 
     public function testResetUsersFilter()
     {
