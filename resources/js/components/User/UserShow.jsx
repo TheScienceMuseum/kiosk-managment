@@ -27,7 +27,7 @@ class UserShow extends Component {
         const {user} = this.state;
         return (
             <Container className="py-4">
-                {!currentUser.can('view all users') && <Redirect to="/error/403"/>}
+                {!currentUser.can('view all users') && <Redirect to="/error/401"/>}
                 <Card>
                     <CardHeader>
                         <Row>
@@ -54,8 +54,8 @@ class UserShow extends Component {
                             <Row>
                                 {user.roles.map(role => {
                                     return (
-                                        <Col>
-                                            <Badge className="mt-2" color="primary" key={role.name}>{trans(`users.${role.name.replace(' ', '_')}`)}</Badge>
+                                        <Col key={role.name}>
+                                            <Badge className="mt-2" color="primary" >{trans(`users.${role.name.replace(' ', '_')}`)}</Badge>
                                         </Col>
                                     )
                                 })}

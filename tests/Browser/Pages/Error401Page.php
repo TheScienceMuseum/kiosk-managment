@@ -4,7 +4,7 @@ namespace Tests\Browser\Pages;
 
 use Laravel\Dusk\Browser;
 
-class Error403Page extends Page
+class Error401Page extends Page
 {
     /**
      * Get the URL for the page.
@@ -13,7 +13,7 @@ class Error403Page extends Page
      */
     public function url()
     {
-        return '/error/403';
+        return '/error/401';
     }
 
     /**

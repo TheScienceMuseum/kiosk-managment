@@ -3,7 +3,7 @@
 namespace Tests\Browser;
 
 use App\User;
-use Tests\Browser\Pages\Error403Page;
+use Tests\Browser\Pages\Error401Page;
 use Tests\Browser\Pages\UsersIndexPage;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
@@ -18,9 +18,8 @@ class UsersIndexTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $this->loginAs($browser, User::find(13))
-                ->resize(1920, 1080)
-                ->visit('/admin/users/1')
-                ->on(new Error403Page());
+                ->visit('/admin/users/')
+                ->on(new Error401Page());
         });
     }
 
@@ -28,7 +27,6 @@ class UsersIndexTest extends DuskTestCase
     {
          $this->browse(function (Browser $browser) {
             $userIndexPage = $this->loginAs($browser, User::first())
-                ->resize(1920, 1080)
                 ->visit(new UsersIndexPage());
             $userIndexPage->waitForText('View')
                 ->assertSee('developer')

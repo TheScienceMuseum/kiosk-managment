@@ -54,7 +54,7 @@ class UserIndex extends Component {
         return (
             <Container className="py-4">
 
-                {!currentUser.can('view all users') && <Redirect to="/error/403" /> }
+                {!currentUser.can('view all users') && <Redirect to="/error/401" /> }
 
                 <Card>
                     <CardHeader>

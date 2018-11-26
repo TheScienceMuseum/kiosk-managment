@@ -3,7 +3,7 @@
 namespace Tests\Browser;
 
 use App\User;
-use Tests\Browser\Pages\Error403Page;
+use Tests\Browser\Pages\Error401Page;
 use Tests\Browser\Pages\UsersCreatePage;
 use Tests\Browser\Pages\UsersIndexPage;
 use Tests\DuskTestCase;
@@ -20,9 +20,8 @@ class UserCreateTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $this->loginAs($browser, User::find(13))
-                ->resize(1920, 1080)
                 ->visit('/admin/users')
-                ->on(new Error403Page());
+                ->on(new Error401Page());
 
         });
     }
