@@ -58,6 +58,20 @@ Feature\\PackageManagement\\CreateNewPackageVersion
 
 ✓ Creating a new version of an existing package
 
+Feature\\PackageManagement\\DeletingPackages
+--------------------------------------------
+
+
+✓ Deleting a package as a developer succeeds
+
+✓ Deleting a package as an admin succeeds
+
+✓ Deleting a package as a tech admin fails
+
+✓ Deleting a package as a content editor succeeds
+
+✓ Deleting a package as a content author fails
+
 Feature\\PackageManagement\\PackageVersionApproveForDeployment
 --------------------------------------------------------------
 
@@ -103,6 +117,20 @@ Feature\\PackageManagement\\SearchForPackages
 
 
 ✓ Searching for a package by name
+
+Feature\\PackageManagement\\UpdatingPackage
+-------------------------------------------
+
+
+✓ Updating a package name as a developer succeeds
+
+✓ Updating a package name as an admin succeeds
+
+✓ Updating a package name as a tech admin fails
+
+✓ Updating a package name as a content editor succeeds
+
+✓ Updating a package name as a content author succeeds
 
 Feature\\UserManagement\\CreateUsers
 ------------------------------------
