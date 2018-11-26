@@ -42,8 +42,16 @@ class PackageController extends Controller
         //
     }
 
-    public function destroy(Package $package)
+    /**
+     * @param PackageDestroyRequest $request
+     * @param Package $package
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Exception
+     */
+    public function destroy(PackageDestroyRequest $request, Package $package)
     {
-        //
+        $package->delete();
+
+        return response('', 204);
     }
 }

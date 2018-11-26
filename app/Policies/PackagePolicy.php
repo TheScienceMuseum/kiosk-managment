@@ -51,4 +51,14 @@ class PackagePolicy
     {
         return $user->can('edit all packages');
     }
+
+    /**
+     * @param User $user
+     * @param Package $package
+     * @return bool
+     */
+    public function delete(User $user, Package $package)
+    {
+        return $user->can('delete all packages');
+    }
 }
