@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Card, CardHeader, Container, Col, Row, Button, ListGroup, ListGroupItem, Badge} from 'reactstrap';
-import {user as loggedInUser, trans} from "../../helpers";
+import {user as currentUser, trans} from "../../helpers";
 import {userShow} from '../../api.js';
+import {Redirect} from 'react-router-dom';
 
 class UserShow extends Component {
 
@@ -26,6 +27,7 @@ class UserShow extends Component {
         const {user} = this.state;
         return (
             <Container className="py-4">
+                {!currentUser.can('view all users') && <Redirect to="/error/403"/>}
                 <Card>
                     <CardHeader>
                         <Row>
@@ -35,10 +37,10 @@ class UserShow extends Component {
                                 </a>
                             </Col>
                             <Col className="d-flex justify-content-end">
-                                {loggedInUser.can('destroy all users') &&
+                                {currentUser.can('destroy all users') &&
                                     <Button className="mr-3" color="danger">{trans('users.delete')}</Button>
                                 }
-                                {loggedInUser.can('edit all users') &&
+                                {currentUser.can('edit all users') &&
                                     <Button color="primary">{trans('users.edit')}</Button>
                                 }
                             </Col>

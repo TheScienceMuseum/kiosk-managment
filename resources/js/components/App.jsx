@@ -7,6 +7,7 @@ import NavigationBar from "./NavigationBar";
 import KioskIndex from "./Kiosk/KioskIndex";
 import KioskShow from "./Kiosk/KioskShow";
 import Home from './Home';
+import Error403 from "./Errors/Error403";
 
 export default class App extends Component {
     render() {
@@ -18,6 +19,8 @@ export default class App extends Component {
                 <Route path='/admin/users/:user_id' component={UserShow} />
                 <Route exact path='/admin/kiosks' component={KioskIndex} />
                 <Route path='/admin/kiosks/:kiosk_id' render={({match}) => <KioskShow match={match}/>} />
+
+                <Route path='/error/403' component={Error403} />
             </div>
 
         );
