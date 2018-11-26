@@ -13,7 +13,7 @@ class UsersCreatePage extends Page
      */
     public function url()
     {
-        return '/admin/users/create';
+        return '/admin/users/edit/create';
     }
 
     /**
@@ -24,7 +24,8 @@ class UsersCreatePage extends Page
      */
     public function assert(Browser $browser)
     {
-        $browser->assertPathIs($this->url());
+        $browser->assertPathIs($this->url())
+            ->assertSee('Create a new user');
     }
 
     /**

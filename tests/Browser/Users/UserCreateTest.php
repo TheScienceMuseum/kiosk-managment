@@ -20,21 +20,24 @@ class UserCreateTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $this->loginAs($browser, User::find(13))
-                ->visit('/admin/users')
+                ->visit('/admin/users/edit/create')
                 ->on(new Error401Page());
 
         });
     }
 
-//    public function testCreatingAUser()
-//    {
-//        $this->browse(function (Browser $browser) {
-//            $usersIndexPage = $this->loginAs($browser, User::first())
-//                ->resize(1920, 1080)
-//                ->visit(new UsersIndexPage());
-//
-//            $usersCreatePage = $usersIndexPage->click('@create-user-button')
-//                ->on(new UsersCreatePage());
-//        });
-//    }
+    public function testCreatingAUser()
+    {
+        $this->browse(function (Browser $browser) {
+            $usersIndexPage = $this->loginAs($browser, User::first())
+                ->resize(1920, 1080)
+                ->visit(new UsersIndexPage());
+
+            $usersCreatePage = $usersIndexPage->click('@create-user-button')
+                ->on(new UsersCreatePage());
+
+            $usersCreatePage->type('name', 'Test User')
+                ->type('email', 'test@example.com');
+        });
+    }
 }

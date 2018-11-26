@@ -22,6 +22,14 @@ exports.userShow = (id) => {
         .then(({data}) => data);
 };
 
+exports.userCreate = (newUser) => {
+    return axios.post('/api/user', {
+        name: newUser.name,
+        email: newUser.email,
+        roles: newUser.roles
+    }).then(({data}) => data);
+};
+
 exports.kioskIndex = () => {
     return axios.get('/api/kiosk')
         .then(({data}) => data);

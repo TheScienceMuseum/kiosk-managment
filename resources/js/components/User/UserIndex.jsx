@@ -61,7 +61,10 @@ class UserIndex extends Component {
                         <Row>
                             <Col><h4>{trans('users.title')}</h4></Col>
                             <Col className="d-flex justify-content-end">
-                                {currentUser.can('create new users') && <Button className="mr-3" color="success">{trans('users.create')}</Button>}
+                                {currentUser.can('create new users') &&
+                                <a href="/admin/users/edit/create">
+                                    <Button className="mr-3" color="success">{trans('users.create')}</Button>
+                                </a>}
                                 <Button onClick={this.filterToggle} color="dark">{trans('users.filter')}</Button>
                             </Col>
                         </Row>
