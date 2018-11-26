@@ -7,7 +7,7 @@
 
 ## Documentation
 
-* [Provisioning a server for the application](docs/PROVISIONING.md)
-* [Deploying the application](docs/DEPLOYMENT.md)
-* [Working with the codebase](docs/DEVELOPING.md)
-* [Current feature set (via tests)](docs/TEST-COVERAGE-FEATURES.md)
+* [Provisioning a server for the application](docs/PROVISIONING.md) (PROVISIONING.md)
+* [Deploying the application](docs/DEPLOYMENT.md) (DEPLOYMENT.md)
+* [Working with the codebase](docs/DEVELOPING.md) (DEVELOPING.md)
+* [Current feature set (via tests)](docs/TEST-FEATURES.md) (TEST-FEATURES.md)

@@ -7,11 +7,9 @@ use App\Http\Requests\PackageVersionShowRequest;
 use App\Http\Requests\PackageVersionUpdateRequest;
 use App\Http\Resources\PackageVersionResource;
 use App\Jobs\BuildPackage;
-use App\Jobs\BuildPackageFromVersion;
 use App\Package;
 use App\PackageVersion;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class PackageVersionController extends Controller
 {

@@ -72,6 +72,18 @@ Feature\\PackageManagement\\PackageVersionApproveForDeployment
 
 ✓ Approving a package version as a content author fails
 
+Feature\\PackageManagement\\PackageVersionBuild
+-----------------------------------------------
+
+
+✓ Triggering a package build from the command line succeeds
+
+✓ Triggering a package build from the command line with an invalid package version fails
+
+✓ Building a valid package version succeeds
+
+✓ Rebuilding a valid package version succeeds
+
 Feature\\PackageManagement\\PackageVersionSubmitForApproval
 -----------------------------------------------------------
 

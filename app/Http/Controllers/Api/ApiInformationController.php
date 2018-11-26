@@ -18,8 +18,6 @@ class ApiInformationController extends Controller
             ],
         ];
 
-//        return array_map(function (\Illuminate\Routing\Route $route) { return $route->uri; }, (array) Route::getRoutes()->getIterator());
-
         return [
             'resources' => [
                 'user_role' => [
