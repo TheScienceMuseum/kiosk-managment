@@ -88,7 +88,8 @@ class PermissionsSeeder extends Seeder
         // No access to editorial material.
         Role::create(['name' => 'tech admin'])
             ->syncPermissions(array_merge(
-                $perm_group_kiosk
+                $perm_group_kiosk,
+                [$perm_view_package]
             ))
         ;
 

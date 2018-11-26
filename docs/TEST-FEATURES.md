@@ -72,6 +72,20 @@ Feature\\PackageManagement\\DeletingPackages
 
 ✓ Deleting a package as a content author fails
 
+Feature\\PackageManagement\\PackageDetails
+------------------------------------------
+
+
+✓ Getting package information as a developer succeeds
+
+✓ Getting package information as an admin succeeds
+
+✓ Getting package information as a tech admin succeeds
+
+✓ Getting package information as a content editor succeeds
+
+✓ Getting package information as a content author succeeds
+
 Feature\\PackageManagement\\PackageVersionApproveForDeployment
 --------------------------------------------------------------
 
@@ -97,6 +111,20 @@ Feature\\PackageManagement\\PackageVersionBuild
 ✓ Building a valid package version succeeds
 
 ✓ Rebuilding a valid package version succeeds
+
+Feature\\PackageManagement\\PackageVersionDetails
+-------------------------------------------------
+
+
+✓ Getting package version information as a developer succeeds
+
+✓ Getting package version information as an admin succeeds
+
+✓ Getting package version information as a tech admin succeeds
+
+✓ Getting package version information as a content editor succeeds
+
+✓ Getting package version information as a content author succeeds
 
 Feature\\PackageManagement\\PackageVersionSubmitForApproval
 -----------------------------------------------------------
