@@ -50,11 +50,10 @@ definitions:
 
   browser-tests: &browser-tests
     name: browser-tests
+    image: acodeninja/laravel-dusk
     caches:
     - composer
     script:
-    - apt-get update && apt-get install -qy git curl unzip chromium-driver libpng-dev
-    - docker-php-ext-install gd
     - ln -f -s .env.dusk.local .env
     - touch ./database/database.sqlite
     - php artisan serve > /dev/null &
