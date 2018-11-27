@@ -2,13 +2,13 @@
 
 namespace App\Mail;
 
-use App\User;
 use Illuminate\Bus\Queueable;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class UserRegistrationInviteMailable extends Mailable
+class UserOnBoardingInviteMailable extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -41,7 +41,7 @@ class UserRegistrationInviteMailable extends Mailable
      */
     public function build()
     {
-        return $this->subject(config('app.name') . ': Account Created')
+        return $this->subject(config('app.name') . ': Invitation to set up account')
             ->markdown('mail.user-registration-invite', [
                 'user' => $this->registeredUser,
                 'token' => $this->token,

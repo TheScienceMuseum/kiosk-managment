@@ -6,13 +6,15 @@ namespace App\Http\Controllers\Api;
 use App\Filters\UserRoleFilter;
 use App\Http\Requests\UserDestroyRequest;
 use App\Http\Requests\UserIndexRequest;
+use App\Http\Requests\UserOnBoardRequest;
 use App\Http\Requests\UserRoleIndexRequest;
 use App\Http\Requests\UserShowRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserRoleResource;
 use App\Http\Resources\UserResource;
-use App\Mail\UserRegistrationInviteMailable;
+use App\Mail\UserOnBoardingInviteMailable;
+use App\OnBoarding\OnBoardingService;
 use App\User;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Hash;
@@ -68,10 +70,17 @@ class UserController extends Controller
             $user->syncRoles($roles);
         }
 
-        $token = Password::broker()->createToken($user);
+        return new UserResource($user);
+    }
 
-        Mail::to($user)
-            ->queue(new UserRegistrationInviteMailable($user, $token));
+    /**
+     * @param UserOnBoardRequest $request
+     * @param User $user
+     * @return UserResource
+     */
+    public function onboard(UserOnBoardRequest $request, User $user) : UserResource
+    {
+        OnBoardingService::startOnBoarding($user);
 
         return new UserResource($user);
     }

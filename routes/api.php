@@ -26,6 +26,7 @@ Route::name('api.')
                 $router->get('', 'UserController@index')->name('index');
                 $router->post('', 'UserController@store')->name('store');
                 $router->get('{user}', 'UserController@show')->name('show');
+                $router->post('{user}/on-board', 'UserController@onboard')->name('on-board');
                 $router->put('{user}', 'UserController@update')->name('update');
                 $router->delete('{user}', 'UserController@destroy')->name('destroy');
             });

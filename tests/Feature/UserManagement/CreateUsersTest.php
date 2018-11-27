@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\UserManagement;
 
-use App\Mail\UserRegistrationInviteMailable;
+use App\Mail\UserOnBoardingInviteMailable;
 use Illuminate\Support\Facades\Mail;
 use Tests\ActsAs;
 use Tests\CreatesUsers;
@@ -48,7 +48,7 @@ class CreateUsersTest extends TestCase
 
         $response->assertStatus(201);
 
-        Mail::assertNotQueued(UserRegistrationInviteMailable::class);
+        Mail::assertNotQueued(UserOnBoardingInviteMailable::class);
     }
 
     public function testCreatingANewUserWithAnInvitationEmailDoesSendAnEmailToThatUser()
@@ -66,7 +66,7 @@ class CreateUsersTest extends TestCase
 
         $response->assertStatus(201);
 
-        Mail::assertQueued(UserRegistrationInviteMailable::class);
+        Mail::assertQueued(UserOnBoardingInviteMailable::class);
     }
 
     public function testCreatingANewUserActingAsADeveloperSucceeds()
