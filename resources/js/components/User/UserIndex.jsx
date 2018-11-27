@@ -50,7 +50,12 @@ class UserIndex extends Component {
 
     render() {
         let { users } = this.state;
-        const { roles, links } = this.state;
+        const { roles, links, meta } = this.state;
+
+        const paginationNumbersArray = new Array(meta.last_page).fill(0).map((el, index) => {
+            return index + 1;
+        });
+
         return (
             <Container className="py-4">
 
@@ -61,7 +66,7 @@ class UserIndex extends Component {
                         <Row>
                             <Col>
                                 <h4>
-                                    <a href="/admin/users">{trans('users.title')}</a>
+                                    <a href="/admin/users" style={{color: "inherit", textDecoration: "none"}}>{trans('users.title')}</a>
                                 </h4>
                             </Col>
                             <Col className="d-flex justify-content-end">
@@ -136,6 +141,13 @@ class UserIndex extends Component {
                             <PaginationItem disabled={!links.prev}>
                                 <PaginationLink id="pagination-prev-page" previous href={`/admin/users?${this.increaseOrDecreasePagination('down')}`}/>
                             </PaginationItem>
+                            {paginationNumbersArray.map(pageNumber => {
+                                return (
+                                    <PaginationItem active={meta.current_page === pageNumber} key={pageNumber}>
+                                        <PaginationLink href={`/admin/users?page=${pageNumber}`}>{pageNumber}</PaginationLink>
+                                    </PaginationItem>
+                                )
+                            })}
                             <PaginationItem disabled={!links.next}>
                                 <PaginationLink id="pagination-next-page" next href={`/admin/users?${this.increaseOrDecreasePagination('up')}`}/>
                             </PaginationItem>

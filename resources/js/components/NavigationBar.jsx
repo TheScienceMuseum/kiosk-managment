@@ -49,6 +49,7 @@ class NavigationBar extends Component {
         e.preventDefault();
         userLogout();
         window.location.href = '/login';
+        // TODO: fix properly...
 
     };
 }
