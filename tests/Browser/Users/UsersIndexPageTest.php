@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\LoginWithMFA;
 use Tests\ResetsDatabaseInDusk;
 
-class UsersIndexTest extends DuskTestCase
+class UsersIndexPageTest extends DuskTestCase
 {   use ResetsDatabaseInDusk, LoginWithMFA;
 
     public function testIndexUserPageRedirectsTo403WhenUnauthorised()

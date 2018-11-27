@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Card, CardHeader, CardBody, Container, Col, Row, Button, ListGroup, ListGroupItem, Badge} from 'reactstrap';
 import {user as currentUser, trans} from "../../helpers";
-import {userShow} from '../../api.js';
+import {userShow, userDestroy} from '../../api.js';
 import {Redirect} from 'react-router-dom';
 
 class UserShow extends Component {
@@ -25,6 +25,7 @@ class UserShow extends Component {
 
     render() {
         const {user} = this.state;
+        const userId = this.props.match.params.user_id;
         return (
             <Container className="py-4">
                 {!currentUser.can('view all users') && <Redirect to="/error/401"/>}
@@ -38,10 +39,10 @@ class UserShow extends Component {
                             </Col>
                             <Col className="d-flex justify-content-end">
                                 {currentUser.can('destroy all users') &&
-                                <Button className="mr-3" color="danger">{trans('users.delete')}</Button>
+                                    <Button className="mr-3" color="danger" onClick={() => this.deleteUser(userId)}>{trans('users.delete')}</Button>
                                 }
                                 {currentUser.can('edit all users') &&
-                                <Button color="primary">{trans('users.edit')}</Button>
+                                    <Button color="primary">{trans('users.edit')}</Button>
                                 }
                             </Col>
                         </Row>
@@ -69,6 +70,13 @@ class UserShow extends Component {
                 </Card>
             </Container>
         );
+    }
+
+    deleteUser = (userId) => {
+        userDestroy(userId)
+            .then(() => {
+                window.location.href = '/admin/users'
+            });
     }
 }
 

@@ -12,7 +12,7 @@ use Tests\LoginWithMFA;
 use Tests\ResetsDatabaseInDusk;
 use Tests\Browser\Pages\UsersIndexPage;
 
-class UsersShowTest extends DuskTestCase
+class UsersShowPageTest extends DuskTestCase
 {
     use ResetsDatabaseInDusk, LoginWithMFA;
 
@@ -42,4 +42,24 @@ class UsersShowTest extends DuskTestCase
                 ->assertSee('Email: dev@joipolloi.com');
         });
     }
+
+    public function testDeleteUserButton()
+    {
+        $this->browse(function (Browser $browser) {
+            $usersShowPage = $this->loginAs($browser, User::first())
+                ->visit(new UsersShowPage(10));
+
+            $usersIndexPage = $usersShowPage->click('@delete-user-button')
+                ->waitForLocation('/admin/users')
+                ->on(new UsersIndexPage());
+
+            $usersIndexPage->waitForText('View')
+                ->assertSeeIn('ul.list-group', 'content author');
+        });
+    }
+
+//    public function testDeleteUserButtonDoesntWorkForLoggedInUser()
+//    {
+//
+//    }
 }

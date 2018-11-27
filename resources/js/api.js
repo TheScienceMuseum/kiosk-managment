@@ -30,6 +30,11 @@ exports.userCreate = (newUser) => {
     }).then(({data}) => data);
 };
 
+exports.userDestroy = (id) => {
+    return axios.delete(`/api/user/${id}`)
+        .then(({data}) => data);
+};
+
 exports.kioskIndex = () => {
     return axios.get('/api/kiosk')
         .then(({data}) => data);

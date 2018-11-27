@@ -13,7 +13,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\LoginWithMFA;
 use Tests\ResetsDatabaseInDusk;
 
-class UserCreateTest extends DuskTestCase
+class UsersCreatePageTest extends DuskTestCase
 {
     use ResetsDatabaseInDusk, LoginWithMFA;
 
