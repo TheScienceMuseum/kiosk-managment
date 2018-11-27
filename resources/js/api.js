@@ -3,7 +3,6 @@ const axios = require('axios');
 exports.userIndex = (apiQueryString) => {
     return axios.get(`/api/user?${apiQueryString}`)
         .then(({data}) => {
-            // if (window.location.href.includes('role=Developer')) window.alert(JSON.stringify(data));
             return data;
         });
 };
@@ -26,7 +25,8 @@ exports.userCreate = (newUser) => {
     return axios.post('/api/user', {
         name: newUser.name,
         email: newUser.email,
-        roles: newUser.roles
+        roles: newUser.roles,
+        send_invite: false,
     }).then(({data}) => data);
 };
 

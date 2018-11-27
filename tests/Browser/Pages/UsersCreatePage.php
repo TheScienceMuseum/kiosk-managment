@@ -36,7 +36,9 @@ class UsersCreatePage extends Page
     public function elements()
     {
         return [
-            '@create-user-button' => '.card-header .row .col button.btn-success',
+            '@add-role-button' => '.card-body form .row .col .form-group button',
+            '@add-user-button' => '.card-body form button.btn-block',
+            '@role-badge' => '.card-body form .row .col span.badge',
         ];
     }
 }

@@ -27,12 +27,13 @@ class UserCreate extends Component {
 
 
     render() {
-        let {allRoles, newUser, roleChoice} = this.state;
+        let {allRoles, newUser, roleChoice, redirect} = this.state;
         allRoles = allRoles.filter(role => !newUser.roles.includes(role.name));
 
         return (
             <Container className="py-4">
                 {!currentUser.can('create new users') && <Redirect to="/error/401"/>}
+                {redirect !== '' && <Redirect to={`/admin/users/${redirect}`} />}
                 <Card>
                     <CardHeader>
                         <h3>Create a new user</h3>
@@ -107,7 +108,12 @@ class UserCreate extends Component {
         if (newUser.name === '' || newUser.email === '' || newUser.roles.length === 0) window.alert('Please fill out all fields');
         else {
         api.userCreate(newUser)
-            .then(res => console.log(res));
+            .then(({data}) => {
+                const userId = _.last(data.path.split('/'));
+                this.setState({
+                    redirect: userId
+                })
+            });
         }
     };
 }

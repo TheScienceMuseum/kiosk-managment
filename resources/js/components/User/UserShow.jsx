@@ -32,7 +32,7 @@ class UserShow extends Component {
                     <CardHeader>
                         <Row>
                             <Col>
-                                <a href="/admin/users">
+                                <a href="javascript:history.back()">
                                     <h4>{`<<<  ${trans('users.title')}`}</h4>
                                 </a>
                             </Col>
