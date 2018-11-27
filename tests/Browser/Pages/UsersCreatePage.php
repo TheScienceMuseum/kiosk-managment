@@ -38,7 +38,7 @@ class UsersCreatePage extends Page
         return [
             '@add-role-button' => '.card-body form .row .col .form-group button',
             '@add-user-button' => '.card-body form button.btn-block',
-            '@role-badge' => '.card-body form .row .col span.badge',
+            '@role-badges' => '.card-body form .row .col.text-center',
         ];
     }
 }

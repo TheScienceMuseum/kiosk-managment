@@ -43,8 +43,8 @@ class UserCreateTest extends DuskTestCase
                 ->type('email', 'test@example.com')
                 ->select('roles', 'admin')
                 ->click('@add-role-button')
-                ->waitFor('@role-badge')
-                ->assertSeeIn('span.badge', 'Admin')
+                ->waitFor('@role-badges')
+                ->assertSeeIn('@role-badges', 'Admin')
                 ->click('@add-user-button')
                 ->waitForLocation('/admin/users/' . ($id + 1))
                 ->on(new UsersShowPage($id + 1));
@@ -52,6 +52,38 @@ class UserCreateTest extends DuskTestCase
             $newUserShowPage->waitForText('Name: Test User')
                 ->assertSee('Email: test@example.com')
                 ->assertSee('Admin');
+        });
+    }
+
+    public function testCreatingAUserWithMultipleRoles()
+    {
+        $this->browse(function (Browser $browser) {
+            $usersIndexPage = $this->loginAs($browser, User::first())
+                ->visit(new UsersIndexPage());
+
+            $usersCreatePage = $usersIndexPage->click('@create-user-button')
+                ->on(new UsersCreatePage());
+
+            // Get highest user index - new user will have 1 greater
+            $id = User::all()->last()->id;
+
+            $newUserShowPage = $usersCreatePage->type('name', 'Test User')
+                ->type('email', 'test@example.com')
+                ->select('roles', 'admin')
+                ->click('@add-role-button')
+                ->select('roles', 'content editor')
+                ->click('@add-role-button')
+                ->waitFor('@role-badges')
+                ->assertSeeIn('@role-badges', 'Admin')
+                ->assertSeeIn('@role-badges', 'Content Editor')
+                ->click('@add-user-button')
+                ->waitForLocation('/admin/users/' . ($id + 1))
+                ->on(new UsersShowPage($id + 1));
+
+            $newUserShowPage->waitForText('Name: Test User')
+                ->assertSee('Email: test@example.com')
+                ->assertSee('Admin')
+                ->assertSee('Content Editor');
         });
     }
 }

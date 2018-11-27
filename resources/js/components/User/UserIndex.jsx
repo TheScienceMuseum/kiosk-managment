@@ -59,7 +59,11 @@ class UserIndex extends Component {
                 <Card>
                     <CardHeader>
                         <Row>
-                            <Col><h4>{trans('users.title')}</h4></Col>
+                            <Col>
+                                <a href="/admin/users">
+                                    <h4>{trans('users.title')}</h4>
+                                </a>
+                            </Col>
                             <Col className="d-flex justify-content-end">
                                 {currentUser.can('create new users') &&
                                 <a href="/admin/users/edit/create">
@@ -114,7 +118,9 @@ class UserIndex extends Component {
                                             <CardSubtitle>{user.email}</CardSubtitle>
                                         </Col>
                                         <Col className="text-center">
-                                            {user.roles.map(role => <Badge className="mt-2" color="primary" key={role.name}>{trans(`users.${role.name.replace(' ', '_')}`)}</Badge>)}
+                                            <Row>
+                                                {user.roles.map(role => <Col xs="12"><Badge className="mt-2 mx-2" color="primary" key={role.name}>{trans(`users.${role.name.replace(' ', '_')}`)}</Badge></Col>)}
+                                            </Row>
                                         </Col>
                                         <Col>
                                             <a href={`/admin/users/${userId}`}>

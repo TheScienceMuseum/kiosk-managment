@@ -61,7 +61,7 @@ class UserCreate extends Component {
                                 </Col>
                                 <Col className="text-center">
                                     <h5>Roles to be assigned:</h5>
-                                    {newUser.roles.map(role => <Badge onClick={this.removeRole} className="mt-2 mr-2" color="warning" key={role}>{trans(`users.${role.replace(' ', '_')}`)}</Badge>)}
+                                    {newUser.roles.map(role => <Badge onClick={this.removeRole} className="mt-2 mx-2" color="warning" key={role}>{trans(`users.${role.replace(' ', '_')}`)}</Badge>)}
                                 </Col>
                             </Row>
                             <br/>
