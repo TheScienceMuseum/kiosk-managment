@@ -3,19 +3,18 @@ import {Container, Row, Col, Button, Badge, Card, CardBody, CardHeader, Form, Fo
 import {trans, user as currentUser} from "../../helpers";
 import {Redirect} from 'react-router-dom';
 import api from "../../api";
-
+import Select from 'react-select';
 
 class UserCreate extends Component {
 
     state = {
         newUser: {
             name: '',
-            email: '',
-            roles: []
+            email: ''
         },
         allRoles: [],
-        roleChoice: 'Select',
-        redirect: ''
+        redirect: '',
+        selectedRoles: null,
     };
 
     componentDidMount() {
@@ -27,8 +26,14 @@ class UserCreate extends Component {
 
 
     render() {
-        let {allRoles, newUser, roleChoice, redirect} = this.state;
-        allRoles = allRoles.filter(role => !newUser.roles.includes(role.name));
+        let {allRoles, redirect, selectedRoles} = this.state;
+        const roleOptions = allRoles.map(role => {
+            return {
+                value: role.name,
+                label: trans(`users.${role.name.replace(' ', '_')}`)
+            }
+        });
+
 
         return (
             <Container className="py-4">
@@ -39,7 +44,7 @@ class UserCreate extends Component {
                         <h3>Create a new user</h3>
                     </CardHeader>
                     <CardBody>
-                        <Form>
+                        <Form className="w-75 mx-auto">
                             <FormGroup className="mr-3">
                                 <Label for="new-user-name">{trans('users.name')}</Label>
                                 <Input type="text" name="name" id="new-user-name" onChange={this.handleChange} value={this.state.newUser.name}/>
@@ -48,24 +53,11 @@ class UserCreate extends Component {
                                 <Label for="new-user-email">{trans('users.email')}</Label>
                                 <Input type="text" name="email" id="new-user-email" onChange={this.handleChange} value={this.state.newUser.email}/>
                             </FormGroup>
-                            <Row>
-                                <Col>
-                                    <FormGroup className="mr-3">
-                                        <Label for="new-user-role">{trans('users.role')}</Label>
-                                        <Input type="select" name="roles" id="new-user-role" onChange={(e) => this.setState({roleChoice: e.target.value})} value={roleChoice}>
-                                            <option>Select</option>
-                                            {allRoles.map(role => <option key={role.name} value={role.name}>{trans(`users.${role.name.replace(' ', '_')}`)}</option>)}
-                                        </Input>
-                                        <Button className="mt-2 float-right" color="primary" disabled={roleChoice === 'Select'} onClick={this.addRole}>Add Role</Button>
-                                    </FormGroup>
-                                </Col>
-                                <Col className="text-center">
-                                    <h5>Roles to be assigned:</h5>
-                                    {newUser.roles.map(role => <Badge onClick={this.removeRole} className="mt-2 mx-2" color="warning" key={role}>{trans(`users.${role.replace(' ', '_')}`)}</Badge>)}
-                                </Col>
-                            </Row>
-                            <br/>
-                            <Button onClick={this.createUser} color="primary" block>Create User</Button>
+                            <FormGroup className="mr-3">
+                                <Label for="new-user-role">{trans('users.role')}</Label>
+                                <Select id="new-user-role" value={selectedRoles} onChange={this.handleRoleChange} options={roleOptions} isMulti />
+                            </FormGroup>
+                            <Button className="float-right my-3" onClick={this.createUser} color="primary">Create User</Button>
                         </Form>
                     </CardBody>
                 </Card>
@@ -79,6 +71,10 @@ class UserCreate extends Component {
         this.setState({
             newUser
         })
+    };
+
+    handleRoleChange = (selectedRoles) => {
+        this.setState({ selectedRoles });
     };
 
     addRole = (e) => {
@@ -104,7 +100,9 @@ class UserCreate extends Component {
 
     createUser = (e) => {
         e.preventDefault();
-        const {newUser} = this.state;
+        const {newUser, selectedRoles} = this.state;
+        newUser.roles = selectedRoles.map(role => role.value);
+
         if (newUser.name === '' || newUser.email === '' || newUser.roles.length === 0) window.alert('Please fill out all fields');
         else {
         api.userCreate(newUser)

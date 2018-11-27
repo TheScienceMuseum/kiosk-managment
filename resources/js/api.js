@@ -26,7 +26,7 @@ exports.userCreate = (newUser) => {
         name: newUser.name,
         email: newUser.email,
         roles: newUser.roles,
-        send_invite: false,
+        send_invite: true,
     }).then(({data}) => data);
 };
 

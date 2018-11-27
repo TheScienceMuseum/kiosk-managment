@@ -41,10 +41,8 @@ class UsersCreatePageTest extends DuskTestCase
 
             $newUserShowPage = $usersCreatePage->type('name', 'Test User')
                 ->type('email', 'test@example.com')
-                ->select('roles', 'admin')
-                ->click('@add-role-button')
-                ->waitFor('@role-badges')
-                ->assertSeeIn('@role-badges', 'Admin')
+                ->keys('@role-select-input', 'admin', '{ENTER}')
+                ->assertSee('Admin')
                 ->click('@add-user-button')
                 ->waitForLocation('/admin/users/' . ($id + 1))
                 ->on(new UsersShowPage($id + 1));
@@ -69,13 +67,10 @@ class UsersCreatePageTest extends DuskTestCase
 
             $newUserShowPage = $usersCreatePage->type('name', 'Test User')
                 ->type('email', 'test@example.com')
-                ->select('roles', 'admin')
-                ->click('@add-role-button')
-                ->select('roles', 'content editor')
-                ->click('@add-role-button')
-                ->waitFor('@role-badges')
-                ->assertSeeIn('@role-badges', 'Admin')
-                ->assertSeeIn('@role-badges', 'Content Editor')
+                ->keys('@role-select-input', 'admin', '{ENTER}')
+                ->keys('@role-select-input', 'content editor', '{ENTER}')
+                ->assertSee('Admin')
+                ->assertSee('Content Editor')
                 ->click('@add-user-button')
                 ->waitForLocation('/admin/users/' . ($id + 1))
                 ->on(new UsersShowPage($id + 1));
