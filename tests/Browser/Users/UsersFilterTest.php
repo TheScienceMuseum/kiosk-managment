@@ -28,8 +28,7 @@ class UsersFilterTest extends DuskTestCase
                 ->visit(new UsersIndexPage());
 
             $filteredUsersIndexPage = $usersIndexPage->click('@users-filter-toggle-button')
-                ->pause(500)
-                ->assertSee('Apply Filters')
+                ->waitForText('Apply Filters')
                 ->type('name', 'JP Developer')
                 ->click('@users-filter-apply-button')
                 ->on(new UsersIndexPage());
@@ -40,8 +39,7 @@ class UsersFilterTest extends DuskTestCase
                 ->assertDontSeeIn('ul.list-group', 'admin')
                 ->assertDontSeeIn('ul.list-group', 'tech admin')
                 ->assertDontSeeIn('ul.list-group', 'content author')
-                ->assertDontSeeIn('ul.list-group', 'content editor')
-                ->logout();
+                ->assertDontSeeIn('ul.list-group', 'content editor');
 
         });
     }
@@ -56,8 +54,7 @@ class UsersFilterTest extends DuskTestCase
                 ->visit(new UsersIndexPage());
 
             $filteredUsersIndexPage = $usersIndexPage->click('@users-filter-toggle-button')
-                ->pause(500)
-                ->assertSee('Apply Filters')
+                ->waitForText('Apply Filters')
                 ->type('email', 'joipolloi')
                 ->click('@users-filter-apply-button')
                 ->on(new UsersIndexPage());
@@ -78,8 +75,7 @@ class UsersFilterTest extends DuskTestCase
                 ->visit(new UsersIndexPage());
 
             $filteredUsersIndexPage = $usersIndexPage->click('@users-filter-toggle-button')
-                ->pause(500)
-                ->assertSee('Apply Filters')
+                ->waitForText('Apply Filters')
                 ->select('role', 'developer')
                 ->click('@users-filter-apply-button')
                 ->on(new UsersIndexPage());
@@ -99,8 +95,7 @@ class UsersFilterTest extends DuskTestCase
                 ->visit(new UsersIndexPage());
 
             $filteredUsersIndexPage = $usersIndexPage->click('@users-filter-toggle-button')
-                ->pause(500)
-                ->assertSee('Apply Filters')
+                ->waitForText('Apply Filters')
                 ->type('name', 'admin')
                 ->click('@users-filter-apply-button')
                 ->on(new UsersIndexPage());
@@ -109,8 +104,7 @@ class UsersFilterTest extends DuskTestCase
                 ->assertSeeIn('ul.list-group', 'admin')
                 ->assertDontSeeIn('ul.list-group', 'JP Developer')
                 ->click('@users-filter-toggle-button')
-                ->pause(500)
-                ->assertSee('Reset Filters')
+                ->waitForText('Reset Filters')
                 ->click('@users-filter-reset-button')
                 ->on(new UsersIndexPage());
 

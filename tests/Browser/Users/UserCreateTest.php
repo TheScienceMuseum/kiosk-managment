@@ -31,7 +31,6 @@ class UserCreateTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $usersIndexPage = $this->loginAs($browser, User::first())
-                ->resize(1920, 1080)
                 ->visit(new UsersIndexPage());
 
             $usersCreatePage = $usersIndexPage->click('@create-user-button')

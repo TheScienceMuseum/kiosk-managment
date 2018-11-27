@@ -42,8 +42,7 @@ class UsersPaginationTest extends DuskTestCase
                 ->visit(new UsersIndexPage());
 
             $filteredUsersIndexPage = $usersIndexPage->click('@users-filter-toggle-button')
-                ->pause(500)
-                ->assertSee('Apply Filters')
+                ->waitForText('Apply Filters')
                 ->type('email', 'example')
                 ->click('@users-filter-apply-button')
                 ->on(new UsersIndexPage());

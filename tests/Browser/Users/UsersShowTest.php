@@ -38,8 +38,7 @@ class UsersShowTest extends DuskTestCase
                 ->click('@view-first-user-button')
                 ->on(new UsersShowPage(1));
 
-            $userShowPage->pause(500)
-                ->assertSee('Name: JP Developer')
+            $userShowPage->waitForText('JP Developer')
                 ->assertSee('Email: dev@joipolloi.com');
         });
     }
