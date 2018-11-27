@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\UserManagement;
 
-use App\User;
-use Spatie\Permission\Models\Role;
+use App\Mail\UserRegistrationInviteMailable;
+use Illuminate\Support\Facades\Mail;
 use Tests\ActsAs;
 use Tests\CreatesUsers;
 use Tests\ResetsDatabase;
@@ -31,6 +31,42 @@ class CreateUsersTest extends TestCase
                 ]
             ])
         ;
+    }
+
+    public function testCreatingANewUserWithoutAnInvitationEmailDoesNotSendAnEmail()
+    {
+        Mail::fake();
+
+        $response = $this->actingAsDeveloper()
+            ->postJson('/api/user', [
+                'name' => $this->faker->unique()->name,
+                'email' => $this->faker->unique()->email,
+                'send_invite' => false,
+                'roles' => ['content author'],
+            ])
+        ;
+
+        $response->assertStatus(201);
+
+        Mail::assertNotQueued(UserRegistrationInviteMailable::class);
+    }
+
+    public function testCreatingANewUserWithAnInvitationEmailDoesSendAnEmailToThatUser()
+    {
+        Mail::fake();
+
+        $response = $this->actingAsDeveloper()
+            ->postJson('/api/user', [
+                'name' => $this->faker->unique()->name,
+                'email' => $this->faker->unique()->email,
+                'send_invite' => true,
+                'roles' => ['content author'],
+            ])
+        ;
+
+        $response->assertStatus(201);
+
+        Mail::assertQueued(UserRegistrationInviteMailable::class);
     }
 
     public function testCreatingANewUserActingAsADeveloperSucceeds()

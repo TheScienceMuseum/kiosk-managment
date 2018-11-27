@@ -12,10 +12,12 @@ use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserRoleResource;
 use App\Http\Resources\UserResource;
+use App\Mail\UserRegistrationInviteMailable;
 use App\User;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 use Spatie\Permission\Models\Role;
 use Spatie\QueryBuilder\Filter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -66,10 +68,10 @@ class UserController extends Controller
             $user->syncRoles($roles);
         }
 
+        $token = Password::broker()->createToken($user);
 
-        if ($request->input('send_invite')) {
-            // send user invitation email
-        }
+        Mail::to($user)
+            ->queue(new UserRegistrationInviteMailable($user, $token));
 
         return new UserResource($user);
     }
