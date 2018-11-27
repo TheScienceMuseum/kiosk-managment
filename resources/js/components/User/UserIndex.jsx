@@ -50,7 +50,7 @@ class UserIndex extends Component {
 
     render() {
         let { users } = this.state;
-        const { roles, links, meta } = this.state;
+        const { roles, links } = this.state;
         return (
             <Container className="py-4">
 
@@ -60,9 +60,9 @@ class UserIndex extends Component {
                     <CardHeader>
                         <Row>
                             <Col>
-                                <a href="/admin/users">
-                                    <h4>{trans('users.title')}</h4>
-                                </a>
+                                <h4>
+                                    <a href="/admin/users">{trans('users.title')}</a>
+                                </h4>
                             </Col>
                             <Col className="d-flex justify-content-end">
                                 {currentUser.can('create new users') &&
@@ -109,7 +109,6 @@ class UserIndex extends Component {
                     <ListGroup>
                         {users.map((user, index) => {
                             const userId = _.last(user.path.split('/'));
-
                             return (
                                 <ListGroupItem key={index} className="rounded-0">
                                     <Row>
@@ -119,7 +118,7 @@ class UserIndex extends Component {
                                         </Col>
                                         <Col className="text-center">
                                             <Row>
-                                                {user.roles.map(role => <Col xs="12"><Badge className="mt-2 mx-2" color="primary" key={role.name}>{trans(`users.${role.name.replace(' ', '_')}`)}</Badge></Col>)}
+                                                {user.roles.map(role => <Col xs="12" key={role.name}><Badge className="mt-2 mx-2" color="primary">{trans(`users.${role.name.replace(' ', '_')}`)}</Badge></Col>)}
                                             </Row>
                                         </Col>
                                         <Col>

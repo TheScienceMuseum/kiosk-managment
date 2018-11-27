@@ -34,9 +34,7 @@ class NavigationBar extends Component {
                                         {user.name}
                                     </DropdownToggle>
                                     <DropdownMenu right>
-                                        <DropdownItem>
-                                            <a href="/logout" onClick={this.logout}>{trans('auth.logout')}</a>
-                                        </DropdownItem>
+                                        <DropdownItem tag="a" href="/logout" onClick={this.logout}>{trans('auth.logout')}</DropdownItem>
                                     </DropdownMenu>
                                 </UncontrolledDropdown>
                             }
@@ -45,12 +43,14 @@ class NavigationBar extends Component {
                 </Navbar>
             </div>
         );
-    }
+    };
 
     logout = (e) => {
-        // e.preventDefault();
-        userLogout()
-    }
+        e.preventDefault();
+        userLogout();
+        window.location.href = '/login';
+
+    };
 }
 
 export default NavigationBar;

@@ -26,8 +26,7 @@ Route::group([
         return redirect()->back();
     })->name('auth.login.mfa');
 
-    $router->get('/', 'HomeController@index')
-        ->name('home');
+
     $router->get('/logout', function() {
         return redirect('home');
     });
