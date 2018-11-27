@@ -35,6 +35,10 @@ Route::group([
     ], function (\Illuminate\Routing\Router $router) {
         $router->get('users', 'UserController@index')
             ->name('admin.users');
+        $router->get('users/create', 'UserController@create')
+            ->name('admin.users.create');
+        $router->post('users', 'UserController@store')
+            ->name('admin.users.store');
         $router->get('users/{user}', 'UserController@show')
             ->name('admin.users.show');
 
