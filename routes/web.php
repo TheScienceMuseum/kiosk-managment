@@ -20,6 +20,21 @@ Route::group([
 });
 
 Route::group([
+    'middleware' => [],
+], function (\Illuminate\Routing\Router $router) {
+    $router->get('registration/step/password/{token}/{encryptedEmail}', 'Auth\UserOnBoardingController@showStepPassword')
+        ->name('user.onboarding.password');
+    $router->post('registration/step/password/{token}/{encryptedEmail}', 'Auth\UserOnBoardingController@processStepPassword')
+        ->name('user.onboarding.password.process');
+
+    $router->get('registration/step/mfa/{token}/{encryptedEmail}', 'Auth\UserOnBoardingController@showStepMFARegistration')
+        ->name('user.onboarding.mfa');
+    $router->post('registration/step/mfa/{token}/{encryptedEmail}', 'Auth\UserOnBoardingController@processStepMFARegistration')
+        ->name('user.onboarding.mfa.process');
+});
+
+
+Route::group([
     'middleware' => ['auth', 'mfa'],
 ], function (\Illuminate\Routing\Router $router) {
     $router->post('/login/authorize', function () {
@@ -35,8 +50,14 @@ Route::group([
     ], function (\Illuminate\Routing\Router $router) {
         $router->get('users', 'UserController@index')
             ->name('admin.users');
+        $router->get('users/create', 'UserController@create')
+            ->name('admin.users.create');
+        $router->post('users', 'UserController@store')
+            ->name('admin.users.store');
         $router->get('users/{user}', 'UserController@show')
             ->name('admin.users.show');
+        $router->post('users/{user}/on-board', 'UserController@onboard')
+            ->name('admin.users.on-board');
 
         $router->get('packages', 'PackageController@index')
             ->name('admin.packages');

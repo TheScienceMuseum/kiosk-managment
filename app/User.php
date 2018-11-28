@@ -66,7 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function setMfaSecretAttribute($value)
     {
-        $this->attributes['mfa_secret'] = encrypt($value);
+        $this->attributes['mfa_secret'] = ($value === null) ? null : encrypt($value);
     }
 
     public function getMfaSecretAttribute($value)
