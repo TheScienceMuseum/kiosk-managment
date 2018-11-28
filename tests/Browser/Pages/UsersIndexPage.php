@@ -43,6 +43,7 @@ class UsersIndexPage extends Page
             '@users-filter-reset-button' => 'form .float-right.row a.btn-outline-danger',
             '@create-user-button' => '.card-header .row .col button.btn-success',
             '@view-first-user-button' => '.list-group-item .row .col a[href="/admin/users/1"] button',
+            '@role-select-filter' => 'form div div div div div div div div input',
         ];
     }
 }

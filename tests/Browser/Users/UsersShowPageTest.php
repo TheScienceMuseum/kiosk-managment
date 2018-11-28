@@ -38,12 +38,12 @@ class UsersShowPageTest extends DuskTestCase
                 ->click('@view-first-user-button')
                 ->on(new UsersShowPage(1));
 
-            $userShowPage->waitForText('JP Developer')
+            $userShowPage->waitForText('Name: JP Developer')
                 ->assertSee('Email: dev@joipolloi.com');
         });
     }
 
-    public function testDeleteUserButton()
+    public function testDeletingAUser()
     {
         $this->browse(function (Browser $browser) {
             $usersShowPage = $this->loginAs($browser, User::first())
@@ -58,8 +58,26 @@ class UsersShowPageTest extends DuskTestCase
         });
     }
 
-//    public function testDeleteUserButtonDoesntWorkForLoggedInUser()
-//    {
-//
-//    }
+    public function testEditingAUser()
+    {
+        $this->browse(function (Browser $browser) {
+            $usersShowPage = $this->loginAs($browser, User::first())
+                ->visit(new UsersShowPage(10));
+
+            $usersShowPage->waitForText('tech admin')
+                ->click('@edit-user-button')
+                ->waitForText('Discard Changes')
+                ->assertSee('Save Changes')
+                ->type('name', 'Test Edit')
+                ->type('email', 'test@edit.com')
+                ->keys('@edit-user-role-input', 'content author', '{ENTER}')
+                ->click('@edit-user-save-button')
+                ->waitForReload()
+                ->waitForText('Name: Test Edit')
+                ->assertSee('Email: test@edit.com')
+                ->assertSee('Tech Admin')
+                ->assertSee('Content Author');
+
+        });
+    }
 }

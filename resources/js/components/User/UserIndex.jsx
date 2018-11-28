@@ -19,8 +19,7 @@ class UserIndex extends Component {
             name: '',
             email: '',
             role: null
-        },
-        selectedRole: null
+        }
     };
 
     componentDidMount() {
@@ -29,9 +28,15 @@ class UserIndex extends Component {
         if (queryObj.page) apiQueryObj['page[number]'] = queryObj.page;
         if (queryObj.name) apiQueryObj['filter[name]'] = queryObj.name;
         if (queryObj.email) apiQueryObj['filter[email]'] = queryObj.email;
-        if (queryObj.role !== trans('users.any')) apiQueryObj['filter[role]'] = queryObj.role;
+        if (queryObj.role) apiQueryObj['filter[role]'] = queryObj.role;
         const apiQueryString = queryString.stringify(apiQueryObj);
-        
+
+        let roleOption = '';
+        if (queryObj.role) roleOption = {
+            value: queryObj.role,
+            label: trans(`users.${queryObj.role.replace(' ', '_')}`)
+        };
+
         api.userIndex(apiQueryString)
            .then(data => this.setState({
                users: data.data,
@@ -40,7 +45,7 @@ class UserIndex extends Component {
                filter: {
                    name: queryObj.name || '',
                    email: queryObj.email || '',
-                   role: queryObj.role || null
+                   role: roleOption || null
                }
            }));
        api.userRoleIndex()
@@ -175,10 +180,12 @@ class UserIndex extends Component {
     applyFilters = (e) => {
         e.preventDefault();
         const {filter} = this.state;
+        let newRole = '';
+        if (filter.role) newRole = filter.role.value;
         const queryObj = {
             name: filter.name,
             email: filter.email,
-            role: filter.role.value
+            role: newRole
         };
 
         const qString = queryString.stringify(queryObj);

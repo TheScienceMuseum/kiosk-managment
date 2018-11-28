@@ -35,6 +35,14 @@ exports.userDestroy = (id) => {
         .then(({data}) => data);
 };
 
+exports.userUpdate = (updatedUser, id) => {
+    return axios.put(`/api/user/${id}`, {
+        name: updatedUser.name,
+        email: updatedUser.email,
+        roles: updatedUser.roles
+    })
+};
+
 exports.kioskIndex = () => {
     return axios.get('/api/kiosk')
         .then(({data}) => data);

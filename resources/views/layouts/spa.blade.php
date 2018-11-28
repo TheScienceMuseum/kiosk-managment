@@ -47,10 +47,13 @@
         @else
             window.current_user = {
             permissions: <?php
-            echo json_encode(Auth::user()->getAllPermissions());
+                echo json_encode(Auth::user()->getAllPermissions());
             ?>,
             name: <?php
-            echo json_encode(Auth::user()->name);
+                echo json_encode(Auth::user()->name);
+            ?>,
+            id: <?php
+                echo json_encode(Auth::user()->id);
             ?>
         };
         @endguest

@@ -45,6 +45,9 @@ class UsersShowPage extends Page
         return [
             '@view-first-user-button' => '.list-group-item .row .col a[href=/admin/users/1] button',
             '@delete-user-button' => '.card-header .row .col button.btn-danger',
+            '@edit-user-button' =>'.card-header .row .col button.btn-primary',
+            '@edit-user-role-input' => '#update-user-role div div div div input',
+            '@edit-user-save-button' => '.btn-group button.btn-success',
         ];
     }
 }

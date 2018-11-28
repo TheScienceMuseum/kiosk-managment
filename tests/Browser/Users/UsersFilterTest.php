@@ -34,6 +34,7 @@ class UsersFilterTest extends DuskTestCase
                 ->on(new UsersIndexPage());
 
             $filteredUsersIndexPage->waitForText('View')
+                ->click('@users-filter-toggle-button')
                 ->assertSeeIn('ul.list-group', 'JP Developer')
                 ->assertDontSeeIn('ul.list-group', 'developer')
                 ->assertDontSeeIn('ul.list-group', 'admin')
@@ -76,7 +77,7 @@ class UsersFilterTest extends DuskTestCase
 
             $filteredUsersIndexPage = $usersIndexPage->click('@users-filter-toggle-button')
                 ->waitForText('Apply Filters')
-                ->select('role', 'developer')
+                ->keys('@role-select-filter', 'developer', '{ENTER}')
                 ->click('@users-filter-apply-button')
                 ->on(new UsersIndexPage());
 
