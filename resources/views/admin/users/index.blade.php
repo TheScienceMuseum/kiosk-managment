@@ -8,6 +8,9 @@
                     <div class="card-header d-flex justify-content-between">
                         Users
                         <div class="btn-group btn-group-sm">
+                            <a class="btn btn-success" href="{{ route('admin.users.create') }}">
+                                Create
+                            </a>
                             <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#collapsible-filters">
                                 Filters
                             </button>

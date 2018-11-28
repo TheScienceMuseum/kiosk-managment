@@ -13,7 +13,7 @@ class KioskDestroyRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return $this->user()->can('delete', $this->route('kiosk'));
     }
 
     /**

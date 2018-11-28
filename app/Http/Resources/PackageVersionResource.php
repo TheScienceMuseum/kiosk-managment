@@ -16,7 +16,7 @@ class PackageVersionResource extends JsonResource
     {
         return [
             'version' => $this->version,
-            'package_path' => $this->path,
+            'download' => $this->archive_path_exists ? route('api.kiosk.package.download', [$this->package, $this]) : null,
         ];
     }
 }

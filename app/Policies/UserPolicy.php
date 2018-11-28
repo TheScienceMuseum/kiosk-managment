@@ -5,15 +5,17 @@ namespace App\Policies;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
+/**
+ * Class UserPolicy
+ * @package App\Policies
+ */
 class UserPolicy
 {
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\User  $user
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
     public function index(User $user)
     {
@@ -21,11 +23,9 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\User  $model
-     * @return mixed
+     * @param User $user
+     * @param User $model
+     * @return bool
      */
     public function view(User $user, User $model)
     {
@@ -33,10 +33,8 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can create models.
-     *
-     * @param  \App\User  $user
-     * @return mixed
+     * @param User $user
+     * @return bool
      */
     public function create(User $user)
     {
@@ -44,11 +42,9 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\User  $model
-     * @return mixed
+     * @param User $user
+     * @param User $model
+     * @return bool
      */
     public function update(User $user, User $model)
     {
@@ -56,11 +52,9 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  \App\User  $user
-     * @param  \App\User  $model
-     * @return mixed
+     * @param User $user
+     * @param User $model
+     * @return bool
      */
     public function delete(User $user, User $model)
     {

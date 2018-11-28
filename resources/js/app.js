@@ -22,6 +22,13 @@ require('./bootstrap');
 
         $targetForm.submit();
     });
+
+    $('.makesButtonClickable').on('change', function (ev) {
+        const $target = $(ev.currentTarget);
+        const $targetButton = $($target.data('target'));
+
+        $targetButton.attr('disabled', ! $target.is(':checked'));
+    });
 })();
 
 require('./components/App');

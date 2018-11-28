@@ -6,17 +6,20 @@ namespace App\Http\Controllers\Api;
 use App\Filters\UserRoleFilter;
 use App\Http\Requests\UserDestroyRequest;
 use App\Http\Requests\UserIndexRequest;
+use App\Http\Requests\UserOnBoardRequest;
 use App\Http\Requests\UserRoleIndexRequest;
 use App\Http\Requests\UserShowRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserRoleResource;
 use App\Http\Resources\UserResource;
+use App\Mail\UserOnBoardingInviteMailable;
+use App\OnBoarding\OnBoardingService;
 use App\User;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 use Spatie\Permission\Models\Role;
 use Spatie\QueryBuilder\Filter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -67,10 +70,19 @@ class UserController extends Controller
             $user->syncRoles($roles);
         }
 
+        OnBoardingService::startOnBoarding($user);
 
-        if ($request->input('send_invite')) {
-            // send user invitation email
-        }
+        return new UserResource($user);
+    }
+
+    /**
+     * @param UserOnBoardRequest $request
+     * @param User $user
+     * @return UserResource
+     */
+    public function onboard(UserOnBoardRequest $request, User $user) : UserResource
+    {
+        OnBoardingService::startOnBoarding($user);
 
         return new UserResource($user);
     }

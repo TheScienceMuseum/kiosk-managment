@@ -13,7 +13,7 @@ class KioskShowLogsRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('view kiosk logs');
+        return $this->user()->can('viewLogs', $this->route('kiosk'));
     }
 
     /**

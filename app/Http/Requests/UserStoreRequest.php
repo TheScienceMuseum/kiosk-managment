@@ -27,7 +27,6 @@ class UserStoreRequest extends FormRequest
         return [
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
-            'send_invite' => 'required|boolean',
             'roles' => 'array|required',
             'roles.*' => 'exists:roles,name',
         ];

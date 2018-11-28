@@ -20,6 +20,21 @@ Route::group([
 });
 
 Route::group([
+    'middleware' => [],
+], function (\Illuminate\Routing\Router $router) {
+    $router->get('registration/step/password/{token}/{encryptedEmail}', 'Auth\UserOnBoardingController@showStepPassword')
+        ->name('user.onboarding.password');
+    $router->post('registration/step/password/{token}/{encryptedEmail}', 'Auth\UserOnBoardingController@processStepPassword')
+        ->name('user.onboarding.password.process');
+
+    $router->get('registration/step/mfa/{token}/{encryptedEmail}', 'Auth\UserOnBoardingController@showStepMFARegistration')
+        ->name('user.onboarding.mfa');
+    $router->post('registration/step/mfa/{token}/{encryptedEmail}', 'Auth\UserOnBoardingController@processStepMFARegistration')
+        ->name('user.onboarding.mfa.process');
+});
+
+
+Route::group([
     'middleware' => ['auth', 'mfa'],
 ], function (\Illuminate\Routing\Router $router) {
     $router->post('/login/authorize', function () {
@@ -34,6 +49,8 @@ Route::group([
         'namespace' => 'Admin',
         'prefix' => 'admin',
     ], function (\Illuminate\Routing\Router $router) {
+        $router->post('users/{user}/on-board', 'UserController@onboard')
+            ->name('admin.users.on-board');
 
         $router->get('packages', 'PackageController@index')
             ->name('admin.packages');

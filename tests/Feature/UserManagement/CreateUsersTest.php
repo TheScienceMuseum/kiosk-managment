@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\UserManagement;
 
-use App\User;
-use Spatie\Permission\Models\Role;
+use App\Mail\UserOnBoardingInviteMailable;
+use Illuminate\Support\Facades\Mail;
 use Tests\ActsAs;
 use Tests\CreatesUsers;
 use Tests\ResetsDatabase;
@@ -26,11 +26,27 @@ class CreateUsersTest extends TestCase
                 'errors' => [
                     'name' => true,
                     'email' => true,
-                    'send_invite' => true,
                     'roles' => true,
                 ]
             ])
         ;
+    }
+
+    public function testCreatingANewUserSendsAnOnboardingEmailToThatUser()
+    {
+        Mail::fake();
+
+        $response = $this->actingAsDeveloper()
+            ->postJson('/api/user', [
+                'name' => $this->faker->unique()->name,
+                'email' => $this->faker->unique()->email,
+                'roles' => ['content author'],
+            ])
+        ;
+
+        $response->assertStatus(201);
+
+        Mail::assertQueued(UserOnBoardingInviteMailable::class);
     }
 
     public function testCreatingANewUserActingAsADeveloperSucceeds()
@@ -39,7 +55,6 @@ class CreateUsersTest extends TestCase
             ->postJson('/api/user', [
                 'name' => $this->faker->unique()->name,
                 'email' => $this->faker->unique()->email,
-                'send_invite' => true,
                 'roles' => ['content author'],
             ])
         ;
@@ -53,7 +68,6 @@ class CreateUsersTest extends TestCase
             ->postJson('/api/user', [
                 'name' => $this->faker->unique()->name,
                 'email' => $this->faker->unique()->email,
-                'send_invite' => true,
                 'roles' => ['content author'],
             ])
         ;
@@ -67,7 +81,6 @@ class CreateUsersTest extends TestCase
             ->postJson('/api/user', [
                 'name' => $this->faker->unique()->name,
                 'email' => $this->faker->unique()->email,
-                'send_invite' => true,
                 'roles' => ['content author'],
             ])
         ;
@@ -81,7 +94,6 @@ class CreateUsersTest extends TestCase
             ->postJson('/api/user', [
                 'name' => $this->faker->unique()->name,
                 'email' => $this->faker->unique()->email,
-                'send_invite' => true,
                 'roles' => ['content author'],
             ])
         ;
@@ -95,7 +107,6 @@ class CreateUsersTest extends TestCase
             ->postJson('/api/user', [
                 'name' => $this->faker->unique()->name,
                 'email' => $this->faker->unique()->email,
-                'send_invite' => true,
                 'roles' => ['content author'],
             ])
         ;
