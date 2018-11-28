@@ -48,6 +48,7 @@ class UsersShowPage extends Page
             '@edit-user-button' =>'.card-header .row .col button.btn-primary',
             '@edit-user-role-input' => '#update-user-role div div div div input',
             '@edit-user-save-button' => '.btn-group button.btn-success',
+            '@edit-user-discard-button' => '.btn-group button.btn-danger',
         ];
     }
 }

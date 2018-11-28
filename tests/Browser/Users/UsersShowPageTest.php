@@ -80,4 +80,23 @@ class UsersShowPageTest extends DuskTestCase
 
         });
     }
+
+    public function testDiscardingChangesToAUser()
+    {
+        $this->browse(function (Browser $browser) {
+            $usersShowPage = $this->loginAs($browser, User::first())
+                ->visit(new UsersShowPage(10));
+
+            $usersShowPage->waitForText('tech admin')
+                ->click('@edit-user-button')
+                ->waitForText('Discard Changes')
+                ->assertSee('Save Changes')
+                ->type('name', 'Test Edit')
+                ->type('email', 'test@edit.com')
+                ->keys('@edit-user-role-input', 'content author', '{ENTER}')
+                ->click('@edit-user-discard-button')
+                ->waitForText('Name: tech admin')
+                ->assertSee('Tech Admin');
+        });
+    }
 }
