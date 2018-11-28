@@ -5,6 +5,7 @@ import { Card, CardHeader, CardBody, CardTitle, CardSubtitle, Button, ButtonGrou
 import queryString from 'query-string';
 import {trans, user as currentUser} from '../../helpers';
 import {Redirect} from 'react-router-dom';
+import Select from 'react-select';
 
 class UserIndex extends Component {
 
@@ -12,13 +13,14 @@ class UserIndex extends Component {
         users: [],
         links: [],
         meta: [],
-        roles: [],
+        allRoles: [],
         filterToggle: false,
         filter: {
             name: '',
             email: '',
-            role: trans('users.any')
-        }
+            role: null
+        },
+        selectedRole: null
     };
 
     componentDidMount() {
@@ -38,19 +40,26 @@ class UserIndex extends Component {
                filter: {
                    name: queryObj.name || '',
                    email: queryObj.email || '',
-                   role: queryObj.role || trans('users.any')
+                   role: queryObj.role || null
                }
            }));
        api.userRoleIndex()
            .then(({data}) => {
-               this.setState({ roles: data });
+               this.setState({ allRoles: data });
            });
 
     }
 
     render() {
         let { users } = this.state;
-        const { roles, links, meta } = this.state;
+        const { allRoles, links, meta, filter } = this.state;
+
+        const roleOptions = allRoles.map(role => {
+            return {
+                value: role.name,
+                label: trans(`users.${role.name.replace(' ', '_')}`)
+            }
+        });
 
         const paginationNumbersArray = new Array(meta.last_page).fill(0).map((el, index) => {
             return index + 1;
@@ -85,28 +94,29 @@ class UserIndex extends Component {
                                     <Col>
                                         <FormGroup className="mr-3">
                                             <Label for="user-name-filter">{trans('users.name')}</Label>
-                                            <Input type="text" name="name" id="user-name-filter" onChange={this.handleChange} value={this.state.filter.name}/>
+                                            <Input type="text" name="name" id="user-name-filter" onChange={this.handleChange} value={filter.name}/>
                                         </FormGroup>
                                     </Col>
                                     <Col>
                                         <FormGroup className="mr-3">
                                             <Label for="user-email-filter">{trans('users.email')}</Label>
-                                            <Input type="text" name="email" id="user-email-filter" onChange={this.handleChange} value={this.state.filter.email}/>
+                                            <Input type="text" name="email" id="user-email-filter" onChange={this.handleChange} value={filter.email}/>
                                         </FormGroup>
                                     </Col>
                                     <Col>
                                         <FormGroup className="mr-3">
                                             <Label for="user-role-filter">{trans('users.role')}</Label>
-                                            <Input type="select" name="role" id="user-role-filter" onChange={this.handleChange} value={this.state.filter.role}>
-                                                <option>{trans('users.any')}</option>
-                                                {roles.map(role => <option key={role.name} value={role.name}>{trans(`users.${role.name.replace(' ', '_')}`)}</option>)}
-                                            </Input>
+                                            <Select id="user-role-filter" onChange={this.handleRoleChange} value={filter.role} options={roleOptions}/>
+                                            {/*<Input type="select" name="role" id="user-role-filter" onChange={this.handleChange} value={this.state.filter.role}>*/}
+                                                {/*<option>{trans('users.any')}</option>*/}
+                                                {/*{roles.map(role => <option key={role.name} value={role.name}>{trans(`users.${role.name.replace(' ', '_')}`)}</option>)}*/}
+                                            {/*</Input>*/}
                                         </FormGroup>
                                     </Col>
                                 </Row>
                                 <Row className="float-right">
                                     <Button className="mb-2 mr-3" outline color="danger" href="/admin/users">{trans('users.reset')}</Button>
-                                    <Button className="mb-2" color="dark">{trans('users.apply_filter')}</Button>
+                                    <Button className="mb-2" onClick={this.applyFilters} color="dark">{trans('users.apply_filter')}</Button>
                                 </Row>
                             </Form>
                         </CardBody>
@@ -123,7 +133,7 @@ class UserIndex extends Component {
                                         </Col>
                                         <Col className="text-center">
                                             <Row>
-                                                {user.roles.map(role => <Col xs="12" key={role.name}><Badge className="mt-2 mx-2" color="primary">{trans(`users.${role.name.replace(' ', '_')}`)}</Badge></Col>)}
+                                                {user.roles.map(role => <Col xs="12" key={role.name}><Badge className="mt-2 mx-2" color="warning">{trans(`users.${role.name.replace(' ', '_')}`)}</Badge></Col>)}
                                             </Row>
                                         </Col>
                                         <Col>
@@ -144,7 +154,7 @@ class UserIndex extends Component {
                             {paginationNumbersArray.map(pageNumber => {
                                 return (
                                     <PaginationItem active={meta.current_page === pageNumber} key={pageNumber}>
-                                        <PaginationLink href={`/admin/users?page=${pageNumber}`}>{pageNumber}</PaginationLink>
+                                        <PaginationLink href={`/admin/users?${this.addPageNumberToQuery(pageNumber)}`}>{pageNumber}</PaginationLink>
                                     </PaginationItem>
                                 )
                             })}
@@ -162,6 +172,19 @@ class UserIndex extends Component {
         this.setState({filterToggle: !this.state.filterToggle});
     };
 
+    applyFilters = (e) => {
+        e.preventDefault();
+        const {filter} = this.state;
+        const queryObj = {
+            name: filter.name,
+            email: filter.email,
+            role: filter.role.value
+        };
+
+        const qString = queryString.stringify(queryObj);
+        window.location.href = '?' + qString;
+    };
+
     handleChange = (e) => {
         const filter = Object.assign({}, this.state.filter);
         filter[e.target.name] = e.target.value;
@@ -170,12 +193,24 @@ class UserIndex extends Component {
         })
     };
 
+    handleRoleChange = (selectedRole) => {
+        const filter = Object.assign({}, this.state.filter)
+        filter.role = selectedRole;
+        this.setState({ filter });
+    };
+
     increaseOrDecreasePagination = (direction) => {
         const queryObj = queryString.parse(this.props.location.search);
         if(!queryObj.page) queryObj.page = 1;
 
         if (direction === 'up') queryObj.page = parseInt(queryObj.page) + 1;
         else if (direction === 'down') queryObj.page = parseInt(queryObj.page) - 1;
+        return queryString.stringify(queryObj);
+    };
+
+    addPageNumberToQuery = (pageNumber) => {
+        const queryObj = queryString.parse(this.props.location.search);
+        queryObj.page = pageNumber;
         return queryString.stringify(queryObj);
     };
 }
