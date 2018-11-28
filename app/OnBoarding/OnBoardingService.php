@@ -3,7 +3,7 @@
 namespace App\OnBoarding;
 
 use App\Mail\UserOnBoardingInviteMailable;
-use Illuminate\Foundation\Auth\User;
+use App\User;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 
