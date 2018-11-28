@@ -25,7 +25,7 @@ require('./bootstrap');
 
     $('.makesButtonClickable').on('change', function (ev) {
         const $target = $(ev.currentTarget);
-        const $targetButton = $(`${$target.data('target')}`);
+        const $targetButton = $($target.data('target'));
 
         $targetButton.attr('disabled', ! $target.is(':checked'));
     });

@@ -12,7 +12,7 @@
         </div>
 
         <div class="card-body">
-            <form action="{{ route('user.onboarding.mfa.process', [$token, encrypt($user->email)]) }}" method="post" class="registrationPasswordStep">
+            <form action="{{ route('user.onboarding.mfa.process', [$token, encrypt($user->email)]) }}" method="post" class="registrationMFAStep">
                 @csrf
 
                 <div class="alert alert-info">
@@ -49,8 +49,8 @@
 
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" name="confirmation" class="custom-control-input makesButtonClickable" id="customCheck1" data-target=".submitsMfaRegistrationForm">
-                                <label class="custom-control-label" for="customCheck1">
+                                <input type="checkbox" name="confirmation" class="custom-control-input makesButtonClickable" id="confirm-mfa-copied" data-target=".submitsMfaRegistrationForm">
+                                <label class="custom-control-label" for="confirm-mfa-copied">
                                     I confirm I have configured my authenticator app as required and that this is the only time I will see this information.
                                 </label>
                             </div>
@@ -62,7 +62,7 @@
         </div>
 
         <div class="card-footer text-right">
-            <button type="button" class="btn btn-success submitsForm submitsMfaRegistrationForm" data-target="registrationPasswordStep" disabled>
+            <button type="button" class="btn btn-success submitsForm submitsMfaRegistrationForm" data-target="registrationMFAStep" disabled>
                 Continue to login
             </button>
         </div>

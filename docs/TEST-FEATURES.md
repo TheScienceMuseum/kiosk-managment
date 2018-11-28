@@ -166,7 +166,7 @@ Feature\\UserManagement\\CreateUsers
 
 ✓ Creating a new user without all fields fails with appropriate messages
 
-✓ Creating a new user sends an on boarding email to that user
+✓ Creating a new user sends an onboarding email to that user
 
 ✓ Creating a new user acting as a developer succeeds
 

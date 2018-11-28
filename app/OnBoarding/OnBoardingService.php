@@ -20,8 +20,10 @@ class OnBoardingService
         $token = Password::broker()->createToken($user);
 
         // Email the user with a link to start their on boarding process
-        Mail::to($user)
-            ->queue(new UserOnBoardingInviteMailable($user, $token));
+        $mailable = new UserOnBoardingInviteMailable($user, $token);
+        Mail::to($user)->queue($mailable);
+
+        return $mailable;
     }
 
     static public function getOnBoardingFromTokenAndEncryptedEmail(string $token, string $encryptedEmail)

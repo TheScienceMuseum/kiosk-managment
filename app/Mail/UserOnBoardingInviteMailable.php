@@ -15,22 +15,22 @@ class UserOnBoardingInviteMailable extends Mailable
     /**
      * @var User
      */
-    protected $registeredUser;
+    public $user;
 
     /**
      * @var string
      */
-    protected $token;
+    public $token;
 
     /**
      * Create a new message instance.
      *
-     * @param User $registeredUser
+     * @param User $user
      * @param string $token
      */
-    public function __construct(User $registeredUser, string $token)
+    public function __construct(User $user, string $token)
     {
-        $this->registeredUser = $registeredUser;
+        $this->user = $user;
         $this->token = $token;
     }
 
@@ -43,7 +43,7 @@ class UserOnBoardingInviteMailable extends Mailable
     {
         return $this->subject(config('app.name') . ': Invitation to set up account')
             ->markdown('mail.user-registration-invite', [
-                'user' => $this->registeredUser,
+                'user' => $this->user,
                 'token' => $this->token,
             ]);
     }
