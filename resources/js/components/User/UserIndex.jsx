@@ -96,26 +96,22 @@ class UserIndex extends Component {
                         <CardBody>
                             <Form>
                                 <Row form>
-                                    <Col>
+                                    <Col xs={12} md={4}>
                                         <FormGroup className="mr-3">
                                             <Label for="user-name-filter">{trans('users.name')}</Label>
                                             <Input type="text" name="name" id="user-name-filter" onChange={this.handleChange} value={filter.name}/>
                                         </FormGroup>
                                     </Col>
-                                    <Col>
+                                    <Col xs={12} md={4}>
                                         <FormGroup className="mr-3">
                                             <Label for="user-email-filter">{trans('users.email')}</Label>
                                             <Input type="text" name="email" id="user-email-filter" onChange={this.handleChange} value={filter.email}/>
                                         </FormGroup>
                                     </Col>
-                                    <Col>
+                                    <Col xs={12} md={4}>
                                         <FormGroup className="mr-3">
-                                            <Label for="user-role-filter">{trans('users.role')}</Label>
+                                            <Label for="user-role-filter">{trans('users.roles')}</Label>
                                             <Select id="user-role-filter" onChange={this.handleRoleChange} value={filter.role} options={roleOptions}/>
-                                            {/*<Input type="select" name="role" id="user-role-filter" onChange={this.handleChange} value={this.state.filter.role}>*/}
-                                                {/*<option>{trans('users.any')}</option>*/}
-                                                {/*{roles.map(role => <option key={role.name} value={role.name}>{trans(`users.${role.name.replace(' ', '_')}`)}</option>)}*/}
-                                            {/*</Input>*/}
                                         </FormGroup>
                                     </Col>
                                 </Row>
@@ -132,18 +128,18 @@ class UserIndex extends Component {
                             return (
                                 <ListGroupItem key={index} className="rounded-0">
                                     <Row>
-                                        <Col>
+                                        <Col className="text-center text-md-left" xs={12} md={4}>
                                             <CardTitle>{user.name}</CardTitle>
                                             <CardSubtitle>{user.email}</CardSubtitle>
                                         </Col>
-                                        <Col className="text-center">
+                                        <Col className="text-center" xs={12} md={4}>
                                             <Row>
                                                 {user.roles.map(role => <Col xs="12" key={role.name}><Badge className="mt-2 mx-2" color="warning">{trans(`users.${role.name.replace(' ', '_')}`)}</Badge></Col>)}
                                             </Row>
                                         </Col>
-                                        <Col>
+                                        <Col className=" text-center text-md-right mt-2 mt-md-0" xs={12} md={4} >
                                             <a href={`/admin/users/${userId}`}>
-                                                <Button color="dark" outline className="float-right">{trans('users.view')}</Button>
+                                                <Button color="dark" outline >{trans('users.view')}</Button>
                                             </a>
                                         </Col>
                                     </Row>
@@ -152,7 +148,7 @@ class UserIndex extends Component {
                         })}
                     </ListGroup>
                     <CardFooter className=" d-flex justify-content-center">
-                        <Pagination size="lg">
+                        <Pagination>
                             <PaginationItem disabled={!links.prev}>
                                 <PaginationLink id="pagination-prev-page" previous href={`/admin/users?${this.increaseOrDecreasePagination('down')}`}/>
                             </PaginationItem>

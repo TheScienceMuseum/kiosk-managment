@@ -81,23 +81,23 @@ class UserShow extends Component {
                         </Row>
                     </CardHeader>
                     {editToggle
-                        ? <Form className="w-75 mx-auto mt-3">
+                        ? <Form className="mt-3">
                             <Row>
-                                <Col>
-                                    <FormGroup className="mr-3">
-                                        <Label for="update-user-name">{trans('users.name')}</Label>
+                                <Col className="text-center" xs={12} md={6}>
+                                    <Card className=" w-75 mx-auto mt-3">
+                                        <CardHeader>{trans('users.name')}</CardHeader>
                                         <Input type="text" name="name" id="update-user-name" onChange={this.handleChange} value={updatedUser.name}/>
-                                    </FormGroup>
-                                    <FormGroup className="mr-3">
-                                        <Label for="update-user-email">{trans('users.email')}</Label>
+                                    </Card>
+                                    <Card className=" w-75 mx-auto mt-3">
+                                        <CardHeader>{trans('users.email')}</CardHeader>
                                         <Input type="text" name="email" id="update-user-email" onChange={this.handleChange} value={updatedUser.email}/>
-                                    </FormGroup>
+                                    </Card>
                                 </Col>
-                                <Col className="my-auto">
-                                    <FormGroup className="mr-3">
-                                        <Label for="update-user-role">{trans('users.role')}</Label>
+                                <Col className="text-center" xs={12} md={6}>
+                                    <Card className=" w-75 mx-auto mt-3">
+                                        <CardHeader>{trans('users.roles')}</CardHeader>
                                         <Select id="update-user-role" value={selectedRoles} onChange={this.handleRoleChange} options={roleOptions} isMulti />
-                                    </FormGroup>
+                                    </Card>
                                 </Col>
                             </Row>
                             <Row>
@@ -108,23 +108,30 @@ class UserShow extends Component {
                             </Row>
                         </Form>
 
-                        : <Row>
-                            <Col className="text-center">
-                                <h3 className="my-3">{`${trans('users.name')}: ${user.name}`}</h3>
-                                <h3 className="my-3">{`${trans('users.email')}: ${user.email}`}</h3>
+                        : <Row className="mt-3">
+                            <Col className="text-center" xs={12} md={6}>
+                                <Card className=" w-75 mx-auto mt-3">
+                                    <CardHeader>{trans('users.name')}</CardHeader>
+                                    <h3 className="my-3">{user.name}</h3>
+                                </Card>
+                                <Card className=" w-75 mx-auto mt-3">
+                                    <CardHeader>{trans('users.email')}</CardHeader>
+                                    <h3 className="my-3">{user.email}</h3>
+                                </Card>
                             </Col>
-                            <Col className="text-center">
-
-                                <h3 className="mt-3">Roles:</h3>
-                                <Row>
-                                    {user.roles.map(role => {
-                                        return (
-                                            <Col key={role.name} xs="12">
-                                                <Badge className="mt-2" color="warning">{trans(`users.${role.name.replace(' ', '_')}`)}</Badge>
-                                            </Col>
-                                        )
-                                    })}
-                                </Row>
+                            <Col className="text-center" xs={12} md={6}>
+                                <Card className=" w-75 mx-auto mt-3">
+                                    <CardHeader>{trans('users.roles')}</CardHeader>
+                                    <h3 className="my-3"><Row>
+                                        {user.roles.map(role => {
+                                            return (
+                                                <Col key={role.name} xs="12">
+                                                    <Badge className="mt-2" color="warning">{trans(`users.${role.name.replace(' ', '_')}`)}</Badge>
+                                                </Col>
+                                            )
+                                        })}
+                                    </Row></h3>
+                                </Card>
                             </Col>
                         </Row>
                     }
