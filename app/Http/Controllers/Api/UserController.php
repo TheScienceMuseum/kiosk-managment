@@ -70,6 +70,8 @@ class UserController extends Controller
             $user->syncRoles($roles);
         }
 
+        OnBoardingService::startOnBoarding($user);
+
         return new UserResource($user);
     }
 
