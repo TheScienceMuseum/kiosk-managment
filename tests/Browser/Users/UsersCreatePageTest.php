@@ -36,7 +36,7 @@ class UsersCreatePageTest extends DuskTestCase
             $usersCreatePage = $usersIndexPage->click('@create-user-button')
                 ->on(new UsersCreatePage());
 
-            // Get highest user index - new user will have 1 greater
+            // Need to determine initial max id in DB to navigate to the new user's page later
             $id = User::all()->last()->id;
 
             $newUserShowPage = $usersCreatePage->type('name', 'Test User')

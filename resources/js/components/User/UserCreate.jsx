@@ -54,7 +54,7 @@ class UserCreate extends Component {
                                 <Input type="text" name="email" id="new-user-email" onChange={this.handleChange} value={this.state.newUser.email}/>
                             </FormGroup>
                             <FormGroup className="mr-3">
-                                <Label for="new-user-role">{trans('users.role')}</Label>
+                                <Label for="new-user-role">{trans('users.roles')}</Label>
                                 <Select id="new-user-role" value={selectedRoles} onChange={this.handleRoleChange} options={roleOptions} isMulti />
                             </FormGroup>
                             <Button className="float-right my-3" onClick={this.createUser} color="primary">Create User</Button>

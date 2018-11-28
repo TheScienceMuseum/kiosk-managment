@@ -7,7 +7,7 @@ return [
     'view' => 'View',
     'name' => 'Name',
     'email' => 'Email',
-    'role' => 'Role',
+    'roles' => 'Roles',
     'any' => 'Any',
     'create' => 'Create New User',
     'reset' => 'Reset Filters',

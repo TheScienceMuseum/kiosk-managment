@@ -38,8 +38,9 @@ class UsersShowPageTest extends DuskTestCase
                 ->click('@view-first-user-button')
                 ->on(new UsersShowPage(1));
 
-            $userShowPage->waitForText('Name: JP Developer')
-                ->assertSee('Email: dev@joipolloi.com');
+            $userShowPage->waitForText('dev@joipolloi.com')
+                ->assertSeeIn('.card','JP Developer')
+                ->assertSeeIn('.card','Developer');
         });
     }
 
@@ -73,8 +74,8 @@ class UsersShowPageTest extends DuskTestCase
                 ->keys('@edit-user-role-input', 'content author', '{ENTER}')
                 ->click('@edit-user-save-button')
                 ->waitForReload()
-                ->waitForText('Name: Test Edit')
-                ->assertSee('Email: test@edit.com')
+                ->waitForText('Test Edit')
+                ->assertSee('test@edit.com')
                 ->assertSee('Tech Admin')
                 ->assertSee('Content Author');
 
@@ -95,7 +96,7 @@ class UsersShowPageTest extends DuskTestCase
                 ->type('email', 'test@edit.com')
                 ->keys('@edit-user-role-input', 'content author', '{ENTER}')
                 ->click('@edit-user-discard-button')
-                ->waitForText('Name: tech admin')
+                ->waitForText('tech admin')
                 ->assertSee('Tech Admin');
         });
     }
