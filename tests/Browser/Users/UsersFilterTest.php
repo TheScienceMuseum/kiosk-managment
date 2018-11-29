@@ -36,7 +36,7 @@ class UsersFilterTest extends DuskTestCase
             $filteredUsersIndexPage->waitForText('View')
                 ->click('@users-filter-toggle-button')
                 ->assertSeeIn('ul.list-group', 'JP Developer')
-                ->assertDontSeeIn('ul.list-group', 'developer')
+                ->assertDontSeeIn('ul.list-group .row .text-md-left', 'developer')
                 ->assertDontSeeIn('ul.list-group', 'admin')
                 ->assertDontSeeIn('ul.list-group', 'tech admin')
                 ->assertDontSeeIn('ul.list-group', 'content author')

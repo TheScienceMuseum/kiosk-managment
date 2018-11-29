@@ -66,7 +66,7 @@ class UserShow extends Component {
                     <CardHeader>
                         <Row>
                             <Col>
-                                <a href="javascript:history.back()">
+                                <a href="#" onClick={this.goBack}>
                                     <h4>{`<<<  ${trans('users.title')}`}</h4>
                                 </a>
                             </Col>
@@ -188,10 +188,15 @@ class UserShow extends Component {
         const userId = this.props.match.params.user_id;
         updatedUser.roles = selectedRoles.map(role => role.value);
         api.userUpdate(updatedUser, userId)
-            .then(() => {
-               window.location.reload(true);
-            });
+            .then(()  => {
+                window.location.reload();
+        })
     };
+
+    goBack = (e) => {
+        e.preventDefault();
+        window.history.back();
+    }
 }
 
 UserShow.propTypes = {

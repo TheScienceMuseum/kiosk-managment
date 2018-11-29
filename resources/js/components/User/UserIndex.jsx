@@ -31,7 +31,7 @@ class UserIndex extends Component {
         if (queryObj.role) apiQueryObj['filter[role]'] = queryObj.role;
         const apiQueryString = queryString.stringify(apiQueryObj);
 
-        let roleOption = '';
+        let roleOption = {};
         if (queryObj.role) roleOption = {
             value: queryObj.role,
             label: trans(`users.${queryObj.role.replace(' ', '_')}`)
