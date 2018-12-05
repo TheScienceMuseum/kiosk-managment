@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/xenial64"
 
   config.vm.hostname = "kiosk-manager.test"
-  config.vm.network "private_network", ip: "192.168.250.#{2 + rand(252)}"
+  config.vm.network "private_network", ip: "192.168.230.120"
   config.hostmanager.enabled = true
   config.hostmanager.manage_host = true
   config.hostmanager.manage_guest = true

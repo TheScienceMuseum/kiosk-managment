@@ -11,7 +11,7 @@ class DownloadController extends Controller
      */
     public function downloadKioskClient($os)
     {
-        if (!in_array($os, ['macos', 'win'])) {
+        if (!in_array($os, ['linux', 'mac', 'win'])) {
             abort(404, 'There is no client for ' . $os);
         }
 
