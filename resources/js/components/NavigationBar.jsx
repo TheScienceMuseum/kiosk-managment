@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Link from 'react-router-dom/Link'
 import {Navbar, NavbarBrand, Nav, NavItem, NavLink, NavbarToggler, Collapse, Container, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem, Form} from 'reactstrap';
 import {user, trans} from '../helpers';
 import {userLogout} from '../api';
@@ -18,22 +19,22 @@ class NavigationBar extends Component {
                     <Nav className="ml-auto" navbar>
                         {user.can('view all packages') &&
                         <NavItem>
-                            <NavLink href="/admin/packages">{trans('packages.title')}</NavLink>
+                            <NavLink tag={Link} to="/admin/packages">{trans('packages.title')}</NavLink>
                         </NavItem>
                         }
                         {user.can('view all kiosks') &&
                         <NavItem>
-                            <NavLink href="/admin/kiosks">{trans('kiosks.title')}</NavLink>
+                            <NavLink tag={Link} to="/admin/kiosks">{trans('kiosks.title')}</NavLink>
                         </NavItem>
                         }
                         {user.can('view all users') &&
                         <NavItem>
-                            <NavLink href="/admin/users">{trans('users.title')}</NavLink>
+                            <NavLink tag={Link} to="/admin/users">{trans('users.title')}</NavLink>
                         </NavItem>
                         }
                         {user.guest
                             ? <NavItem>
-                                <NavLink href="/login">{trans('auth.login')}</NavLink>
+                                <NavLink tag={Link} to="/login">{trans('auth.login')}</NavLink>
                             </NavItem>
                             : <UncontrolledDropdown nav inNavbar>
                                 <DropdownToggle nav caret>
