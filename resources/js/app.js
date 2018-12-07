@@ -30,3 +30,5 @@ require('./bootstrap');
         $targetButton.attr('disabled', ! $target.is(':checked'));
     });
 })();
+
+require('./components/App');

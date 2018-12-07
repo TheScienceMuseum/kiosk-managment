@@ -41,21 +41,14 @@ Route::group([
         return redirect()->back();
     })->name('auth.login.mfa');
 
-    $router->get('/', 'HomeController@index')
-        ->name('home');
 
+    $router->get('/logout', function() {
+        return redirect('home');
+    });
     $router->group([
         'namespace' => 'Admin',
         'prefix' => 'admin',
     ], function (\Illuminate\Routing\Router $router) {
-        $router->get('users', 'UserController@index')
-            ->name('admin.users');
-        $router->get('users/create', 'UserController@create')
-            ->name('admin.users.create');
-        $router->post('users', 'UserController@store')
-            ->name('admin.users.store');
-        $router->get('users/{user}', 'UserController@show')
-            ->name('admin.users.show');
         $router->post('users/{user}/on-board', 'UserController@onboard')
             ->name('admin.users.on-board');
 
@@ -79,11 +72,10 @@ Route::group([
         $router->post('packages/{package}/version/{packageVersion}/approve', 'PackageVersionController@approve')
             ->name('admin.packages.versions.approve');
 
-        $router->get('kiosks', 'KioskController@index')
-            ->name('admin.kiosks');
-        $router->get('kiosks/{kiosk}', 'KioskController@show')
-            ->name('admin.kiosks.show');
         $router->put('kiosks/{kiosk}', 'KioskController@update')
             ->name('admin.kiosks.update');
     });
+
+    $router->get('/{all}', 'HomeController@index')->where(['all' => '.*'])
+        ->name('home');
 });

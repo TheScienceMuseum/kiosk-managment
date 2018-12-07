@@ -50,19 +50,19 @@
                         @else
                             @can('view all kiosks')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('admin.packages') }}">{{ __('packages.title') }}</a>
+                                    <a class="nav-link" href="/admin/packages">{{ __('packages.title') }}</a>
                                 </li>
                             @endcan
 
                             @can('view all kiosks')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('admin.kiosks') }}">{{ __('kiosks.title') }}</a>
+                                    <a class="nav-link" href="/admin/kiosks">{{ __('kiosks.title') }}</a>
                                 </li>
                             @endcan
 
                             @can('view all users')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.users') }}">{{ __('users.title') }}</a>
+                                <a class="nav-link" href="/admin/users">{{ __('users.title') }}</a>
                             </li>
                             @endcan
 
@@ -138,7 +138,10 @@
         @else
             window.current_user = {
                 permissions: <?php
-                    echo Auth::user()->getAllPermissions();
+                    echo json_encode(Auth::user()->getAllPermissions());
+                ?>,
+                name: <?php
+                    echo json_encode(Auth::user()->name);
                 ?>
             };
         @endguest

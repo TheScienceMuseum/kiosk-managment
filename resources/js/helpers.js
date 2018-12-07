@@ -1,7 +1,8 @@
 exports.user = {
-    permissions: current_user.permissions.map(permission => permission.name),
-
-    can: function(permissionToCheck = null) {
+    guest: !current_user,
+    name: current_user ? current_user.name : null,
+    permissions: current_user ? current_user.permissions.map(permission => permission.name) : null,
+    can: function (permissionToCheck = null) {
         return _.includes(this.permissions, permissionToCheck);
     }
 };
