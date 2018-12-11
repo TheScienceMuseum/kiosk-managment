@@ -1,3 +1,6 @@
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App.jsx";
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -13,22 +16,7 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-(function() {
-    $('.submitsForm').on('click', function (ev) {
-        const $target = $(ev.currentTarget);
-        const $targetForm = $target.parent()
-            .parent()
-            .find(`form.${$target.data('target')}`);
-
-        $targetForm.submit();
-    });
-
-    $('.makesButtonClickable').on('change', function (ev) {
-        const $target = $(ev.currentTarget);
-        const $targetButton = $($target.data('target'));
-
-        $targetButton.attr('disabled', ! $target.is(':checked'));
-    });
-})();
-
-require('./components/App');
+ReactDOM.render(
+    <App />,
+    document.getElementById("app")
+);

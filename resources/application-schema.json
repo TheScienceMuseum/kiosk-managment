@@ -1,0 +1,80 @@
+{
+  "resources": {
+    "user_role": {
+      "index": {
+        "verb": "get",
+        "path": "\/api\/user\/role",
+        "params": {
+          "filter": {
+            "name": "string"
+          },
+          "page": {
+            "number": "integer",
+            "size": "integer"
+          }
+        }
+      }
+    },
+    "user": {
+      "index": {
+        "verb": "get",
+        "path": "\/api\/user",
+        "params": {
+          "filter": {
+            "name": "string",
+            "email": "string",
+            "role": "string"
+          },
+          "page": {
+            "number": "integer",
+            "size": "integer"
+          }
+        }
+      },
+      "store": {
+        "verb": "post",
+        "path": "\/api\/user"
+      },
+      "show": {
+        "verb": "get",
+        "path": "\/api\/user\/{id}"
+      },
+      "update": {
+        "verb": "put",
+        "path": "\/api\/user\/{id}"
+      },
+      "destroy": {
+        "verb": "delete",
+        "path": "\/api\/user\/{id}"
+      }
+    },
+    "kiosk": {
+      "index": {
+        "verb": "get",
+        "path": "\/api\/kiosk",
+        "params": {
+          "filter": {
+            "name": "string",
+            "registered": "boolean"
+          },
+          "page": {
+            "number": "integer",
+            "size": "integer"
+          }
+        }
+      },
+      "show": {
+        "verb": "get",
+        "path": "\/api\/kiosk\/{id}"
+      },
+      "update": {
+        "verb": "put",
+        "path": "\/api\/kiosk\/{id}"
+      },
+      "destroy": {
+        "verb": "delete",
+        "path": "\/api\/kiosk\/{id}"
+      }
+    }
+  }
+}
