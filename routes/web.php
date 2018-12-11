@@ -76,6 +76,6 @@ Route::group([
             ->name('admin.kiosks.update');
     });
 
-    $router->get('/{all}', 'HomeController@index')->where(['all' => '.*'])
-        ->name('home');
+    $router->get('/{all}', 'HomeController@spa')->where(['all' => '.*'])
+        ->name('spa');
 });
