@@ -19,4 +19,8 @@ Homestead.yaml
 /public/css/*
 /public/js/*
 /public/images/*
+/public/fonts/*
 /public/mix-manifest.json
+
+# do not keep package-lock, we use yarn
+package-lock.json
