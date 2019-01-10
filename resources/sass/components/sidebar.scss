@@ -15,8 +15,7 @@
 
     background: $black;
     color: $white;
-    transition: min-width 0.25s,
-    max-width 0.25s;
+    transition: min-width 0.25s, max-width 0.25s;
 
     overflow-y: hidden;
 
@@ -25,6 +24,10 @@
       margin-bottom: 15px;
       border-bottom: 1px solid rgba($white, 0.4);
       transition: min-width 0s, max-width 0s;
+
+      &:hover {
+        background-color: rgba($white, 0.3);
+      }
 
       .logo {
         max-height: 28px;
