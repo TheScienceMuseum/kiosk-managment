@@ -92,6 +92,10 @@ class Api {
                     window.location = window.location.origin + '/login';
                 }
 
+                if (get(error, 'response.status') === 422) {
+                    toastr.error(`The form has missing or invalid fields`);
+                }
+
                 if (uncaught) {
                     throw error;
                 }
