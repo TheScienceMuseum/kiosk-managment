@@ -84,6 +84,7 @@ class GenerateApplicationSchema extends Command
                         "name" => "assigned_package_version",
                         "help" => "This is the package that is assigned to the kiosk.",
                         "type" => "resource_instance",
+                        "nullable" => true,
                         "resource" => "package",
                         "id_key" => ["versions", "id"],
                         "label_key" => ["package.name", " version: ", "version"],
@@ -190,10 +191,12 @@ class GenerateApplicationSchema extends Command
                         "name" => "name",
                         "type" => "text",
                         "filter" => true,
+                        "required" => true,
                     ], [
                         "name" => "email",
                         "type" => "text",
                         "filter" => true,
+                        "required" => true,
                     ], [
                         "name" => "roles",
                         "type" => "select",
@@ -201,6 +204,7 @@ class GenerateApplicationSchema extends Command
                         "multiple" => true,
                         "filter" => true,
                         "collapse_on_store" => true,
+                        "required" => true,
                         "id_key" => ["name"],
                         "label_key" => ["name"],
                     ],
