@@ -31,6 +31,11 @@ class GenerateApplicationSchema extends Command
         parent::__construct();
     }
 
+    public function buildResourceFromModel()
+    {
+
+    }
+
     /**
      * Execute the console command.
      *
@@ -38,76 +43,204 @@ class GenerateApplicationSchema extends Command
      */
     public function handle()
     {
+        $this->output->title('Building application-schema.json');
+
         $outputFilePath = base_path('resources/application-schema.json');
 
-        /**
-         * Generate the available resources for the Api helper
-         */
-        $resourcePaginationParams = ["page" => ["number" => "integer", "size" => "integer"]];
+        $this->output->text('Building resources stack');
 
         $resources = [
-            "user_role" => [
-                "index" => [
-                    "verb" => "get",
-                    "path" => "/api/user/role",
-                    "params" => array_merge([
-                        "filter" => [
-                            "name" => "string",
+            "kiosk" => [
+                "fields" => [
+                    [
+                        "name" => "identifier",
+                        "type" => "text",
+                        "readonly" => true,
+                        "help" => "The identifier used to set up the kiosk initially."
+                    ],
+                    [
+                        "name" => "name",
+                        "type" => "text",
+                        "filter" => true,
+                        "sub_fields" => ["identifier"]
+                    ],
+                    [
+                        "name" => "location",
+                        "type" => "text",
+                        "filter" => true,
+                    ],
+                    [
+                        "name" => "asset_tag",
+                        "type" => "text",
+                        "filter" => true,
+                    ],
+                    [
+                        "name" => "last_seen_at",
+                        "type" => "time_ago",
+                        "filter" => true,
+                        "readonly" => true,
+                    ],
+                    [
+                        "name" => "assigned_package_version",
+                        "help" => "This is the package that is assigned to the kiosk.",
+                        "type" => "resource_instance",
+                        "resource" => "package",
+                        "id_key" => ["versions", "id"],
+                        "label_key" => ["package.name", " version: ", "version"],
+                        "collapse_on_store" => true,
+                    ],
+                    [
+                        "name" => "current_package_version",
+                        "help" => "This is the package that the kiosk last reported in use.",
+                        "type" => "resource_instance",
+                        "resource" => "package",
+                        "id_key" => ["versions", "id"],
+                        "label_key" => ["package.name", " version: ", "version"],
+                        "readonly" => true,
+                    ],
+                    [
+                        "name" => "logs",
+                        "type" => "resource_collection",
+                        "label_key" => ["level", " triggered at ", "timestamp"],
+                        "resource" => "kiosk_logs",
+                        "readonly" => true,
+                    ],
+                ],
+                "actions" => [
+                    "index" => [
+                        "path" => "/api/kiosk",
+                        "verb" => "get",
+                        "pagination" => true,
+                        "views" => [
+                            [
+                                "name" => "Unregistered",
+                                "params" => [
+                                    "filter[registered]" => false,
+                                ],
+                                "color" => "info",
+                            ],
+                            [
+                                "name" => "Registered",
+                                "params" => [
+                                    "filter[registered]" => true,
+                                ],
+                                "color" => "info",
+                            ],
                         ]
-                    ], $resourcePaginationParams),
+                    ],
+                    "show" => [
+                        "verb" => "get",
+                        "path" => "/api/kiosk/{id}",
+                    ],
+                    "update" => [
+                        "verb" => "put",
+                        "path" => "/api/kiosk/{id}",
+                    ],
+                ],
+            ],
+            "kiosk_logs" => [
+                "fields" => [[
+                    "name" => "level",
+                    "type" => "log_level",
+                    "readonly" => true,
+                    "filter" => true,
+                ], [
+                    "name" => "message",
+                    "type" => "text",
+                    "readonly" => true,
+                    "filter" => true,
+                ], [
+                    "name" => "timestamp",
+                    "type" => "time_stamp",
+                    "readonly" => true,
+                    "filter" => true,
+                ]],
+                "actions" => [
+                    "index" => [
+                        "path" => "/api/kiosk/{id}/logs",
+                        "verb" => "get",
+                        "pagination" => true,
+                    ],
+                ],
+            ],
+            "package" => [
+                "fields" => [[
+                    "name" => "name",
+                    "type" => "text",
+                    "filter" => true,
+                ], [
+                    "name" => "versions",
+                    "type" => "resource_collection",
+                ]],
+                "actions" => [
+                    "index" => [
+                        "verb" => "get",
+                        "path" => "/api/package",
+                        "pagination" => true,
+                    ],
+                    "show" => [
+                        "verb" => "get",
+                        "path" => "/api/package/{id}",
+                    ],
                 ],
             ],
             "user" => [
-                "index" => [
-                    "verb" => "get",
-                    "path" => "/api/user",
-                    "params" => array_merge([
-                        "filter" => [
-                            "name" => "string",
-                            "email" => "string",
-                            "role" => "string",
-                        ]
-                    ], $resourcePaginationParams),
+                "fields" => [
+                    [
+                        "name" => "name",
+                        "type" => "text",
+                        "filter" => true,
+                    ], [
+                        "name" => "email",
+                        "type" => "text",
+                        "filter" => true,
+                    ], [
+                        "name" => "roles",
+                        "type" => "select",
+                        "resource" => "user_role",
+                        "multiple" => true,
+                        "filter" => true,
+                        "collapse_on_store" => true,
+                        "id_key" => ["name"],
+                        "label_key" => ["name"],
+                    ],
                 ],
-                "store" => [
-                    "verb" => "post",
-                    "path" => "/api/user",
-                ],
-                "show" => [
-                    "verb" => "get",
-                    "path" => "/api/user/{id}",
-                ],
-                "update" => [
-                    "verb" => "put",
-                    "path" => "/api/user/{id}",
-                ],
-                "destroy" => [
-                    "verb" => "delete",
-                    "path" => "/api/user/{id}",
-                ],
+                "actions" => [
+                    "index" => [
+                        "verb" => "get",
+                        "path" => "/api/user",
+                        "pagination" => true,
+                    ],
+                    "show" => [
+                        "verb" => "get",
+                        "path" => "/api/user/{id}",
+                    ],
+                    "store" => [
+                        "verb" => "post",
+                        "path" => "/api/user",
+                    ],
+                    "update" => [
+                        "verb" => "put",
+                        "path" => "/api/user/{id}",
+                    ],
+                    "destroy" => [
+                        "verb" => "delete",
+                        "path" => "/api/user/{id}",
+                    ]
+                ]
             ],
-            "kiosk" => [
-                "index" => [
-                    "verb" => "get",
-                    "path" => "/api/kiosk",
-                    "params" => array_merge([
-                        "filter" => [
-                            "name" => "string",
-                            "registered" => "boolean",
-                        ],
-                    ], $resourcePaginationParams),
+            "user_role" => [
+                "fields" => [
+                    "name" => [
+                        "type" => "text",
+                        "filter" => true,
+                    ]
                 ],
-                "show" => [
-                    "verb" => "get",
-                    "path" => "/api/kiosk/{id}",
-                ],
-                "update" => [
-                    "verb" => "put",
-                    "path" => "/api/kiosk/{id}",
-                ],
-                "destroy" => [
-                    "verb" => "delete",
-                    "path" => "/api/kiosk/{id}",
+                "actions" => [
+                    "index" => [
+                        "verb" => "get",
+                        "path" => "/api/user/role",
+                    ],
                 ],
             ],
         ];
@@ -115,6 +248,7 @@ class GenerateApplicationSchema extends Command
         /**
          * Generate the available translations for the Trans helper
          */
+        $this->output->text('Building language translations stack');
         $languages = [];
         $localeDirectories = File::directories(resource_path() . '/lang/');
 
@@ -135,5 +269,7 @@ class GenerateApplicationSchema extends Command
             'resources' => $resources,
             'language' => $languages,
         ]));
+
+        $this->output->success('Built application-schema.json');
     }
 }
