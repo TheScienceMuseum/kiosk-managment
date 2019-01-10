@@ -15,15 +15,17 @@ class KioskResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'name' => $this->name,
-            'location' => $this->location,
-            'asset_tag' => $this->asset_tag,
+            'id' => $this->id,
+            'name' => $this->name ? $this->name : '',
+            'location' => $this->location ? $this->location : '',
+            'asset_tag' => $this->asset_tag ? $this->asset_tag : '',
             'identifier' => $this->identifier,
             'client_version' => $this->client_version,
             'current_package' => $this->current_package,
             'manually_set' => $this->manually_set_at ? $this->manually_set_at->timestamp : null,
             'last_seen_at' => $this->last_seen_at ? $this->last_seen_at->toAtomString() : null,
-            'package' => new KioskPackageVersionResource($this->assigned_package_version),
+            'assigned_package_version' => new KioskPackageVersionResource($this->assigned_package_version),
+            'current_package_version' => new KioskPackageVersionResource($this->current_package_version),
             'path' => route('api.kiosk.show', $this),
         ];
     }

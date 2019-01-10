@@ -15,8 +15,13 @@ class PackageVersionResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'version' => $this->version,
             'download' => $this->archive_path_exists ? route('api.kiosk.package.download', [$this->package, $this]) : null,
+            'status' => $this->status,
+            'package' => [
+                'name' => $this->package->name,
+            ],
         ];
     }
 }

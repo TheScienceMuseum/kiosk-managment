@@ -48,7 +48,6 @@ class Kiosk extends Model
         'last_seen_at',
         'client_version',
         'current_package',
-
     ];
 
     protected $dates = [
@@ -94,6 +93,20 @@ class Kiosk extends Model
             }
 
             return $packageName . ' version ' . $packageVersion;
+        }
+
+        return null;
+    }
+
+    public function getCurrentPackageVersionAttribute() {
+        if ($this->current_package) {
+            $packageData = explode('@', $this->current_package);
+            $packageName = $packageData[0];
+            $packageVersion = $packageData[1];
+
+            return PackageVersion::whereVersion($packageVersion)->whereHas('package', function ($query) use ($packageName) {
+                $query->where('name', '=', $packageName);
+            })->first();
         }
 
         return null;

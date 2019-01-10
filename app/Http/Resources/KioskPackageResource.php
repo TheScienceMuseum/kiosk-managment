@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class KioskPackageVersionResource extends JsonResource
+class KioskPackageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,7 @@ class KioskPackageVersionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->package->name,
-            'version' => (int) $this->version,
-            'path' => route('api.kiosk.package.download', [$this->package, $this]),
-            'package' => new KioskPackageResource($this->package),
-            'status' => $this->status,
+            'name' => $this->name,
         ];
     }
 }

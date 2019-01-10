@@ -15,6 +15,7 @@ use App\Http\Requests\KioskUpdateRequest;
 use App\Http\Resources\KioskLogsResource;
 use App\Http\Resources\KioskResource;
 use App\Kiosk;
+use App\KioskLog;
 use App\Package;
 use App\PackageVersion;
 use Illuminate\Http\Request;
@@ -62,11 +63,21 @@ class KioskController extends Controller
     /**
      * @param KioskShowLogsRequest $request
      * @param Kiosk $kiosk
-     * @return KioskLogsResource
+     * @return ResourceCollection
      */
-    public function showLogs(KioskShowLogsRequest $request, Kiosk $kiosk) : KioskLogsResource
+    public function showLogs(KioskShowLogsRequest $request, Kiosk $kiosk) : ResourceCollection
     {
-        return new KioskLogsResource($kiosk);
+        $kioskLogs = QueryBuilder::for(KioskLog::class)
+            ->where('kiosk_id', '=', $kiosk->id)
+            ->orderByDesc('timestamp')
+            ->allowedFilters([
+                'level',
+                'timestamp',
+            ])
+            ->jsonPaginate()
+        ;
+
+        return KioskLogsResource::collection($kioskLogs);
     }
 
     /**
