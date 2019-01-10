@@ -65,17 +65,14 @@ class Api {
 
                     if (param) {
                         if (field.collapse_on_store) {
-                            console.log(field.id_key);
-
                             param = field.multiple ?
                                 param.map(o => get(o, last(field.id_key))) :
                                 param[last(field.id_key)];
 
-                            console.log(param);
                         }
                     }
 
-                    actionParams[field.name] = param;
+                    actionParams[field.name] = param ? param : null;
                 });
             }
         } else {

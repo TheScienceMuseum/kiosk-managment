@@ -6,7 +6,7 @@ import {BounceLoader} from "react-spinners";
 
 import Field from "../Interface/Instance/Form/Field";
 import {ucwords} from "locutus/php/strings";
-import {pick} from "lodash";
+import {each} from "lodash";
 
 class ResourceInstance extends Component {
     constructor(props) {
@@ -58,6 +58,10 @@ class ResourceInstance extends Component {
     }
 
     setInstance(instance) {
+        each(instance, (val, key) => {
+            if (val === null) instance[key] = undefined;
+        });
+
         this.setState(prevState => ({
             ...prevState,
             resourceInstance: instance,

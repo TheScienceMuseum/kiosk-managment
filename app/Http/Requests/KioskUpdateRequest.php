@@ -25,8 +25,8 @@ class KioskUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|unique:kiosks,name,' . $this->route('kiosk')->id,
-            'location' => 'required|string',
-            'asset_tag' => 'string|unique:kiosks,asset_tag,' . $this->route('kiosk')->id,
+            'location' => 'sometimes|string|nullable',
+            'asset_tag' => 'sometimes|string|nullable|unique:kiosks,asset_tag,' . $this->route('kiosk')->id,
             'manually_set' => 'nullable',
             'assigned_package_version' => 'sometimes|exists:package_versions,id',
         ];
