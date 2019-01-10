@@ -15,6 +15,7 @@ class PackageResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'versions' => PackageVersionResource::collection($this->versions),
             'kiosks' => KioskResource::collection($this->kiosks),

@@ -25,7 +25,7 @@ class KioskIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "filter['registered']" => "boolean",
         ];
     }
 }

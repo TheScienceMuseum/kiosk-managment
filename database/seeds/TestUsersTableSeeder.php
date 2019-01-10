@@ -11,13 +11,19 @@ class TestUsersTableSeeder extends Seeder
      */
     public function run()
     {
-        // Create one user of each role
+        // Create 3 users of each role
         foreach (\Spatie\Permission\Models\Role::all() as $role) {
-            $user = factory(App\User::class)->create([
+            $users = factory(App\User::class, 3)->create([
                 'name' => $role->name,
             ]);
-
-            $user->assignRole($role);
+            foreach($users as $user) {
+                $user->assignRole($role);
+            }
         }
+
+        // Create user to always be at end for testing pagination
+        factory(App\User::class)->create([
+            'name' => 'Test User',
+        ]);
     }
 }

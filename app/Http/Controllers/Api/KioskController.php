@@ -15,6 +15,7 @@ use App\Http\Requests\KioskUpdateRequest;
 use App\Http\Resources\KioskLogsResource;
 use App\Http\Resources\KioskResource;
 use App\Kiosk;
+use App\KioskLog;
 use App\Package;
 use App\PackageVersion;
 use Illuminate\Http\Request;
@@ -41,8 +42,6 @@ class KioskController extends Controller
                 'name',
                 'location',
                 'asset_tag',
-                'client_version',
-                'current_package',
                 Filter::custom('registered', UnregisteredKioskFilter::class)
             ])
             ->jsonPaginate()
@@ -64,11 +63,21 @@ class KioskController extends Controller
     /**
      * @param KioskShowLogsRequest $request
      * @param Kiosk $kiosk
-     * @return KioskLogsResource
+     * @return ResourceCollection
      */
-    public function showLogs(KioskShowLogsRequest $request, Kiosk $kiosk) : KioskLogsResource
+    public function showLogs(KioskShowLogsRequest $request, Kiosk $kiosk) : ResourceCollection
     {
-        return new KioskLogsResource($kiosk);
+        $kioskLogs = QueryBuilder::for(KioskLog::class)
+            ->where('kiosk_id', '=', $kiosk->id)
+            ->orderByDesc('timestamp')
+            ->allowedFilters([
+                'level',
+                'timestamp',
+            ])
+            ->jsonPaginate()
+        ;
+
+        return KioskLogsResource::collection($kioskLogs);
     }
 
     /**
@@ -84,25 +93,22 @@ class KioskController extends Controller
             'asset_tag' => $request->input('asset_tag'),
         ]);
 
+        if (
+            $request->has('assigned_package_version')
+            && $request->user()->can('deploy packages to all kiosks')
+        ) {
+            if ($request->input('assigned_package_version')) {
+                $kiosk->assigned_package_version()->associate(PackageVersion::find($request->input('assigned_package_version')));
+            } else {
+                $kiosk->assigned_package_version()->dissociate();
+            }
+        }
+
         if ($request->has('manually_set')) {
             $kiosk->manually_set_at = $request->input('manually_set');
         }
 
         $kiosk->save();
-
-        return new KioskResource($kiosk);
-    }
-
-    /**
-     * @param KioskAssignPackageRequest $request
-     * @param Kiosk $kiosk
-     * @param PackageVersion $packageVersion
-     * @return KioskResource
-     */
-    public function assignPackage(KioskAssignPackageRequest $request, Kiosk $kiosk, PackageVersion $packageVersion) : KioskResource
-    {
-        $packageVersion = PackageVersion::whereStatus('approved')->findOrFail($packageVersion->id);
-        $kiosk->assigned_package_version()->associate($packageVersion);
 
         return new KioskResource($kiosk);
     }

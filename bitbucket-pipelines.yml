@@ -18,6 +18,8 @@ definitions:
     - node
     script:
     - npm install -g yarn cross-env
+    - npm config set "@fortawesome:registry" https://npm.fontawesome.com/
+    - npm config set "//npm.fontawesome.com/:_authToken" $FONTAWESOME_AUTH_CODE
     - yarn install
     - yarn run prod
     artifacts:

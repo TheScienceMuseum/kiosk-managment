@@ -15,9 +15,12 @@ class KioskPackageVersionResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'name' => $this->package->name,
             'version' => (int) $this->version,
             'path' => route('api.kiosk.package.download', [$this->package, $this]),
+            'package' => new KioskPackageResource($this->package),
+            'status' => $this->status,
         ];
     }
 }

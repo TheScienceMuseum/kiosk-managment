@@ -41,7 +41,7 @@ class OnBoardingStepPassword extends Page
         $browser->assertSee('Email')
             ->assertSee('Password')
             ->assertSee('Confirm Password')
-            ->assertSee('Continue to next step');
+            ->assertSee('CONTINUE TO NEXT STEP');
     }
 
     /**

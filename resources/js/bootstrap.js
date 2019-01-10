@@ -1,6 +1,10 @@
+import User from './helpers/User';
+window.User = User;
+
+import Trans from './helpers/Trans';
+window.Trans = Trans;
 
 window._ = require('lodash');
-window.Popper = require('popper.js').default;
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -9,9 +13,12 @@ window.Popper = require('popper.js').default;
  */
 
 try {
+    window.Popper = require('popper.js').default;
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
+
+    window.toastr = require('toastr');
 } catch (e) {}
 
 /**

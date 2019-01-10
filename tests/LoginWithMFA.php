@@ -18,8 +18,7 @@ trait LoginWithMFA
     {
         return $browser->loginAs($user)
             ->visit('/')
-            ->within(new LoginSecondFactorConfirmationComponent(), function (Browser $browser) use ($user) {
-                $browser->submitOneTimePassword(\MultiFactorAuth::getCurrentOtp($user->mfa_secret));
-            });
+            ->type('one_time_password', \MultiFactorAuth::getCurrentOtp($user->mfa_secret))
+            ->click('button[type=submit]');
     }
 }

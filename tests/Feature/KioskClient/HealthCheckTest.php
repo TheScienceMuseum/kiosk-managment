@@ -43,14 +43,19 @@ class HealthCheckTest extends TestCase
                     'asset_tag' => true,
                     'identifier' => $this->kioskIdentifier,
                     'client_version' => '1.0.0',
-                    'current_package' => null,
                     'last_seen_at' => true,
-                    'package' => [
-                        'name' => 'default',
-                        'version' => 1,
-                        'path' => true,
-                    ],
                     'path' => true,
+                    'assigned_package_version' => [
+                        "id" => 1,
+                        "name" => "default",
+                        "version" => 1,
+                        "path" => "http://kiosk-manager.test/api/kiosk/package/1/version/1/download",
+                        "package" => [
+                            "id" => 1,
+                            "name" => "default"
+                        ],
+                        "status" => "approved"
+                    ],
                 ],
             ])
         ;
@@ -78,14 +83,19 @@ class HealthCheckTest extends TestCase
                     'asset_tag' => true,
                     'identifier' => $this->kioskIdentifier,
                     'client_version' => '1.0.0',
-                    'current_package' => null,
                     'last_seen_at' => true,
-                    'package' => [
-                        'name' => 'default',
-                        'version' => 1,
-                        'path' => true,
-                    ],
                     'path' => true,
+                    'assigned_package_version' => [
+                        "id" => 1,
+                        "name" => "default",
+                        "version" => 1,
+                        "path" => "http://kiosk-manager.test/api/kiosk/package/1/version/1/download",
+                        "package" => [
+                            "id" => 1,
+                            "name" => "default"
+                        ],
+                        "status" => "approved"
+                    ],
                 ],
             ])
         ;

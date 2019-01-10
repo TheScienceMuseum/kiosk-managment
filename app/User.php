@@ -16,7 +16,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $name
  * @property string $email
  * @property string|null $email_verified_at
- * @property string $password
+ * @property string|null $password
  * @property string|null $mfa_secret
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property mixed|null $data
+ * @property array|null $data
  * @property int $progress
  * @property-read mixed $archive_path
  * @property-read mixed $archive_path_exists

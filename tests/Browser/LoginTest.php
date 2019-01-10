@@ -6,7 +6,7 @@ use App\User;
 use Tests\Browser\Components\LoginSecondFactorConfirmationComponent;
 use Tests\Browser\Pages\HomePage;
 use Tests\Browser\Pages\LoginPage;
-use Tests\Browser\Pages\LoginSecondFactorSetupPage;
+use Tests\Browser\Pages\LoginSecondFactorPage;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Tests\ResetsDatabaseInDusk;
@@ -17,29 +17,22 @@ class LoginTest extends DuskTestCase
 
     protected $mfaSecret = 'QGXDUURSP6V7G6PG';
 
-    public function testFirstLoginOfARegisteredUserShowsMultiFactorAuthRegistration()
+    public function testLoginOfARegisteredUserShowsMultiFactorAuth()
     {
         $user = User::first();
-        $user->mfa_secret = null;
-        $user->save();
 
         $this->browse(function (Browser $browser) use ($user) {
-            $loginPage = $browser->visit(new LoginPage);
+            $loginPage = $browser->logout()->visit(new LoginPage());
 
-            $loginSecondFactorSetupPage = $loginPage->type('@input-email', $user->email)
+            $loginPage->type('@input-email', $user->email)
                 ->type('@input-password', '123qweasd')
                 ->check('@input-remember', true)
                 ->click('@submit-login')
-                ->on(new LoginSecondFactorSetupPage());
-
-            $this->mfaSecret = $loginSecondFactorSetupPage->text('@mfa-secret');
-
-            $loginSecondFactorSetupPage->click('@login')
-                ->on(new LoginPage());
+                ->on(new LoginSecondFactorPage());
         });
     }
 
-    public function testSecondLoginOfARegisteredUserWithIncorrectSecondFactorFails()
+    public function testLoginOfARegisteredUserWithIncorrectSecondFactorFails()
     {
         $user = User::first();
         $user->mfa_secret = $this->mfaSecret;
@@ -48,14 +41,14 @@ class LoginTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($user) {
             $loginPage = $browser->logout()->visit(new LoginPage());
 
-            $homePage = $loginPage->type('@input-email', $user->email)
+            $loginSecondFactorPage = $loginPage->type('@input-email', $user->email)
                 ->type('@input-password', '123qweasd')
                 ->check('@input-remember', true)
                 ->click('@submit-login')
-                ->on(new HomePage())
+                ->on(new LoginSecondFactorPage())
             ;
 
-            $homePage->within(new LoginSecondFactorConfirmationComponent(), function (Browser $browser) {
+            $loginSecondFactorPage->within(new LoginSecondFactorConfirmationComponent(), function (Browser $browser) {
                 $browser->submitOneTimePassword('000000');
             });
 
@@ -63,7 +56,7 @@ class LoginTest extends DuskTestCase
         });
     }
 
-    public function testSecondLoginOfARegisteredUserWithCorrectSecondFactorSucceeds()
+    public function testLoginOfARegisteredUserWithCorrectSecondFactorSucceeds()
     {
         $user = User::first();
         $user->mfa_secret = $this->mfaSecret;
@@ -72,14 +65,14 @@ class LoginTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($user) {
             $loginPage = $browser->logout()->visit(new LoginPage());
 
-            $homePage = $loginPage->type('@input-email', $user->email)
+            $loginSecondFactorPage = $loginPage->type('@input-email', $user->email)
                 ->type('@input-password', '123qweasd')
                 ->check('@input-remember', true)
                 ->click('@submit-login')
-                ->on(new HomePage())
+                ->on(new LoginSecondFactorPage())
             ;
 
-            $homePage->within(new LoginSecondFactorConfirmationComponent(), function (Browser $browser) {
+            $loginSecondFactorPage->within(new LoginSecondFactorConfirmationComponent(), function (Browser $browser) {
                 $browser->submitOneTimePassword(\MultiFactorAuth::getCurrentOtp($this->mfaSecret));
             });
 

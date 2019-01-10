@@ -37,53 +37,15 @@ Route::group([
 Route::group([
     'middleware' => ['auth', 'mfa'],
 ], function (\Illuminate\Routing\Router $router) {
-    $router->post('/login/authorize', function () {
-        return redirect()->back();
+    $router->post('login/authorize', function () {
+        return str_replace(url('/'), '', url()->previous()) === '/login/authorize' ?
+            redirect('/') :
+            redirect()->back()
+            ;
     })->name('auth.login.mfa');
 
-    $router->get('/', 'HomeController@index')
-        ->name('home');
+    $router->get('/{all}', 'HomeController@spa')
+        ->where(['all' => '.*'])
+        ->name('spa');
 
-    $router->group([
-        'namespace' => 'Admin',
-        'prefix' => 'admin',
-    ], function (\Illuminate\Routing\Router $router) {
-        $router->get('users', 'UserController@index')
-            ->name('admin.users');
-        $router->get('users/create', 'UserController@create')
-            ->name('admin.users.create');
-        $router->post('users', 'UserController@store')
-            ->name('admin.users.store');
-        $router->get('users/{user}', 'UserController@show')
-            ->name('admin.users.show');
-        $router->post('users/{user}/on-board', 'UserController@onboard')
-            ->name('admin.users.on-board');
-
-        $router->get('packages', 'PackageController@index')
-            ->name('admin.packages');
-        $router->get('packages/create', 'PackageController@create')
-            ->name('admin.packages.create');
-        $router->post('packages', 'PackageController@store')
-            ->name('admin.packages.store');
-        $router->get('packages/{package}', 'PackageController@show')
-            ->name('admin.packages.show');
-
-        $router->post('packages/{package}/version', 'PackageVersionController@store')
-            ->name('admin.packages.versions.store');
-        $router->get('packages/{package}/version/{packageVersion}', 'PackageVersionController@show')
-            ->name('admin.packages.versions.show');
-        $router->put('packages/{package}/version/{packageVersion}', 'PackageVersionController@update')
-            ->name('admin.packages.versions.update');
-        $router->get('packages/{package}/version/{packageVersion}/download', 'PackageVersionController@download')
-            ->name('admin.packages.versions.download');
-        $router->post('packages/{package}/version/{packageVersion}/approve', 'PackageVersionController@approve')
-            ->name('admin.packages.versions.approve');
-
-        $router->get('kiosks', 'KioskController@index')
-            ->name('admin.kiosks');
-        $router->get('kiosks/{kiosk}', 'KioskController@show')
-            ->name('admin.kiosks.show');
-        $router->put('kiosks/{kiosk}', 'KioskController@update')
-            ->name('admin.kiosks.update');
-    });
 });

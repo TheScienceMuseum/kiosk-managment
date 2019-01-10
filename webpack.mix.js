@@ -1,4 +1,4 @@
-let mix = require('laravel-mix');
+const mix = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -13,5 +13,5 @@ let mix = require('laravel-mix');
 
 mix
     .react('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .version();
+    .react(['resources/js/onboarding.js'], 'public/js/onboarding.js')
+    .sass('resources/sass/app.scss', 'public/css');
