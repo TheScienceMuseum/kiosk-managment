@@ -42,7 +42,7 @@ class UserController extends Controller
             ->allowedFilters([
                 'name',
                 'email',
-                Filter::custom('role', UserRoleFilter::class)
+                Filter::custom('roles', UserRolesFilter::class),
             ])
             ->jsonPaginate()
         ;
