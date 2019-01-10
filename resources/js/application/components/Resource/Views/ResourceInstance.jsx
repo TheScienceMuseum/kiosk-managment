@@ -58,10 +58,6 @@ class ResourceInstance extends Component {
     }
 
     setInstance(instance) {
-        each(instance, (val, key) => {
-            if (val === null) instance[key] = undefined;
-        });
-
         this.setState(prevState => ({
             ...prevState,
             resourceInstance: instance,

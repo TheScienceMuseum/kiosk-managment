@@ -44,13 +44,34 @@ class ResourceListHeaderSelect extends Component {
     }
 
     mapOptionToSelect(option) {
-        if (!option || JSON.stringify(sortBy(keys(option))) === JSON.stringify(['label', 'value'])) {
+        let label = 'none';
+        let value = '';
+
+        if (JSON.stringify(sortBy(keys(option))) === JSON.stringify(['label', 'value'])) {
             return option;
         }
 
+        if (option) {
+            if (option.constructor === Object) {
+                let valueKey = this.props.options.id_key;
+                if (this.props.options.id_key.constructor === Array) {
+                    valueKey = last(this.props.options.id_key);
+                }
+
+                value = option[valueKey] ? option[valueKey] : "";
+
+                label = this.props.options.label_key.map(key => has(option, key) ? get(option, key) : key).join(' ');
+            }
+
+            if (option.constructor === String) {
+                value = option;
+                label = option
+            }
+        }
+
         return {
-            value: option[last(this.props.options.id_key)],
-            label: ucwords(this.props.options.label_key.map(key => has(option, key) ? get(option, key) : key).join('')),
+            label: ucwords(label),
+            value: value,
         };
     }
 
@@ -84,8 +105,13 @@ class ResourceListHeaderSelect extends Component {
                 });
             });
 
-            return optionsData;
+            data = optionsData;
         }
+
+        data.unshift({
+            label: 'None',
+            value: '',
+        });
 
         return data;
     }
@@ -95,7 +121,7 @@ class ResourceListHeaderSelect extends Component {
             <th>
                 <Select name={this.props.options.name}
                         onChange={this.handleChange}
-                        value={this.props.initialValue}
+                        defaultValue={this.mapOptionToSelect(this.props.initialValue)}
                         options={this.state.resource.map(this.mapOptionToSelect)}
                         isMulti={false}
                         placeholder={ucwords(this.props.options.name)}

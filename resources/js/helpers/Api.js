@@ -72,7 +72,7 @@ class Api {
                         }
                     }
 
-                    actionParams[field.name] = param ? param : null;
+                    actionParams[field.name] = param ? param : '';
                 });
             }
         } else {
