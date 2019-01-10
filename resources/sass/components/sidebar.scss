@@ -7,7 +7,7 @@
   }
 
   .sidebar {
-    position: absolute;
+    position: fixed;
     z-index: 100;
     min-width: $sidebar-mini-width;
     max-width: $sidebar-mini-width;
