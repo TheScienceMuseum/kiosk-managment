@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 
-use App\Filters\UserRoleFilter;
+use App\Filters\UserRolesFilter;
 use App\Http\Requests\UserDestroyRequest;
 use App\Http\Requests\UserIndexRequest;
 use App\Http\Requests\UserOnBoardRequest;
