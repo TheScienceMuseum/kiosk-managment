@@ -2,16 +2,12 @@
 
 namespace Tests\Browser\Pages;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 
-class PackagesViewPage extends Page
+class LoginSecondFactorPage extends Page
 {
-    private $packageId;
-
-    public function __construct($packageId)
-    {
-        $this->packageId = $packageId;
-    }
+    use DatabaseMigrations;
 
     /**
      * Get the URL for the page.
@@ -20,7 +16,7 @@ class PackagesViewPage extends Page
      */
     public function url()
     {
-        return '/admin/packages/' . $this->packageId;
+        return '/login/authorize';
     }
 
     /**
@@ -31,8 +27,9 @@ class PackagesViewPage extends Page
      */
     public function assert(Browser $browser)
     {
-        $browser->assertPathIs($this->url())
-            ->assertSee('Editing Package:');
+        $browser->assertSee('Multi-Factor Authentication')
+            ->assertSee('Auth Code')
+            ->assertSee('Enter an authentication code from your app.');
     }
 
     /**
@@ -43,7 +40,8 @@ class PackagesViewPage extends Page
     public function elements()
     {
         return [
-            '@create-version-button' => '.card .card-header form button[type="submit"]',
+            '@mfa-secret' => '#mfa_secret',
+            '@login' => '#login',
         ];
     }
 }
