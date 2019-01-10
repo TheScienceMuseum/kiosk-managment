@@ -15,11 +15,13 @@
                 @csrf
 
                 <div class="form-group row">
-                    <label for="one_time_password" class="col-sm-4 col-form-label text-md-right">{{ __('auth.mfa.opt_field_label') }}</label>
+                    <label for="one_time_password" class="col-sm-4 col-form-label text-md-right my-auto">{{ __('auth.mfa.opt_field_label') }}</label>
 
                     <div class="col-md-6">
                         <input id="one_time_password" type="number" class="form-control{{ $errors->has('message') ? ' is-invalid' : '' }}" name="one_time_password" value="{{ old('one_time_password') }}" required autofocus>
+                    </div>
 
+                    <div class="col-md-6 offset-md-4">
                         @if ($errors->has('message'))
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('message') }}</strong>

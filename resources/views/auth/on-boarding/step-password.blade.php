@@ -3,7 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-around">
-            <span>
+            <span class="text-dark">
                 Create Password
             </span>
             <span class="text-muted">
@@ -15,7 +15,7 @@
             <form action="{{ route('user.onboarding.password.process', [$token, encrypt($user->email)]) }}" method="post" class="registrationPasswordStep">
                 @csrf
 
-                <div class="alert alert-info">
+                <div class="alert alert-primary">
                     <p><strong>Welcome</strong></p>
                     <p>
                         You have had an account created for you on the kiosk management system.
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="register-user-email" class="col-md-3 col-form-label text-md-right">{{ __('Email') }}</label>
+                    <label for="register-user-email" class="col-md-3 col-form-label text-md-right my-auto">{{ __('Email') }}</label>
 
                     <div class="col-md-8">
                         <input type="email" class="form-control" id="register-user-email" value="{{ $user->email }}" disabled>
@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="password" class="col-md-3 col-form-label text-md-right">{{ __('Password') }}</label>
+                    <label for="password" class="col-md-3 col-form-label text-md-right my-auto">{{ __('Password') }}</label>
 
                     <div class="col-md-8">
                         <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
@@ -46,7 +46,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="password-confirm" class="col-md-3 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+                    <label for="password-confirm" class="col-md-3 col-form-label text-md-right my-auto">{{ __('Confirm Password') }}</label>
 
                     <div class="col-md-8">
                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
@@ -56,7 +56,7 @@
         </div>
 
         <div class="card-footer text-right">
-            <button type="button" class="btn btn-success submitsForm" data-target="registrationPasswordStep">
+            <button type="button" class="btn btn-primary submitsForm" data-target="registrationPasswordStep">
                 Continue to next step
             </button>
         </div>

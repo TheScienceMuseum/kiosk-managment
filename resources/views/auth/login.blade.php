@@ -38,10 +38,9 @@
 
                 <div class="form-group row">
                     <div class="col-md-6 offset-md-4">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                            <label class="form-check-label" for="remember">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} />
+                            <label class="custom-control-label" for="remember">
                                 {{ __('Remember Me') }}
                             </label>
                         </div>

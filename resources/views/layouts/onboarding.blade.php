@@ -82,5 +82,6 @@
     };
     @endguest
 </script>
+<script src="{{ mix('js/onboarding.js') }}"></script>
 </body>
 </html>

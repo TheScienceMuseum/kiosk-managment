@@ -6,7 +6,7 @@
             <span class="text-muted">
                 Create Password
             </span>
-            <span>
+            <span class="text-dark">
                 Setup Authenticator
             </span>
         </div>
@@ -15,7 +15,7 @@
             <form action="{{ route('user.onboarding.mfa.process', [$token, encrypt($user->email)]) }}" method="post" class="registrationMFAStep">
                 @csrf
 
-                <div class="alert alert-info">
+                <div class="alert alert-primary">
                     <p>
                         <strong>Authenticator App</strong>
                     </p>
@@ -49,7 +49,7 @@
 
                         <div class="form-group">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" name="confirmation" class="custom-control-input makesButtonClickable" id="confirm-mfa-copied" data-target=".submitsMfaRegistrationForm">
+                                <input type="checkbox" name="confirmation" class="custom-control-input my-auto makesButtonClickable" id="confirm-mfa-copied" data-target=".submitsMfaRegistrationForm">
                                 <label class="custom-control-label" for="confirm-mfa-copied">
                                     I confirm I have configured my authenticator app as required and that this is the only time I will see this information.
                                 </label>
@@ -62,7 +62,7 @@
         </div>
 
         <div class="card-footer text-right">
-            <button type="button" class="btn btn-success submitsForm submitsMfaRegistrationForm" data-target="registrationMFAStep" disabled>
+            <button type="button" class="btn btn-primary submitsForm submitsMfaRegistrationForm" data-target="registrationMFAStep" disabled>
                 Continue to login
             </button>
         </div>
