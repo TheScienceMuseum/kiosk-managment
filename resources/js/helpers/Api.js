@@ -1,55 +1,105 @@
+import ApplicationSchema from '../../application-schema';
 import axios from 'axios';
-import _ from 'lodash';
-import application_schema from '../../application-schema.json';
+import {each, get, last} from "lodash";
 
-export default class Api {
-    constructor(resource) {
-        this._resource = resource;
-        this._schema = _.get(application_schema.resources, resource);
+class Api {
+    _resourceActions = {};
+    _resourceFields = {};
+    _resourceName = '';
 
-        _.each(this._schema, (options, action) => {
-            let verb = options.verb;
+    constructor(resourceName) {
+        if (! ApplicationSchema.resources[resourceName]) {
+            throw `The resource ${resourceName} does not exist in the application-schema file.`
+        }
 
-            if (false === ["get", "post", "put", "delete"].includes(verb)) {
-                throw Error(`An invalid verb was used: ${verb}`);
-            }
-
-            this[action] = (params = {}, instance = null) => {
-                let requestOptions = (verb === "get") ? { params: params } : params;
-
-                let path = options.path;
-                let instancePropsRegex = /{[A-Za-z0-9]+}/g;
-                let matches = path.match(instancePropsRegex);
-
-                if (matches && matches.length > 0) {
-                    if (instance === null) {
-                        throw TypeError('The required instance was not passed to the API request');
-                    }
-
-                    _.each(matches, (match) => {
-                        let matchProp = match.replace('{', '').replace('}', '');
-                        console.log(`matching ${match}`);
-                        if (false === instance.hasOwnProperty(matchProp)) {
-                            throw TypeError(`The instance passed to the API does not have the property ${matchProp}`);
-                        }
-
-                        path = path.replace(match, instance[matchProp]);
-                    });
-                }
-
-
-                return axios[verb](path, requestOptions)
-                    .then(response => response.data);
-            };
-        });
+        this._resourceName      = resourceName;
+        this._resourceActions   = ApplicationSchema.resources[resourceName].actions;
+        this._resourceFields    = ApplicationSchema.resources[resourceName].fields;
     }
 
-    /**
-     * Placeholder methods for the api
-     */
-    index() {}
-    show() {}
-    store() {}
-    update() {}
-    destroy() {}
+    hasAction(actionName) {
+        return this._resourceActions.hasOwnProperty(actionName);
+    }
+
+    getUrlFromPathAndInstance(path, instance) {
+        let matches = path.match(/{[A-Za-z0-9]+}/g);
+
+        if (matches && matches.length > 0) {
+            if (instance === null) {
+                throw `The required instance was not passed to the ${actionName} request for the resource ${this.props.resource}`;
+            }
+
+            each(matches, (match) => {
+                let matchProp = match.replace('{', '').replace('}', '');
+                if (false === instance.hasOwnProperty(matchProp)) {
+                    throw `The instance passed to the API does not have the property ${matchProp}`;
+                }
+
+                path = path.replace(match, instance[matchProp]);
+            });
+        }
+
+        return path;
+    }
+
+    request(actionName, params, instance = null) {
+        const action = this._resourceActions[actionName];
+        let actionParams = {};
+
+        if (action === undefined) {
+            throw `The action ${actionName} is not configured for the resource ${this._resourceName}`;
+        }
+
+        let path = action.path;
+
+        if (instance) {
+            path = this.getUrlFromPathAndInstance(path, instance);
+
+            if (["post", "put"].includes(action.verb)) {
+                this._resourceFields.forEach(field => {
+                    if (field.readonly) {
+                        return;
+                    }
+
+                    let param = get(params, field.name);
+
+                    if (param) {
+                        if (field.collapse_on_store) {
+                            console.log(field.id_key);
+
+                            param = field.multiple ?
+                                param.map(o => get(o, last(field.id_key))) :
+                                param[last(field.id_key)];
+
+                            console.log(param);
+                        }
+                    }
+
+                    actionParams[field.name] = param;
+                });
+            }
+        } else {
+            actionParams = params;
+        }
+
+        if (action.verb === 'get') {
+            actionParams = { params: actionParams };
+        }
+
+        return axios[action.verb](path, actionParams)
+            .catch(error => {
+                let uncaught = true;
+
+                if (get(error, 'response.status') === 401) {
+                    uncaught = false;
+                    window.location = window.location.origin + '/login';
+                }
+
+                if (uncaught) {
+                    throw error;
+                }
+            });
+    }
 }
+
+export default Api;

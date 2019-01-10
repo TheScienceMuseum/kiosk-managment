@@ -1,12 +1,14 @@
 import _ from 'lodash';
+import applicationSchema from '../../application-schema';
 
 class Trans {
-    constructor () {
+    constructor() {
         this.lang = document.documentElement.lang;
-        this.translations = window.application_config.translations;
+        this.translations = applicationSchema.language;
     }
+
     get(path) {
-        _.get(this.translations, path, path);
+        _.get(this.translations, `${this.lang}.${path}`, path);
     }
 }
 

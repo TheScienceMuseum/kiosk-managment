@@ -1,7 +1,3 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App.jsx";
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes React and other helpers. It's a great starting point while
@@ -16,7 +12,11 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+import React from "react";
+import ReactDOM from 'react-dom';
+import App from './application/App';
+
 ReactDOM.render(
-    <App />,
-    document.getElementById("app")
+    <App/>,
+    document.getElementById('app'),
 );

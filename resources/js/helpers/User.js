@@ -1,17 +1,20 @@
 import _ from 'lodash';
 
 class User {
-    constructor () {
+    constructor() {
         this.data = window.current_user;
         this.permissions = this.data ? this.data.permissions.map(permission => permission.name) : [];
     }
-    authenticated () {
-        return ! this.data
+
+    authenticated() {
+        return !this.data
     }
-    name () {
+
+    name() {
         return this.data ? this.data.name : null;
     }
-    can (permission = null) {
+
+    can(permission = null) {
         return _.includes(this.permissions, permission);
     }
 }
