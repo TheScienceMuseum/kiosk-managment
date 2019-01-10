@@ -19,7 +19,7 @@ class Text extends Component {
     render() {
         return (
             <Input name={this.props.field.name}
-                   value={this.props.defaultValue}
+                   value={this.props.defaultValue ? this.props.defaultValue : ''}
                    onChange={this.handleFieldChange}
                    disabled={this.props.field.readonly}
                    autoComplete={"false"}
