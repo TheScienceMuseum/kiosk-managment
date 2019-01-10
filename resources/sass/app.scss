@@ -12,29 +12,10 @@
 
 // Components
 @import "components/sidebar";
-@import "components/select";
+@import "components/buttons";
+@import "components/pagination";
+@import "components/tables";
+
 
 // Third Party Components
 @import "~toastr/toastr";
-
-.btn-xs, .btn-group-xs > .btn {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.7875rem;
-  line-height: 1;
-}
-
-ul.pagination {
-  margin-bottom: 0;
-}
-
-.table {
-  th {
-    padding: 0.6rem 1rem;
-    .form-control {
-      font-weight: 700;
-    }
-  }
-  td {
-    padding: 0.6rem 1.2rem;
-  }
-}
