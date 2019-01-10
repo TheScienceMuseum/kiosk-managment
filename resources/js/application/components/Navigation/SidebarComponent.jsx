@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 
 import logo from '../../images/logo.svg';
 
@@ -9,9 +9,11 @@ class SidebarComponent extends Component {
     render() {
         return (
             <nav className={'sidebar'}>
-                <div className="sidebar-header">
-                    <img className={'logo'} src={logo} alt={'Brand Logo'}/>
-                </div>
+                <Link to={'/dashboard'}>
+                    <div className="sidebar-header">
+                        <img className={'logo'} src={logo} alt={'Brand Logo'}/>
+                    </div>
+                </Link>
 
                 <ul className="list-unstyled components">
                     {this.props.routes.map((prop, key) =>
