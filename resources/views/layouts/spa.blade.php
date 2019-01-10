@@ -23,7 +23,7 @@
     {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0/solar/bootstrap.min.css">--}}
     {{--@endif--}}
 </head>
-<body>
+<body class="sidebar-mini">
     <main>
         @yield('content')
     </main>
@@ -46,16 +46,16 @@
             window.current_user = null;
         @else
             window.current_user = {
-            permissions: <?php
-                echo json_encode(Auth::user()->getAllPermissions());
-            ?>,
-            name: <?php
-                echo json_encode(Auth::user()->name);
-            ?>,
-            id: <?php
-                echo json_encode(Auth::user()->id);
-            ?>
-        };
+                permissions: <?php
+                    echo json_encode(Auth::user()->getAllPermissions()->map(function ($permission) { return ['name' => $permission->name]; }));
+                ?>,
+                name: <?php
+                    echo json_encode(Auth::user()->name);
+                ?>,
+                id: <?php
+                    echo json_encode(Auth::user()->id);
+                ?>
+            };
         @endguest
     </script>
 </body>
