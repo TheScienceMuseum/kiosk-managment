@@ -50,11 +50,21 @@ class RegistrationTest extends TestCase
                     'asset_tag' => null,
                     'identifier' => $this->kioskIdentifier,
                     'client_version' => '1.0.0',
-                    'current_package' => null,
-                    'last_seen_at' => true,
-                    'package' => null,
-                    'path' => true,
+                    'assigned_package_version' => null,
+                    'current_package_version' => null,
                 ],
+            ])
+            ->assertJsonStructure([
+                'data' => [
+                    'name',
+                    'location',
+                    'asset_tag',
+                    'identifier',
+                    'client_version',
+                    'assigned_package_version',
+                    'current_package_version',
+                    'last_seen_at',
+                ]
             ])
         ;
     }

@@ -68,7 +68,7 @@ class SearchForUserTest extends TestCase
         $response = $this->actingAsDeveloper()
             ->get('/api/user?' . http_build_query([
                     'filter' => [
-                        'role' => 'content author',
+                        'roles' => ['content author'],
                     ],
                 ]))
         ;

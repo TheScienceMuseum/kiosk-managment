@@ -16,9 +16,9 @@ class KioskResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name ? $this->name : '',
-            'location' => $this->location ? $this->location : '',
-            'asset_tag' => $this->asset_tag ? $this->asset_tag : '',
+            'name' => $this->name,
+            'location' => $this->location,
+            'asset_tag' => $this->asset_tag,
             'identifier' => $this->identifier,
             'client_version' => $this->client_version,
             'current_package' => $this->current_package,
