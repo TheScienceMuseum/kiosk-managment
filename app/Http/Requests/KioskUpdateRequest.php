@@ -28,6 +28,7 @@ class KioskUpdateRequest extends FormRequest
             'location' => 'required|string',
             'asset_tag' => 'string|unique:kiosks,asset_tag,' . $this->route('kiosk')->id,
             'manually_set' => 'nullable',
+            'assigned_package_version' => 'sometimes|exists:package_versions,id',
         ];
     }
 }

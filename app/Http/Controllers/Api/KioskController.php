@@ -82,25 +82,22 @@ class KioskController extends Controller
             'asset_tag' => $request->input('asset_tag'),
         ]);
 
+        if (
+            $request->has('assigned_package_version')
+            && $request->user()->can('deploy packages to all kiosks')
+        ) {
+            if ($request->input('assigned_package_version')) {
+                $kiosk->assigned_package_version()->associate(PackageVersion::find($request->input('assigned_package_version')));
+            } else {
+                $kiosk->assigned_package_version()->dissociate();
+            }
+        }
+
         if ($request->has('manually_set')) {
             $kiosk->manually_set_at = $request->input('manually_set');
         }
 
         $kiosk->save();
-
-        return new KioskResource($kiosk);
-    }
-
-    /**
-     * @param KioskAssignPackageRequest $request
-     * @param Kiosk $kiosk
-     * @param PackageVersion $packageVersion
-     * @return KioskResource
-     */
-    public function assignPackage(KioskAssignPackageRequest $request, Kiosk $kiosk, PackageVersion $packageVersion) : KioskResource
-    {
-        $packageVersion = PackageVersion::whereStatus('approved')->findOrFail($packageVersion->id);
-        $kiosk->assigned_package_version()->associate($packageVersion);
 
         return new KioskResource($kiosk);
     }
