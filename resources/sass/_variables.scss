@@ -1,13 +1,15 @@
-
 // Body
 $body-bg: #f8fafc;
 
 // Typography
 $font-family-sans-serif: "Nunito", sans-serif;
 $font-size-base: 0.9rem;
+$font-size-large: $font-size-base + 0.6rem;
 $line-height-base: 1.6;
 
-// Colors
+
+// Colours
+$azure: #23CCEF;
 $blue: #3490dc;
 $indigo: #6574cd;
 $purple: #9561e2;
@@ -18,3 +20,113 @@ $yellow: #ffed4a;
 $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
+$white: #fff;
+
+// Gradient Colours
+$default-color-top: #d9d9d9;
+$default-color-bottom: #909297;
+$blue-color-top: #4087ea;
+$blue-color-bottom: #533ce1;
+$azure-color-top: #45c0fd;
+$azure-color-bottom: #4091ff;
+$green-color-top: #a1eb3a;
+$green-color-bottom: #6dc030;
+$orange-color-top: #ffb33b;
+$orange-color-bottom: #ec1657;
+$red-color-top: #ff3b30;
+$red-color-bottom: #bb0502;
+$purple-color-top: #df55e1;
+$purple-color-bottom: #943bea;
+$pink-color-top: #ff2a63;
+$pink-color-bottom: #ff2e2e;
+$black-color-top: #282828;
+$black-color-bottom: #111;
+
+// Lightened Colours
+$light-blue: rgba($blue, .2);
+$light-azure: rgba($azure, .2);
+$light-green: rgba($green, .2);
+$light-orange: rgba($orange, .2);
+$light-red: rgba($red, .2);
+
+
+// Borders
+$border-radius-small: 3px !default;
+$border-radius-base: 4px !default;
+$border-radius-large: 6px !default;
+$border-radius-extreme: 10px !default;
+
+// Spacing
+$padding-default-vertical: 10px !default;
+$padding-default-horizontal: 15px !default;
+$padding-base-vertical: 8px !default;
+$padding-base-horizontal: 16px !default;
+
+$padding-round-vertical: 8px !default;
+$padding-round-horizontal: 16px !default;
+
+$padding-simple-vertical: 9px !default;
+$padding-simple-horizontal: 16px !default;
+
+$padding-large-vertical: 14px !default;
+$padding-large-horizontal: 30px !default;
+
+$padding-small-vertical: 5px !default;
+$padding-small-horizontal: 10px !default;
+
+$padding-xs-vertical: 1px !default;
+$padding-xs-horizontal: 5px !default;
+
+$padding-label-vertical: 2px !default;
+$padding-label-horizontal: 12px !default;
+
+$margin-large-vertical: 30px !default;
+$margin-base-vertical: 15px !default;
+
+$margin-base: 15px !default;
+
+$padding-zero: 0px !default;
+
+
+// Components
+// SideBar
+$sidebar-width: 260px !default;
+$sidebar-mini-width: 80px !default;
+
+//== Media queries breakpoints
+//
+//## Define the breakpoints at which your layout will change, adapting to different screen sizes.
+
+// Extra small screen / phone
+//** Deprecated `$screen-xs` as of v3.0.1
+$screen-xs: 480px !default;
+//** Deprecated `$screen-xs-min` as of v3.2.0
+$screen-xs-min: $screen-xs !default;
+//** Deprecated `$screen-phone` as of v3.0.1
+$screen-phone: $screen-xs-min !default;
+
+// Small screen / tablet
+//** Deprecated `$screen-sm` as of v3.0.1
+$screen-sm: 768px !default;
+$screen-sm-min: $screen-sm !default;
+//** Deprecated `$screen-tablet` as of v3.0.1
+$screen-tablet: $screen-sm-min !default;
+
+// Medium screen / desktop
+//** Deprecated `$screen-md` as of v3.0.1
+$screen-md: 992px !default;
+$screen-md-min: $screen-md !default;
+//** Deprecated `$screen-desktop` as of v3.0.1
+$screen-desktop: $screen-md-min !default;
+
+// Large screen / wide desktop
+//** Deprecated `$screen-lg` as of v3.0.1
+$screen-lg: 1200px !default;
+$screen-lg-min: $screen-lg !default;
+//** Deprecated `$screen-lg-desktop` as of v3.0.1
+$screen-lg-desktop: $screen-lg-min !default;
+
+// So media queries don't overlap when required, provide a maximum
+$screen-xs-max: ($screen-sm-min - 1) !default;
+$screen-sm-max: ($screen-md-min - 1) !default;
+$screen-md-max: ($screen-lg-min - 1) !default;
