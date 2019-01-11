@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
 use Symfony\Component\Process\Process;
 
 class NotifyDeployment extends Command
@@ -72,7 +71,7 @@ class NotifyDeployment extends Command
             if ($match === 'COMMIT') {
                 $process = new Process("sentry-cli releases propose-version", base_path());
                 $process->run();
-                $value = $process->getOutput();
+                $value = str_replace("\n", "", $process->getOutput());
                 $notificationTemplate = str_replace("%" . $match . "%", $value, $notificationTemplate);
             }
         }
