@@ -58,10 +58,6 @@ class ResourceInstance extends Component {
     }
 
     setInstance(instance) {
-        each(instance, (val, key) => {
-            if (val === null) instance[key] = undefined;
-        });
-
         this.setState(prevState => ({
             ...prevState,
             resourceInstance: instance,
@@ -88,6 +84,7 @@ class ResourceInstance extends Component {
     createInstance() {
         this._api.request('store', this.state.resourceInstance, this.state.resourceInstance)
             .then(response => {
+                toastr.success(`${ucwords(this._api._resourceName)} has been created`);
                 this.props.history.push(`/admin/${this.props.resourceName}s/${response.data.data.id}`);
                 this.setInstance(response.data.data);
             })

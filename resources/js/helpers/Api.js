@@ -72,7 +72,7 @@ class Api {
                         }
                     }
 
-                    actionParams[field.name] = param ? param : null;
+                    actionParams[field.name] = param ? param : '';
                 });
             }
         } else {
@@ -90,6 +90,10 @@ class Api {
                 if (get(error, 'response.status') === 401) {
                     uncaught = false;
                     window.location = window.location.origin + '/login';
+                }
+
+                if (get(error, 'response.status') === 422) {
+                    toastr.error(`The form has missing or invalid fields`);
                 }
 
                 if (uncaught) {

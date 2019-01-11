@@ -25,8 +25,6 @@ class Select extends Component {
             last(this.props.field.id_key) :
             this.props.field.id_key;
 
-        console.log(value);
-
         this.props.handleFieldChange(
             this.props.field,
             multiple ?
@@ -81,20 +79,48 @@ class Select extends Component {
                 });
             });
 
-            return optionsData;
+            data = optionsData;
+        }
+
+        if (this.props.field.nullable) {
+            data.unshift({
+                label: 'None',
+                value: '',
+            });
         }
 
         return data;
     }
 
     mapOptionToSelect(option) {
+        let label = 'none';
+        let value = '';
+
         if (JSON.stringify(sortBy(keys(option))) === JSON.stringify(['label', 'value'])) {
             return option;
         }
 
+        if (option) {
+            if (option.constructor === Object) {
+                let valueKey = this.props.field.id_key;
+                if (this.props.field.id_key.constructor === Array) {
+                    valueKey = last(this.props.field.id_key);
+                }
+
+                value = option[valueKey] ? option[valueKey] : "";
+
+                label = this.props.field.label_key.map(key => has(option, key) ? get(option, key) : key).join(' ');
+            }
+
+            if (option.constructor === String) {
+                value = option;
+                label = option
+            }
+        }
+
         return {
-            value: option[this.props.field.id_key.constructor === Array ? last(this.props.field.id_key) : this.props.field.id_key],
-            label: ucwords(this.props.field.label_key.map(key => has(option, key) ? get(option, key) : key).join('')),
+            label: ucwords(label),
+            value: value,
         };
     }
 
@@ -103,9 +129,12 @@ class Select extends Component {
             <ReactSelect name={'roles'}
                     onChange={this.handleFieldChange}
                     value={
-                        this.props.field.multiple ?
-                            this.props.defaultValue.map(this.mapOptionToSelect) :
-                            this.mapOptionToSelect(this.props.defaultValue)
+                        this.props.defaultValue ?
+                            (
+                                this.props.field.multiple ?
+                                    this.props.defaultValue.map(this.mapOptionToSelect) :
+                                    this.mapOptionToSelect(this.props.defaultValue)
+                            ) : this.mapOptionToSelect("")
                     }
                     options={this.state.options.map(this.mapOptionToSelect)}
                     isMulti={this.props.field.multiple}
