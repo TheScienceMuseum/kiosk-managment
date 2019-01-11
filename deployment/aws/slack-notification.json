@@ -1,0 +1,20 @@
+{
+  "fallback": "%APP_NAME% %COMMIT% has been deployed to %APP_ENV%.",
+
+  "pretext": "<%APP_URL%|%APP_NAME%> has been deployed",
+
+  "color": "good",
+
+  "fields": [
+    {
+      "title": "Environment",
+      "value": "%APP_ENV%",
+      "short": false
+    },
+    {
+      "title": "Commit",
+      "value": "<%BITBUCKET_COMMIT_URL_OPS%%COMMIT%|%COMMIT%>",
+      "short": false
+    }
+  ]
+}

@@ -16,3 +16,6 @@ sentry-cli releases set-commits --auto $VERSION
 
 # Mark a deployment
 sentry-cli releases deploys $VERSION new -e $(grep 'APP_ENV=' .env | cut -d "=" -f 2)
+
+# Notify monitoring room about commit
+php artisan ops:notify:deployment
