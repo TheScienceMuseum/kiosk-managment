@@ -40,6 +40,7 @@ class UserController extends Controller
     public function index(UserIndexRequest $request) : ResourceCollection
     {
         $users = QueryBuilder::for(User::class)
+            ->withTrashed()
             ->allowedFilters([
                 'name',
                 'email',
