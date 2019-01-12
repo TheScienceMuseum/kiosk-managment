@@ -4,9 +4,10 @@ import Api from "../../../../helpers/Api";
 import {Button, Card, CardBody, CardHeader, FormGroup} from "reactstrap";
 import {BounceLoader} from "react-spinners";
 
-import Field from "../Interface/Instance/Form/Field";
 import {ucwords} from "locutus/php/strings";
-import {each} from "lodash";
+import {each, get, has} from "lodash";
+
+import Field from "../Interface/Instance/Form/Field";
 
 class ResourceInstance extends Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class ResourceInstance extends Component {
 
         const initialResourceInstance = {};
 
-        _.each(this._api._resourceFields, field => {
+        each(this._api._resourceFields, field => {
             switch (field.type) {
                 case 'text':
                     initialResourceInstance[field.name] = '';
@@ -37,6 +38,8 @@ class ResourceInstance extends Component {
         this.requestInstance    = this.requestInstance.bind(this);
         this.setInstance        = this.setInstance.bind(this);
         this.updateInstance     = this.updateInstance.bind(this);
+
+        this.resourceInstanceActions = [];
     }
 
     componentDidMount() {
@@ -58,6 +61,47 @@ class ResourceInstance extends Component {
     }
 
     setInstance(instance) {
+        if (this._api._resourceActions.show.actions) {
+            this.resourceInstanceActions = [];
+
+            each(this._api._resourceActions.show.actions, action => {
+                let hasDisplayCondition = has(action, 'display_condition');
+                let displayConditionPassed = false;
+
+                if (hasDisplayCondition) {
+                    let displayCondition = get(action, 'display_condition');
+
+                    each(displayCondition, (value, field) => {
+                        if (value.constructor === Boolean && !!get(instance, field) === value) {
+                            displayConditionPassed = true;
+                        }
+                    });
+                }
+
+                if (! hasDisplayCondition || (hasDisplayCondition && displayConditionPassed)) {
+                    this.resourceInstanceActions.push({
+                        label: action.label,
+                        callback: () => {
+                            const doRequest = () => {
+                                this._api.request(action.action, {}, instance)
+                                    .then(response => {
+                                        if (has(action, 'post_action')) {
+                                            this.requestInstance();
+                                        }
+                                    });
+                            };
+
+                            if (has(action, 'confirmation')) {
+                                doRequest();
+                            } else {
+                                doRequest();
+                            }
+                        },
+                    })
+                }
+            });
+        }
+
         this.setState(prevState => ({
             ...prevState,
             resourceInstance: instance,
@@ -106,7 +150,8 @@ class ResourceInstance extends Component {
     render() {
         return (
             <Card>
-                <CardHeader>
+                <CardHeader className={'d-flex justify-content-between'}>
+                    <div>
                     {(this.props.resourceInstanceId && (this.state.resourceInstance.name || this.state.resourceInstance.identifier) &&
                         <span>Viewing {this.state.resourceInstance.name || this.state.resourceInstance.identifier}</span>
                     ) || (this.props.resourceInstanceId &&
@@ -114,6 +159,19 @@ class ResourceInstance extends Component {
                     ) || (
                         <span>Creating new {this.props.resourceName}</span>
                     )}
+                    </div>
+                    <div>
+                        {this.resourceInstanceActions.map(action =>
+                            <Button key={`index-actions-${action.label}`}
+                                    size={'xs'}
+                                    className={'mx-1'}
+                                    onClick={action.callback}
+                                    color={action.color || 'primary'}
+                            >
+                                {action.label}
+                            </Button>
+                        )}
+                    </div>
                 </CardHeader>
 
                 {(this.state.resourceInstanceLoading &&
