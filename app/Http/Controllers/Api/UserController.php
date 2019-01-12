@@ -7,6 +7,7 @@ use App\Filters\UserRolesFilter;
 use App\Http\Requests\UserDestroyRequest;
 use App\Http\Requests\UserIndexRequest;
 use App\Http\Requests\UserOnBoardRequest;
+use App\Http\Requests\UserRestoreRequest;
 use App\Http\Requests\UserRoleIndexRequest;
 use App\Http\Requests\UserShowRequest;
 use App\Http\Requests\UserStoreRequest;
@@ -131,6 +132,18 @@ class UserController extends Controller
         $user->delete();
 
         return response(null, 204);
+    }
+
+    /**
+     * @param UserRestoreRequest $request
+     * @param User $user
+     * @return UserResource
+     */
+    public function restore(UserRestoreRequest $request, User $user) : UserResource
+    {
+        $user->restore();
+
+        return new UserResource($user);
     }
 
     /**
