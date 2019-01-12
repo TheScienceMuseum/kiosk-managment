@@ -16,6 +16,7 @@ class UserResource extends Resource
             'roles' => UserRoleResource::collection($this->roles),
             'permissions' => PermissionResource::collection($this->getAllPermissions()),
             'path' => route('api.user.show', $this),
+            'deleted_at' => $this->deleted_at,
         ];
     }
 }
