@@ -29,6 +29,7 @@ Route::name('api.')
                 $router->post('{user}/on-board', 'UserController@onboard')->name('on-board');
                 $router->put('{user}', 'UserController@update')->name('update');
                 $router->delete('{user}', 'UserController@destroy')->name('destroy');
+                $router->post('{user}/restore', 'UserController@restore')->name('destroy');
             });
 
         $router->name('kiosk.')

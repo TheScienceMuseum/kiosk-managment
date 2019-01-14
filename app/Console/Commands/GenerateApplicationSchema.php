@@ -218,6 +218,46 @@ class GenerateApplicationSchema extends Command
                     "show" => [
                         "verb" => "get",
                         "path" => "/api/user/{id}",
+                        "actions" => [
+                            [
+                                "label" => "Suspend Account",
+                                "action" => "destroy",
+                                "post_action" => "show",
+                                "display_condition" => [
+                                    "deleted_at" => false,
+                                ],
+                                "confirmation" => [
+                                    "text" => "Are you sure you want to suspend this account?",
+                                    "yes" => "Go ahead",
+                                    "no" => "Cancel",
+                                ],
+                            ],
+                            [
+                                "label" => "Restore Account",
+                                "action" => "restore",
+                                "post_action" => "show",
+                                "display_condition" => [
+                                    "deleted_at" => true,
+                                ],
+                                "confirmation" => [
+                                    "text" => "Are you sure you want to restore this account?",
+                                    "yes" => "Go ahead",
+                                    "no" => "Cancel",
+                                ],
+                            ],
+                            [
+                                "label" => "Reset Authentication",
+                                "action" => "onboard",
+                                "display_condition" => [
+                                    "deleted_at" => false,
+                                ],
+                                "confirmation" => [
+                                    "text" => "Are you sure you want to reset this accounts authentication details?",
+                                    "yes" => "Reset and Email User",
+                                    "no" => "Cancel",
+                                ],
+                            ],
+                        ]
                     ],
                     "store" => [
                         "verb" => "post",
@@ -230,7 +270,15 @@ class GenerateApplicationSchema extends Command
                     "destroy" => [
                         "verb" => "delete",
                         "path" => "/api/user/{id}",
-                    ]
+                    ],
+                    "restore" => [
+                        "verb" => "post",
+                        "path" => "/api/user/{id}/restore",
+                    ],
+                    "onboard" => [
+                        "verb" => "post",
+                        "path" => "/api/user/{id}/on-board",
+                    ],
                 ]
             ],
             "user_role" => [
