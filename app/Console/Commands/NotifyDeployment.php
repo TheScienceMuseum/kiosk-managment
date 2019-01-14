@@ -36,23 +36,68 @@ class NotifyDeployment extends Command
      * Execute the console command.
      *
      * @return mixed
-     * @throws \Exception
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function handle()
     {
+        if($this->sendSlackNotification()) {
+            $this->output->success('Sent notification to slack.');
+        }
+        if ($this->sendDetectifyNotification()) {
+            $this->output->success('Triggered Scan in detectify.');
+        }
+    }
+
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    private function sendDetectifyNotification()
+    {
+        if (config('app.env') !== 'staging') {
+            return false;
+        }
+
+        // Get the detectify api key
+        $detectifyApiKey = env('DETECTIFY_API_KEY', false);
+
+        if (! $detectifyApiKey) {
+            $this->output->error("DETECTIFY_API_KEY is not set in the environment, cannot trigger scans on deploy");
+        }
+
+        // Get the detectify scanning profile id
+        $detectifyScanProfile = env('DETECTIFY_SCAN_PROFILE', false);
+
+        if (! $detectifyScanProfile) {
+            $this->output->error("DETECTIFY_SCAN_PROFILE is not set in the environment, cannot trigger scans on deploy");
+        }
+
+        $url = "https://$detectifyApiKey@api.detectify.com/rest/v2/scans/$detectifyScanProfile/";
+        (new GuzzleClient())->request('POST', $url);
+
+        return true;
+    }
+
+    /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    private function sendSlackNotification()
+    {
+        if (!in_array(config('app.env'), ['staging', 'production'])) {
+            return false;
+        }
+
         // Get the notification template for the application
         $notificationTemplate = file_get_contents(base_path('deployment/aws/slack-notification.json'));
 
         if (! $notificationTemplate) {
-            throw new \Exception("Could not read the 'deployment/aws/slack-notification.json' file");
+            $this->output->error("Could not read the 'deployment/aws/slack-notification.json' file");
         }
 
         // Get the slack web hook uri
         $webHookUri = env('SLACK_WEB_HOOK_OPS', false);
 
         if (! $webHookUri) {
-            throw new \Exception("SLACK_WEB_HOOK_OPS is not set in the environment, cannot send deployment notifications");
+            $this->output->error("SLACK_WEB_HOOK_OPS is not set in the environment, cannot send deployment notifications");
         }
 
         // Parse the notification file and insert options
@@ -76,10 +121,10 @@ class NotifyDeployment extends Command
             }
         }
 
-        $client = new GuzzleClient();
-
-        $client->request('POST', $webHookUri, [
+        (new GuzzleClient())->request('POST', $webHookUri, [
             'json' => json_decode($notificationTemplate, true),
         ]);
+
+        return true;
     }
 }
