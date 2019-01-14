@@ -13,14 +13,14 @@ class NotifyDeployment extends Command
      *
      * @var string
      */
-    protected $signature = 'ops:notify:deployment';
+    protected $signature = 'ops:deployment:complete';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Send a slack notification on a successful deployment.';
+    protected $description = 'Notify apis that the deployment has succeeded.';
 
     /**
      * Create a new command instance.
