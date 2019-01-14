@@ -190,11 +190,13 @@ class GenerateApplicationSchema extends Command
                     [
                         "name" => "name",
                         "type" => "text",
+                        "help" => "The full name of the user.",
                         "filter" => true,
                         "required" => true,
                     ], [
                         "name" => "email",
                         "type" => "text",
+                        "help" => "A valid email address for the user.",
                         "filter" => true,
                         "required" => true,
                     ], [
@@ -204,6 +206,7 @@ class GenerateApplicationSchema extends Command
                         "multiple" => true,
                         "filter" => true,
                         "collapse_on_store" => true,
+                        "help" => "The permissions associated with the user.",
                         "required" => true,
                         "id_key" => ["name"],
                         "label_key" => ["name"],
