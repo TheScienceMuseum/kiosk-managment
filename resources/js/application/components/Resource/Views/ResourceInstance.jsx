@@ -161,15 +161,16 @@ class ResourceInstance extends Component {
                     )}
                     </div>
                     <div>
-                        {this.resourceInstanceActions.map(action =>
-                            <Button key={`index-actions-${action.label}`}
-                                    size={'xs'}
-                                    className={'mx-1'}
-                                    onClick={action.callback}
-                                    color={action.color || 'primary'}
-                            >
-                                {action.label}
-                            </Button>
+                        {!this.state.resourceInstanceLoading &&
+                            this.resourceInstanceActions.map(action =>
+                                <Button key={`index-actions-${action.label}`}
+                                        size={'xs'}
+                                        className={'mx-1'}
+                                        onClick={action.callback}
+                                        color={action.color || 'primary'}
+                                >
+                                    {action.label}
+                                </Button>
                         )}
                     </div>
                 </CardHeader>
