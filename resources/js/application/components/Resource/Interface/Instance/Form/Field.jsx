@@ -30,6 +30,7 @@ class Field extends Component {
                 <Component defaultValue={this.props.value}
                            handleFieldChange={this.props.handleFieldChange}
                            field={this.props.field}
+                           fieldErrors={this.props.fieldErrors}
                            key={this.props.field.name}
                            disabled={this.props.field.readonly}
                 />
@@ -53,6 +54,17 @@ class Field extends Component {
                         />
                     )}
                 </div>
+
+                {this.props.fieldErrors &&
+                    this.props.fieldErrors.map((error, index) =>
+                        <FormText key={`errors-${this.props.field.name}-${index}`}
+                                  className={'offset-sm-2 col-sm-10'}
+                                  color={'danger'}
+                        >
+                            {error}
+                        </FormText>
+                )}
+
                 {this.props.field.help &&
                     <FormText className={'offset-sm-2 col-sm-10'}>
                         {this.props.field.help}
@@ -65,6 +77,7 @@ class Field extends Component {
 
 Field.propTypes = {
     field: PropTypes.object.isRequired,
+    fieldErrors: PropTypes.array,
     value: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.array,
