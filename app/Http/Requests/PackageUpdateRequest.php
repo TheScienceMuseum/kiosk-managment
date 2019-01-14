@@ -24,7 +24,7 @@ class PackageUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|alpha_num|string|unique:packages,' . $this->route('package')->id,
+            'name' => 'required|alpha_num|string|unique:packages,name,' . $this->route('package')->id,
         ];
     }
 }
