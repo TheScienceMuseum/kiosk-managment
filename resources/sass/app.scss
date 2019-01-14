@@ -19,3 +19,6 @@
 
 // Third Party Components
 @import "~toastr/toastr";
+#toast-container > div {
+  opacity:1;
+}

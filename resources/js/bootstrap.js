@@ -19,6 +19,9 @@ try {
     require('bootstrap');
 
     window.toastr = require('toastr');
+    toastr.options = {
+        progressBar: true,
+    };
 } catch (e) {}
 
 /**

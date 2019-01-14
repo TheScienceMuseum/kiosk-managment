@@ -85,6 +85,7 @@ class ResourceInstance extends Component {
                             const doRequest = () => {
                                 this._api.request(action.action, {}, instance)
                                     .then(response => {
+                                        toastr.success(`${action.label} completed`);
                                         if (has(action, 'post_action')) {
                                             this.requestInstance();
                                         }
