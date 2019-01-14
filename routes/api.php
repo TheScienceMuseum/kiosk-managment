@@ -40,7 +40,6 @@ Route::name('api.')
                 $router->get('{kiosk}/logs', 'KioskController@showLogs')->name('show.logs');
                 $router->put('{kiosk}', 'KioskController@update')->name('update');
                 $router->delete('{kiosk}', 'KioskController@destroy')->name('destroy');
-                $router->put('{kiosk}/assign/{packageVersion}', 'KioskController@assignPackage')->name('assign-package');
             });
 
         $router->name('package.')
