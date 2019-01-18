@@ -169,9 +169,15 @@ class GenerateApplicationSchema extends Command
                     "name" => "name",
                     "type" => "text",
                     "filter" => true,
+                    "readonly" => true,
+                    "create_with" => true,
                 ], [
                     "name" => "versions",
                     "type" => "resource_collection",
+                    "readonly" => true,
+                    "resource" => "package_version",
+                    "link_to_resource" => true,
+                    "link_insert" => "version",
                 ]],
                 "actions" => [
                     "index" => [
@@ -183,6 +189,40 @@ class GenerateApplicationSchema extends Command
                         "verb" => "get",
                         "path" => "/api/package/{id}",
                     ],
+                    "store" => [
+                        "verb" => "post",
+                        "path" => "/api/package",
+                    ],
+                    "update" => [
+                        "verb" => "put",
+                        "path" => "/api/package/{id}",
+                    ],
+                ],
+            ],
+            "package_version" => [
+                "fields" => [[
+                    "name" => "version",
+                    "type" => "text",
+                    "filter" => true,
+                ],[
+                    "name" => "created_at",
+                    "type" => "text",
+                    "filter" => true,
+                ],[
+                    "name" => "status",
+                    "type" => "text",
+                    "filter" => true,
+                ]],
+                "actions" => [
+                    "index" => [
+                        "verb" => "get",
+                        "path" => "/api/package/{id}/version",
+                        "pagination" => true,
+                    ],
+                    "show" => [
+                        "verb" => "get",
+                        "path" => "/api/package/{package.id}/version/{id}",
+                    ],
                 ],
             ],
             "user" => [
@@ -193,12 +233,15 @@ class GenerateApplicationSchema extends Command
                         "help" => "The full name of the user.",
                         "filter" => true,
                         "required" => true,
+                        "create_with" => true,
                     ], [
                         "name" => "email",
                         "type" => "text",
                         "help" => "A valid email address for the user.",
                         "filter" => true,
                         "required" => true,
+                        "readonly" => true,
+                        "create_with" => true,
                     ], [
                         "name" => "roles",
                         "type" => "select",
@@ -208,6 +251,7 @@ class GenerateApplicationSchema extends Command
                         "collapse_on_store" => true,
                         "help" => "The permissions associated with the user.",
                         "required" => true,
+                        "create_with" => true,
                         "id_key" => ["name"],
                         "label_key" => ["name"],
                     ],

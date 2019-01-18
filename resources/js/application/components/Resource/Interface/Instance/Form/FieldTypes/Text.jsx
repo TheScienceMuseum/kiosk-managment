@@ -7,7 +7,15 @@ class Text extends Component {
     constructor(props) {
         super(props);
 
+        this.fieldIsEditable = this.fieldIsEditable.bind(this);
         this.handleFieldChange = this.handleFieldChange.bind(this);
+    }
+
+    fieldIsEditable() {
+        if (this.props.isCreate) {
+            return this.props.field.create_with || ! this.props.field.readonly;
+        }
+        return ! this.props.field.readonly;
     }
 
     handleFieldChange(event) {
@@ -21,7 +29,7 @@ class Text extends Component {
             <Input name={this.props.field.name}
                    value={this.props.defaultValue ? this.props.defaultValue : ''}
                    onChange={this.handleFieldChange}
-                   disabled={this.props.field.readonly}
+                   readOnly={! this.fieldIsEditable()}
                    autoComplete={"false"}
             />
         );

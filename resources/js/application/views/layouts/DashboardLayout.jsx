@@ -10,12 +10,12 @@ class DashboardLayout extends Component {
         return (
             <div className={'m-5'}>
                 <CardColumns>
-                    {User.can('view all kiosks') &&
-                        <KioskAuditLog/>
-                    }
-
                     {User.can('view all users') &&
                         <UserAuditLog/>
+                    }
+
+                    {User.can('view all kiosks') &&
+                        <KioskAuditLog/>
                     }
 
                     {User.can('view all packages') &&
