@@ -64,9 +64,7 @@ class PackageController extends Controller
      */
     public function update(PackageUpdateRequest $request, Package $package) : PackageResource
     {
-        $package->update([
-            'name' => $request->input('name'),
-        ]);
+        $package->update([]);
 
         return new PackageResource($package);
     }
