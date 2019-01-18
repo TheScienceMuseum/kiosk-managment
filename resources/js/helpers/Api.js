@@ -57,7 +57,11 @@ class Api {
 
             if (["post", "put"].includes(action.verb)) {
                 this._resourceFields.forEach(field => {
-                    if (field.readonly) {
+                    if (action.verb === 'put' && field.readonly) {
+                        return;
+                    }
+
+                    if (action.verb === 'post' && !field.create_with) {
                         return;
                     }
 

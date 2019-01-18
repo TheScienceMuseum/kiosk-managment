@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\PackageVersion;
 use Illuminate\Foundation\Http\FormRequest;
 
-class KioskAssignPackageRequest extends FormRequest
+class PackageVersionIndexRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +14,7 @@ class KioskAssignPackageRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('assignPackage', $this->route('kiosk'));
+        return $this->user()->can('index', PackageVersion::class);
     }
 
     /**

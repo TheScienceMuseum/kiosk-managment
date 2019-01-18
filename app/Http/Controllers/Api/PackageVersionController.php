@@ -3,16 +3,37 @@
 namespace App\Http\Controllers\Api;
 
 use App\Events\PackageVersionSubmittedForApproval;
+use App\Http\Requests\PackageVersionIndexRequest;
 use App\Http\Requests\PackageVersionShowRequest;
 use App\Http\Requests\PackageVersionUpdateRequest;
 use App\Http\Resources\PackageVersionResource;
-use App\Jobs\BuildPackage;
 use App\Package;
 use App\PackageVersion;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class PackageVersionController extends Controller
 {
+    /**
+     * @param PackageVersionIndexRequest $request
+     * @param Package $package
+     * @return mixed
+     */
+    public function index(PackageVersionIndexRequest $request, Package $package) : ResourceCollection
+    {
+        $kiosks = QueryBuilder::for(PackageVersion::class)
+            ->where('package_id', $package->id)
+            ->orderByDesc('version')
+            ->allowedFilters([
+                'version',
+            ])
+            ->jsonPaginate()
+        ;
+
+        return PackageVersionResource::collection($kiosks);
+    }
+
     /**
      * Store a newly created resource in storage.
      *

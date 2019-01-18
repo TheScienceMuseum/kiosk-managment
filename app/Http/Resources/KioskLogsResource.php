@@ -15,6 +15,7 @@ class KioskLogsResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'level' => $this->level,
             'message' => $this->message,
             'timestamp' => $this->timestamp,

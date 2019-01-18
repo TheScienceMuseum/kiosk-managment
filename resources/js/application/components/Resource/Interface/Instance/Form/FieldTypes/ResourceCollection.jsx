@@ -1,20 +1,33 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Table} from "reactstrap";
+import {Button, ButtonGroup, Table} from "reactstrap";
 import Api from "../../../../../../../helpers/Api";
 import {BounceLoader} from "react-spinners";
+import {get} from 'lodash';
+import {ucwords} from "locutus/php/strings";
 
 class ResourceCollection extends Component {
     constructor(props) {
         super(props);
 
-        this._api = new Api('kiosk_logs');
+        this._api = new Api(this.props.field.resource);
 
         this.state = {
             resourceIndexLoading: true,
             resourceIndex: [],
             pagination: {},
             filters: {},
+        };
+
+        this.resourceInstanceActions = [];
+
+        if (this._api.hasAction('show')) {
+            this.resourceInstanceActions.push({
+                name: 'View',
+                callback: (instance) => {
+                    return () => this.props.history.push(`${props.location.pathname}/${props.field.name}/${instance.id}`);
+                },
+            });
         }
     }
 
@@ -36,11 +49,12 @@ class ResourceCollection extends Component {
                 {(this.props.field.readonly &&
                     <Table responsive hover>
                         <thead>
-                            <tr>
-                                {this._api._resourceFields.map(field =>
-                                    field.filter && <th key={`${this.props.field.name}-rc-${field.name}`}>{field.name}</th>
-                                )}
-                            </tr>
+                        <tr>
+                            {this._api._resourceFields.map(field =>
+                                field.filter && <th key={`${this.props.field.name}-rc-${field.name}`}>{field.name}</th>
+                            )}
+                            <th className={'text-right'}>Actions</th>
+                        </tr>
                         </thead>
                         <tbody>
                         {this.state.resourceIndexLoading ?
@@ -52,10 +66,25 @@ class ResourceCollection extends Component {
                                 </td>
                             </tr> :
                             this.state.resourceIndex.map(row =>
-                                <tr key={row.timestamp}>
-                                    <td>{row.level}</td>
-                                    <td>{row.message}</td>
-                                    <td>{row.timestamp}</td>
+                                <tr key={row.id}>
+                                    {this._api._resourceFields.map(field =>
+                                        field.filter &&
+                                        <td key={`${field.name}-${row.id}`}>
+                                            {get(row, field.name)}
+                                        </td>
+                                    )}
+                                    <td className={'text-right'}>
+                                        <ButtonGroup size={'xs'}>
+                                            {this.resourceInstanceActions.map(action =>
+                                                <Button key={`action-${row.id}-${action.name}`}
+                                                        onClick={action.callback(row)}
+                                                        color={'primary'}
+                                                >
+                                                    {ucwords(action.name)}
+                                                </Button>
+                                            )}
+                                        </ButtonGroup>
+                                    </td>
                                 </tr>
                             )
                         }

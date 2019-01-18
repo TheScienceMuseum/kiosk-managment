@@ -17,6 +17,7 @@ class SidebarComponent extends Component {
 
                 <ul className="list-unstyled components">
                     {this.props.routes.map((prop, key) =>
+                        prop.show_in_menu &&
                         <li key={key}>
                             <NavLink
                                 to={prop.path}

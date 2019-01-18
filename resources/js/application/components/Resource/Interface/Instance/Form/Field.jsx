@@ -27,12 +27,16 @@ class Field extends Component {
         if (this.fieldMappings.hasOwnProperty(this.props.field.type)) {
             let Component = this.fieldMappings[this.props.field.type];
             return (
-                <Component defaultValue={this.props.value}
-                           handleFieldChange={this.props.handleFieldChange}
+                <Component 
+                           defaultValue={this.props.value}
+                           disabled={this.props.field.readonly}
                            field={this.props.field}
                            fieldErrors={this.props.fieldErrors}
+                           handleFieldChange={this.props.handleFieldChange}
+                           history={this.props.history}
+                           isCreate={this.props.isCreate}
                            key={this.props.field.name}
-                           disabled={this.props.field.readonly}
+                           location={this.props.location}
                 />
             );
         }
@@ -84,6 +88,7 @@ Field.propTypes = {
         PropTypes.object,
     ]),
     handleFieldChange: PropTypes.func.isRequired,
+    isCreate: PropTypes.bool,
 };
 
 export default Field;

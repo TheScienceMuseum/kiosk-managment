@@ -32,6 +32,7 @@ class ResourceInstance extends Component {
             resourceInstance: initialResourceInstance,
             resourceInstanceLoading: this.props.resourceInstanceId !== undefined,
             resourceInstanceErrors: {},
+            isCreating: !this.props.resourceInstanceId,
         };
 
         this.flush                          = this.flush.bind(this);
@@ -46,7 +47,7 @@ class ResourceInstance extends Component {
     }
 
     componentDidMount() {
-        if (this.props.resourceInstanceId) {
+        if (!this.state.isCreating) {
             this.requestInstance();
         }
     }
@@ -201,9 +202,13 @@ class ResourceInstance extends Component {
                 ) || (
                     <CardBody>
                         {this._api._resourceFields.map(field =>
+                            (this.props.resourceInstanceId || field.type !== 'resource_collection') &&
                             <Field field={field}
                                    fieldErrors={this.getErrorsForField(field)}
                                    handleFieldChange={this.handleFieldChange}
+                                   history={this.props.history}
+                                   isCreate={this.state.isCreating}
+                                   location={this.props.location}
                                    key={field.name}
                                    value={field.type === 'resource_collection' ? this.state.resourceInstance : this.state.resourceInstance[field.name]}
                             />

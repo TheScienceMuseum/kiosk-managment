@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\UnregisteredKioskFilter;
-use App\Http\Requests\KioskAssignPackageRequest;
 use App\Http\Requests\KioskDestroyRequest;
 use App\Http\Requests\KioskHealthCheckRequest;
 use App\Http\Requests\KioskIndexRequest;
@@ -38,6 +37,7 @@ class KioskController extends Controller
     public function index(KioskIndexRequest $request) : ResourceCollection
     {
         $kiosks = QueryBuilder::for(Kiosk::class)
+            ->orderByDesc('last_seen_at')
             ->allowedFilters([
                 'name',
                 'location',
