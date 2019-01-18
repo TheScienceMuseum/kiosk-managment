@@ -27,7 +27,6 @@ class UpdateUsersTest extends TestCase
                 'message' => true,
                 'errors' => [
                     'name' => true,
-                    'email' => true,
                     'roles' => true,
                 ]
             ])

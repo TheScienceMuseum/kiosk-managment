@@ -11,7 +11,7 @@ class UpdatingPackageTest extends TestCase
 {
     use ActsAs, ResetsDatabase;
 
-    public function testUpdatingAPackageNameAsADeveloperSucceeds()
+    public function testUpdatingAPackageNameAsADeveloperFails()
     {
         $randomName = str_random();
 
@@ -21,11 +21,10 @@ class UpdatingPackageTest extends TestCase
             ])
         ;
 
-        $response->assertStatus(200)
-            ->assertSee($randomName);
+        $response->assertStatus(422);
     }
 
-    public function testUpdatingAPackageNameAsAnAdminSucceeds()
+    public function testUpdatingAPackageNameAsAnAdminFails()
     {
         $randomName = str_random();
 
@@ -35,8 +34,7 @@ class UpdatingPackageTest extends TestCase
             ])
         ;
 
-        $response->assertStatus(200)
-            ->assertSee($randomName);
+        $response->assertStatus(422);
     }
 
     public function testUpdatingAPackageNameAsATechAdminFails()
@@ -49,11 +47,10 @@ class UpdatingPackageTest extends TestCase
             ])
         ;
 
-        $response->assertStatus(403)
-            ->assertDontSee($randomName);
+        $response->assertStatus(403);
     }
 
-    public function testUpdatingAPackageNameAsAContentEditorSucceeds()
+    public function testUpdatingAPackageNameAsAContentEditorFails()
     {
         $randomName = str_random();
 
@@ -63,11 +60,10 @@ class UpdatingPackageTest extends TestCase
             ])
         ;
 
-        $response->assertStatus(200)
-            ->assertSee($randomName);
+        $response->assertStatus(422);
     }
 
-    public function testUpdatingAPackageNameAsAContentAuthorSucceeds()
+    public function testUpdatingAPackageNameAsAContentAuthorFails()
     {
         $randomName = str_random();
 
@@ -77,8 +73,7 @@ class UpdatingPackageTest extends TestCase
             ])
         ;
 
-        $response->assertStatus(200)
-            ->assertSee($randomName);
+        $response->assertStatus(422);
     }
 
 }
