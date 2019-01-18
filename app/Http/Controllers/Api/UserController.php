@@ -107,7 +107,10 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, User $user) : UserResource
     {
         $user->name = $request->input('name');
-        $user->email = $request->input('email');
+
+        if ($request->has('email')) {
+            $user->email = $request->input('email');
+        }
 
         if ($request->input('roles')) {
             $roles = array_map(function ($role) {
