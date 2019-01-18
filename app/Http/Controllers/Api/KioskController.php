@@ -37,6 +37,7 @@ class KioskController extends Controller
     public function index(KioskIndexRequest $request) : ResourceCollection
     {
         $kiosks = QueryBuilder::for(Kiosk::class)
+            ->orderByDesc('last_seen_at')
             ->allowedFilters([
                 'name',
                 'location',
