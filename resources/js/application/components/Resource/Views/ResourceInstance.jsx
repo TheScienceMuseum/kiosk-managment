@@ -4,8 +4,9 @@ import Api from "../../../../helpers/Api";
 import {Button, Card, CardBody, CardHeader, FormGroup} from "reactstrap";
 import {BounceLoader} from "react-spinners";
 
+import confirm from 'reactstrap-confirm';
 import {ucwords} from "locutus/php/strings";
-import {each, get, has} from "lodash";
+import {each, get, has, keys} from "lodash";
 
 import Field from "../Interface/Instance/Form/Field";
 
@@ -30,15 +31,16 @@ class ResourceInstance extends Component {
 
         this.state = {
             resourceInstance: initialResourceInstance,
-            resourceInstanceLoading: this.props.resourceInstanceId !== undefined,
+            resourceInstanceLoading: !! keys(this.props.resource).length,
             resourceInstanceErrors: {},
-            isCreating: !this.props.resourceInstanceId,
+            isCreating: ! keys(this.props.resource).length,
         };
 
         this.flush                          = this.flush.bind(this);
         this.handleFieldChange              = this.handleFieldChange.bind(this);
         this.handleErrorOnInstanceUpdate    = this.handleErrorOnInstanceUpdate.bind(this);
         this.getErrorsForField              = this.getErrorsForField.bind(this);
+        this.getResourceInstanceTitleValue  = this.getResourceInstanceTitleValue.bind(this);
         this.requestInstance                = this.requestInstance.bind(this);
         this.setInstance                    = this.setInstance.bind(this);
         this.updateInstance                 = this.updateInstance.bind(this);
@@ -57,7 +59,7 @@ class ResourceInstance extends Component {
             ...prevState,
             resourceInstanceLoading: true,
         }), () => {
-            this._api.request('show', {}, {id: this.props.resourceInstanceId})
+            this._api.request('show', this.props.resource, this.props.resource)
                 .then(response => {
                     this.setInstance(response.data.data);
                 });
@@ -65,6 +67,8 @@ class ResourceInstance extends Component {
     }
 
     setInstance(instance) {
+        console.log(`setting instance ${JSON.stringify(instance)}`);
+
         if (this._api._resourceActions.show.actions) {
             this.resourceInstanceActions = [];
 
@@ -79,6 +83,14 @@ class ResourceInstance extends Component {
                         if (value.constructor === Boolean && !!get(instance, field) === value) {
                             displayConditionPassed = true;
                         }
+
+                        if (value.constructor === String && get(instance, field) === value) {
+                            displayConditionPassed = true;
+                        }
+
+                        if (value.constructor === Array && value.includes(get(instance, field))) {
+                            displayConditionPassed = true;
+                        }
                     });
                 }
 
@@ -86,20 +98,50 @@ class ResourceInstance extends Component {
                     this.resourceInstanceActions.push({
                         label: action.label,
                         callback: () => {
-                            const doRequest = () => {
-                                this._api.request(action.action, {}, instance)
-                                    .then(response => {
-                                        toastr.success(`${action.label} completed`);
-                                        if (has(action, 'post_action')) {
-                                            this.requestInstance();
+                            if (has(action, 'action.path')) {
+                                this.props.history.push(this._api.getUrlFromPathAndInstance(get(action, 'action.path'), this.state.resourceInstance));
+                            } else {
+                                const doRequest = () => {
+                                    if (this._api._resourceName === action.action.resource) {
+                                        this._api.request(action.action.action, action.action.params, instance)
+                                            .then(response => {
+                                                toastr.success(`${action.label} completed`);
+
+                                                if (has(action, 'post_action')) {
+                                                    this.requestInstance();
+                                                }
+                                            });
+                                    } else {
+                                        const resourceApi = new Api(action.action.resource);
+                                        resourceApi.request(action.action.action, {}, instance)
+                                            .then(response => {
+                                                if (has(action, 'post_action')) {
+                                                    if (this._api._resourceName === action.post_action.resource) {
+                                                        this.requestInstance();
+                                                    } else {
+                                                        // find the needed route to display the data
+                                                        this.props.history.push(
+                                                            `${this.props.location.pathname}/${action.post_action.link_insert}/${response.data.data.id}`
+                                                        );
+                                                    }
+                                                }
+                                            })
+                                    }
+                                };
+
+                                if (has(action, 'confirmation')) {
+                                    confirm({
+                                        message: get(action, 'confirmation.text'),
+                                        confirmText: get(action, 'confirmation.yes'),
+                                        cancelText: get(action, 'confirmation.no'),
+                                    }).then(result => {
+                                        if (result) {
+                                            doRequest();
                                         }
                                     });
-                            };
-
-                            if (has(action, 'confirmation')) {
-                                doRequest();
-                            } else {
-                                doRequest();
+                                } else {
+                                    doRequest();
+                                }
                             }
                         },
                     })
@@ -145,6 +187,11 @@ class ResourceInstance extends Component {
         return get(this.state.resourceInstanceErrors, field.name, null);
     }
 
+    getResourceInstanceTitleValue() {
+        return (this._api._resourceLabelKey && has(this.state.resourceInstance, this._api._resourceLabelKey)) ?
+            get(this.state.resourceInstance, this._api._resourceLabelKey) : '';
+    }
+
     handleErrorOnInstanceUpdate(error) {
         if (get(error, 'response.status') === 422) {
             this.setState(prevState => ({
@@ -172,9 +219,9 @@ class ResourceInstance extends Component {
             <Card>
                 <CardHeader className={'d-flex justify-content-between'}>
                     <div>
-                    {(this.props.resourceInstanceId && (this.state.resourceInstance.name || this.state.resourceInstance.identifier) &&
-                        <span>Viewing {this.state.resourceInstance.name || this.state.resourceInstance.identifier}</span>
-                    ) || (this.props.resourceInstanceId &&
+                    {(this.props.resource && this.getResourceInstanceTitleValue() &&
+                        <span>Viewing {this.getResourceInstanceTitleValue()}</span>
+                    ) || (this.props.resource &&
                         <span>&nbsp;</span>
                     ) || (
                         <span>Creating new {this.props.resourceName}</span>
@@ -202,21 +249,21 @@ class ResourceInstance extends Component {
                 ) || (
                     <CardBody>
                         {this._api._resourceFields.map(field =>
-                            (this.props.resourceInstanceId || field.type !== 'resource_collection') &&
-                            <Field field={field}
-                                   fieldErrors={this.getErrorsForField(field)}
-                                   handleFieldChange={this.handleFieldChange}
-                                   history={this.props.history}
-                                   isCreate={this.state.isCreating}
-                                   location={this.props.location}
-                                   key={field.name}
-                                   value={field.type === 'resource_collection' ? this.state.resourceInstance : this.state.resourceInstance[field.name]}
-                            />
+                            (!this.state.isCreating || field.type !== 'resource_collection') &&
+                                <Field field={field}
+                                       fieldErrors={this.getErrorsForField(field)}
+                                       handleFieldChange={this.handleFieldChange}
+                                       history={this.props.history}
+                                       isCreate={this.state.isCreating}
+                                       location={this.props.location}
+                                       key={field.name}
+                                       value={field.type === 'resource_collection' ? this.props.resource : this.state.resourceInstance[field.name]}
+                                />
                         )}
 
                         <FormGroup className={'row mb-0'}>
                             <div className={'offset-sm-2 col-sm-10 d-flex justify-content-between'}>
-                                <Button color={'secondary'} onClick={this.props.history.goBack}>Cancel</Button>
+                                <Button color={'secondary'} onClick={this.props.history.goBack}>Back</Button>
                                 <Button color={'primary'} onClick={this.flush}>Save</Button>
                             </div>
                         </FormGroup>
@@ -228,7 +275,12 @@ class ResourceInstance extends Component {
 }
 
 ResourceInstance.propTypes = {
-    resourceInstanceId: PropTypes.string,
+    resource: PropTypes.shape({
+        id: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string
+        ]),
+    }),
     resourceName: PropTypes.string.isRequired,
 };
 

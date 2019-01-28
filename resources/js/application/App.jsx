@@ -14,8 +14,8 @@ export default class App extends Component {
                 <Switch>
                     {IndexRoutes.map((prop, key) =>
                         prop.redirect ?
-                            <Redirect from={prop.path} to={prop.pathTo} key={key}/> :
-                            <Route path={prop.path} component={prop.component} key={key}/>
+                            <Redirect from={prop.path} to={prop.pathTo} key={`routes-redirect-${key}`}/> :
+                            <Route path={prop.path} component={prop.component} key={`routes-path-${key}`}/>
                     )}
                 </Switch>
             </BrowserRouter>

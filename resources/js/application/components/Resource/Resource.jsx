@@ -6,6 +6,7 @@ import {Route} from "react-router-dom";
 import ResourceIndex from "./Views/ResourceIndex";
 import ResourceInstance from "./Views/ResourceInstance";
 import Api from "../../../helpers/Api";
+import {each, get, has, set} from "lodash";
 
 class Resource extends Component {
     constructor(props) {
@@ -15,14 +16,24 @@ class Resource extends Component {
         this._api = new Api(this.props.resourceName);
     }
 
-    getComponent(Component, props) {
+    getComponent(Component, props, field = null) {
         const componentProps = {...props};
+        let componentResource = this.props.resourceName;
 
-        if (props.match.params.id) {
-            componentProps.resourceInstanceId = props.match.params.id;
+        if (props.match.params) {
+            componentProps.resource = {};
+            each(props.match.params, (value, param) => {
+                set(componentProps.resource, param.replace(/_/g, '.'), value);
+            });
         }
 
-        return ( <Component resourceName={this.props.resourceName} path={props.path} {...componentProps} /> );
+        if (field) {
+            if (has(field, 'resource')) {
+                componentResource = get(field, 'resource')
+            }
+        }
+
+        return (<Component resourceName={componentResource} path={props.path} {...componentProps} />);
     }
 
     render() {
@@ -45,11 +56,11 @@ class Resource extends Component {
 
                 {this._api._resourceFields.map(field =>
                     field.link_to_resource &&
-                        <Route component={(props) => this.getComponent(ResourceInstance, props)}
-                               exact
-                               key={`resource-route-sub-${field.name}`}
-                               path={`${this.props.path}/:package_id([0-9]+)/${field.link_insert}/:id([0-9]+)`}
-                        />
+                    <Route component={(props) => this.getComponent(ResourceInstance, props, field)}
+                           exact
+                           key={`resource-route-sub-${field.name}`}
+                           path={`${this.props.path}/:package_id([0-9]+)/${field.link_insert}/:id([0-9]+)`}
+                    />
                 )}
             </div>
         );

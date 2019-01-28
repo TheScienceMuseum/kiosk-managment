@@ -86,6 +86,7 @@ Field.propTypes = {
         PropTypes.string,
         PropTypes.array,
         PropTypes.object,
+        PropTypes.number,
     ]),
     handleFieldChange: PropTypes.func.isRequired,
     isCreate: PropTypes.bool,
