@@ -24,6 +24,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read mixed $current_package_version
  * @property-read mixed $currently_running_package
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\KioskLog[] $logs
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereAssetTag($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereAssignedPackageVersionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk whereClientVersion($value)

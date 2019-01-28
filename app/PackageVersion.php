@@ -21,7 +21,11 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
  * @property-read mixed $archive_path
  * @property-read mixed $archive_path_exists
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Kiosk[] $kiosks
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\Models\Media[] $media
  * @property-read \App\Package $package
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereData($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereId($value)
