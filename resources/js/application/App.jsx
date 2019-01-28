@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 
 import {library} from '@fortawesome/fontawesome-svg-core'
-import {faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight} from '@fortawesome/pro-light-svg-icons';
-library.add(faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight);
+import {faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight, faPencil, faPlus} from '@fortawesome/pro-light-svg-icons';
+import {faSquare} from '@fortawesome/pro-solid-svg-icons';
+library.add(faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight, faPencil, faPlus, faSquare);
 
 import IndexRoutes from './routes/BaseRoutes';
 
