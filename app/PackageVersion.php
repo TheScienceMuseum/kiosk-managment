@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 /**
  * App\PackageVersion
@@ -30,8 +32,10 @@ use Illuminate\Support\Facades\Validator;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereVersion($value)
  * @mixin \Eloquent
  */
-class PackageVersion extends Model
+class PackageVersion extends Model implements HasMedia
 {
+    use HasMediaTrait;
+
     protected $fillable = [
         'version',
         'status',
