@@ -37,7 +37,7 @@ class Text extends Component {
 }
 
 Text.propTypes = {
-    defaultValue: PropTypes.string,
+    defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     handleFieldChange: PropTypes.func.isRequired,
     field: PropTypes.object.isRequired,
 };

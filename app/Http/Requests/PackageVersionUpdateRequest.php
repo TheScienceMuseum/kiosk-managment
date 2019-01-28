@@ -24,8 +24,8 @@ class PackageVersionUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'data' => 'required|array',
-            'status' => 'required|in:draft,pending,approved',
+            'package_data' => 'sometimes|array',
+            'status' => 'sometimes|in:draft,pending,approved',
         ];
     }
 }

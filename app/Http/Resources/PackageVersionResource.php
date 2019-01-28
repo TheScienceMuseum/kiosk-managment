@@ -20,6 +20,7 @@ class PackageVersionResource extends JsonResource
             'download' => $this->archive_path_exists ? route('api.kiosk.package.download', [$this->package, $this]) : null,
             'status' => $this->status,
             'progress' => $this->progress,
+            'package_data' => $this->data,
             'package' => [
                 'id' => $this->package->id,
                 'name' => $this->package->name,

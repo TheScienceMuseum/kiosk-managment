@@ -32,7 +32,7 @@ class ResourceCollection extends Component {
     }
 
     componentDidMount() {
-        this._api.request('index', '', this.props.defaultValue)
+        this._api.request('index', {}, this.props.defaultValue)
             .then(response => {
                 this.setState(prevState => ({
                     ...prevState,

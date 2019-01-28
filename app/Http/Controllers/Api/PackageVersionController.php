@@ -85,10 +85,18 @@ class PackageVersionController extends Controller
             }
         }
 
-        $packageVersion->update([
-            'data' => $request->input('data'),
-            'status' => $request->input('status'),
-        ]);
+        if ($request->has('status')) {
+            $packageVersion->update([
+                'status' => $request->input('status'),
+            ]);
+        }
+
+        if ($request->has('package_data')) {
+            $packageVersion->update([
+                'data' => $request->input('package_data'),
+            ]);
+        }
+
 
         if ($request->input('status') === 'pending' && in_array($currentVersion->status,  ['draft', 'failed'])) {
             // The package has been submitted for approval, triggering event

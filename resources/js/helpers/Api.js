@@ -1,11 +1,12 @@
 import ApplicationSchema from '../../application-schema';
 import axios from 'axios';
-import {each, get, last} from "lodash";
+import {each, get, has, last} from "lodash";
 
 class Api {
     _resourceActions = {};
     _resourceFields = {};
     _resourceName = '';
+    _resourceLabelKey = null;
 
     constructor(resourceName) {
         if (! ApplicationSchema.resources[resourceName]) {
@@ -13,6 +14,7 @@ class Api {
         }
 
         this._resourceName      = resourceName;
+        this._resourceLabelKey  = ApplicationSchema.resources[resourceName].label_key;
         this._resourceActions   = ApplicationSchema.resources[resourceName].actions;
         this._resourceFields    = ApplicationSchema.resources[resourceName].fields;
     }
@@ -22,20 +24,21 @@ class Api {
     }
 
     getUrlFromPathAndInstance(path, instance) {
-        let matches = path.match(/{[A-Za-z0-9]+}/g);
+        const matches = path.match(/{[A-Za-z0-9.]+}/g);
 
         if (matches && matches.length > 0) {
             if (instance === null) {
-                throw `The required instance was not passed to the ${actionName} request for the resource ${this.props.resource}`;
+                throw `The required instance was not passed to the request for ${path}`;
             }
 
             each(matches, (match) => {
-                let matchProp = match.replace('{', '').replace('}', '');
-                if (false === instance.hasOwnProperty(matchProp)) {
+                const matchProp = match.replace('{', '').replace('}', '');
+
+                if (! has(instance, matchProp)) {
                     throw `The instance passed to the API does not have the property ${matchProp}`;
                 }
 
-                path = path.replace(match, instance[matchProp]);
+                path = path.replace(match, get(instance, matchProp));
             });
         }
 
@@ -43,6 +46,7 @@ class Api {
     }
 
     request(actionName, params, instance = null) {
+        console.log(`triggering request ${actionName} on resource ${this._resourceName} with params: ${JSON.stringify(params)} and instance: ${JSON.stringify(instance)}`);
         const action = this._resourceActions[actionName];
         let actionParams = {};
 
@@ -57,10 +61,6 @@ class Api {
 
             if (["post", "put"].includes(action.verb)) {
                 this._resourceFields.forEach(field => {
-                    if (action.verb === 'put' && field.readonly) {
-                        return;
-                    }
-
                     if (action.verb === 'post' && !field.create_with) {
                         return;
                     }

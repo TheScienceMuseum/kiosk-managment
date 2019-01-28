@@ -51,6 +51,7 @@ class GenerateApplicationSchema extends Command
 
         $resources = [
             "kiosk" => [
+                "label_key" => "name",
                 "fields" => [
                     [
                         "name" => "identifier",
@@ -165,19 +166,20 @@ class GenerateApplicationSchema extends Command
                 ],
             ],
             "package" => [
+                "label_key" => "name",
                 "fields" => [[
                     "name" => "name",
                     "type" => "text",
                     "filter" => true,
                     "readonly" => true,
                     "create_with" => true,
-                ], [
+                ],[
                     "name" => "versions",
                     "type" => "resource_collection",
                     "readonly" => true,
                     "resource" => "package_version",
                     "link_to_resource" => true,
-                    "link_insert" => "version",
+                    "link_insert" => "versions",
                 ]],
                 "actions" => [
                     "index" => [
@@ -188,6 +190,25 @@ class GenerateApplicationSchema extends Command
                     "show" => [
                         "verb" => "get",
                         "path" => "/api/package/{id}",
+                        "actions" => [
+                            [
+                                "label" => "Create New Version",
+                                "action" => [
+                                    "resource" => "package_version",
+                                    "action" => "store",
+                                ],
+                                "post_action" => [
+                                    "resource" => "package_version",
+                                    "action" => "show",
+                                    "link_insert" => "versions",
+                                ],
+                                "confirmation" => [
+                                    "text" => "Create a new package version? (if there is a current draft version you may want to edit this instead)",
+                                    "yes" => "Create new version",
+                                    "no" => "Cancel",
+                                ],
+                            ],
+                        ],
                     ],
                     "store" => [
                         "verb" => "post",
@@ -200,18 +221,22 @@ class GenerateApplicationSchema extends Command
                 ],
             ],
             "package_version" => [
+                "label_key" => "version",
                 "fields" => [[
                     "name" => "version",
                     "type" => "text",
                     "filter" => true,
-                ],[
+                    "readonly" => true,
+                ], [
                     "name" => "created_at",
                     "type" => "text",
                     "filter" => true,
-                ],[
+                    "readonly" => true,
+                ], [
                     "name" => "status",
                     "type" => "text",
                     "filter" => true,
+                    "readonly" => true,
                 ]],
                 "actions" => [
                     "index" => [
@@ -219,13 +244,49 @@ class GenerateApplicationSchema extends Command
                         "path" => "/api/package/{id}/version",
                         "pagination" => true,
                     ],
+                    "store" => [
+                        "verb" => "post",
+                        "path" => "/api/package/{id}/version",
+                    ],
                     "show" => [
                         "verb" => "get",
+                        "path" => "/api/package/{package.id}/version/{id}",
+                        "actions" => [[
+                            "label" => "Submit for Approval",
+                            "action" => [
+                                "resource" => "package_version",
+                                "action" => "update",
+                                "params" => [
+                                    "status" => "pending",
+                                ],
+                            ],
+                            "post_action" => [
+                                "resource" => "package_version",
+                                "action" => "show",
+                            ],
+                            "display_condition" => [
+                                "status" => "draft",
+                            ],
+                            "confirmation" => [
+                                "text" => "Are you sure you want to submit this package version for approval? No changes can be made after this action.",
+                                "yes" => "Go ahead",
+                                "no" => "Cancel",
+                            ],
+                        ],[
+                            "label" => "View in Package Editor",
+                            "action" => [
+                                "path" => "/editor/{package.id}/version/{id}",
+                            ],
+                        ]],
+                    ],
+                    "update" => [
+                        "verb" => "put",
                         "path" => "/api/package/{package.id}/version/{id}",
                     ],
                 ],
             ],
             "user" => [
+                "label_key" => "name",
                 "fields" => [
                     [
                         "name" => "name",
@@ -268,8 +329,14 @@ class GenerateApplicationSchema extends Command
                         "actions" => [
                             [
                                 "label" => "Suspend Account",
-                                "action" => "destroy",
-                                "post_action" => "show",
+                                "action" => [
+                                    "resource" => "user",
+                                    "action" => "destroy",
+                                ],
+                                "post_action" => [
+                                    "resource" => "user",
+                                    "action" => "show",
+                                ],
                                 "display_condition" => [
                                     "deleted_at" => false,
                                 ],
@@ -281,8 +348,14 @@ class GenerateApplicationSchema extends Command
                             ],
                             [
                                 "label" => "Restore Account",
-                                "action" => "restore",
-                                "post_action" => "show",
+                                "action" => [
+                                    "resource" => "user",
+                                    "action" => "restore",
+                                ],
+                                "post_action" => [
+                                    "resource" => "user",
+                                    "action" => "show",
+                                ],
                                 "display_condition" => [
                                     "deleted_at" => true,
                                 ],
@@ -294,12 +367,19 @@ class GenerateApplicationSchema extends Command
                             ],
                             [
                                 "label" => "Reset Authentication",
-                                "action" => "onboard",
+                                "action" => [
+                                    "resource" => "user",
+                                    "action" => "onboard",
+                                ],
+                                "post_action" => [
+                                    "resource" => "user",
+                                    "action" => "show",
+                                ],
                                 "display_condition" => [
                                     "deleted_at" => false,
                                 ],
                                 "confirmation" => [
-                                    "text" => "Are you sure you want to reset this accounts authentication details?",
+                                    "text" => "Are you sure you want to reset this accounts authentication details? (password and second factor will be reset)",
                                     "yes" => "Reset and Email User",
                                     "no" => "Cancel",
                                 ],

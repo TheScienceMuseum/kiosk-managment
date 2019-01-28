@@ -150,15 +150,15 @@ Feature\\PackageManagement\\UpdatingPackage
 -------------------------------------------
 
 
-✓ Updating a package name as a developer succeeds
+✓ Updating a package name as a developer fails
 
-✓ Updating a package name as an admin succeeds
+✓ Updating a package name as an admin fails
 
 ✓ Updating a package name as a tech admin fails
 
-✓ Updating a package name as a content editor succeeds
+✓ Updating a package name as a content editor fails
 
-✓ Updating a package name as a content author succeeds
+✓ Updating a package name as a content author fails
 
 Feature\\UserManagement\\CreateUsers
 ------------------------------------
