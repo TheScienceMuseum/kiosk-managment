@@ -4,7 +4,7 @@ import {FormGroup, Label} from "reactstrap";
 import ReactSelect from "react-select";
 import Api from "../../../../../../../helpers/Api";
 import {ucwords} from "locutus/php/strings";
-import {get, has, keys, last, sortBy} from "lodash";
+import {each, get, has, keys, last, sortBy} from "lodash";
 
 class Select extends Component {
     constructor(props) {
@@ -38,8 +38,17 @@ class Select extends Component {
             const api = new Api(this.props.field.resource);
 
             if (api.hasAction('index')) {
-                api.request('index')
+                const filters = {};
+
+                if (has(this.props.field, 'resource_filters')) {
+                    each(get(this.props.field, 'resource_filters'), (value, filter) => {
+                        filters[`filter[${filter}]`] = value;
+                    });
+                }
+
+                api.request('index', filters)
                     .then(response => {
+                        console.log(response.data);
                         this.setState(prevState => ({
                             ...prevState,
                             options: this.getOptionsFromResponse(response.data.data),

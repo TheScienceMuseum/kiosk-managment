@@ -20,18 +20,20 @@ class PackageVersionController extends Controller
      * @param Package $package
      * @return mixed
      */
-    public function index(PackageVersionIndexRequest $request, Package $package) : ResourceCollection
+    public function index(PackageVersionIndexRequest $request, Package $package = null) : ResourceCollection
     {
         $kiosks = QueryBuilder::for(PackageVersion::class)
-            ->where('package_id', $package->id)
             ->orderByDesc('version')
             ->allowedFilters([
                 'version',
-            ])
-            ->jsonPaginate()
-        ;
+                'status',
+            ]);
 
-        return PackageVersionResource::collection($kiosks);
+        if ($package) {
+            $kiosks = $kiosks->where('package_id', $package->id);
+        }
+
+        return PackageVersionResource::collection($kiosks->jsonPaginate());
     }
 
     /**

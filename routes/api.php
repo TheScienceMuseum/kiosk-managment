@@ -45,6 +45,8 @@ Route::name('api.')
         $router->name('package.')
             ->prefix('package')
             ->group(function (Router $router) {
+                $router->get('versions', 'PackageVersionController@index')->name('versions');
+
                 $router->get('', 'PackageController@index')->name('index');
                 $router->post('', 'PackageController@store')->name('store');
                 $router->get('{package}', 'PackageController@show')->name('show');
