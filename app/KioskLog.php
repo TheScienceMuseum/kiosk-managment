@@ -15,6 +15,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Kiosk $kiosk
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\KioskLog newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\KioskLog newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\KioskLog query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KioskLog whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KioskLog whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KioskLog whereKioskId($value)

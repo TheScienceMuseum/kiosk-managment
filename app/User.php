@@ -28,8 +28,11 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
  * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User newQuery()
  * @method static \Illuminate\Database\Query\Builder|\App\User onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User permission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User role($roles)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCreatedAt($value)

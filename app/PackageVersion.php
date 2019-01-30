@@ -4,6 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\Models\Media;
 
 /**
  * App\PackageVersion
@@ -19,7 +23,11 @@ use Illuminate\Support\Facades\Validator;
  * @property-read mixed $archive_path
  * @property-read mixed $archive_path_exists
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Kiosk[] $kiosks
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\Models\Media[] $media
  * @property-read \App\Package $package
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereData($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereId($value)
@@ -30,8 +38,10 @@ use Illuminate\Support\Facades\Validator;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereVersion($value)
  * @mixin \Eloquent
  */
-class PackageVersion extends Model
+class PackageVersion extends Model implements HasMedia
 {
+    use HasMediaTrait;
+
     protected $fillable = [
         'version',
         'status',
@@ -42,6 +52,13 @@ class PackageVersion extends Model
     protected $casts = [
         'data' => 'json',
     ];
+
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this->addMediaConversion('thumb')
+            ->blur(1)
+            ->fit(Manipulations::FIT_CROP, 150, 150);
+    }
 
     /**
      * @param $value

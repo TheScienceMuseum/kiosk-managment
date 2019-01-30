@@ -86,8 +86,11 @@ class GenerateApplicationSchema extends Command
                         "help" => "This is the package that is assigned to the kiosk.",
                         "type" => "resource_instance",
                         "nullable" => true,
-                        "resource" => "package",
-                        "id_key" => ["versions", "id"],
+                        "resource" => "package_versions",
+                        "resource_filters" => [
+                            "status" => "approved",
+                        ],
+                        "id_key" => ["id"],
                         "label_key" => ["package.name", " version: ", "version"],
                         "collapse_on_store" => true,
                     ],
@@ -96,7 +99,7 @@ class GenerateApplicationSchema extends Command
                         "help" => "This is the package that the kiosk last reported in use.",
                         "type" => "resource_instance",
                         "resource" => "package",
-                        "id_key" => ["versions", "id"],
+                        "id_key" => ["id"],
                         "label_key" => ["package.name", " version: ", "version"],
                         "readonly" => true,
                     ],
@@ -217,6 +220,16 @@ class GenerateApplicationSchema extends Command
                     "update" => [
                         "verb" => "put",
                         "path" => "/api/package/{id}",
+                    ],
+                ],
+            ],
+            "package_versions" => [
+                "label_key" => "version",
+                "actions" => [
+                    "index" => [
+                        "verb" => "get",
+                        "path" => "/api/package/versions",
+                        "pagination" => true,
                     ],
                 ],
             ],

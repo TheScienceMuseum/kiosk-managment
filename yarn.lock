@@ -1230,7 +1230,7 @@ async@^1.5.2:
   resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
   integrity sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo=
 
-async@^2.4.1:
+async@^2.4.1, async@latest:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/async/-/async-2.6.1.tgz#b245a23ca71930044ec53fa46aa00a3e87c6a610"
   integrity sha512-fNEiL2+AZt6AlAw/29Cr0UDe4sRAHCpEHh54WMz+Bb7QfNcFw4h3loofyJpLeQs4Yx7yuqu/2dLgM5hKOs6HlQ==
@@ -2058,6 +2058,11 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     ripemd160 "^2.0.0"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
+
+cropperjs@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/cropperjs/-/cropperjs-1.4.3.tgz#dc44d6c9e73269e7f96894c726ab91e8913f9e90"
+  integrity sha512-fsUjHuS9mvKVh2aXVRgNcUDlFplW+v4eEB6sOHVI9kMV4G3GViSD4p1qvNLg1ko4ZhOnF0L8/9uXcY4s2bFQPg==
 
 cross-env@^5.1:
   version "5.2.0"

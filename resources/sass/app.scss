@@ -11,6 +11,8 @@
 @import "~bootswatch/dist/lux/bootswatch";
 
 // Components
+@import "components/cards";
+@import "components/modal";
 @import "components/sidebar";
 @import "components/buttons";
 @import "components/pagination";
@@ -19,6 +21,7 @@
 
 
 // Third Party Components
+@import "~cropperjs/src/index";
 @import "~toastr/toastr";
 #toast-container > div {
   opacity:1;

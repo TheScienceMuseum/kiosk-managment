@@ -13,6 +13,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Kiosk[] $kiosks
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\PackageVersion[] $versions
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Package newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Package newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Package query()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Package whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Package whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Package whereName($value)

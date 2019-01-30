@@ -45,6 +45,8 @@ Route::name('api.')
         $router->name('package.')
             ->prefix('package')
             ->group(function (Router $router) {
+                $router->get('versions', 'PackageVersionController@index')->name('versions');
+
                 $router->get('', 'PackageController@index')->name('index');
                 $router->post('', 'PackageController@store')->name('store');
                 $router->get('{package}', 'PackageController@show')->name('show');
@@ -55,6 +57,8 @@ Route::name('api.')
                 $router->post('{package}/version', 'PackageVersionController@store')->name('version.store');
                 $router->get('{package}/version/{packageVersion}', 'PackageVersionController@show')->name('version.show');
                 $router->put('{package}/version/{packageVersion}', 'PackageVersionController@update')->name('version.update');
+                $router->post('{package}/version/{packageVersion}/asset', 'PackageVersionController@uploadAsset')->name('version.asset.upload');
+                $router->get('{package}/version/{packageVersion}/asset', 'PackageVersionController@searchAsset')->name('version.asset.search');
             });
     });
 
