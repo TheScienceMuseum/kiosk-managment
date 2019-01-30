@@ -26,6 +26,7 @@ class PackageVersionResource extends JsonResource
                 'name' => $this->package->name,
             ],
             'created_at' => (string) $this->created_at,
+            'assets' => PackageVersionAssetResource::collection($this->media),
         ];
     }
 }

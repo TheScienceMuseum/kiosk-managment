@@ -4,13 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\PackageVersionSubmittedForApproval;
 use App\Http\Requests\PackageVersionIndexRequest;
+use App\Http\Requests\PackageVersionSearchAssetRequest;
 use App\Http\Requests\PackageVersionShowRequest;
 use App\Http\Requests\PackageVersionUpdateRequest;
+use App\Http\Requests\PackageVersionUploadAssetRequest;
+use App\Http\Resources\PackageVersionAssetResource;
 use App\Http\Resources\PackageVersionResource;
 use App\Package;
 use App\PackageVersion;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class PackageVersionController extends Controller
@@ -106,5 +110,51 @@ class PackageVersionController extends Controller
         }
 
         return new PackageVersionResource($packageVersion);
+    }
+
+    /**
+     * @param PackageVersionUploadAssetRequest $request
+     * @param Package $package
+     * @param PackageVersion $packageVersion
+     * @return PackageVersionResource
+     */
+    public function uploadAsset(PackageVersionUploadAssetRequest $request, Package $package, PackageVersion $packageVersion)
+    {
+        $packageVersion->addMediaFromRequest('file')->toMediaCollection();
+
+        return new PackageVersionResource($packageVersion);
+    }
+
+    /**
+     * @param PackageVersionSearchAssetRequest $request
+     * @param Package $package
+     * @param PackageVersion $packageVersion
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function searchAsset(PackageVersionSearchAssetRequest $request, Package $package, PackageVersion $packageVersion)
+    {
+        $medias = QueryBuilder::for(Media::class)
+            ->where('model_type', 'App\PackageVersion')
+            ->where('model_id', $packageVersion->id)
+            ->orderByDesc('created_at')
+            ->allowedFilters([
+                'file_name',
+                'mime_type',
+            ])
+            ->get();
+
+        return PackageVersionAssetResource::collection($medias);
+    }
+
+    /**
+     * @param PackageVersionUploadAssetRequest $request
+     * @param Package $package
+     * @param PackageVersion $packageVersion
+     * @param Media $media
+     * @return PackageVersionAssetResource
+     */
+    public function showAsset(PackageVersionUploadAssetRequest $request, Package $package, PackageVersion $packageVersion, Media $media)
+    {
+        return new PackageVersionAssetResource($media);
     }
 }

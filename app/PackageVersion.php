@@ -4,8 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\Models\Media;
 
 /**
  * App\PackageVersion
@@ -50,6 +52,13 @@ class PackageVersion extends Model implements HasMedia
     protected $casts = [
         'data' => 'json',
     ];
+
+    public function registerMediaConversions(Media $media = null)
+    {
+        $this->addMediaConversion('thumb')
+            ->blur(1)
+            ->fit(Manipulations::FIT_CROP, 150, 150);
+    }
 
     /**
      * @param $value
