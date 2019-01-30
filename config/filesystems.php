@@ -98,7 +98,9 @@ return [
 
         'testing-assets' => [
             'driver' => 'local',
-            'root' => storage_path('app/testing/assets'),
+            'root' => storage_path('app/public/assets'),
+            'url' => env('APP_URL').'/storage/assets',
+            'visibility' => 'public',
         ],
 
         'testing-builds' => [

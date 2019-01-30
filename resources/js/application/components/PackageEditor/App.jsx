@@ -10,7 +10,7 @@ import FormPage from './FormPage';
 import FormSection from './FormSection';
 import Preview from "./Preview";
 import Tree from "./Tree";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import AssetBrowser from "./Assets/AssetBrowser";
 
 class App extends Component {
     constructor(props) {
@@ -38,10 +38,9 @@ class App extends Component {
     }
 
     flushPackageVersionData() {
-        this._api.request(
-            'update',
-            { data: this.state.packageVersionData },
-            { id: this.props.packageVersionId, package: { id: this.props.packageId } }
+        axios.put(
+            `/api/package/${this.props.packageId}/version/${this.props.packageVersionId}`,
+            { package_data: this.state.packageVersionData }
         ).then(response => {
             this.setPackageDataState(response.data);
 
@@ -165,6 +164,8 @@ class App extends Component {
                                                 (this.state.currentlyViewingPage.type === 'title' &&
                                                     <FormTitlePage data={this.state.currentlyViewingPage.data}
                                                                    handlePackageDataChange={this.handlePackageDataChange}
+                                                                   packageId={this.props.packageId}
+                                                                   packageVersionId={this.props.packageVersionId}
                                                     />
                                                 ) || (this.state.currentlyViewingPage.type === 'page' &&
                                                     <FormPage data={this.state.currentlyViewingPage.data} />
