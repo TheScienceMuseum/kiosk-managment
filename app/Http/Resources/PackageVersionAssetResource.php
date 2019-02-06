@@ -19,8 +19,12 @@ class PackageVersionAssetResource extends JsonResource
             'id' => $this->id,
             'file_name' => $this->file_name,
             'mime_type' => $this->mime_type,
-            'url_thumb' => $this->getUrl('thumb'),
-            'url_original' => $this->getUrl(),
+            'url_thumb' => config('filesystems.disks.' . config('filesystems.assets') . '.driver') === 's3' ?
+                $this->getTemporaryUrl('thumb') :
+                $this->getUrl('thumb'),
+            'url_original' => config('filesystems.disks.' . config('filesystems.assets') . '.driver') === 's3' ?
+                $this->getTemporaryUrl() :
+                $this->getUrl(),
         ];
     }
 }
