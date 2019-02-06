@@ -57,6 +57,9 @@
                 ?>
             };
         @endguest
+
+        window.env = '{{ config('app.env') }}';
+        window.sentry_dsn = '{{ config('sentry.dsn') }}';
     </script>
 </body>
 </html>
