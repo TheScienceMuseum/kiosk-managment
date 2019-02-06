@@ -4,6 +4,7 @@ import {Alert, Button, FormGroup, Input, InputGroup, InputGroupAddon} from "reac
 import {debounce, keys} from 'lodash';
 import Cropper from 'cropperjs';
 import AssetBrowser from "../Assets/AssetBrowser";
+import Types from '../PropTypes';
 
 class Asset extends Component {
     static _assetTypes = {
@@ -12,16 +13,32 @@ class Asset extends Component {
             mimeType: 'image/',
             hasName: true,
             hasSource: true,
+            hasCrop: true,
         },
         attractorImageLandscape: {
             aspectRatio: 16 / 9,
             mimeType: 'image/',
             hasName: false,
             hasSource: false,
+            hasCrop: true,
+        },
+        attractorVideoLandscape: {
+            aspectRatio: 16 / 9,
+            mimeType: 'video/',
+            hasName: false,
+            hasSource: false,
+            hasCrop: false,
         },
         contentImageLandscape: {
             aspectRatio: 16 / 9,
             mimeType: 'image/',
+            hasName: true,
+            hasSource: true,
+            hasCrop: true,
+        },
+        contentVideo: {
+            aspectRatio: 16 / 9,
+            mimeType: 'video/',
             hasName: true,
             hasSource: true,
         },
@@ -32,7 +49,6 @@ class Asset extends Component {
 
         this.state = {
             showAssetBrowser: false,
-            image: null,
         };
 
         this.createCropper = this.createCropper.bind(this);
@@ -50,11 +66,16 @@ class Asset extends Component {
     }
 
     createCropper() {
-        if (this.cropper) this.cropper.destroy();
-
         const imageElement = document.getElementById(`asset-image-cropper-${this.props.name}`);
 
-        if (!imageElement) return;
+        if (!imageElement || !Asset._assetTypes[this.props.assetType].hasCrop) {
+            console.log(`did not create cropper`);
+            console.log(imageElement);
+            console.log(Asset._assetTypes[this.props.assetType]);
+            return;
+        }
+
+        if (this.cropper) this.cropper.destroy();
 
         const updateBoundingBox = debounce((event) => {
             if (event.detail) {
@@ -103,13 +124,21 @@ class Asset extends Component {
     }
 
     onAssetChosen(asset) {
+        const assetData = {
+            assetId: asset.id,
+            assetThumb: asset.url_thumb,
+            assetFull: asset.url_original,
+            assetMime: asset.mime_type,
+            assetType: asset.mime_type.indexOf('image/') !== -1 ? 'image' : 'video',
+        };
+
         this.props.onChange(this.props.name, {
             ...this.props.value,
-            imagePreview: asset.url_original,
-            imageAsset: asset.id,
+            ...assetData,
         });
 
         this.onToggleAssetBrowser();
+        setTimeout(this.createCropper);
     }
 
     handleTextChange(event) {
@@ -159,7 +188,7 @@ class Asset extends Component {
                     <FormGroup className={'mt-3'}>
                         <InputGroup size={'sm'}>
                             <InputGroupAddon addonType="prepend">
-                                Image Name
+                                Asset Name
                             </InputGroupAddon>
                             <Input value={this.props.value.nameText} name={'nameText'}
                                    onChange={this.handleTextChange}/>
@@ -178,13 +207,23 @@ class Asset extends Component {
                         </InputGroup>
                     </FormGroup>
                     }
-                    {this.props.value.imagePreview &&
+
+                    {this.props.value.assetType === 'image' && this.props.value.assetFull &&
                     <div className={'mt-3'}>
                         <img id={`asset-image-cropper-${this.props.name}`}
                              className={'img-fluid'}
-                             src={this.props.value.imagePreview}
+                             src={this.props.value.assetFull}
                              alt={'Cropping Preview of image'}
                         />
+                    </div>
+                    }
+
+                    {this.props.value.assetType === 'video' && this.props.value.assetFull &&
+                    <div className={'mt-3 embed-responsive embed-responsive-16by9'}>
+                        <video controls loop autoPlay poster={this.props.value.assetThumb}>
+                            <source src={this.props.value.assetFull} type={this.props.value.assetMime} />
+                                Your browser does not support the video tag.
+                        </video>
                     </div>
                     }
                 </div>
@@ -199,18 +238,7 @@ Asset.propTypes = {
     packageId: PropTypes.string.isRequired,
     packageVersionId: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({
-        boundingBox: PropTypes.shape({
-            x: PropTypes.number,
-            y: PropTypes.number,
-            height: PropTypes.number,
-            width: PropTypes.number,
-        }),
-        imagePreview: PropTypes.string,
-        imageAsset: PropTypes.number,
-        nameText: PropTypes.string,
-        sourceText: PropTypes.string,
-    })]),
+    value: Types.asset,
     onChange: PropTypes.func.isRequired,
     assetType: PropTypes.oneOf(keys(Asset._assetTypes)).isRequired,
 };

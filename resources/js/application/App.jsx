@@ -3,9 +3,19 @@ import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import * as Sentry from '@sentry/browser';
 
 import {library} from '@fortawesome/fontawesome-svg-core'
-import {faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight, faPencil, faPlus} from '@fortawesome/pro-light-svg-icons';
+import {
+    faAngleDoubleRight,
+    faBox,
+    faDesktopAlt,
+    faEye,
+    faMinus,
+    faPencil,
+    faPlus,
+    faUsers,
+} from '@fortawesome/pro-light-svg-icons';
 import {faSquare} from '@fortawesome/pro-solid-svg-icons';
-library.add(faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight, faPencil, faPlus, faSquare);
+
+library.add(faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight, faPencil, faPlus, faMinus, faSquare);
 
 import IndexRoutes from './routes/BaseRoutes';
 

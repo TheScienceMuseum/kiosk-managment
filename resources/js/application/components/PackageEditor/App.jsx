@@ -2,15 +2,13 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import Api from "../../../helpers/Api";
-import {Alert, Button, Card, CardBody, CardHeader, Col, Container, FormGroup, Label, Row} from "reactstrap";
+import {Alert, Button, Card, CardBody, CardFooter, CardHeader, Col, Container, FormGroup, Label, Row} from "reactstrap";
 import {get, set} from 'lodash';
 import FormMain from './FormMain';
 import FormTitlePage from './FormTitlePage';
 import FormPage from './FormPage';
 import FormSection from './FormSection';
-import Preview from "./Preview";
 import Tree from "./Tree";
-import AssetBrowser from "./Assets/AssetBrowser";
 
 class App extends Component {
     constructor(props) {
@@ -74,11 +72,21 @@ class App extends Component {
     }
 
     handlePackageDataChange(path, value) {
+        let resolvedPath = path;
         const packageVersionData = {...this.state.packageVersionData};
-        const currentValue = get(packageVersionData, path);
 
+        if (this.state.currentlyViewingPage.sectionIndex != null) {
+            resolvedPath = `subpages[${this.state.currentlyViewingPage.sectionIndex}].${resolvedPath}`;
+        }
+
+        if (this.state.currentlyViewingPage.pageIndex != null) {
+            resolvedPath = `content.contents[${this.state.currentlyViewingPage.pageIndex}].${resolvedPath}`;
+        }
+
+        const currentValue = get(packageVersionData, resolvedPath);
+        console.log(`path: ${resolvedPath}, current value: ${currentValue}`);
         if (currentValue !== value) {
-            set(packageVersionData, path, value);
+            set(packageVersionData, resolvedPath, value);
 
             this.setState(prevState => ({
                 ...prevState,
@@ -95,7 +103,7 @@ class App extends Component {
         }
     }
 
-    handleViewElement(type, data) {
+    handleViewElement(type, data, pageIndex=null, sectionIndex=null) {
         return (event) => {
             event.preventDefault();
 
@@ -104,6 +112,8 @@ class App extends Component {
                 currentlyViewingPage: {
                     type,
                     data,
+                    pageIndex,
+                    sectionIndex,
                 },
             }));
 
@@ -114,15 +124,15 @@ class App extends Component {
     render() {
         return (
             <Container fluid>
-                {! this.state.currentStateFlushed &&
-                    <Row>
-                        <Col>
-                            <Alert color={'warning'} className={'m-0 mt-3 text-center'}>
-                                The changes you have made will not be saved if you close or navigate away from this page.
-                            </Alert>
-                        </Col>
-                    </Row>
-                }
+                {/*{! this.state.currentStateFlushed &&*/}
+                    {/*<Row>*/}
+                        {/*<Col>*/}
+                            {/*<Alert color={'warning'} className={'m-0 mt-3 text-center'}>*/}
+                                {/*The changes you have made will not be saved if you close or navigate away from this page.*/}
+                            {/*</Alert>*/}
+                        {/*</Col>*/}
+                    {/*</Row>*/}
+                {/*}*/}
                 {this.state.packageVersionData &&
                     <Row>
                         <Col lg={{size: 12}} className={'mt-3'}>
@@ -131,16 +141,6 @@ class App extends Component {
                                     <Card>
                                         <CardHeader>
                                             Package {this.state.packageVersionData.name} version {this.state.packageVersionData.version}
-                                            <Button size={'xs'}
-                                                    color={'primary'}
-                                                    className={'float-right'}
-                                                    onClick={this.flushPackageVersionData}
-                                            >Save</Button>
-                                            <Button size={'xs'}
-                                                    color={'primary'}
-                                                    className={'float-right'}
-                                                    onClick={() => { this.props.history.push(`/admin/packages/${this.props.packageId}`) }}
-                                            >Back To Package</Button>
                                         </CardHeader>
                                         <CardBody>
                                             <FormMain data={this.state.packageVersionData}
@@ -151,6 +151,17 @@ class App extends Component {
                                                   handleViewElement={this.handleViewElement}
                                             />
                                         </CardBody>
+                                        <CardFooter>
+                                            <Button size={'xs'}
+                                                    color={'primary'}
+                                                    onClick={() => { this.props.history.push(`/admin/packages/${this.props.packageId}`) }}
+                                            >Back To Package</Button>
+                                            <Button size={'xs'}
+                                                    color={'primary'}
+                                                    className={'float-right'}
+                                                    onClick={this.flushPackageVersionData}
+                                            >Save</Button>
+                                        </CardFooter>
                                     </Card>
                                 </Col>
                                 <Col sm={8}>
@@ -162,15 +173,23 @@ class App extends Component {
                                                 </Alert>
                                             ) || (
                                                 (this.state.currentlyViewingPage.type === 'title' &&
-                                                    <FormTitlePage data={this.state.currentlyViewingPage.data}
+                                                    <FormTitlePage data={this.state.currentlyViewingPage}
                                                                    handlePackageDataChange={this.handlePackageDataChange}
                                                                    packageId={this.props.packageId}
                                                                    packageVersionId={this.props.packageVersionId}
                                                     />
                                                 ) || (this.state.currentlyViewingPage.type === 'page' &&
-                                                    <FormPage data={this.state.currentlyViewingPage.data} />
+                                                    <FormPage data={this.state.currentlyViewingPage}
+                                                              handlePackageDataChange={this.handlePackageDataChange}
+                                                              packageId={this.props.packageId}
+                                                              packageVersionId={this.props.packageVersionId}
+                                                    />
                                                 ) || (this.state.currentlyViewingPage.type === 'section' &&
-                                                    <FormSection data={this.state.currentlyViewingPage.data} />
+                                                    <FormSection data={this.state.currentlyViewingPage}
+                                                                 handlePackageDataChange={this.handlePackageDataChange}
+                                                                 packageId={this.props.packageId}
+                                                                 packageVersionId={this.props.packageVersionId}
+                                                    />
                                                 )
                                             )}
                                         </CardBody>
@@ -178,9 +197,9 @@ class App extends Component {
                                 </Col>
                             </Row>
                         </Col>
-                        <Col lg={{size: 12}} className={'mt-3'}>
-                            <Preview data={this.state.packageVersionData}/>
-                        </Col>
+                        {/*<Col lg={{size: 12}} className={'mt-3'}>*/}
+                            {/*<Preview data={this.state.packageVersionData}/>*/}
+                        {/*</Col>*/}
                     </Row>
                 }
             </Container>

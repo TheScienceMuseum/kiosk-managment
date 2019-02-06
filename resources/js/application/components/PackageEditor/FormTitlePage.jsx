@@ -27,12 +27,16 @@ class FormTitlePage extends Component {
             <div>
                 <FormGroup>
                     <Label>Title</Label>
-                        <Input bsSize={'sm'} name={'content.titles.title'} value={this.props.data.title} onChange={this.handleFormChange} />
+                        <Input bsSize={'sm'}
+                               name={'content.titles.title'}
+                               value={this.props.data.data.title}
+                               onChange={this.handleBSFormChange}
+                        />
                 </FormGroup>
                 <FormGroup>
                     <Label>Title Image</Label>
                         <Asset name={'content.titles.image'}
-                               value={this.props.data.image}
+                               value={this.props.data.data.image}
                                packageId={this.props.packageId}
                                packageVersionId={this.props.packageVersionId}
                                onChange={this.handleFormChange}
@@ -42,7 +46,7 @@ class FormTitlePage extends Component {
                 <FormGroup className={'mb-0'}>
                     <Label>Attractor Image</Label>
                         <Asset name={'content.titles.attractorImage'}
-                               value={this.props.data.attractorImage}
+                               value={this.props.data.data.attractorImage}
                                packageId={this.props.packageId}
                                packageVersionId={this.props.packageVersionId}
                                onChange={this.handleFormChange}
@@ -59,20 +63,33 @@ FormTitlePage.propTypes = {
     packageVersionId: PropTypes.string.isRequired,
     handlePackageDataChange: PropTypes.func.isRequired,
     data: PropTypes.shape({
-        galleryName: PropTypes.string.isRequired,
-        image: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.shape({
-                imageLandscape: PropTypes.string,
-                imagePortrait: PropTypes.string,
-                imageSource: PropTypes.string,
-                imageThumbnail: PropTypes.string,
-                nameText: PropTypes.string,
-                sourceText: PropTypes.string,
-            }),
-        ]),
-        title: PropTypes.string.isRequired,
-        type: PropTypes.oneOf(["text"]).isRequired,
+        data: PropTypes.shape({
+            galleryName: PropTypes.string.isRequired,
+            image: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.shape({
+                    imageLandscape: PropTypes.string,
+                    imagePortrait: PropTypes.string,
+                    imageSource: PropTypes.string,
+                    imageThumbnail: PropTypes.string,
+                    nameText: PropTypes.string,
+                    sourceText: PropTypes.string,
+                }),
+            ]),
+            attractorImage: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.shape({
+                    imageLandscape: PropTypes.string,
+                    imagePortrait: PropTypes.string,
+                    imageSource: PropTypes.string,
+                    imageThumbnail: PropTypes.string,
+                    nameText: PropTypes.string,
+                    sourceText: PropTypes.string,
+                }),
+            ]),
+            title: PropTypes.string.isRequired,
+            type: PropTypes.oneOf(["text"]).isRequired,
+        }).isRequired,
     }).isRequired,
 };
 
