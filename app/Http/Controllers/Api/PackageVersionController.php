@@ -24,7 +24,7 @@ class PackageVersionController extends Controller
      * @param Package $package
      * @return mixed
      */
-    public function index(PackageVersionIndexRequest $request, Package $package = null) : ResourceCollection
+    public function index(PackageVersionIndexRequest $request, Package $package = null): ResourceCollection
     {
         $kiosks = QueryBuilder::for(PackageVersion::class)
             ->orderByDesc('version')
@@ -47,14 +47,73 @@ class PackageVersionController extends Controller
      * @param Package $package
      * @return PackageVersionResource
      */
-    public function store(Request $request, Package $package) : PackageVersionResource
+    public function store(Request $request, Package $package): PackageVersionResource
     {
         $previousVersion = PackageVersion::wherePackageId($package->id)->latest('version')->first();
 
         $packageVersion = $package->versions()->create([
             'version' => $package->versions()->count() === 0 ? 1 : $package->versions()->count() + 1,
             'status' => 'draft',
-            'data' => $previousVersion ? $previousVersion->data : null,
+            'data' => $previousVersion && $previousVersion->data ? $previousVersion->data : [
+                'main' => 'index.html',
+                'name' => 'default',
+                'label' => 'Science Museum Example Package',
+                'version' => 3,
+                'short_name' => 'SciMusPackage',
+                'requirements' => [
+                    'client_version' => '0.0.1',
+                ],
+                'content' => [
+                    'titles' => [
+                        'type' => 'text',
+                        'image' => NULL,
+                        'title' => 'Main title displayed after attractor is clicked',
+                        'galleryName' => 'The Gallery this Kiosk is in',
+                        'attractorImage' => NULL,
+                    ],
+                    'contents' => [
+                        0 => [
+                            'articleID' => '3-3',
+                            'titleImage' => NULL,
+                            'type' => 'mixed',
+                            'title' => 'Mixed media page',
+                            'subpages' => [
+                                0 => [
+                                    'pageID' => '3-2-0',
+                                    'type' => 'title',
+                                    'image' => './media/menu-image-4.png',
+                                    'title' => 'title section type',
+                                    'subtitle' => NULL,
+                                ],
+                                1 => [
+                                    'pageID' => '3-3-2',
+                                    'type' => 'textImage',
+                                    'image' => NULL,
+                                    'title' => 'text with image right section type',
+                                    'layout' => 'right',
+                                    'content' => 'Text that will appear alongside image',
+                                ],
+                                2 => [
+                                    'pageID' => '3-3-3',
+                                    'type' => 'image',
+                                    'image' => NULL,
+                                    'title' => 'image left section type',
+                                    'layout' => 'left',
+                                    'content' => 'Image that is wide',
+                                ],
+                            ],
+                        ],
+                        1 => [
+                            'articleID' => '3-0',
+                            'type' => 'video',
+                            'image' => NULL,
+                            'title' => 'A video page',
+                            'videoSrc' => NULL,
+                            'titleImage' => NULL,
+                        ],
+                    ],
+                ],
+            ],
         ]);
 
         return new PackageVersionResource($packageVersion);
@@ -68,7 +127,7 @@ class PackageVersionController extends Controller
      * @param  \App\PackageVersion $packageVersion
      * @return PackageVersionResource
      */
-    public function show(PackageVersionShowRequest $request, Package $package, PackageVersion $packageVersion) : PackageVersionResource
+    public function show(PackageVersionShowRequest $request, Package $package, PackageVersion $packageVersion): PackageVersionResource
     {
         return new PackageVersionResource($packageVersion);
     }
@@ -81,9 +140,9 @@ class PackageVersionController extends Controller
      * @param  \App\PackageVersion $packageVersion
      * @return PackageVersionResource
      */
-    public function update(PackageVersionUpdateRequest $request, Package $package, PackageVersion $packageVersion) : PackageVersionResource
+    public function update(PackageVersionUpdateRequest $request, Package $package, PackageVersion $packageVersion): PackageVersionResource
     {
-        $currentVersion = (object) $packageVersion->toArray();
+        $currentVersion = (object)$packageVersion->toArray();
 
         if ($request->input('status') === 'approved' && $currentVersion->status !== 'approved') {
             if ($request->user()->cannot('approve', $packageVersion)) {
@@ -104,7 +163,7 @@ class PackageVersionController extends Controller
         }
 
 
-        if ($request->input('status') === 'pending' && in_array($currentVersion->status,  ['draft', 'failed'])) {
+        if ($request->input('status') === 'pending' && in_array($currentVersion->status, ['draft', 'failed'])) {
             // The package has been submitted for approval, triggering event
             event(new PackageVersionSubmittedForApproval($packageVersion));
         }

@@ -67,3 +67,7 @@
     args:
       chdir: /var/www/kiosk_manager
       creates: passport.log
+
+  - name: ensure ffmpeg is installed
+    apt:
+      name: ffmpeg

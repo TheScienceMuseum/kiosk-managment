@@ -20,3 +20,9 @@
 - name: ensure composer is installed
   apt:
     name: composer
+
+- name: set max upload file sizes
+  shell: sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 999M/' /etc/php/7.2/fpm/php.ini
+
+- name: set max upload file sizes
+  shell: sed -i 's/post_max_size = 8M/post_max_size = 999M/' /etc/php/7.2/fpm/php.ini

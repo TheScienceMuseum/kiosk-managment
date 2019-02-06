@@ -19,9 +19,6 @@
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
 
-    {{--@if (config('app.env') !== 'production')--}}
-    {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0/solar/bootstrap.min.css">--}}
-    {{--@endif--}}
 </head>
 <body class="sidebar-mini">
     <main>
@@ -57,6 +54,9 @@
                 ?>
             };
         @endguest
+
+        window.env = '{{ config('app.env') }}';
+        window.sentry_dsn = '{{ config('sentry.dsn') }}';
     </script>
 </body>
 </html>

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Button} from 'reactstrap';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import Types from "./PropTypes";
 
 class Tree extends Component {
 
@@ -31,18 +32,24 @@ class Tree extends Component {
                                 <details key={`page-${pageIndex}`}>
                                     <summary>
                                         Page {pageIndex + 1} ({page.type})
-                                        <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('page', page)}>
+                                        <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('page', page, pageIndex)}>
                                             <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
                                         </Button>
-                                        <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleAddElement('section', page)}>
+                                        <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleAddElement('section', page, pageIndex)}>
                                             <FontAwesomeIcon icon={['fal', 'plus']}/>
+                                        </Button>
+                                        <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleAddElement('section', page, pageIndex)}>
+                                            <FontAwesomeIcon icon={['fal', 'minus']}/>
                                         </Button>
                                     </summary>
                                     {page.subpages && page.subpages.map((section, sectionIndex) =>
                                         <div key={`page-${pageIndex}-section-${sectionIndex}`}>
                                             Section {sectionIndex + 1}
-                                            <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('section', section)}>
+                                            <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('section', section, pageIndex, sectionIndex)}>
                                                 <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
+                                            </Button>
+                                            <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('section', section, pageIndex, sectionIndex)}>
+                                                <FontAwesomeIcon icon={['fal', 'minus']}/>
                                             </Button>
                                         </div>
                                     )}
@@ -50,8 +57,11 @@ class Tree extends Component {
                             ) || (page.type === 'video' &&
                                 <div key={`page-${pageIndex}`}>
                                     Page {pageIndex + 1} ({page.type})
-                                    <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('page', page)}>
+                                    <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('page', page, pageIndex)}>
                                         <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
+                                    </Button>
+                                    <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleAddElement('page', page, pageIndex)}>
+                                        <FontAwesomeIcon icon={['fal', 'minus']}/>
                                     </Button>
                                 </div>
                             )
@@ -67,20 +77,16 @@ Tree.propTypes = {
     handleAddElement: PropTypes.func.isRequired,
     handleViewElement: PropTypes.func.isRequired,
     data: PropTypes.shape({
+        titles: PropTypes.shape({
+            galleryName: PropTypes.string.isRequired,
+            image: Types.asset,
+            title: PropTypes.string.isRequired,
+            type: PropTypes.oneOf(["text"]).isRequired,
+        }).isRequired,
         contents: PropTypes.arrayOf(PropTypes.shape({
             articleID: PropTypes.string,
             subpages: PropTypes.arrayOf(PropTypes.shape({
-                image: PropTypes.oneOfType([
-                    PropTypes.string,
-                    PropTypes.shape({
-                        imageLandscape: PropTypes.string,
-                        imagePortrait: PropTypes.string,
-                        imageSource: PropTypes.string,
-                        imageThumbnail: PropTypes.string,
-                        nameText: PropTypes.string,
-                        sourceText: PropTypes.string,
-                    }),
-                ]),
+                image: Types.image,
                 pageID: PropTypes.string,
                 subtitle: PropTypes.string,
                 title: PropTypes.string,
@@ -88,15 +94,10 @@ Tree.propTypes = {
                 layout: PropTypes.oneOf(["left", "right"]),
             })),
             title: PropTypes.string,
-            titleImage: PropTypes.string,
+            titleImage: Types.asset,
             type: PropTypes.oneOf(["mixed", "video"]),
-            videoSrc: PropTypes.string,
+            videoSrc: Types.asset,
         })),
-        titles: PropTypes.shape({
-            galleryName: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
-            type: PropTypes.oneOf(['image', 'text']).isRequired,
-        }).isRequired
     }),
 };
 

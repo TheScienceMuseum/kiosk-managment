@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {Alert, Button, Card, CardBody, CardHeader, Col, FormGroup, Input, Label, Row} from 'reactstrap';
 import Select from "./Form/Select";
 import File from "./Form/File";
+import Types from './PropTypes';
 
 class FormMain extends Component {
     constructor(props) {
@@ -56,34 +57,14 @@ FormMain.propTypes = {
         content: PropTypes.shape({
             titles: PropTypes.shape({
                 galleryName: PropTypes.string.isRequired,
-                image: PropTypes.oneOfType([
-                    PropTypes.string,
-                    PropTypes.shape({
-                        imageLandscape: PropTypes.string,
-                        imagePortrait: PropTypes.string,
-                        imageSource: PropTypes.string,
-                        imageThumbnail: PropTypes.string,
-                        nameText: PropTypes.string,
-                        sourceText: PropTypes.string,
-                    }),
-                ]),
+                image: Types.asset,
                 title: PropTypes.string.isRequired,
                 type: PropTypes.oneOf(["text"]).isRequired,
             }).isRequired,
             contents: PropTypes.arrayOf(PropTypes.shape({
                 articleID: PropTypes.string,
                 subpages: PropTypes.arrayOf(PropTypes.shape({
-                    image: PropTypes.oneOfType([
-                        PropTypes.string,
-                        PropTypes.shape({
-                            imageLandscape: PropTypes.string,
-                            imagePortrait: PropTypes.string,
-                            imageSource: PropTypes.string,
-                            imageThumbnail: PropTypes.string,
-                            nameText: PropTypes.string,
-                            sourceText: PropTypes.string,
-                        }),
-                    ]),
+                    image: Types.image,
                     pageID: PropTypes.string,
                     subtitle: PropTypes.string,
                     title: PropTypes.string,
@@ -91,9 +72,9 @@ FormMain.propTypes = {
                     layout: PropTypes.oneOf(["left", "right"]),
                 })),
                 title: PropTypes.string,
-                titleImage: PropTypes.string,
+                titleImage: Types.asset,
                 type: PropTypes.oneOf(["mixed", "video"]),
-                videoSrc: PropTypes.string,
+                videoSrc: Types.asset,
             })),
         }),
     }).isRequired,
