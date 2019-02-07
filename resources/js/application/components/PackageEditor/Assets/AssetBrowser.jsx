@@ -112,6 +112,9 @@ class AssetBrowser extends Component {
                             </CardBody>
                         </Card>
                     )}
+                    {!this.state.loading &&
+                    <Button size={'sm'} color={'link'} block onClick={this.searchAssets}>Refresh</Button>
+                    }
                 </ModalBody>
                 <ModalFooter>
                     <FileUpload handleAssetUploaded={this.handleAssetUploaded}
