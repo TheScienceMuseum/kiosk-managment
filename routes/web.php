@@ -45,7 +45,22 @@ Route::group([
     })->name('auth.login.mfa');
 
     $router->get('/asset/{media}/{type?}', function(\Spatie\MediaLibrary\Models\Media $media, $type = '') {
-        return response()->file($media->getPath($type));
+        $diskConfig = config("filesystems.disks.{$media->disk}");
+        $disk = Storage::disk($media->disk);
+        $path = $media->getPath($type);
+
+        if (!empty($diskConfig['root'])) {
+            $path = str_replace($diskConfig['root'] . '/', '', $path);
+        }
+
+        if (!$disk->exists($path)) {
+            abort(404);
+        }
+
+        return response($disk->get($path), 200, [
+            'Content-Type'        => $media->mime_type,
+            'Content-Disposition' => "filename=\"{$media->file_name}\"",
+        ]);
     })->name('asset');
 
     $router->get('/{all}', 'HomeController@spa')
