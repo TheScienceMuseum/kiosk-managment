@@ -20,10 +20,10 @@ class PackageVersionAssetResource extends JsonResource
             'file_name' => $this->file_name,
             'mime_type' => $this->mime_type,
             'url_thumb' => config('filesystems.disks.' . config('filesystems.assets') . '.driver') === 's3' ?
-                $this->getTemporaryUrl('thumb') :
+                $this->getTemporaryUrl(Carbon::now()->addMinutes(5), 'thumb') :
                 $this->getUrl('thumb'),
             'url_original' => config('filesystems.disks.' . config('filesystems.assets') . '.driver') === 's3' ?
-                $this->getTemporaryUrl() :
+                $this->getTemporaryUrl(Carbon::now()->addMinutes(5)) :
                 $this->getUrl(),
         ];
     }

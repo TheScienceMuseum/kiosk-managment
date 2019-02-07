@@ -8,6 +8,8 @@ definitions:
     script:
     - ln -f -s .env.pipelines .env
     - composer install --ignore-platform-reqs
+    - echo # temp fix until https://github.com/spatie/laravel-medialibrary/pull/1372 is merged
+    - sed -i -e "s/\$duration = \$ffmpeg->getDuration();/\$duration = \$ffmpeg->getFFProbe()->format(\$file)->get('duration');/" vendor/spatie/laravel-medialibrary/src/ImageGenerators/FileTypes/Video.php
     artifacts:
     - vendor/**
 
