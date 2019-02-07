@@ -59,7 +59,7 @@ Route::group([
 
         return response($disk->get($path), 200, [
             'Content-Type'        => $media->mime_type,
-            'Content-Disposition' => 'filename="'. $media->file_name .'"',
+            'Content-Disposition' => "filename=\"{$media->file_name}\"",
         ]);
     })->name('asset');
 
