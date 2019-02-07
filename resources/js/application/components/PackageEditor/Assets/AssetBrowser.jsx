@@ -33,8 +33,10 @@ class AssetBrowser extends Component {
         this.searchAssets        = this.searchAssets.bind(this);
     }
 
-    componentDidMount() {
-        this.searchAssets();
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.showModal) {
+            this.searchAssets();
+        }
     }
 
     searchAssets() {
