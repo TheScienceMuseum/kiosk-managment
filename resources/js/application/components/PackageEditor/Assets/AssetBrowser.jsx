@@ -27,6 +27,7 @@ class AssetBrowser extends Component {
                 mime_type: get(this.props.filter, 'mime_type', ''),
                 file_name: get(this.props.filter, 'file_name', ''),
             },
+            loading: false,
         };
 
         this.handleAssetSelected = this.handleAssetSelected.bind(this);
@@ -41,18 +42,25 @@ class AssetBrowser extends Component {
     }
 
     searchAssets() {
-        const filters = {};
-        each(this.state.filter, (value, name) => {
-            filters[`filter[${name}]`] = value;
-        });
+        this.setState(prevState => ({
+            ...prevState,
+            assets: [],
+            loading: true,
+        }), () => {
+            const filters = {};
+            each(this.state.filter, (value, name) => {
+                filters[`filter[${name}]`] = value;
+            });
 
-        axios.get(`/api/package/${this.props.packageId}/version/${this.props.packageVersionId}/asset`, { params: filters })
-            .then(response => {
-                this.setState(prevState => ({
-                    ...prevState,
-                    assets: response.data.data,
-                }));
-            })
+            axios.get(`/api/package/${this.props.packageId}/version/${this.props.packageVersionId}/asset`, { params: filters })
+                .then(response => {
+                    this.setState(prevState => ({
+                        ...prevState,
+                        assets: response.data.data,
+                        loading: false,
+                    }));
+                })
+        });
     }
 
     handleAssetUploaded() {
@@ -69,16 +77,22 @@ class AssetBrowser extends Component {
         return (
             <Modal isOpen={this.props.showModal} toggle={this.props.onToggleModal} className={this.props.className}
                    size={'lg'}>
-                <ModalHeader toggle={this.props.onToggleModal}>Asset Browser</ModalHeader>
+                <ModalHeader toggle={this.props.onToggleModal}>
+                    Asset Browser
+                </ModalHeader>
                 <ModalBody style={{
                     maxHeight: '75vh',
                     overflow: 'scroll',
                 }}>
-                    {this.state.assets.length === 0 &&
+                    {(this.state.loading &&
                     <div className={'text-center'}>
                         <FontAwesomeIcon icon={['fal', 'sync-alt']} spin size={'4x'} />
                     </div>
-                    }
+                    ) || (this.state.assets.length === 0 &&
+                        <div className={'text-center'}>
+                            <em>No assets found, try uploading one below.</em>
+                        </div>
+                    )}
                     {this.state.assets.map(asset =>
                         <Card className={'mb-3'} key={`asset-item-${asset.id}`}>
                             <CardBody className={'p-0'}>
@@ -98,6 +112,9 @@ class AssetBrowser extends Component {
                             </CardBody>
                         </Card>
                     )}
+                    {!this.state.loading &&
+                    <Button size={'sm'} color={'link'} block onClick={this.searchAssets}>Refresh</Button>
+                    }
                 </ModalBody>
                 <ModalFooter>
                     <FileUpload handleAssetUploaded={this.handleAssetUploaded}
