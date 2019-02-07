@@ -12,10 +12,11 @@ import {
     faPencil,
     faPlus,
     faUsers,
+    faSyncAlt
 } from '@fortawesome/pro-light-svg-icons';
 import {faSquare} from '@fortawesome/pro-solid-svg-icons';
 
-library.add(faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight, faPencil, faPlus, faMinus, faSquare);
+library.add(faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight, faPencil, faPlus, faMinus, faSquare, faSyncAlt);
 
 import IndexRoutes from './routes/BaseRoutes';
 

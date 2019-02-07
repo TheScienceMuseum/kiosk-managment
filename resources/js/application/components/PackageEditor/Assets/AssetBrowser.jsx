@@ -15,6 +15,7 @@ import {
 } from "reactstrap";
 import FileUpload from "./FileUpload";
 import {each, get} from 'lodash';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class AssetBrowser extends Component {
     constructor(props) {
@@ -33,8 +34,10 @@ class AssetBrowser extends Component {
         this.searchAssets        = this.searchAssets.bind(this);
     }
 
-    componentDidMount() {
-        this.searchAssets();
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (nextProps.showModal) {
+            this.searchAssets();
+        }
     }
 
     searchAssets() {
@@ -71,6 +74,11 @@ class AssetBrowser extends Component {
                     maxHeight: '75vh',
                     overflow: 'scroll',
                 }}>
+                    {this.state.assets.length === 0 &&
+                    <div className={'text-center'}>
+                        <FontAwesomeIcon icon={['fal', 'sync-alt']} spin size={'4x'} />
+                    </div>
+                    }
                     {this.state.assets.map(asset =>
                         <Card className={'mb-3'} key={`asset-item-${asset.id}`}>
                             <CardBody className={'p-0'}>

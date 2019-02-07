@@ -44,6 +44,10 @@ Route::group([
             ;
     })->name('auth.login.mfa');
 
+    $router->get('/asset/{media}/{type?}', function(\Spatie\MediaLibrary\Models\Media $media, $type = '') {
+        return response()->file($media->getPath($type));
+    })->name('asset');
+
     $router->get('/{all}', 'HomeController@spa')
         ->where(['all' => '.*'])
         ->name('spa');
