@@ -126,8 +126,6 @@ class Asset extends Component {
     onAssetChosen(asset) {
         const assetData = {
             assetId: asset.id,
-            assetThumb: asset.url_thumb,
-            assetFull: asset.url_original,
             assetMime: asset.mime_type,
             assetType: asset.mime_type.indexOf('image/') !== -1 ? 'image' : 'video',
         };
@@ -208,20 +206,20 @@ class Asset extends Component {
                     </FormGroup>
                     }
 
-                    {this.props.value.assetType === 'image' && this.props.value.assetFull &&
+                    {this.props.value.assetType === 'image' && this.props.value.assetId &&
                     <div className={'mt-3'}>
                         <img id={`asset-image-cropper-${this.props.name}`}
                              className={'img-fluid'}
-                             src={this.props.value.assetFull}
+                             src={`/asset/${this.props.value.assetId}`}
                              alt={'Cropping Preview of image'}
                         />
                     </div>
                     }
 
-                    {this.props.value.assetType === 'video' && this.props.value.assetFull &&
+                    {this.props.value.assetType === 'video' && this.props.value.assetId &&
                     <div className={'mt-3 embed-responsive embed-responsive-16by9'}>
                         <video controls loop autoPlay poster={this.props.value.assetThumb}>
-                            <source src={this.props.value.assetFull} type={this.props.value.assetMime} />
+                            <source src={`/asset/${this.props.value.assetId}`} type={this.props.value.assetMime} />
                                 Your browser does not support the video tag.
                         </video>
                     </div>
