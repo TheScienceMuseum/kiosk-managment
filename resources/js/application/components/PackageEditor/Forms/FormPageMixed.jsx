@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {FormGroup, Input, Label} from "reactstrap";
-import Asset from "./Form/Asset";
-import Select from "./Form/Select";
+import Asset from "./Elements/Asset";
+import Select from "./Elements/Select";
 
-class FormPageVideo extends Component {
+class FormPageMixed extends Component {
     constructor(props) {
         super(props);
 
@@ -35,22 +35,23 @@ class FormPageVideo extends Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label>Video</Label>
-                    <Asset name={'videoSrc'}
-                           value={this.props.data.data.videoSrc}
+                    <Label>Title Image</Label>
+                    <Asset name={'titleImage'}
+                           value={this.props.data.data.titleImage}
                            packageId={this.props.packageId}
                            packageVersionId={this.props.packageVersionId}
                            onChange={this.handleFormChange}
-                           assetType={'contentVideo'}
+                           assetType={'titleImage'}
                     />
                 </FormGroup>
+                {/*{JSON.stringify(this.props.data)}*/}
             </div>
         );
     }
 }
 
-FormPageVideo.propTypes = {
+FormPageMixed.propTypes = {
 
 };
 
-export default FormPageVideo;
+export default FormPageMixed;

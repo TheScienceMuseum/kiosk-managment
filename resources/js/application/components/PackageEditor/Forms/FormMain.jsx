@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Alert, Button, Card, CardBody, CardHeader, Col, FormGroup, Input, Label, Row} from 'reactstrap';
-import Select from "./Form/Select";
-import File from "./Form/File";
-import Types from './PropTypes';
+import Select from "./Elements/Select";
+import File from "./Elements/File";
+import Types from '../PropTypes';
 
 class FormMain extends Component {
     constructor(props) {

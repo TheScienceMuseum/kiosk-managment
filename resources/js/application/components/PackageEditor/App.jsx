@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import Api from "../../../helpers/Api";
 import {Alert, Button, Card, CardBody, CardFooter, CardHeader, Col, Container, FormGroup, Label, Row} from "reactstrap";
 import {get, set} from 'lodash';
-import FormMain from './FormMain';
-import FormTitlePage from './FormTitlePage';
-import FormPage from './FormPage';
-import FormSection from './FormSection';
+import FormMain from './Forms/FormMain';
+import FormTitlePage from './Forms/FormTitlePage';
+import FormPage from './Forms/FormPage';
+import FormSection from './Forms/FormSection';
 import Tree from "./Tree";
 
 class App extends Component {
