@@ -20,9 +20,11 @@ library.add(faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight, faPencil, f
 
 import IndexRoutes from './routes/BaseRoutes';
 
-Sentry.init({
-    dsn: window.sentry_dsn,
-});
+if (window.env !== 'local') {
+    Sentry.init({
+        dsn: window.sentry_dsn,
+    });
+}
 
 export default class App extends Component {
     constructor(props) {
