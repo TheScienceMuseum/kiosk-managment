@@ -2,12 +2,15 @@
 
 namespace App;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\MediaLibrary\Models\Media;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 /**
  * App\PackageVersion
@@ -94,5 +97,48 @@ class PackageVersion extends Model implements HasMedia
     public function package()
     {
         return $this->belongsTo(Package::class);
+    }
+
+    public function createNewVersion()
+    {
+        $newVersion = $this->replicate(['media']);
+        $newVersion->version = $this->version + 1;
+        $newVersion->status = 'draft';
+        $newVersion->save();
+
+        $temporaryDirectory = (new TemporaryDirectory())->create();
+
+        foreach($this->media as $media) {
+            $tempPath = $temporaryDirectory->path($media->file_name);
+            $diskConfig = config("filesystems.disks.{$media->disk}");
+            $disk = Storage::disk($media->disk);
+            $path = $media->getPath();
+
+            if (!empty($diskConfig['root'])) {
+                $path = str_replace($diskConfig['root'] . '/', '', $path);
+            }
+
+            if (!$disk->exists($path)) {
+                continue;
+            }
+
+            try {
+                file_put_contents($tempPath, $disk->get($path));
+            } catch (FileNotFoundException $e) {
+                continue;
+            }
+
+            $clonedMedia = $newVersion->addMedia($tempPath)->toMediaCollection();
+
+            // Replace asset ids in data with new asset id.
+            $data = json_encode($newVersion->data);
+            $data = str_replace('"assetId":'.$media->id, '"assetId":'.$clonedMedia->id, $data);
+            $newVersion->data = json_decode($data);
+            $newVersion->save();
+        }
+
+        $temporaryDirectory->delete();
+
+        return $newVersion;
     }
 }

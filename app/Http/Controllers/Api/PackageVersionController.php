@@ -51,10 +51,10 @@ class PackageVersionController extends Controller
     {
         $previousVersion = PackageVersion::wherePackageId($package->id)->latest('version')->first();
 
-        $packageVersion = $package->versions()->create([
+        $packageVersion = $previousVersion ? $previousVersion->createNewVersion() : $package->versions()->create([
             'version' => $package->versions()->count() === 0 ? 1 : $package->versions()->count() + 1,
             'status' => 'draft',
-            'data' => $previousVersion && $previousVersion->data ? $previousVersion->data : [
+            'data' => [
                 'main' => 'index.html',
                 'name' => 'default',
                 'label' => 'Science Museum Example Package',
@@ -72,28 +72,26 @@ class PackageVersionController extends Controller
                         'attractorImage' => NULL,
                     ],
                     'contents' => [
-                        0 => [
+                        [
                             'articleID' => '3-3',
                             'titleImage' => NULL,
                             'type' => 'mixed',
                             'title' => 'Mixed media page',
                             'subpages' => [
-                                0 => [
+                                [
                                     'pageID' => '3-2-0',
                                     'type' => 'title',
                                     'image' => './media/menu-image-4.png',
                                     'title' => 'title section type',
                                     'subtitle' => NULL,
-                                ],
-                                1 => [
+                                ], [
                                     'pageID' => '3-3-2',
                                     'type' => 'textImage',
                                     'image' => NULL,
                                     'title' => 'text with image right section type',
                                     'layout' => 'right',
                                     'content' => 'Text that will appear alongside image',
-                                ],
-                                2 => [
+                                ], [
                                     'pageID' => '3-3-3',
                                     'type' => 'image',
                                     'image' => NULL,
@@ -103,7 +101,7 @@ class PackageVersionController extends Controller
                                 ],
                             ],
                         ],
-                        1 => [
+                        [
                             'articleID' => '3-0',
                             'type' => 'video',
                             'image' => NULL,
