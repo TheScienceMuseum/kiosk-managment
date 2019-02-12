@@ -100,6 +100,48 @@ class App extends Component {
         return (event) => {
             event.preventDefault();
             console.log('handleAddElement', arguments);
+
+            this.setState(prevState => ({
+                ...prevState,
+                showElementAddModalType: type,
+            }), this.handleToggleAddElementModal);
+        }
+    }
+
+    handleToggleAddElementModal() {
+        this.setState(prevState => ({
+            ...prevState,
+            showElementAddModal: !prevState.showElementAddModal,
+        }));
+    }
+
+    handleAddedElement(type, setup) {
+        if (type === 'page') {
+            const defaults = {
+                mixed: {
+                    subpages: [],
+                    title: "Mixed media page",
+                    titleImage: null,
+                    type: "mixed",
+                },
+                video: {
+                    image: null,
+                    title: "A video page",
+                    titleImage: null,
+                    videoSrc: null,
+                }
+            };
+
+            this.setState(prevState => {
+                let packageVersionData = prevState.packageVersionData;
+
+                packageVersionData.content.contents.push({
+                    ...defaults[setup.type],
+                    ...setup,
+                });
+
+                return {...prevState, packageVersionData};
+            })
         }
     }
 
