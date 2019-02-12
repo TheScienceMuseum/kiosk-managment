@@ -37,11 +37,9 @@ class Select extends Component {
                              }),
                              control: (base) => ({
                                  ...base,
-                                 minHeight: 32,
                                  backgroundColor: '#f7f7f9',
                                  border: 'none',
                                  borderRadius: 'none',
-                                 fontSize: '0.7875rem',
                              }),
                              dropdownIndicator: (base) => ({
                                  ...base,
