@@ -12,23 +12,29 @@ import {ucwords} from "locutus/php/strings";
 
 class AddElement extends Component {
     _types = {
-        page: [{
+        page: [{label: 'Select a Type', value: ''},{
             label: "Mixed",
             value: "mixed",
         }, {
             label: "Video",
             value: 'video',
         }],
-        section: [{
-            label: "Mixed",
-            value: "mixed",
+        section: [{label: 'Select a Type', value: ''},{
+            label: "Title",
+            value: "title",
+        }, {
+            label: "Image",
+            value: "image",
+        }, {
+            label: "Text with Image",
+            value: "textImage",
         }],
     };
     constructor(props) {
         super(props);
 
         this.state = {
-            type: 'mixed',
+            type: '',
             title: '',
         };
 
@@ -41,7 +47,7 @@ class AddElement extends Component {
         this.props.onToggleModal();
         this.props.onElementAdded(this.props.type, this.state);
         this.setState(prevState => ({
-            type: 'mixed',
+            type: '',
             title: '',
         }));
     }
