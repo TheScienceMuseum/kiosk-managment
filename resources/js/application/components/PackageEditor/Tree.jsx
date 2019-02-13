@@ -5,13 +5,12 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Types from "./PropTypes";
 
 class Tree extends Component {
-
     render() {
         return (
             <div>
                 <div className={'mb-3 font-weight-bold mx-1'}>
                     Package Structure
-                    <Button size={'xs'} color={'primary'} className={'float-right'}>
+                    <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleAddElement('page', null)}>
                         Add Page
                     </Button>
                 </div>
@@ -31,24 +30,24 @@ class Tree extends Component {
                             (page.type === 'mixed' &&
                                 <details key={`page-${pageIndex}`}>
                                     <summary>
-                                        Page {pageIndex + 1} ({page.type})
+                                        {page.title.substring(0, 20)} ({page.type})
                                         <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('page', page, pageIndex)}>
                                             <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
                                         </Button>
-                                        <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleAddElement('section', page, pageIndex)}>
+                                        <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleAddElement('section', pageIndex)}>
                                             <FontAwesomeIcon icon={['fal', 'plus']}/>
                                         </Button>
-                                        <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleAddElement('section', page, pageIndex)}>
+                                        <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleRemoveElement('page', pageIndex)}>
                                             <FontAwesomeIcon icon={['fal', 'minus']}/>
                                         </Button>
                                     </summary>
                                     {page.subpages && page.subpages.map((section, sectionIndex) =>
                                         <div key={`page-${pageIndex}-section-${sectionIndex}`}>
-                                            Section {sectionIndex + 1}
+                                            {section.title.substring(0, 20)} ({section.type})
                                             <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('section', section, pageIndex, sectionIndex)}>
                                                 <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
                                             </Button>
-                                            <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('section', section, pageIndex, sectionIndex)}>
+                                            <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleRemoveElement('section', pageIndex, sectionIndex)}>
                                                 <FontAwesomeIcon icon={['fal', 'minus']}/>
                                             </Button>
                                         </div>
@@ -56,11 +55,11 @@ class Tree extends Component {
                                 </details>
                             ) || (page.type === 'video' &&
                                 <div key={`page-${pageIndex}`}>
-                                    Page {pageIndex + 1} ({page.type})
+                                    {page.title.substring(0, 20)} ({page.type})
                                     <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('page', page, pageIndex)}>
                                         <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
                                     </Button>
-                                    <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleAddElement('page', page, pageIndex)}>
+                                    <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleRemoveElement('page', pageIndex)}>
                                         <FontAwesomeIcon icon={['fal', 'minus']}/>
                                     </Button>
                                 </div>
@@ -75,6 +74,7 @@ class Tree extends Component {
 
 Tree.propTypes = {
     handleAddElement: PropTypes.func.isRequired,
+    handleRemoveElement: PropTypes.func.isRequired,
     handleViewElement: PropTypes.func.isRequired,
     data: PropTypes.shape({
         titles: PropTypes.shape({

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {FormGroup, Input, Label} from "reactstrap";
-import Asset from "./Form/Asset";
-import Select from "./Form/Select";
+import Asset from "./Elements/Asset";
+import Select from "./Elements/Select";
 import FormPageMixed from "./FormPageMixed";
 import FormPageVideo from "./FormPageVideo";
 
