@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Alert, Button, FormGroup, Input, InputGroup, InputGroupAddon} from "reactstrap";
-import {debounce, keys} from 'lodash';
+import {debounce, get, keys} from 'lodash';
 import Cropper from 'cropperjs';
 import AssetBrowser from "../../Assets/AssetBrowser";
 import Types from '../../PropTypes';
@@ -65,6 +65,12 @@ class Asset extends Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if(prevProps.value && get(prevProps, 'value.assetId', true) !== get(this.props, 'value.assetId', false)) {
+            this.createCropper();
+        }
+    }
+
     createCropper() {
         const imageElement = document.getElementById(`asset-image-cropper-${this.props.name}`);
 
@@ -124,6 +130,8 @@ class Asset extends Component {
     }
 
     onAssetChosen(asset) {
+        this.onClearChosenAsset();
+
         const assetData = {
             assetId: asset.id,
             assetMime: asset.mime_type,
