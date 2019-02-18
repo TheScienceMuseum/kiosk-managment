@@ -12,6 +12,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Image\Image;
+use Spatie\MediaLibrary\Models\Media;
 use Symfony\Component\Process\Process;
 
 class BuildPackageFromVersion implements ShouldQueue
@@ -75,10 +77,7 @@ class BuildPackageFromVersion implements ShouldQueue
 
             // import package data
             $this->updateProgress($this->packageVersion, 40);
-            $packageData = array_merge($this->packageVersion->data, [
-                'name' => $this->packageVersion->package->name,
-                'version' => (int)$this->packageVersion->version,
-            ]);
+            $packageData = $this->buildManifest($this->packageVersion);
             Storage::disk('build-temp')->put($this->buildDirectory . '/manifest.json', json_encode($packageData));
 
             // compress package
@@ -141,5 +140,79 @@ class BuildPackageFromVersion implements ShouldQueue
         $packageVersion->update([
             'progress' => (int) $progress,
         ]);
+    }
+
+    private function buildManifest(PackageVersion $packageVersion)
+    {
+        $manifest = (object) json_decode(json_encode($packageVersion->data));
+
+        $manifest->name = $packageVersion->package->name;
+        $manifest->version = $packageVersion->version;
+
+
+        $manifest->content->titles->image = $this->convertToManifestAsset($manifest->content->titles->image);
+        $manifest->content->titles->attractorImage = $this->convertToManifestAsset($manifest->content->titles->attractorImage);
+
+        foreach($manifest->content->contents as $content) {
+            if (!empty($content->titleImage)) $content->titleImage = $this->convertToManifestAsset($content->titleImage);
+            if (!empty($content->videoSrc)) $content->videoSrc = $this->convertToManifestAsset($content->videoSrc);
+
+            if (!empty($content->subpages)) {
+                foreach($content->subpages as $subpage) {
+                    if (!empty($subpage->image)) $subpage->image = $this->convertToManifestAsset($subpage->image);
+                    if (!empty($subpage->videoSrc)) $subpage->videoSrc = $this->convertToManifestAsset($subpage->videoSrc);
+                }
+            }
+        }
+
+        return $manifest;
+    }
+
+    private function convertToManifestAsset($assetEntry)
+    {
+        $titleAsset = Media::find($assetEntry->assetId);
+
+        if ($assetEntry->assetType === 'image') {
+            $assetEntry->imageSource = $this->copyAssetToBuildDir($titleAsset);
+            unset($assetEntry->assetId);
+            unset($assetEntry->assetMime);
+            unset($assetEntry->assetType);
+
+            $actualHeight = Image::load($this->getFullBuildPath().'/'.$assetEntry->imageSource)->getHeight();
+            $assetEntry->boundingBox->y = round($assetEntry->boundingBox->y / $actualHeight, 2);
+            $assetEntry->boundingBox->height = round($assetEntry->boundingBox->height / $actualHeight, 2);
+
+            $actualWidth = Image::load($this->getFullBuildPath().'/'.$assetEntry->imageSource)->getWidth();
+            $assetEntry->boundingBox->x = round($assetEntry->boundingBox->x / $actualWidth, 2);
+            $assetEntry->boundingBox->width = round($assetEntry->boundingBox->width / $actualWidth, 2);
+
+        } else if ($assetEntry->assetType === 'video') {
+            $assetEntry = $this->copyAssetToBuildDir($titleAsset);
+        }
+
+        return $assetEntry;
+    }
+
+    private function copyAssetToBuildDir(Media $media)
+    {
+        $diskConfig = config("filesystems.disks.{$media->disk}");
+        $disk = Storage::disk($media->disk);
+        $path = $media->getPath();
+
+        if (!empty($diskConfig['root'])) {
+            $path = str_replace($diskConfig['root'] . '/', '', $path);
+        }
+
+        $newFilename = $media->id.'-'.$media->file_name;
+
+        Storage::disk('build-temp')->put($this->buildDirectory.'/media/'.$newFilename, $disk->get($path));
+
+        return './media/'.$newFilename;
+    }
+
+    private function getFullBuildPath()
+    {
+        $diskConfig = config("filesystems.disks.build-temp");
+        return $diskConfig['root'].'/'.$this->buildDirectory;
     }
 }
