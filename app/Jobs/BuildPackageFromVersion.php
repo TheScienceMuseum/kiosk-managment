@@ -149,16 +149,17 @@ class BuildPackageFromVersion implements ShouldQueue
         $manifest->name = $packageVersion->package->name;
         $manifest->version = $packageVersion->version;
 
-
         $manifest->content->titles->image = $this->convertToManifestAsset($manifest->content->titles->image);
         $manifest->content->titles->attractorImage = $this->convertToManifestAsset($manifest->content->titles->attractorImage);
 
-        foreach($manifest->content->contents as $content) {
+        foreach($manifest->content->contents as $contentIndex => $content) {
+            $content->articleID = $packageVersion->version . '-' . $contentIndex;
             if (!empty($content->titleImage)) $content->titleImage = $this->convertToManifestAsset($content->titleImage);
             if (!empty($content->videoSrc)) $content->videoSrc = $this->convertToManifestAsset($content->videoSrc);
 
             if (!empty($content->subpages)) {
-                foreach($content->subpages as $subpage) {
+                foreach($content->subpages as $subpageIndex => $subpage) {
+                    $subpage->pageID = $packageVersion->version . '-' . $contentIndex . '-' . $subpageIndex;
                     if (!empty($subpage->image)) $subpage->image = $this->convertToManifestAsset($subpage->image);
                     if (!empty($subpage->videoSrc)) $subpage->videoSrc = $this->convertToManifestAsset($subpage->videoSrc);
                 }
