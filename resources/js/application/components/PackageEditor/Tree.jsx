@@ -5,6 +5,13 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Types from "./PropTypes";
 
 class Tree extends Component {
+    _types = {
+        video: 'Video',
+        mixed: 'Mixed',
+        title: 'Title',
+        textImage: 'Image Text',
+        image: 'Image',
+    };
     render() {
         return (
             <div>
@@ -30,7 +37,7 @@ class Tree extends Component {
                             (page.type === 'mixed' &&
                                 <details key={`page-${pageIndex}`}>
                                     <summary>
-                                        {page.title.substring(0, 20)} ({page.type})
+                                        {page.title.substring(0, 20)} ({this._types[page.type]})
                                         <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('page', page, pageIndex)}>
                                             <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
                                         </Button>
@@ -43,7 +50,7 @@ class Tree extends Component {
                                     </summary>
                                     {page.subpages && page.subpages.map((section, sectionIndex) =>
                                         <div key={`page-${pageIndex}-section-${sectionIndex}`}>
-                                            {section.title.substring(0, 20)} ({section.type})
+                                            {section.title.substring(0, 20)} ({this._types[section.type]})
                                             <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('section', section, pageIndex, sectionIndex)}>
                                                 <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
                                             </Button>
@@ -55,7 +62,7 @@ class Tree extends Component {
                                 </details>
                             ) || (page.type === 'video' &&
                                 <div key={`page-${pageIndex}`}>
-                                    {page.title.substring(0, 20)} ({page.type})
+                                    {page.title.substring(0, 20)} ({this._types[page.type]})
                                     <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('page', page, pageIndex)}>
                                         <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
                                     </Button>
