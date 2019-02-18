@@ -42,6 +42,16 @@ class Asset extends Component {
             hasName: true,
             hasSource: true,
         },
+        contentVideoImage: {
+            aspectRatio: 16 / 9,
+            mimeType: 'image/',
+            hasCrop: true,
+        },
+        sectionImage: {
+            aspectRatio: 8 / 9,
+            mimeType: 'image/',
+            hasCrop: true,
+        },
     };
 
     constructor(props) {

@@ -8,7 +8,7 @@ class FormPageMixed extends Component {
     constructor(props) {
         super(props);
 
-        this.handleFormChange   = this.handleFormChange.bind(this);
+        this.handleFormChange = this.handleFormChange.bind(this);
         this.handleBSFormChange = this.handleBSFormChange.bind(this);
     }
 
@@ -22,6 +22,7 @@ class FormPageMixed extends Component {
 
         this.props.handlePackageDataChange(field, value);
     }
+
     render() {
         return (
             <div>
@@ -50,8 +51,6 @@ class FormPageMixed extends Component {
     }
 }
 
-FormPageMixed.propTypes = {
-
-};
+FormPageMixed.propTypes = {};
 
 export default FormPageMixed;
