@@ -161,6 +161,7 @@ class BuildPackageFromVersion implements ShouldQueue
                 foreach($content->subpages as $subpageIndex => $subpage) {
                     $subpage->pageID = $packageVersion->version . '-' . $contentIndex . '-' . $subpageIndex;
                     if (!empty($subpage->image)) $subpage->image = $this->convertToManifestAsset($subpage->image);
+                    if (!empty($subpage->titleImage)) $subpage->titleImage = $this->convertToManifestAsset($subpage->titleImage);
                     if (!empty($subpage->videoSrc)) $subpage->videoSrc = $this->convertToManifestAsset($subpage->videoSrc);
                 }
             }
