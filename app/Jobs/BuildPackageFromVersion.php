@@ -182,13 +182,12 @@ class BuildPackageFromVersion implements ShouldQueue
             unset($assetEntry->assetMime);
             unset($assetEntry->assetType);
 
-            $actualHeight = Image::load($this->getFullBuildPath().'/'.$assetEntry->imageSource)->getHeight();
-            $assetEntry->boundingBox->y = round($assetEntry->boundingBox->y / $actualHeight, 2);
-            $assetEntry->boundingBox->height = round($assetEntry->boundingBox->height / $actualHeight, 2);
+            $imageSize = getimagesize($this->getFullBuildPath().'/'.$assetEntry->imageSource);
+            $assetEntry->boundingBox->y = round($assetEntry->boundingBox->y / $imageSize[1], 2);
+            $assetEntry->boundingBox->height = round($assetEntry->boundingBox->height / $imageSize[1], 2);
 
-            $actualWidth = Image::load($this->getFullBuildPath().'/'.$assetEntry->imageSource)->getWidth();
-            $assetEntry->boundingBox->x = round($assetEntry->boundingBox->x / $actualWidth, 2);
-            $assetEntry->boundingBox->width = round($assetEntry->boundingBox->width / $actualWidth, 2);
+            $assetEntry->boundingBox->x = round($assetEntry->boundingBox->x / $imageSize[0], 2);
+            $assetEntry->boundingBox->width = round($assetEntry->boundingBox->width / $imageSize[0], 2);
 
         } else if ($assetEntry->assetType === 'video') {
             $assetEntry = $this->copyAssetToBuildDir($titleAsset);
