@@ -172,6 +172,8 @@ class BuildPackageFromVersion implements ShouldQueue
 
     private function convertToManifestAsset($assetEntry)
     {
+        if (empty($assetEntry)) return null;
+
         $titleAsset = Media::find($assetEntry->assetId);
 
         if ($assetEntry->assetType === 'image') {
