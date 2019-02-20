@@ -56,10 +56,6 @@ class PackageVersionController extends Controller
             'status' => 'draft',
             'data' => [
                 'main' => 'index.html',
-                'name' => 'default',
-                'label' => 'Science Museum Example Package',
-                'version' => 3,
-                'short_name' => 'SciMusPackage',
                 'requirements' => [
                     'client_version' => '0.0.1',
                 ],
@@ -72,43 +68,7 @@ class PackageVersionController extends Controller
                         'attractorImage' => NULL,
                     ],
                     'contents' => [
-                        [
-                            'articleID' => '3-3',
-                            'titleImage' => NULL,
-                            'type' => 'mixed',
-                            'title' => 'Mixed media page',
-                            'subpages' => [
-                                [
-                                    'pageID' => '3-2-0',
-                                    'type' => 'title',
-                                    'image' => './media/menu-image-4.png',
-                                    'title' => 'title section type',
-                                    'subtitle' => NULL,
-                                ], [
-                                    'pageID' => '3-3-2',
-                                    'type' => 'textImage',
-                                    'image' => NULL,
-                                    'title' => 'text with image right section type',
-                                    'layout' => 'right',
-                                    'content' => 'Text that will appear alongside image',
-                                ], [
-                                    'pageID' => '3-3-3',
-                                    'type' => 'image',
-                                    'image' => NULL,
-                                    'title' => 'image left section type',
-                                    'layout' => 'left',
-                                    'content' => 'Image that is wide',
-                                ],
-                            ],
-                        ],
-                        [
-                            'articleID' => '3-0',
-                            'type' => 'video',
-                            'image' => NULL,
-                            'title' => 'A video page',
-                            'videoSrc' => NULL,
-                            'titleImage' => NULL,
-                        ],
+
                     ],
                 ],
             ],

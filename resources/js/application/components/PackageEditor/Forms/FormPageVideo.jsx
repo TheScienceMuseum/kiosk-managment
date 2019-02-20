@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {FormGroup, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
-import Select from "./Elements/Select";
 
 class FormPageVideo extends Component {
     constructor(props) {
@@ -22,6 +21,7 @@ class FormPageVideo extends Component {
 
         this.props.handlePackageDataChange(field, value);
     }
+
     render() {
         return (
             <div>
@@ -42,6 +42,17 @@ class FormPageVideo extends Component {
                            packageVersionId={this.props.packageVersionId}
                            onChange={this.handleFormChange}
                            assetType={'contentVideo'}
+                    />
+                </FormGroup>
+
+                <FormGroup>
+                    <Label>Video Image</Label>
+                    <Asset name={'titleImage'}
+                           value={this.props.data.data.titleImage}
+                           packageId={this.props.packageId}
+                           packageVersionId={this.props.packageVersionId}
+                           onChange={this.handleFormChange}
+                           assetType={'contentVideoImage'}
                     />
                 </FormGroup>
             </div>

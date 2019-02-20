@@ -1,16 +1,22 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import SectionTitle from "./SectionTitle";
+import SectionImage from "./SectionImage";
+import SectionTextImage from "./SectionTextImage";
 
-class FormSection extends Component {
+export default class FormSection extends Component {
+    _components = {
+        title: SectionTitle,
+        image: SectionImage,
+        textImage: SectionTextImage,
+    };
+
+    getComponent() {
+        const Component = this._components[this.props.data.data.type];
+
+        return <Component {...this.props} />
+    }
+
     render() {
-        return (
-            <div>
-
-            </div>
-        );
+        return this.getComponent(this.props.data.data.type);
     }
 }
-
-FormSection.propTypes = {};
-
-export default FormSection;

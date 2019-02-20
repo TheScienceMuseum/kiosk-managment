@@ -4,7 +4,7 @@ import {FormGroup, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
 import Select from "./Elements/Select";
 
-class FormPageMixed extends Component {
+export default class SectionTextImage extends Component {
     constructor(props) {
         super(props);
 
@@ -36,21 +36,43 @@ class FormPageMixed extends Component {
                 </FormGroup>
 
                 <FormGroup>
+                    <Label>Content</Label>
+                    <Input bsSize={'sm'}
+                           name={'content'}
+                           value={this.props.data.data.content}
+                           onChange={this.handleBSFormChange}
+                           type={'textarea'}
+                           rows={10}
+                    />
+                </FormGroup>
+
+                <FormGroup>
+                    <Label>Layout</Label>
+                    <Select className={'col-sm-9'}
+                            defaultValue={this.props.data.data.layout}
+                            field={'layout'}
+                            handleFieldChange={this.handleFormChange}
+                            options={[{
+                                label: "Left",
+                                value: "left",
+                            },{
+                                label: "Right",
+                                value: "right",
+                            }]}
+                    />
+                </FormGroup>
+
+                <FormGroup>
                     <Label>Title Image</Label>
-                    <Asset name={'titleImage'}
-                           value={this.props.data.data.titleImage}
+                    <Asset name={'image'}
+                           value={this.props.data.data.image}
                            packageId={this.props.packageId}
                            packageVersionId={this.props.packageVersionId}
                            onChange={this.handleFormChange}
-                           assetType={'titleImage'}
+                           assetType={'sectionImage'}
                     />
                 </FormGroup>
-                {/*{JSON.stringify(this.props.data)}*/}
             </div>
         );
     }
 }
-
-FormPageMixed.propTypes = {};
-
-export default FormPageMixed;

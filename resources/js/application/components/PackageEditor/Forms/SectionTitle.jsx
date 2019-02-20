@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {FormGroup, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
-import Select from "./Elements/Select";
 
-class FormPageMixed extends Component {
+class SectionTitle extends Component {
     constructor(props) {
         super(props);
 
@@ -36,21 +35,29 @@ class FormPageMixed extends Component {
                 </FormGroup>
 
                 <FormGroup>
+                    <Label>Subtitle</Label>
+                    <Input bsSize={'sm'}
+                           name={'subtitle'}
+                           value={this.props.data.data.subtitle}
+                           onChange={this.handleBSFormChange}
+                    />
+                </FormGroup>
+
+                <FormGroup>
                     <Label>Title Image</Label>
-                    <Asset name={'titleImage'}
-                           value={this.props.data.data.titleImage}
+                    <Asset name={'image'}
+                           value={this.props.data.data.image}
                            packageId={this.props.packageId}
                            packageVersionId={this.props.packageVersionId}
                            onChange={this.handleFormChange}
                            assetType={'titleImage'}
                     />
                 </FormGroup>
-                {/*{JSON.stringify(this.props.data)}*/}
             </div>
         );
     }
 }
 
-FormPageMixed.propTypes = {};
+SectionTitle.propTypes = {};
 
-export default FormPageMixed;
+export default SectionTitle;
