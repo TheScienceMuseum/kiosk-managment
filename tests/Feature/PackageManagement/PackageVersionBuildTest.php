@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\PackageManagement;
 
-use App\Events\PackageVersionSubmittedForApproval;
 use App\Jobs\BuildPackageFromVersion;
 use App\PackageVersion;
 use Illuminate\Support\Facades\Artisan;
