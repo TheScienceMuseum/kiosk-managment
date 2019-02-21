@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Events\PackageBuildCompleted;
 use App\PackageVersion;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Queue\SerializesModels;
@@ -36,13 +37,20 @@ class BuildPackageFromVersion implements ShouldQueue
     protected $buildDirectory;
 
     /**
+     * @var User The user that will be approving the
+     */
+    protected $approvingUser;
+
+    /**
      * Create a new job instance.
      *
      * @param PackageVersion $packageVersion
+     * @param User|null $approvingUser
      */
-    public function __construct(PackageVersion $packageVersion)
+    public function __construct(PackageVersion $packageVersion, User $approvingUser = null)
     {
         $this->packageVersion = $packageVersion;
+        $this->approvingUser = $approvingUser;
         $this->buildDirectory = 'package-build-' . str_random();
 
         \Log::info('Queued a build of package version id: ' . $this->packageVersion->id . ' in directory ' . Storage::disk('build-temp')->path($this->buildDirectory));
@@ -92,7 +100,7 @@ class BuildPackageFromVersion implements ShouldQueue
             // finish the process
             $this->updateProgress($this->packageVersion, 100);
 
-            event(new PackageBuildCompleted($this->packageVersion));
+            event(new PackageBuildCompleted($this->packageVersion, $this->approvingUser));
         } catch (\Exception $e) {
             $this->packageVersion->update([
                 'status' => 'failed',

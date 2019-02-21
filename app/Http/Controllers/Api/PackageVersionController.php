@@ -12,6 +12,7 @@ use App\Http\Resources\PackageVersionAssetResource;
 use App\Http\Resources\PackageVersionResource;
 use App\Package;
 use App\PackageVersion;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Spatie\MediaLibrary\Models\Media;
@@ -104,7 +105,7 @@ class PackageVersionController extends Controller
 
         if ($request->input('status') === 'approved' && $currentVersion->status !== 'approved') {
             if ($request->user()->cannot('approve', $packageVersion)) {
-                abort(403);
+                abort(403, 'You do not have permission to approve packages');
             }
         }
 
@@ -123,7 +124,7 @@ class PackageVersionController extends Controller
 
         if ($request->input('status') === 'pending' && in_array($currentVersion->status, ['draft', 'failed'])) {
             // The package has been submitted for approval, triggering event
-            event(new PackageVersionSubmittedForApproval($packageVersion));
+            event(new PackageVersionSubmittedForApproval($packageVersion, User::find($request->input('approval'))));
         }
 
         return new PackageVersionResource($packageVersion);
