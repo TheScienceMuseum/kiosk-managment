@@ -60,6 +60,14 @@ class Api {
             path = this.getUrlFromPathAndInstance(path, instance);
 
             if (["post", "put"].includes(action.verb)) {
+                each(params, (param, name) => {
+                    const found = this._resourceFields.find(field => field.name === name);
+
+                    if (! found) {
+                        actionParams[name] = param.value;
+                    }
+                });
+
                 this._resourceFields.forEach(field => {
                     if (action.verb === 'post' && !field.create_with) {
                         return;
