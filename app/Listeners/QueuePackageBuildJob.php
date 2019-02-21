@@ -27,6 +27,6 @@ class QueuePackageBuildJob implements ShouldQueue
      */
     public function handle(PackageVersionSubmittedForApproval $event)
     {
-        BuildPackageFromVersion::dispatch($event->packageVersion)->onQueue('long-running');
+        BuildPackageFromVersion::dispatch($event->packageVersion, $event->approvingUser)->onQueue('long-running');
     }
 }

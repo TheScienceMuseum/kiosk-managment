@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\PackageVersion;
+use App\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -21,12 +22,19 @@ class PackageVersionSubmittedForApproval
     public $packageVersion;
 
     /**
+     * @var User
+     */
+    public $approvingUser;
+
+    /**
      * Create a new event instance.
      *
      * @param PackageVersion $packageVersion
+     * @param User|null $approvingUser
      */
-    public function __construct(PackageVersion $packageVersion)
+    public function __construct(PackageVersion $packageVersion, User $approvingUser = null)
     {
         $this->packageVersion = $packageVersion;
+        $this->approvingUser = $approvingUser;
     }
 }

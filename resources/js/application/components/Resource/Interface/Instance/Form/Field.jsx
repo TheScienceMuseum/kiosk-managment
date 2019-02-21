@@ -27,8 +27,7 @@ class Field extends Component {
         if (this.fieldMappings.hasOwnProperty(this.props.field.type)) {
             let Component = this.fieldMappings[this.props.field.type];
             return (
-                <Component 
-                           defaultValue={this.props.value}
+                <Component defaultValue={this.props.value}
                            disabled={this.props.field.readonly}
                            field={this.props.field}
                            fieldErrors={this.props.fieldErrors}

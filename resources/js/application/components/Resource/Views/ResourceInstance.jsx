@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import Api from "../../../../helpers/Api";
 import {Button, Card, CardBody, CardHeader, FormGroup} from "reactstrap";
@@ -80,6 +80,10 @@ class ResourceInstance extends Component {
                     let displayCondition = get(action, 'display_condition');
 
                     each(displayCondition, (value, field) => {
+                        if (field === 'PERMISSION') {
+                            displayConditionPassed = User.can(value);
+                        }
+
                         if (value.constructor === Boolean && !!get(instance, field) === value) {
                             displayConditionPassed = true;
                         }
@@ -103,7 +107,15 @@ class ResourceInstance extends Component {
                             } else {
                                 const doRequest = () => {
                                     if (this._api._resourceName === action.action.resource) {
-                                        this._api.request(action.action.action, action.action.params, instance)
+                                        const params = {...action.action.params};
+
+                                        if (has(action, 'confirmation.choices')) {
+                                            each(get(action, 'confirmation.choices'), choice => {
+                                                params[choice.name] = this.state.resourceInstance[choice.name];
+                                            });
+                                        }
+
+                                        this._api.request(action.action.action, params, instance)
                                             .then(response => {
                                                 toastr.success(`${action.label} completed`);
 
@@ -130,10 +142,41 @@ class ResourceInstance extends Component {
                                 };
 
                                 if (has(action, 'confirmation')) {
+                                    const confirmation = get(action, 'confirmation');
+
                                     confirm({
-                                        message: get(action, 'confirmation.text'),
-                                        confirmText: get(action, 'confirmation.yes'),
-                                        cancelText: get(action, 'confirmation.no'),
+                                        className: 'modal-lg',
+                                        message: (
+                                            <Fragment>
+                                                {confirmation.text}
+                                                {confirmation.choices &&
+                                                    <div>
+                                                    <hr />
+                                                        {confirmation.choices.map(choice =>
+                                                            <Field key={`confirm-${choice.name}`}
+                                                                   value={this.state.resourceInstance[choice.name]}
+                                                                   field={choice}
+                                                                   handleFieldChange={(field, value) => {
+                                                                       this.setState(prevState => {
+                                                                           const resourceInstance = {
+                                                                               ...prevState.resourceInstance,
+                                                                               [field.name]: {
+                                                                                   value: value.id,
+                                                                                   label: `${value.name} (${value.email})`,
+                                                                               },
+                                                                           };
+
+                                                                           return {...prevState, resourceInstance}
+                                                                       });
+                                                                   }}
+                                                            />
+                                                        )}
+                                                    </div>
+                                                }
+                                            </Fragment>
+                                        ),
+                                        confirmText: confirmation.yes,
+                                        cancelText: confirmation.no,
                                     }).then(result => {
                                         if (result) {
                                             doRequest();
