@@ -80,6 +80,10 @@ class ResourceInstance extends Component {
                     let displayCondition = get(action, 'display_condition');
 
                     each(displayCondition, (value, field) => {
+                        if (field === 'PERMISSION') {
+                            displayConditionPassed = User.can(value);
+                        }
+
                         if (value.constructor === Boolean && !!get(instance, field) === value) {
                             displayConditionPassed = true;
                         }
