@@ -298,6 +298,28 @@ class GenerateApplicationSchema extends Command
                                 ]],
                             ],
                         ],[
+                            "label" => "Approve Package",
+                            "action" => [
+                                "resource" => "package_version",
+                                "action" => "update",
+                                "params" => [
+                                    "status" => "approved",
+                                ],
+                            ],
+                            "post_action" => [
+                                "resource" => "package_version",
+                                "action" => "show",
+                            ],
+                            "display_condition" => [
+                                "status" => "pending",
+                                "PERMISSION" => "publish all packages",
+                            ],
+                            "confirmation" => [
+                                "text" => "Are you sure you want to approve this package version? No changes can be made after this action.",
+                                "yes" => "Go ahead",
+                                "no" => "Cancel",
+                            ],
+                        ],[
                             "label" => "View in Package Editor",
                             "action" => [
                                 "path" => "/editor/{package.id}/version/{id}",
