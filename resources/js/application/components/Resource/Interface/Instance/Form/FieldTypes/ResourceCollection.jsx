@@ -32,15 +32,31 @@ class ResourceCollection extends Component {
     }
 
     componentDidMount() {
-        this._api.request('index', {}, this.props.defaultValue)
-            .then(response => {
-                this.setState(prevState => ({
-                    ...prevState,
-                    resourceIndexLoading: false,
-                    resourceIndex: response.data.data,
-                    pagination: response.data.meta,
-                }));
-            });
+        this.requestInstance();
+        const [type, id] = this.props.location.hash.replace('#', '').split('-');
+        if (type === this.props.field.name) {
+            this.setState(prevState => ({
+                ...prevState,
+                highlightedId: id,
+            }));
+        }
+    }
+
+    requestInstance() {
+        this.setState(prevState => ({
+            ...prevState,
+            resourceIndexLoading: true,
+        }), () => {
+            this._api.request('index', {}, this.props.defaultValue)
+                .then(response => {
+                    this.setState(prevState => ({
+                        ...prevState,
+                        resourceIndexLoading: false,
+                        resourceIndex: response.data.data,
+                        pagination: response.data.meta,
+                    }));
+                });
+        });
     }
 
     render() {
