@@ -1,6 +1,11 @@
-import ApplicationSchema from '../../application-schema';
+import React, {Fragment} from 'react';
 import axios from 'axios';
 import {each, get, has, last} from "lodash";
+import confirm from "reactstrap-confirm";
+
+import ApplicationSchema from '../../application-schema';
+import Field from '../application/components/Resource/Interface/Instance/Form/Field';
+
 
 class Api {
     _resourceActions = {};
@@ -45,6 +50,94 @@ class Api {
         return path;
     }
 
+    action(action, instance, callbacks) {
+        return () => {
+            if (has(action, 'action.path')) {
+                callbacks.path(this.getUrlFromPathAndInstance(get(action, 'action.path'), instance));
+            } else {
+                const doRequest = () => {
+                    if (this._resourceName === action.action.resource) {
+                        const params = {...action.action.params};
+
+                        if (has(action, 'confirmation.choices')) {
+                            each(get(action, 'confirmation.choices'), choice => {
+                                params[choice.name] = instance[choice.name];
+                            });
+                        }
+
+                        this.request(action.action.action, params, instance)
+                            .then(response => {
+                                toastr.success(`${action.label} completed`);
+
+                                if (has(action, 'post_action')) {
+                                    callbacks.requestInstance();
+                                }
+                            });
+                    } else {
+                        const resourceApi = new Api(action.action.resource);
+                        const params = {...action.action.params};
+
+                        if (has(action, 'confirmation.choices')) {
+                            each(get(action, 'confirmation.choices'), choice => {
+                                params[choice.name] = instance[choice.name];
+                            });
+                        }
+
+                        resourceApi.request(action.action.action, params, instance)
+                            .then(response => {
+                                if (has(action, 'post_action')) {
+                                    if (this._resourceName === action.post_action.resource) {
+                                        callbacks.requestInstance();
+                                    } else {
+                                        // find the needed route to display the data
+                                        callbacks.path(
+                                            `${this.props.location.pathname}/${action.post_action.link_insert}/${response.data.data.id}`
+                                        );
+                                    }
+                                }
+                            })
+                    }
+                };
+
+                if (has(action, 'confirmation')) {
+                    const confirmation = get(action, 'confirmation');
+
+                    confirm({
+                        className: 'modal-lg',
+                        message: (
+                            <Fragment>
+                                {confirmation.text}
+                                {confirmation.choices &&
+                                <div>
+                                    <hr />
+                                    {confirmation.choices.map(choice =>
+                                        <Field key={`confirm-${choice.name}`}
+                                               value={instance[choice.name]}
+                                               field={choice}
+                                               handleFieldChange={(field, value) => {
+                                                   instance[field.name] = value.id;
+                                                   console.log(instance);
+                                               }}
+                                        />
+                                    )}
+                                </div>
+                                }
+                            </Fragment>
+                        ),
+                        confirmText: confirmation.yes,
+                        cancelText: confirmation.no,
+                    }).then(result => {
+                        if (result) {
+                            doRequest();
+                        }
+                    });
+                } else {
+                    doRequest();
+                }
+            }
+        };
+    }
+
     request(actionName, params, instance = null) {
         console.log(`triggering request ${actionName} on resource ${this._resourceName} with params: ${JSON.stringify(params)} and instance: ${JSON.stringify(instance)}`);
         const action = this._resourceActions[actionName];
@@ -63,8 +156,8 @@ class Api {
                 each(params, (param, name) => {
                     const found = this._resourceFields.find(field => field.name === name);
 
-                    if (! found) {
-                        actionParams[name] = param.value;
+                    if (found === undefined) {
+                        actionParams[name] = param;
                     }
                 });
 

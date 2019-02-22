@@ -5,7 +5,7 @@ You have received this email because you are a content editor.
 
 You have been invited to check and approve a kiosk package prior to it being deployed to a kiosk.
 
-@component('mail::button', ['url' => config('app.url').'/admin/packages/'.$version->package->id.'/versions/'.$version->id])
+@component('mail::button', ['url' => config('app.url').'/admin/packages/'.$version->package->id.'#versions-'.$version->id])
 View Package
 @endcomponent
 

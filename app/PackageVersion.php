@@ -104,6 +104,7 @@ class PackageVersion extends Model implements HasMedia
         $newVersion = $this->replicate(['media']);
         $newVersion->version = $this->version + 1;
         $newVersion->status = 'draft';
+        $newVersion->progress = 0;
         $newVersion->save();
 
         $temporaryDirectory = (new TemporaryDirectory())->create();
