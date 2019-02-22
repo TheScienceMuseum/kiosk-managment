@@ -183,6 +183,75 @@ class GenerateApplicationSchema extends Command
                     "resource" => "package_version",
                     "link_to_resource" => true,
                     "link_insert" => "versions",
+                    "actions" => [[
+                        "label" => "Submit for Approval",
+                        "action" => [
+                            "resource" => "package_version",
+                            "action" => "update",
+                            "params" => [
+                                "status" => "pending",
+                            ],
+                        ],
+                        "post_action" => [
+                            "resource" => "package",
+                            "action" => "show",
+                        ],
+                        "display_condition" => [
+                            "status" => "draft",
+                        ],
+                        "confirmation" => [
+                            "text" => "Are you sure you want to submit this package version for approval? No changes can be made after this action.",
+                            "yes" => "Go ahead",
+                            "no" => "Cancel",
+                            "choices" => [[
+                                "name" => "approval",
+                                "help" => "Choose a user to review your package.",
+                                "type" => "resource_instance",
+                                "resource" => "user",
+                                "resource_filters" => [
+                                    "roles" => ["content editor"],
+                                ],
+                                "id_key" => ["id"],
+                                "label_key" => ["name", "(", "email", ")"],
+                                "collapse_on_store" => true,
+                            ]],
+                        ],
+                    ],[
+                        "label" => "Approve",
+                        "action" => [
+                            "resource" => "package_version",
+                            "action" => "update",
+                            "params" => [
+                                "status" => "approved",
+                            ],
+                        ],
+                        "post_action" => [
+                            "resource" => "package",
+                            "action" => "show",
+                        ],
+                        "display_condition" => [
+                            "PERMISSION" => "publish all packages",
+                            "status" => "pending",
+                            "progress" => 100,
+                        ],
+//                    ],[
+//                        "label" => "Deploy",
+//                        "action" => [
+//                            "path" => "/editor/{package.id}/version/{id}",
+//                        ],
+//                        "display_condition" => [
+//                            "PERMISSION" => "deploy packages to all kiosks",
+//                            "status" => "approved",
+//                        ],
+                    ],[
+                        "label" => "Edit",
+                        "action" => [
+                            "path" => "/editor/{package.id}/version/{id}",
+                        ],
+                        "display_condition" => [
+                            "status" => "draft",
+                        ],
+                    ]]
                 ]],
                 "actions" => [
                     "index" => [
@@ -201,9 +270,8 @@ class GenerateApplicationSchema extends Command
                                     "action" => "store",
                                 ],
                                 "post_action" => [
-                                    "resource" => "package_version",
+                                    "resource" => "package",
                                     "action" => "show",
-                                    "link_insert" => "versions",
                                 ],
                                 "confirmation" => [
                                     "text" => "Create a new package version? (if there is a current draft version you may want to edit this instead)",
