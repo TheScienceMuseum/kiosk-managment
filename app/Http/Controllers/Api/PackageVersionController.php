@@ -55,6 +55,7 @@ class PackageVersionController extends Controller
         $packageVersion = $previousVersion ? $previousVersion->createNewVersion() : $package->versions()->create([
             'version' => $package->versions()->count() === 0 ? 1 : $package->versions()->count() + 1,
             'status' => 'draft',
+            'progress' => 0,
             'data' => [
                 'main' => 'index.html',
                 'requirements' => [
