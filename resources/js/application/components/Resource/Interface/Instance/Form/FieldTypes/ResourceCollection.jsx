@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Button, ButtonGroup, Table} from "reactstrap";
 import Api from "../../../../../../../helpers/Api";
 import {BounceLoader} from "react-spinners";
-import {get} from 'lodash';
+import {each, get, has} from 'lodash';
 import {ucwords} from "locutus/php/strings";
 
 class ResourceCollection extends Component {
@@ -15,20 +15,27 @@ class ResourceCollection extends Component {
         this.state = {
             resourceIndexLoading: true,
             resourceIndex: [],
+            highlightedId: null,
             pagination: {},
             filters: {},
         };
 
         this.resourceInstanceActions = [];
 
-        if (this._api.hasAction('show')) {
+        each(this.props.field.actions, action => {
             this.resourceInstanceActions.push({
-                name: 'View',
+                name: action.label,
                 callback: (instance) => {
-                    return () => this.props.history.push(`${props.location.pathname}/${props.field.name}/${instance.id}`);
+                    return this._api.action(action, instance, {
+                        path: (path) => this.props.history.push(path),
+                        requestInstance: () => { this.requestInstance() },
+                        setState: this.setState.bind(this),
+                        getState: () => this.state,
+                    });
                 },
+                display_condition: action.display_condition,
             });
-        }
+        });
     }
 
     componentDidMount() {
@@ -69,38 +76,71 @@ class ResourceCollection extends Component {
                             {this._api._resourceFields.map(field =>
                                 field.filter && <th key={`${this.props.field.name}-rc-${field.name}`}>{field.name}</th>
                             )}
-                            <th className={'text-right'}>Actions</th>
+                            {this.resourceInstanceActions.length > 0 &&
+                                <th className={'text-right'}>Actions</th>
+                            }
                         </tr>
                         </thead>
                         <tbody>
                         {this.state.resourceIndexLoading ?
                             <tr>
-                                <td className={'text-center'} colSpan={'3'}>
+                                <td className={'text-center'} colSpan={this._api._resourceFields.length + (this.resourceInstanceActions.length > 0 ? 1 : 0)}>
                                     <div className={'d-flex justify-content-center'}>
                                         <BounceLoader/>
                                     </div>
                                 </td>
                             </tr> :
                             this.state.resourceIndex.map(row =>
-                                <tr key={row.id}>
+                                <tr key={row.id} className={this.state.highlightedId === row.id.toString() ? 'table-primary text-light' : ''}>
                                     {this._api._resourceFields.map(field =>
                                         field.filter &&
                                         <td key={`${field.name}-${row.id}`}>
                                             {get(row, field.name)}
                                         </td>
                                     )}
-                                    <td className={'text-right'}>
-                                        <ButtonGroup size={'xs'}>
-                                            {this.resourceInstanceActions.map(action =>
-                                                <Button key={`action-${row.id}-${action.name}`}
-                                                        onClick={action.callback(row)}
-                                                        color={'primary'}
-                                                >
-                                                    {ucwords(action.name)}
-                                                </Button>
-                                            )}
-                                        </ButtonGroup>
-                                    </td>
+                                    {this.resourceInstanceActions.length > 0 &&
+                                        <td className={'text-right'}>
+                                            <ButtonGroup size={'xs'}>
+                                                {this.resourceInstanceActions.map(action => {
+                                                    const hasDisplayCondition = has(action, 'display_condition');
+                                                    const displayConditionsPassed = [];
+
+                                                    if (hasDisplayCondition) {
+                                                        let displayCondition = get(action, 'display_condition');
+
+                                                        each(displayCondition, (value, field) => {
+                                                            if (field === 'PERMISSION') {
+                                                                return displayConditionsPassed.push(User.can(value));
+                                                            }
+
+                                                            if (value.constructor === Boolean) {
+                                                                return displayConditionsPassed.push(!!get(row, field) === value);
+                                                            }
+
+                                                            if (value.constructor === String || value.constructor === Number) {
+                                                                return displayConditionsPassed.push(get(row, field) === value);
+                                                            }
+
+                                                            if (value.constructor === Array) {
+                                                                return displayConditionsPassed.push(value.includes(get(row, field)));
+                                                            }
+                                                        });
+                                                    }
+
+                                                    if (!hasDisplayCondition || !displayConditionsPassed.includes(false)) {
+                                                        return (
+                                                            <Button key={`action-${row.id}-${action.name}`}
+                                                                    onClick={action.callback(row)}
+                                                                    color={'primary'}
+                                                            >
+                                                                {ucwords(action.name)}
+                                                            </Button>
+                                                        );
+                                                    }
+                                                })}
+                                            </ButtonGroup>
+                                        </td>
+                                    }
                                 </tr>
                             )
                         }
