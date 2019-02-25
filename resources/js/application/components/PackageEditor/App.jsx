@@ -10,6 +10,7 @@ import FormPage from './Forms/FormPage';
 import FormSection from './Forms/FormSection';
 import Tree from "./Tree";
 import AddElement from "./Forms/Elements/AddElement";
+import {Link} from "react-router-dom";
 
 class App extends Component {
     constructor(props) {
@@ -268,12 +269,9 @@ class App extends Component {
                                         />
                                     </CardBody>
                                     <CardFooter>
-                                        <Button size={'xs'}
-                                                color={'primary'}
-                                                onClick={() => {
-                                                    this.props.history.push(`/admin/packages/${this.props.packageId}`)
-                                                }}
-                                        >Back To Package</Button>
+                                        <Link className={'btn btn-xs btn-primary'}
+                                              to={`/admin/packages/${this.props.packageId}`}
+                                        >Back To Package</Link>
                                         <Button size={'xs'}
                                                 color={'primary'}
                                                 className={'float-right'}
