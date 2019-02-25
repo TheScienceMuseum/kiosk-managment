@@ -8,6 +8,7 @@ import {ucwords} from "locutus/php/strings";
 import {each, get, has, keys} from "lodash";
 
 import Field from "../Interface/Instance/Form/Field";
+import {Link} from "react-router-dom";
 
 class ResourceInstance extends Component {
     constructor(props) {
@@ -223,7 +224,9 @@ class ResourceInstance extends Component {
 
                         <FormGroup className={'row mb-0'}>
                             <div className={'offset-sm-2 col-sm-10 d-flex justify-content-between'}>
-                                <Button color={'secondary'} onClick={this.props.history.goBack}>Back</Button>
+                                <Link className={'btn btn-secondary'}
+                                      to={this.props.location.pathname.split('/').slice(0, -1).join('/')}
+                                >Back</Link>
                                 <Button color={'primary'} onClick={this.flush}>Save</Button>
                             </div>
                         </FormGroup>
