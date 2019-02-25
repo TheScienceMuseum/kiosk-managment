@@ -4,22 +4,15 @@ import {CardColumns} from "reactstrap";
 import KioskAuditLog from "../../components/Widgets/Kiosks/AuditLog";
 import UserAuditLog from "../../components/Widgets/Users/AuditLog";
 import PackageAuditLog from "../../components/Widgets/Packages/AuditLog";
+import PackagesPendingApproval from "../../components/Widgets/Packages/PackagesPendingApproval";
 
 class DashboardLayout extends Component {
     render() {
         return (
             <div className={'m-5'}>
                 <CardColumns>
-                    {User.can('view all users') &&
-                        <UserAuditLog/>
-                    }
-
-                    {User.can('view all kiosks') &&
-                        <KioskAuditLog/>
-                    }
-
-                    {User.can('view all packages') &&
-                        <PackageAuditLog/>
+                    {User.can('publish all packages') &&
+                        <PackagesPendingApproval />
                     }
                 </CardColumns>
             </div>
