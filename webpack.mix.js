@@ -15,3 +15,7 @@ mix
     .react('resources/js/app.js', 'public/js')
     .react(['resources/js/onboarding.js'], 'public/js/onboarding.js')
     .sass('resources/sass/app.scss', 'public/css');
+
+if (mix.inProduction()) {
+    mix.version();
+}
