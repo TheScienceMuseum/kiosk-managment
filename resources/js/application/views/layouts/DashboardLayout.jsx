@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {CardColumns} from "reactstrap";
-import KioskAuditLog from "../../components/Widgets/Kiosks/AuditLog";
-import UserAuditLog from "../../components/Widgets/Users/AuditLog";
-import PackageAuditLog from "../../components/Widgets/Packages/AuditLog";
-import PackagesPendingApproval from "../../components/Widgets/Packages/PackagesPendingApproval";
+import PackagesPendingApproval from "../../components/Widgets/PackagesPendingApproval";
+import KiosksWithoutRunningPackages from "../../components/Widgets/KiosksWithoutRunningPackages";
 
 class DashboardLayout extends Component {
     render() {
         return (
             <div className={'m-5'}>
                 <CardColumns>
+                    {User.can('view all kiosks') &&
+                        <KiosksWithoutRunningPackages />
+                    }
                     {User.can('publish all packages') &&
                         <PackagesPendingApproval />
                     }
