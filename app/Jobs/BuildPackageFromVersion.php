@@ -157,20 +157,18 @@ class BuildPackageFromVersion implements ShouldQueue
         $manifest->name = $packageVersion->package->name;
         $manifest->version = $packageVersion->version;
 
-        $manifest->content->titles->image = $this->convertToManifestAsset($manifest->content->titles->image);
-        $manifest->content->titles->attractorImage = $this->convertToManifestAsset($manifest->content->titles->attractorImage);
+        if (!empty($manifest->content->titles->image)) $manifest->content->titles->image = $this->convertToManifestAsset($manifest->content->titles->image);
+        if (!empty($manifest->content->titles->attractor)) $manifest->content->titles->attractor = $this->convertToManifestAsset($manifest->content->titles->attractor);
 
         foreach($manifest->content->contents as $contentIndex => $content) {
             $content->articleID = $packageVersion->version . '-' . $contentIndex;
             if (!empty($content->titleImage)) $content->titleImage = $this->convertToManifestAsset($content->titleImage);
-            if (!empty($content->videoSrc)) $content->videoSrc = $this->convertToManifestAsset($content->videoSrc);
+            if (!empty($content->asset)) $content->asset = $this->convertToManifestAsset($content->asset);
 
             if (!empty($content->subpages)) {
                 foreach($content->subpages as $subpageIndex => $subpage) {
                     $subpage->pageID = $packageVersion->version . '-' . $contentIndex . '-' . $subpageIndex;
-                    if (!empty($subpage->image)) $subpage->image = $this->convertToManifestAsset($subpage->image);
-                    if (!empty($subpage->titleImage)) $subpage->titleImage = $this->convertToManifestAsset($subpage->titleImage);
-                    if (!empty($subpage->videoSrc)) $subpage->videoSrc = $this->convertToManifestAsset($subpage->videoSrc);
+                    if (!empty($subpage->asset)) $subpage->asset = $this->convertToManifestAsset($subpage->asset);
                 }
             }
         }
