@@ -8,6 +8,9 @@ class DashboardLayout extends Component {
         return (
             <div className={'m-5'}>
                 <CardColumns>
+                    {User.can('view all kiosks') &&
+                        <KiosksWithoutRunningPackages />
+                    }
                     {User.can('publish all packages') &&
                         <PackagesPendingApproval />
                     }
