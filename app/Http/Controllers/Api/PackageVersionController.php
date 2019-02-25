@@ -30,8 +30,9 @@ class PackageVersionController extends Controller
         $kiosks = QueryBuilder::for(PackageVersion::class)
             ->orderByDesc('version')
             ->allowedFilters([
-                'version',
+                'progress',
                 'status',
+                'version',
             ]);
 
         if ($package) {
