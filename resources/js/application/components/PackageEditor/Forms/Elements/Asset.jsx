@@ -15,9 +15,8 @@ class Asset extends Component {
             hasSource: true,
             hasCrop: true,
         },
-        attractorImageLandscape: {
+        attractor: {
             aspectRatio: 16 / 9,
-            mimeType: 'image/',
             hasName: false,
             hasSource: false,
             hasCrop: true,

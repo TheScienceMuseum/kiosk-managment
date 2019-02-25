@@ -44,13 +44,13 @@ class FormTitlePage extends Component {
                         />
                 </FormGroup>
                 <FormGroup className={'mb-0'}>
-                    <Label>Attractor Image</Label>
-                        <Asset name={'content.titles.attractorImage'}
-                               value={this.props.data.data.attractorImage}
+                    <Label>Attractor</Label>
+                        <Asset name={'content.titles.attractor'}
+                               value={this.props.data.data.attractor}
                                packageId={this.props.packageId}
                                packageVersionId={this.props.packageVersionId}
                                onChange={this.handleFormChange}
-                               assetType={'attractorImageLandscape'}
+                               assetType={'attractor'}
                         />
                 </FormGroup>
             </div>
