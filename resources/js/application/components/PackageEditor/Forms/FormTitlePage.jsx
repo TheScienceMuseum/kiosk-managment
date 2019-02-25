@@ -3,7 +3,42 @@ import PropTypes from 'prop-types';
 import {FormGroup, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
 
-class FormTitlePage extends Component {
+export default class FormTitlePage extends Component {
+    static propTypes = {
+        packageId: PropTypes.string.isRequired,
+        packageVersionId: PropTypes.string.isRequired,
+        handlePackageDataChange: PropTypes.func.isRequired,
+        data: PropTypes.shape({
+            data: PropTypes.shape({
+                galleryName: PropTypes.string.isRequired,
+                image: PropTypes.oneOfType([
+                    PropTypes.string,
+                    PropTypes.shape({
+                        imageLandscape: PropTypes.string,
+                        imagePortrait: PropTypes.string,
+                        imageSource: PropTypes.string,
+                        imageThumbnail: PropTypes.string,
+                        nameText: PropTypes.string,
+                        sourceText: PropTypes.string,
+                    }),
+                ]),
+                attractorImage: PropTypes.oneOfType([
+                    PropTypes.string,
+                    PropTypes.shape({
+                        imageLandscape: PropTypes.string,
+                        imagePortrait: PropTypes.string,
+                        imageSource: PropTypes.string,
+                        imageThumbnail: PropTypes.string,
+                        nameText: PropTypes.string,
+                        sourceText: PropTypes.string,
+                    }),
+                ]),
+                title: PropTypes.string.isRequired,
+                type: PropTypes.oneOf(["text"]).isRequired,
+            }).isRequired,
+        }).isRequired,
+    };
+
     constructor(props) {
         super(props);
 
@@ -44,53 +79,16 @@ class FormTitlePage extends Component {
                         />
                 </FormGroup>
                 <FormGroup className={'mb-0'}>
-                    <Label>Attractor Image</Label>
-                        <Asset name={'content.titles.attractorImage'}
-                               value={this.props.data.data.attractorImage}
+                    <Label>Attractor</Label>
+                        <Asset name={'content.titles.attractor'}
+                               value={this.props.data.data.attractor}
                                packageId={this.props.packageId}
                                packageVersionId={this.props.packageVersionId}
                                onChange={this.handleFormChange}
-                               assetType={'attractorImageLandscape'}
+                               assetType={'attractor'}
                         />
                 </FormGroup>
             </div>
         );
     }
 }
-
-FormTitlePage.propTypes = {
-    packageId: PropTypes.string.isRequired,
-    packageVersionId: PropTypes.string.isRequired,
-    handlePackageDataChange: PropTypes.func.isRequired,
-    data: PropTypes.shape({
-        data: PropTypes.shape({
-            galleryName: PropTypes.string.isRequired,
-            image: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.shape({
-                    imageLandscape: PropTypes.string,
-                    imagePortrait: PropTypes.string,
-                    imageSource: PropTypes.string,
-                    imageThumbnail: PropTypes.string,
-                    nameText: PropTypes.string,
-                    sourceText: PropTypes.string,
-                }),
-            ]),
-            attractorImage: PropTypes.oneOfType([
-                PropTypes.string,
-                PropTypes.shape({
-                    imageLandscape: PropTypes.string,
-                    imagePortrait: PropTypes.string,
-                    imageSource: PropTypes.string,
-                    imageThumbnail: PropTypes.string,
-                    nameText: PropTypes.string,
-                    sourceText: PropTypes.string,
-                }),
-            ]),
-            title: PropTypes.string.isRequired,
-            type: PropTypes.oneOf(["text"]).isRequired,
-        }).isRequired,
-    }).isRequired,
-};
-
-export default FormTitlePage;
