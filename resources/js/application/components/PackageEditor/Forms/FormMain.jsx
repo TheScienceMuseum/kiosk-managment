@@ -58,6 +58,7 @@ FormMain.propTypes = {
             titles: PropTypes.shape({
                 galleryName: PropTypes.string.isRequired,
                 image: Types.asset,
+                attractor: Types.asset,
                 title: PropTypes.string.isRequired,
                 type: PropTypes.oneOf(["text"]).isRequired,
             }).isRequired,
