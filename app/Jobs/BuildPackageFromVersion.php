@@ -157,8 +157,8 @@ class BuildPackageFromVersion implements ShouldQueue
         $manifest->name = $packageVersion->package->name;
         $manifest->version = $packageVersion->version;
 
-        $manifest->content->titles->image = $this->convertToManifestAsset($manifest->content->titles->image);
-        $manifest->content->titles->attractor = $this->convertToManifestAsset($manifest->content->titles->attractor);
+        if (!empty($manifest->content->titles->image)) $manifest->content->titles->image = $this->convertToManifestAsset($manifest->content->titles->image);
+        if (!empty($manifest->content->titles->attractor)) $manifest->content->titles->attractor = $this->convertToManifestAsset($manifest->content->titles->attractor);
 
         foreach($manifest->content->contents as $contentIndex => $content) {
             $content->articleID = $packageVersion->version . '-' . $contentIndex;
