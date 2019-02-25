@@ -184,21 +184,17 @@ class BuildPackageFromVersion implements ShouldQueue
 
         $titleAsset = Media::find($assetEntry->assetId);
 
-        if ($assetEntry->assetType === 'image') {
-            $assetEntry->imageSource = $this->copyAssetToBuildDir($titleAsset);
-            unset($assetEntry->assetId);
-            unset($assetEntry->assetMime);
-            unset($assetEntry->assetType);
+        $assetEntry->assetSource = $this->copyAssetToBuildDir($titleAsset);
+        unset($assetEntry->assetId);
+        unset($assetEntry->assetMime);
 
-            $imageSize = getimagesize($this->getFullBuildPath().'/'.$assetEntry->imageSource);
+        if ($assetEntry->assetType === 'image') {
+            $imageSize = getimagesize($this->getFullBuildPath().'/'.$assetEntry->assetSource);
             $assetEntry->boundingBox->y = round($assetEntry->boundingBox->y / $imageSize[1], 2);
             $assetEntry->boundingBox->height = round($assetEntry->boundingBox->height / $imageSize[1], 2);
 
             $assetEntry->boundingBox->x = round($assetEntry->boundingBox->x / $imageSize[0], 2);
             $assetEntry->boundingBox->width = round($assetEntry->boundingBox->width / $imageSize[0], 2);
-
-        } else if ($assetEntry->assetType === 'video') {
-            $assetEntry = $this->copyAssetToBuildDir($titleAsset);
         }
 
         return $assetEntry;
