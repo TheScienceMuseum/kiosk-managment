@@ -42,6 +42,7 @@ class KioskController extends Controller
                 'name',
                 'location',
                 'asset_tag',
+                'current_package',
                 Filter::custom('registered', UnregisteredKioskFilter::class)
             ])
             ->jsonPaginate()
