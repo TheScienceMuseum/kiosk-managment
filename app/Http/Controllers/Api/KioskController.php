@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\UnregisteredKioskFilter;
+use App\Filters\UnseenKioskLogErrorFilter;
 use App\Http\Requests\KioskDestroyRequest;
 use App\Http\Requests\KioskHealthCheckRequest;
 use App\Http\Requests\KioskIndexRequest;
@@ -43,7 +44,8 @@ class KioskController extends Controller
                 'location',
                 'asset_tag',
                 'current_package',
-                Filter::custom('registered', UnregisteredKioskFilter::class)
+                Filter::custom('registered', UnregisteredKioskFilter::class),
+                Filter::custom('unseen_errors', UnseenKioskLogErrorFilter::class),
             ])
             ->jsonPaginate()
         ;
