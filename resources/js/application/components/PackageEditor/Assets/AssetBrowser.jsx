@@ -14,7 +14,7 @@ import {
     ModalHeader
 } from "reactstrap";
 import FileUpload from "./FileUpload";
-import {each, get, has} from 'lodash';
+import {each, get} from 'lodash';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class AssetBrowser extends Component {
