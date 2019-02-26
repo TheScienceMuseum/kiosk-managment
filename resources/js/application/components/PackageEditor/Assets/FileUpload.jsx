@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import async from 'async';
-import {Button, Col, CustomInput, InputGroup, Row} from "reactstrap";
+import {Button, CustomInput, InputGroup} from "reactstrap";
 
 class FileUpload extends Component {
     _acceptedFileTypes = {
