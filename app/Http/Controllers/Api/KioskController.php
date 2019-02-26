@@ -78,6 +78,13 @@ class KioskController extends Controller
             ->jsonPaginate()
         ;
 
+        $kioskLogs->each(function (KioskLog $kioskLog) use ($request) {
+            if (! $kioskLog->seen_by_user) {
+                $kioskLog->seen_by_user()->associate($request->user());
+                $kioskLog->save();
+            }
+        });
+
         return KioskLogsResource::collection($kioskLogs);
     }
 
