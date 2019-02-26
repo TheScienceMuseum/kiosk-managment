@@ -81,28 +81,6 @@ class Kiosk extends Model
         ) ? null : $this->attributes['current_package'];
     }
 
-    public function getCurrentlyRunningPackageAttribute()
-    {
-        if ($this->current_package) {
-            $packageData = explode('@', $this->current_package);
-            $packageName = $packageData[0];
-            $packageVersion = $packageData[1];
-
-            $foundVersion = PackageVersion::whereVersion($packageVersion)->whereHas('package', function ($query) use ($packageName) {
-                $query->where('name', '=', $packageName);
-            })->first();
-
-            if ($foundVersion) {
-                $packageName = $foundVersion->package->name;
-                $packageVersion = $foundVersion->version;
-            }
-
-            return $packageName . ' version ' . $packageVersion;
-        }
-
-        return null;
-    }
-
     public function getCurrentPackageVersionAttribute() {
         if ($this->current_package) {
             $packageData = explode('@', $this->current_package);
