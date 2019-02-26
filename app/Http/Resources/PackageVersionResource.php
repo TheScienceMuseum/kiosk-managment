@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class PackageVersionResource extends JsonResource
 {
@@ -24,6 +25,7 @@ class PackageVersionResource extends JsonResource
             'package' => [
                 'id' => $this->package->id,
                 'name' => $this->package->name,
+                'slug' => Str::kebab($this->name),
             ],
             'created_at' => (string) $this->created_at,
             'assets' => PackageVersionAssetResource::collection($this->media),
