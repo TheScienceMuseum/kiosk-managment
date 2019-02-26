@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * App\Kiosk
@@ -107,10 +108,18 @@ class Kiosk extends Model
             $packageData = explode('@', $this->current_package);
             $packageName = $packageData[0];
             $packageVersion = $packageData[1];
+            $foundPackage = null;
 
-            return PackageVersion::whereVersion($packageVersion)->whereHas('package', function ($query) use ($packageName) {
-                $query->where('name', '=', $packageName);
-            })->first();
+            foreach (Package::all() as $package) {
+                if (Str::kebab($package->name) === $packageName) {
+                    $foundPackage = $package;
+                }
+            }
+
+            return empty($foundPackage) ? null : PackageVersion::whereVersion($packageVersion)
+                ->whereHas('package', function ($query) use ($packageName, $foundPackage) {
+                    $query->where('id', '=', $foundPackage->id);
+                })->first();
         }
 
         return null;
