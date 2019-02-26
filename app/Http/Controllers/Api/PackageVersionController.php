@@ -66,7 +66,7 @@ class PackageVersionController extends Controller
                     'titles' => [
                         'type' => 'text',
                         'image' => NULL,
-                        'title' => 'Main title displayed after attractor is clicked',
+                        'title' => $package->name,
                         'galleryName' => 'The Gallery this Kiosk is in',
                         'attractor' => NULL,
                     ],

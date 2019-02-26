@@ -25,7 +25,7 @@ class PackageStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|alpha_num|string|unique:packages,name',
+            'name' => 'required|string|unique:packages,name',
         ];
     }
 }
