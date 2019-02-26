@@ -39,4 +39,9 @@ class KioskLog extends Model
     {
         return $this->belongsTo(Kiosk::class);
     }
+
+    public function seen_by_user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
