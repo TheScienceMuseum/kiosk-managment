@@ -15,7 +15,10 @@ class AlterTableKioskLogsAddSeenByUserIdColumn extends Migration
     {
         Schema::table('kiosk_logs', function (Blueprint $table) {
             $table->unsignedInteger('seen_by_user_id')->nullable();
-            $table->foreign('seen_by_user_id')->references('id')->on('users');
+
+            if (config('database.default') !== 'testing') {
+                $table->foreign('seen_by_user_id')->references('id')->on('users');
+            }
         });
     }
 
@@ -27,7 +30,10 @@ class AlterTableKioskLogsAddSeenByUserIdColumn extends Migration
     public function down()
     {
         Schema::table('kiosk_logs', function (Blueprint $table) {
-            $table->dropForeign('kiosk_logs_seen_by_user_id_foreign');
+            if (config('database.default') !== 'testing') {
+                $table->dropForeign('kiosk_logs_seen_by_user_id_foreign');
+            }
+
             $table->dropColumn('seen_by_user_id');
         });
     }
