@@ -45,7 +45,6 @@ class FormPageMixed extends Component {
                            assetType={'titleImage'}
                     />
                 </FormGroup>
-                {/*{JSON.stringify(this.props.data)}*/}
             </div>
         );
     }
