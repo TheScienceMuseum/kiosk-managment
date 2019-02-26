@@ -6,6 +6,7 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
@@ -80,7 +81,7 @@ class PackageVersion extends Model implements HasMedia
 
     public function getArchivePathAttribute() : string
     {
-        return $this->package->name . '_' . $this->version . '.package';
+        return Str::kebab($this->package->name) . '_' . $this->version . '.package';
     }
 
     public function getArchivePathExistsAttribute() : bool
