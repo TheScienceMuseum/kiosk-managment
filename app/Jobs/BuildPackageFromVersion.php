@@ -13,6 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Spatie\Image\Image;
 use Spatie\MediaLibrary\Models\Media;
 use Symfony\Component\Process\Process;
@@ -154,7 +155,8 @@ class BuildPackageFromVersion implements ShouldQueue
     {
         $manifest = (object) json_decode(json_encode($packageVersion->data));
 
-        $manifest->name = $packageVersion->package->name;
+        $manifest->name = Str::kebab($packageVersion->package->name);
+        $manifest->label = $packageVersion->package->name;
         $manifest->version = $packageVersion->version;
 
         if (!empty($manifest->content->titles->image)) $manifest->content->titles->image = $this->convertToManifestAsset($manifest->content->titles->image);
