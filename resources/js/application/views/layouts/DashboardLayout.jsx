@@ -3,6 +3,7 @@ import {CardColumns} from "reactstrap";
 import PackagesPendingApproval from "../../components/Widgets/PackagesPendingApproval";
 import KiosksWithoutRunningPackages from "../../components/Widgets/KiosksWithoutRunningPackages";
 import KiosksNotRegistered from "../../components/Widgets/KiosksNotRegistered";
+import KiosksWithUnseenErrors from "../../components/Widgets/KiosksWithUnseenErrors";
 
 class DashboardLayout extends Component {
     render() {
@@ -14,6 +15,9 @@ class DashboardLayout extends Component {
                     }
                     {User.can('view all kiosks') &&
                         <KiosksWithoutRunningPackages />
+                    }
+                    {User.can('view all kiosks') &&
+                        <KiosksWithUnseenErrors />
                     }
                     {User.can('publish all packages') &&
                         <PackagesPendingApproval />
