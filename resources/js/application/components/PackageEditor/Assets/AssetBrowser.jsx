@@ -14,7 +14,7 @@ import {
     ModalHeader
 } from "reactstrap";
 import FileUpload from "./FileUpload";
-import {each, get} from 'lodash';
+import {each, get, has} from 'lodash';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class AssetBrowser extends Component {
@@ -120,6 +120,7 @@ class AssetBrowser extends Component {
                     <FileUpload handleAssetUploaded={this.handleAssetUploaded}
                                 packageId={this.props.packageId}
                                 packageVersionId={this.props.packageVersionId}
+                                assetTypes={get(this.props, 'filter.mime_type') ? [get(this.props, 'filter.mime_type').replace('/', '')] : null}
                     />
                 </ModalFooter>
             </Modal>
@@ -134,7 +135,7 @@ AssetBrowser.propTypes = {
     onToggleModal: PropTypes.func.isRequired,
     onAssetChosen: PropTypes.func.isRequired,
     filter: PropTypes.shape({
-        type: PropTypes.string,
+        mime_type: PropTypes.string,
         filename: PropTypes.string,
     })
 };

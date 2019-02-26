@@ -1,9 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import async from 'async';
-import {Button, Col, CustomInput, InputGroup, Row} from "reactstrap";
+import {Button, CustomInput, InputGroup} from "reactstrap";
 
 class FileUpload extends Component {
+    _acceptedFileTypes = {
+        image: ['.jpg', '.jpeg', '.png'],
+        video: ['.mp4'],
+    };
+
     constructor(props) {
         super(props);
 
@@ -54,7 +59,15 @@ class FileUpload extends Component {
         return (
             <div className={'w-100'}>
                 <InputGroup>
-                    <CustomInput id={'assetUploadInput'} type={'file'} onChange={this.chooseFiles} multiple/>
+                    <CustomInput id={'assetUploadInput'}
+                                 type={'file'}
+                                 onChange={this.chooseFiles}
+                                 accept={[].concat(this.props.assetTypes ?
+                                     this.props.assetTypes.map(type => this._acceptedFileTypes[type]) :
+                                     Object.values(this._acceptedFileTypes)
+                                 )}
+                                 multiple
+                    />
                     <Button color="primary" onClick={this.uploadAssets} disabled={!this.state.canUpload}>Upload Asset(s)</Button>
                 </InputGroup>
             </div>
@@ -66,6 +79,7 @@ FileUpload.propTypes = {
     handleAssetUploaded: PropTypes.func.isRequired,
     packageId: PropTypes.string.isRequired,
     packageVersionId: PropTypes.string.isRequired,
+    assetTypes: PropTypes.array,
 };
 
 export default FileUpload;
