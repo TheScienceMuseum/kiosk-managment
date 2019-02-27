@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\PackageVersion;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class PackageResource extends JsonResource
 {
@@ -22,6 +23,7 @@ class PackageResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'slug' => Str::kebab($this->name),
             'versions' => PackageVersionResource::collection($this->versions),
             'kiosks' => KioskResource::collection($this->kiosks),
             'latest_approved_version' => $latest_approved_version ? $latest_approved_version->version : null,
