@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {FormGroup, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
 
-export default class FormTitlePage extends Component {
+export default class FormPackageConfiguration extends Component {
     static propTypes = {
         packageId: PropTypes.string.isRequired,
         packageVersionId: PropTypes.string.isRequired,
@@ -68,16 +68,6 @@ export default class FormTitlePage extends Component {
                                onChange={this.handleBSFormChange}
                         />
                 </FormGroup>
-                <FormGroup>
-                    <Label>Title Image</Label>
-                        <Asset name={'content.titles.image'}
-                               value={this.props.data.data.image}
-                               packageId={this.props.packageId}
-                               packageVersionId={this.props.packageVersionId}
-                               onChange={this.handleFormChange}
-                               assetType={'titleImage'}
-                        />
-                </FormGroup>
                 <FormGroup className={'mb-0'}>
                     <Label>Attractor</Label>
                         <Asset name={'content.titles.attractor'}
@@ -87,6 +77,16 @@ export default class FormTitlePage extends Component {
                                onChange={this.handleFormChange}
                                assetType={'attractor'}
                         />
+                </FormGroup>
+                <FormGroup>
+                    <Label>Title Image</Label>
+                    <Asset name={'content.titles.image'}
+                           value={this.props.data.data.image}
+                           packageId={this.props.packageId}
+                           packageVersionId={this.props.packageVersionId}
+                           onChange={this.handleFormChange}
+                           assetType={'titleImage'}
+                    />
                 </FormGroup>
             </div>
         );

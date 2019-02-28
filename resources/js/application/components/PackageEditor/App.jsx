@@ -5,7 +5,7 @@ import Api from "../../../helpers/Api";
 import {Alert, Button, Card, CardBody, CardFooter, CardHeader, Col, Container, FormGroup, Label, Row} from "reactstrap";
 import {get, set} from 'lodash';
 import FormMain from './Forms/FormMain';
-import FormTitlePage from './Forms/FormTitlePage';
+import FormPackageConfiguration from './Forms/FormPackageConfiguration';
 import FormPage from './Forms/FormPage';
 import FormSection from './Forms/FormSection';
 import Tree from "./Tree";
@@ -77,6 +77,8 @@ class App extends Component {
             packageVersionData,
             packageVersionStatus,
         }));
+
+        this.handleViewElement('title', packageVersionData.content.titles)();
     }
 
     handlePackageDataChange(path, value) {
@@ -213,7 +215,7 @@ class App extends Component {
 
     handleViewElement(type, data, pageIndex = null, sectionIndex = null) {
         return (event) => {
-            event.preventDefault();
+            if (event) { event.preventDefault(); }
 
             this.setState(prevState => {
                 const newState = {...prevState};
@@ -240,15 +242,6 @@ class App extends Component {
                             onElementAdded={this.handleAddedElement}
                             type={this.state.showElementAddModalType}
                 />
-                {/*{! this.state.currentStateFlushed &&*/}
-                {/*<Row>*/}
-                {/*<Col>*/}
-                {/*<Alert color={'warning'} className={'m-0 mt-3 text-center'}>*/}
-                {/*The changes you have made will not be saved if you close or navigate away from this page.*/}
-                {/*</Alert>*/}
-                {/*</Col>*/}
-                {/*</Row>*/}
-                {/*}*/}
                 {this.state.packageVersionData &&
                 <Row>
                     <Col lg={{size: 12}} className={'mt-3'}>
@@ -289,10 +282,10 @@ class App extends Component {
                                             </Alert>
                                         ) || (
                                             (this.state.currentlyViewingPage.type === 'title' &&
-                                                <FormTitlePage data={this.state.currentlyViewingPage}
-                                                               handlePackageDataChange={this.handlePackageDataChange}
-                                                               packageId={this.props.packageId}
-                                                               packageVersionId={this.props.packageVersionId}
+                                                <FormPackageConfiguration data={this.state.currentlyViewingPage}
+                                                                          handlePackageDataChange={this.handlePackageDataChange}
+                                                                          packageId={this.props.packageId}
+                                                                          packageVersionId={this.props.packageVersionId}
                                                 />
                                             ) || (this.state.currentlyViewingPage.type === 'page' &&
                                                 <FormPage data={this.state.currentlyViewingPage}
