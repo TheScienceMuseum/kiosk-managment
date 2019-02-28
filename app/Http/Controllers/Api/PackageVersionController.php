@@ -141,10 +141,6 @@ class PackageVersionController extends Controller
      */
     public function destroy(PackageVersionDestroyRequest $request, Package $package, PackageVersion $packageVersion)
     {
-        $packageVersion->media->each(function (Media $media) {
-            $media->forceDelete();
-        });
-
         $packageVersion->forceDelete();
 
         return response('', 204);
