@@ -26,3 +26,8 @@
 #toast-container > div {
   opacity:1;
 }
+.toast-top-200-width {
+  top: 12px;
+  left: calc(50vw - 100px);
+  width: 200px;
+}

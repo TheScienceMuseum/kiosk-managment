@@ -21,6 +21,7 @@ try {
     window.toastr = require('toastr');
     toastr.options = {
         progressBar: true,
+        positionClass: 'toast-top-200-width',
     };
 } catch (e) {}
 
