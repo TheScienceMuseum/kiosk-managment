@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {CardColumns} from "reactstrap";
-import PackagesPendingApproval from "../../components/Widgets/PackagesPendingApproval";
-import KiosksWithoutRunningPackages from "../../components/Widgets/KiosksWithoutRunningPackages";
-import KiosksNotRegistered from "../../components/Widgets/KiosksNotRegistered";
-import KiosksWithUnseenErrors from "../../components/Widgets/KiosksWithUnseenErrors";
+import PackagesPendingApproval from "../components/Widgets/PackagesPendingApproval";
+import KiosksWithoutRunningPackages from "../components/Widgets/KiosksWithoutRunningPackages";
+import KiosksNotRegistered from "../components/Widgets/KiosksNotRegistered";
+import KiosksWithUnseenErrors from "../components/Widgets/KiosksWithUnseenErrors";
 
-class DashboardLayout extends Component {
+export default class Dashboard extends Component {
     render() {
         return (
             <div className={'m-5'}>
@@ -27,7 +27,3 @@ class DashboardLayout extends Component {
         );
     }
 }
-
-DashboardLayout.propTypes = {};
-
-export default DashboardLayout;
