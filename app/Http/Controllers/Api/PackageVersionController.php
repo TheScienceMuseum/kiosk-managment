@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Events\PackageVersionSubmittedForApproval;
+use App\Http\Requests\PackageVersionDestroyRequest;
 use App\Http\Requests\PackageVersionIndexRequest;
 use App\Http\Requests\PackageVersionSearchAssetRequest;
 use App\Http\Requests\PackageVersionShowRequest;
@@ -130,6 +131,23 @@ class PackageVersionController extends Controller
         }
 
         return new PackageVersionResource($packageVersion);
+    }
+
+    /**
+     * @param PackageVersionDestroyRequest $request
+     * @param Package $package
+     * @param PackageVersion $packageVersion
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function destroy(PackageVersionDestroyRequest $request, Package $package, PackageVersion $packageVersion)
+    {
+        $packageVersion->media->each(function (Media $media) {
+            $media->forceDelete();
+        });
+
+        $packageVersion->forceDelete();
+
+        return response('', 204);
     }
 
     /**
