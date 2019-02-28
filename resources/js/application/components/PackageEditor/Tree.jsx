@@ -23,7 +23,7 @@ class Tree extends Component {
                 </div>
                 <div className="alert alert-primary p-3 mb-0 tree">
                     <div>
-                        Title Page
+                        Package Configuration
                         <Button size={'xs'}
                                 color={'primary'}
                                 className={'float-right'}
