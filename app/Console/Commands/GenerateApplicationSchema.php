@@ -270,8 +270,7 @@ class GenerateApplicationSchema extends Command
                                     "action" => "store",
                                 ],
                                 "post_action" => [
-                                    "resource" => "package",
-                                    "action" => "show",
+                                    "path" => "/editor/{package.id}/version/{id}",
                                 ],
                                 "confirmation" => [
                                     "text" => "Create a new package version? (if there is a current draft version you may want to edit this instead)",

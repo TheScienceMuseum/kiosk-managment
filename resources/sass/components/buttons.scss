@@ -3,3 +3,10 @@
   font-size: 0.7875rem;
   line-height: 1;
 }
+
+.input-group-prepend .btn,
+.input-group-append .btn
+{
+  position: relative;
+  z-index: 0;
+}
