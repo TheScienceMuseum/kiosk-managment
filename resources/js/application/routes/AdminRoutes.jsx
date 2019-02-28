@@ -1,8 +1,17 @@
 import React from 'react';
 import User from '../../helpers/User';
 import Resource from "../components/Resource/Resource";
+import Dashboard from "../views/Dashboard";
 
-const adminRoutes = [];
+const adminRoutes = [{
+    show_in_menu: false,
+    path: "/dashboard",
+    component: (props) => {
+        return (
+            <Dashboard />
+        )
+    },
+}];
 
 if (User.can('view all users')) {
     adminRoutes.push({
