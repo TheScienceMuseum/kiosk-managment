@@ -77,6 +77,8 @@ class App extends Component {
             packageVersionData,
             packageVersionStatus,
         }));
+
+        this.handleViewElement('title', packageVersionData.content.titles)();
     }
 
     handlePackageDataChange(path, value) {
@@ -213,7 +215,7 @@ class App extends Component {
 
     handleViewElement(type, data, pageIndex = null, sectionIndex = null) {
         return (event) => {
-            event.preventDefault();
+            if (event) { event.preventDefault(); }
 
             this.setState(prevState => {
                 const newState = {...prevState};
@@ -240,15 +242,6 @@ class App extends Component {
                             onElementAdded={this.handleAddedElement}
                             type={this.state.showElementAddModalType}
                 />
-                {/*{! this.state.currentStateFlushed &&*/}
-                {/*<Row>*/}
-                {/*<Col>*/}
-                {/*<Alert color={'warning'} className={'m-0 mt-3 text-center'}>*/}
-                {/*The changes you have made will not be saved if you close or navigate away from this page.*/}
-                {/*</Alert>*/}
-                {/*</Col>*/}
-                {/*</Row>*/}
-                {/*}*/}
                 {this.state.packageVersionData &&
                 <Row>
                     <Col lg={{size: 12}} className={'mt-3'}>
