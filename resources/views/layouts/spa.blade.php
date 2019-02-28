@@ -46,6 +46,9 @@
                 permissions: <?php
                     echo json_encode(Auth::user()->getAllPermissions()->map(function ($permission) { return ['name' => $permission->name]; }));
                 ?>,
+                roles: <?php
+                    echo json_encode(Auth::user()->roles->map(function ($role) { return ['name' => $role->name]; }));
+                ?>,
                 name: <?php
                     echo json_encode(Auth::user()->name);
                 ?>,
