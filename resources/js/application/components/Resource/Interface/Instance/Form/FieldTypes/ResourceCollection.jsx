@@ -113,6 +113,10 @@ class ResourceCollection extends Component {
                                                                 return displayConditionsPassed.push(User.can(value));
                                                             }
 
+                                                            if (field === 'ROLE') {
+                                                                return displayConditionsPassed.push(User.can(value));
+                                                            }
+
                                                             if (value.constructor === Boolean) {
                                                                 return displayConditionsPassed.push(!!get(row, field) === value);
                                                             }
