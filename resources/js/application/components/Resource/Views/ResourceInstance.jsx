@@ -9,6 +9,7 @@ import {each, get, has, keys} from "lodash";
 
 import Field from "../Interface/Instance/Form/Field";
 import {Link} from "react-router-dom";
+import DisplayCondition from "../../../../helpers/DisplayCondition";
 
 class ResourceInstance extends Component {
     constructor(props) {
@@ -71,32 +72,7 @@ class ResourceInstance extends Component {
             this.resourceInstanceActions = [];
 
             each(this._api._resourceActions.show.actions, action => {
-                const hasDisplayCondition = has(action, 'display_condition');
-                const displayConditionsPassed = [];
-
-                if (hasDisplayCondition) {
-                    let displayCondition = get(action, 'display_condition');
-
-                    each(displayCondition, (value, field) => {
-                        if (field === 'PERMISSION') {
-                            return displayConditionsPassed.push(User.can(value));
-                        }
-
-                        if (value.constructor === Boolean) {
-                            return displayConditionsPassed.push(!!get(instance, field) === value);
-                        }
-
-                        if (value.constructor === String || value.constructor === Number) {
-                            return displayConditionsPassed.push(get(instance, field) === value);
-                        }
-
-                        if (value.constructor === Array) {
-                            return displayConditionsPassed.push(value.includes(get(instance, field)));
-                        }
-                    });
-                }
-
-                if (!hasDisplayCondition || !displayConditionsPassed.includes(false)) {
+                if (DisplayCondition.passes(action.display_condition, instance)) {
                     this.resourceInstanceActions.push({
                         label: action.label,
                         callback: this._api.action(action, instance, {

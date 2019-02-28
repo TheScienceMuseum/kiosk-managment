@@ -61,4 +61,14 @@ class PackageVersionPolicy
     {
         return $user->can('publish all packages');
     }
+
+    /**
+     * @param User $user
+     * @param PackageVersion $packageVersion
+     * @return bool
+     */
+    public function delete(User $user, PackageVersion $packageVersion)
+    {
+        return $user->can('delete all packages');
+    }
 }

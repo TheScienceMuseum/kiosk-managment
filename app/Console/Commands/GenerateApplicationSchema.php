@@ -244,6 +244,29 @@ class GenerateApplicationSchema extends Command
 //                            "status" => "approved",
 //                        ],
                     ],[
+                        "label" => "Delete",
+                        "action" => [
+                            "resource" => "package_version",
+                            "action" => "delete",
+                        ],
+                        "post_action" => [
+                            "resource" => "package",
+                            "action" => "show",
+                        ],
+                        "display_condition" => [[
+                            "PERMISSION" => "edit all packages",
+                            "status" => "draft",
+                        ],[
+                            "PERMISSION" => "deploy packages to all kiosks",
+                            "status" => ["pending","approved"],
+                            "progress" => "100",
+                        ]],
+                        "confirmation" => [
+                            "text" => "Are you sure you want to delete this version of the package?",
+                            "yes" => "Go ahead",
+                            "no" => "Cancel",
+                        ],
+                    ],[
                         "label" => "Edit",
                         "action" => [
                             "path" => "/editor/{package.id}/version/{id}",
@@ -395,6 +418,10 @@ class GenerateApplicationSchema extends Command
                     ],
                     "update" => [
                         "verb" => "put",
+                        "path" => "/api/package/{package.id}/version/{id}",
+                    ],
+                    "delete" => [
+                        "verb" => "delete",
                         "path" => "/api/package/{package.id}/version/{id}",
                     ],
                 ],

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Button, ButtonGroup, Table} from "reactstrap";
 import Api from "../../../../../../../helpers/Api";
+import DisplayCondition from "../../../../../../../helpers/DisplayCondition";
 import {BounceLoader} from "react-spinners";
 import {each, get, has} from 'lodash';
 import {ucwords} from "locutus/php/strings";
@@ -102,32 +103,7 @@ class ResourceCollection extends Component {
                                         <td className={'text-right'}>
                                             <ButtonGroup size={'xs'}>
                                                 {this.resourceInstanceActions.map(action => {
-                                                    const hasDisplayCondition = has(action, 'display_condition');
-                                                    const displayConditionsPassed = [];
-
-                                                    if (hasDisplayCondition) {
-                                                        let displayCondition = get(action, 'display_condition');
-
-                                                        each(displayCondition, (value, field) => {
-                                                            if (field === 'PERMISSION') {
-                                                                return displayConditionsPassed.push(User.can(value));
-                                                            }
-
-                                                            if (value.constructor === Boolean) {
-                                                                return displayConditionsPassed.push(!!get(row, field) === value);
-                                                            }
-
-                                                            if (value.constructor === String || value.constructor === Number) {
-                                                                return displayConditionsPassed.push(get(row, field) === value);
-                                                            }
-
-                                                            if (value.constructor === Array) {
-                                                                return displayConditionsPassed.push(value.includes(get(row, field)));
-                                                            }
-                                                        });
-                                                    }
-
-                                                    if (!hasDisplayCondition || !displayConditionsPassed.includes(false)) {
+                                                    if (DisplayCondition.passes(action.display_condition, row)) {
                                                         return (
                                                             <Button key={`action-${row.id}-${action.name}`}
                                                                     onClick={action.callback(row)}

@@ -1,9 +1,10 @@
-import _ from 'lodash';
+import {get, includes} from 'lodash';
 
 class User {
     constructor() {
         this.data = window.current_user;
-        this.permissions = this.data ? this.data.permissions.map(permission => permission.name) : [];
+        this.permissions = get(this.data, 'permissions', []).map(permission => get(permission, 'name'));
+        this.roles = get(this.data, 'roles', []).map(role => get(role, 'name'));
     }
 
     authenticated() {
@@ -15,7 +16,11 @@ class User {
     }
 
     can(permission = null) {
-        return _.includes(this.permissions, permission);
+        return includes(this.permissions, permission);
+    }
+
+    is(role = null) {
+        return includes(this.roles, role);
     }
 }
 
