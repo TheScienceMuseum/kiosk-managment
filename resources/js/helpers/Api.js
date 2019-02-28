@@ -86,12 +86,18 @@ class Api {
                         resourceApi.request(action.action.action, params, instance)
                             .then(response => {
                                 if (has(action, 'post_action')) {
-                                    if (this._resourceName === action.post_action.resource) {
-                                        callbacks.requestInstance();
-                                    } else {
+                                    if (has(action, 'post_action.resource')) {
+                                        if (this._resourceName === get(action, 'post_action.resource')) {
+                                            callbacks.requestInstance();
+                                        }
+                                    }
+                                    if (has(action, 'post_action.path')) {
                                         // find the needed route to display the data
                                         callbacks.path(
-                                            `${this.props.location.pathname}/${action.post_action.link_insert}/${response.data.data.id}`
+                                            this.getUrlFromPathAndInstance(
+                                                get(action, 'post_action.path'),
+                                                response.data.data
+                                            )
                                         );
                                     }
                                 }
