@@ -5,7 +5,7 @@ import Api from "../../../helpers/Api";
 import {Alert, Button, Card, CardBody, CardFooter, CardHeader, Col, Container, FormGroup, Label, Row} from "reactstrap";
 import {get, set} from 'lodash';
 import FormMain from './Forms/FormMain';
-import FormTitlePage from './Forms/FormTitlePage';
+import FormPackageConfiguration from './Forms/FormPackageConfiguration';
 import FormPage from './Forms/FormPage';
 import FormSection from './Forms/FormSection';
 import Tree from "./Tree";
@@ -289,10 +289,10 @@ class App extends Component {
                                             </Alert>
                                         ) || (
                                             (this.state.currentlyViewingPage.type === 'title' &&
-                                                <FormTitlePage data={this.state.currentlyViewingPage}
-                                                               handlePackageDataChange={this.handlePackageDataChange}
-                                                               packageId={this.props.packageId}
-                                                               packageVersionId={this.props.packageVersionId}
+                                                <FormPackageConfiguration data={this.state.currentlyViewingPage}
+                                                                          handlePackageDataChange={this.handlePackageDataChange}
+                                                                          packageId={this.props.packageId}
+                                                                          packageVersionId={this.props.packageVersionId}
                                                 />
                                             ) || (this.state.currentlyViewingPage.type === 'page' &&
                                                 <FormPage data={this.state.currentlyViewingPage}

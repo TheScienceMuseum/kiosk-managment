@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {FormGroup, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
 
-export default class FormTitlePage extends Component {
+export default class FormPackageConfiguration extends Component {
     static propTypes = {
         packageId: PropTypes.string.isRequired,
         packageVersionId: PropTypes.string.isRequired,
