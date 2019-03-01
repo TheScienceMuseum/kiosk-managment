@@ -100,13 +100,14 @@ class PackageVersion extends Model implements HasMedia
         return $this->belongsTo(Package::class);
     }
 
-    public function createNewVersion()
+    public function createNewVersion(Package $package = null)
     {
         $newVersion = $this->replicate(['media']);
-        $newVersion->version = $this->version + 1;
+        $newVersion->version = $package ? $package->versions()->count() + 1 : $this->version + 1;
         $newVersion->status = 'draft';
         $newVersion->progress = 0;
         $newVersion->save();
+        $newVersion->package()->associate($package ? $package : $this->package);
 
         $temporaryDirectory = (new TemporaryDirectory())->create();
 
@@ -141,6 +142,7 @@ class PackageVersion extends Model implements HasMedia
 
         $temporaryDirectory->delete();
 
+        $newVersion->save();
         return $newVersion;
     }
 }
