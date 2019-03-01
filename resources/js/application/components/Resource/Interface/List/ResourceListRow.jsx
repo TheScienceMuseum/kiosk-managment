@@ -21,7 +21,6 @@ class ResourceListRow extends Component {
                         label: action.label,
                         callback: (instance) => this._api.action(action, instance, {
                             path: (path) => this.props.history.push(path),
-                            requestInstance: () => { this.requestInstance() },
                             setState: this.setState.bind(this),
                             getState: () => this.state,
                         }),
