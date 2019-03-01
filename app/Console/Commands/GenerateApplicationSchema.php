@@ -311,6 +311,10 @@ class GenerateApplicationSchema extends Command
                         "verb" => "put",
                         "path" => "/api/package/{id}",
                     ],
+                    "duplicate" => [
+                        "verb" => "post",
+                        "path" => "/api/package/{id}",
+                    ],
                 ],
             ],
             "package_versions" => [
