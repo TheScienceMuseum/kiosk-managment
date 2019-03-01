@@ -102,7 +102,7 @@ class PackageVersion extends Model implements HasMedia
 
     public function createNewVersion(Package $package = null)
     {
-        $newVersion = $this->replicate(['media']);
+        $newVersion = $this->replicate(['media', 'kiosks']);
         $newVersion->version = $package ? $package->versions()->count() + 1 : $this->version + 1;
         $newVersion->status = 'draft';
         $newVersion->progress = 0;
