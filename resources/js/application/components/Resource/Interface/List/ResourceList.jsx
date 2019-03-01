@@ -26,6 +26,7 @@ class ResourceList extends Component {
                         </tr>
                 ) || (this.props.resourceIndexList.map(resourceInstance =>
                         <ResourceListRow key={`resource-instance-${resourceInstance.id}`}
+                                         resourceName={this.props.resourceName}
                                          resourceInstance={resourceInstance}
                                          resourceFields={this.props.resourceFields}
                                          resourceInstanceActions={this.props.resourceInstanceActions}
@@ -39,6 +40,7 @@ class ResourceList extends Component {
 }
 
 ResourceList.propTypes = {
+    resourceName: PropTypes.string.isRequired,
     resourceFields: PropTypes.array.isRequired,
     resourceIndexList: PropTypes.array.isRequired,
     resourceIndexLoading: PropTypes.bool.isRequired,

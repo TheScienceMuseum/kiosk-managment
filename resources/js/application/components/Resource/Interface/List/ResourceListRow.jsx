@@ -79,6 +79,7 @@ class ResourceListRow extends Component {
 }
 
 ResourceListRow.propTypes = {
+    resourceName: PropTypes.string.isRequired,
     resourceFields: PropTypes.array.isRequired,
     resourceInstance: PropTypes.object.isRequired,
     resourceInstanceActions: PropTypes.array,

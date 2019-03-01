@@ -175,6 +175,7 @@ class ResourceIndex extends Component {
                               resourceIndexLoading={this.state.resourceIndexLoading}
                               resourceIndexParams={this.state.resourceIndexParams}
                               resourceInstanceActions={this.resourceInstanceActions}
+                              resourceName={this.props.resourceName}
                 />
                 <CardFooter className={'d-flex justify-content-center'}>
                     {this.state.resourceInstanceSelected === null &&
