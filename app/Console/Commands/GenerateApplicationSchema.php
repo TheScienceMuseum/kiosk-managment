@@ -281,6 +281,29 @@ class GenerateApplicationSchema extends Command
                         "verb" => "get",
                         "path" => "/api/package",
                         "pagination" => true,
+                        "actions" => [
+                            [
+                                "label" => "Duplicate",
+                                "action" => [
+                                    "resource" => "package",
+                                    "action" => "duplicate",
+                                ],
+                                "confirmation" => [
+                                    "text" => "You are about to create a new packaged based on <span class='text-dark'>{name}</span>, the most recent version of <span class='text-dark'>{name}</span> will become the first version of this new package.",
+                                    "yes" => "Go ahead",
+                                    "no" => "Cancel",
+                                    "choices" => [[
+                                        "name" => "name",
+                                        "default" => "",
+                                        "help" => "Give a name to your new package.",
+                                        "type" => "text",
+                                    ]],
+                                ],
+                                "post_action" => [
+                                    "path" => "/admin/packages/{id}",
+                                ],
+                            ],
+                        ],
                     ],
                     "show" => [
                         "verb" => "get",
