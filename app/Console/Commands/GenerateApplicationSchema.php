@@ -176,7 +176,7 @@ class GenerateApplicationSchema extends Command
                     "filter" => true,
                     "readonly" => true,
                     "create_with" => true,
-                ],[
+                ], [
                     "name" => "versions",
                     "type" => "resource_collection",
                     "readonly" => true,
@@ -216,7 +216,7 @@ class GenerateApplicationSchema extends Command
                                 "collapse_on_store" => true,
                             ]],
                         ],
-                    ],[
+                    ], [
                         "label" => "Approve",
                         "action" => [
                             "resource" => "package_version",
@@ -243,7 +243,7 @@ class GenerateApplicationSchema extends Command
 //                            "PERMISSION" => "deploy packages to all kiosks",
 //                            "status" => "approved",
 //                        ],
-                    ],[
+                    ], [
                         "label" => "Delete",
                         "action" => [
                             "resource" => "package_version",
@@ -256,9 +256,9 @@ class GenerateApplicationSchema extends Command
                         "display_condition" => [[
                             "PERMISSION" => "edit all packages",
                             "status" => "draft",
-                        ],[
+                        ], [
                             "PERMISSION" => "deploy packages to all kiosks",
-                            "status" => ["pending","approved"],
+                            "status" => ["pending", "approved"],
                             "progress" => "100",
                         ]],
                         "confirmation" => [
@@ -266,7 +266,7 @@ class GenerateApplicationSchema extends Command
                             "yes" => "Go ahead",
                             "no" => "Cancel",
                         ],
-                    ],[
+                    ], [
                         "label" => "Edit",
                         "action" => [
                             "path" => "/editor/{package.id}/version/{id}",
@@ -391,7 +391,7 @@ class GenerateApplicationSchema extends Command
                                     "collapse_on_store" => true,
                                 ]],
                             ],
-                        ],[
+                        ], [
                             "label" => "Approve Package",
                             "action" => [
                                 "resource" => "package_version",
@@ -413,7 +413,7 @@ class GenerateApplicationSchema extends Command
                                 "yes" => "Go ahead",
                                 "no" => "Cancel",
                             ],
-                        ],[
+                        ], [
                             "label" => "View in Package Editor",
                             "action" => [
                                 "path" => "/editor/{package.id}/version/{id}",
