@@ -34,7 +34,7 @@ class ResourceIndex extends Component {
 
         if (this._api.hasAction('show')) {
             this.resourceInstanceActions.push({
-                name: 'View',
+                label: 'View',
                 callback: (instance) => {
                     return () => this.props.history.push(`/admin/${props.resourceName}s/${instance.id}`);
                 },
