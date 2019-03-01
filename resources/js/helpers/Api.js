@@ -50,11 +50,13 @@ class Api {
         return path;
     }
 
-    action(action, instance, callbacks) {
+    action(action, inputInstance, callbacks) {
+        const instance = {...inputInstance};
         return () => {
             if (has(action, 'action.path')) {
                 callbacks.path(this.getUrlFromPathAndInstance(get(action, 'action.path'), instance));
             } else {
+
                 const doRequest = () => {
                     if (this._resourceName === action.action.resource) {
                         const params = {...action.action.params};
@@ -112,19 +114,30 @@ class Api {
                         className: 'modal-lg',
                         message: (
                             <Fragment>
-                                {confirmation.text}
+                                <div dangerouslySetInnerHTML={{__html: this.getUrlFromPathAndInstance(confirmation.text, instance)}} />
                                 {confirmation.choices &&
                                 <div>
                                     <hr />
-                                    {confirmation.choices.map(choice =>
-                                        <Field key={`confirm-${choice.name}`}
-                                               value={instance[choice.name]}
-                                               field={choice}
-                                               handleFieldChange={(field, value) => {
-                                                   instance[field.name] = value.id;
-                                                   console.log(instance);
-                                               }}
-                                        />
+                                    {confirmation.choices.map(choice => {
+                                        instance[choice.name] = get(choice, 'default', instance[choice.name]);
+                                        return (
+                                            <Field key={`confirm-${choice.name}`}
+                                                   value={instance[choice.name]}
+                                                   field={choice}
+                                                   stateful
+                                                   handleFieldChange={(field, value) => {
+                                                       if (value.constructor === String) {
+                                                           return instance[field.name] = value;
+                                                       }
+
+                                                       if (has(value, 'id')) {
+                                                           return instance[field.name] = value.id;
+                                                       }
+                                                   }}
+                                            />
+                                        )
+                                    }
+
                                     )}
                                 </div>
                                 }
