@@ -57,6 +57,27 @@ class Api {
                 callbacks.path(this.getUrlFromPathAndInstance(get(action, 'action.path'), instance));
             } else {
 
+                const postAction = (response) => {
+                    if (has(action, 'post_action')) {
+                        toastr.success(`${action.label} completed`);
+
+                        if (has(action, 'post_action.resource')) {
+                            if (this._resourceName === get(action, 'post_action.resource')) {
+                                callbacks.requestInstance();
+                            }
+                        }
+                        if (has(action, 'post_action.path')) {
+                            // find the needed route to display the data
+                            callbacks.path(
+                                this.getUrlFromPathAndInstance(
+                                    get(action, 'post_action.path'),
+                                    response.data.data
+                                )
+                            );
+                        }
+                    }
+                };
+
                 const doRequest = () => {
                     if (this._resourceName === action.action.resource) {
                         const params = {...action.action.params};
@@ -68,13 +89,7 @@ class Api {
                         }
 
                         this.request(action.action.action, params, instance)
-                            .then(response => {
-                                toastr.success(`${action.label} completed`);
-
-                                if (has(action, 'post_action')) {
-                                    callbacks.requestInstance();
-                                }
-                            });
+                            .then(postAction);
                     } else {
                         const resourceApi = new Api(action.action.resource);
                         const params = {...action.action.params};
@@ -86,24 +101,7 @@ class Api {
                         }
 
                         resourceApi.request(action.action.action, params, instance)
-                            .then(response => {
-                                if (has(action, 'post_action')) {
-                                    if (has(action, 'post_action.resource')) {
-                                        if (this._resourceName === get(action, 'post_action.resource')) {
-                                            callbacks.requestInstance();
-                                        }
-                                    }
-                                    if (has(action, 'post_action.path')) {
-                                        // find the needed route to display the data
-                                        callbacks.path(
-                                            this.getUrlFromPathAndInstance(
-                                                get(action, 'post_action.path'),
-                                                response.data.data
-                                            )
-                                        );
-                                    }
-                                }
-                            })
+                            .then(postAction)
                     }
                 };
 
