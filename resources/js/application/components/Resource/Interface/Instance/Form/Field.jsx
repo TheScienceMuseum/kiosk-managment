@@ -36,6 +36,7 @@ class Field extends Component {
                            isCreate={this.props.isCreate}
                            key={this.props.field.name}
                            location={this.props.location}
+                           stateful={this.props.stateful}
                 />
             );
         }
@@ -89,6 +90,7 @@ Field.propTypes = {
     ]),
     handleFieldChange: PropTypes.func.isRequired,
     isCreate: PropTypes.bool,
+    stateful: PropTypes.bool,
 };
 
 export default Field;
