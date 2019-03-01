@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\PackageDestroyRequest;
+use App\Http\Requests\PackageDuplicateRequest;
 use App\Http\Requests\PackageIndexRequest;
 use App\Http\Requests\PackageShowRequest;
 use App\Http\Requests\PackageStoreRequest;
@@ -67,6 +68,22 @@ class PackageController extends Controller
         $package->update([]);
 
         return new PackageResource($package);
+    }
+
+    /**
+     * @param PackageDuplicateRequest $request
+     * @param Package $package
+     * @return PackageResource
+     */
+    public function duplicate(PackageDuplicateRequest $request, Package $package) : PackageResource
+    {
+        $newPackage = Package::create([
+            'name' => $request->input('name')
+        ]);
+
+        $package->versions->last()->createNewVersion($newPackage);
+
+        return new PackageResource($newPackage);
     }
 
     /**
