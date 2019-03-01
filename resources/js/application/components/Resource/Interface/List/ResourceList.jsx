@@ -20,15 +20,14 @@ class ResourceList extends Component {
                         <tr>
                             <td colSpan={this.props.resourceFields.length + 1} style={{height: '480px'}} className={'align-middle'}>
                                 <div className={'d-flex justify-content-center'}>
-                                    <BounceLoader/>
+                                    <BounceLoader />
                                 </div>
                             </td>
                         </tr>
                 ) || (this.props.resourceIndexList.map(resourceInstance =>
                         <ResourceListRow key={`resource-instance-${resourceInstance.id}`}
                                          resourceInstance={resourceInstance}
-                                         resourceFields={this.props.resourceFields}
-                                         resourceInstanceActions={this.props.resourceInstanceActions}
+                                         {...this.props}
                         />
                     )
                 )}
@@ -39,6 +38,7 @@ class ResourceList extends Component {
 }
 
 ResourceList.propTypes = {
+    resourceName: PropTypes.string.isRequired,
     resourceFields: PropTypes.array.isRequired,
     resourceIndexList: PropTypes.array.isRequired,
     resourceIndexLoading: PropTypes.bool.isRequired,

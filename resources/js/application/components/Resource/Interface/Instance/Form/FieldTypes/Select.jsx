@@ -1,17 +1,29 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {FormGroup, Label} from "reactstrap";
 import ReactSelect from "react-select";
 import Api from "../../../../../../../helpers/Api";
 import {ucwords} from "locutus/php/strings";
 import {each, get, has, keys, last, sortBy} from "lodash";
 
-class Select extends Component {
+export default class Select extends Component {
+    static propTypes = {
+        defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.object]),
+        handleFieldChange: PropTypes.func.isRequired,
+        field: PropTypes.object.isRequired,
+        stateful: PropTypes.bool,
+    };
+
+    static defaultProps = {
+        defaultValue: {label: 'None', value: ''},
+        stateful: false,
+    };
+
     constructor(props) {
         super(props);
 
         this.state = {
             options: props.options ? props.options : [],
+            value: props.defaultValue,
         };
 
         this.handleFieldChange = this.handleFieldChange.bind(this);
@@ -31,6 +43,15 @@ class Select extends Component {
                 value.map(o => this.state.options.find(option => option[id_key] === o.value)) :
                 this.state.options.find(option => option[id_key] === value.value)
         );
+
+        if (this.props.stateful) {
+            this.setState(prevState => ({
+                ...prevState,
+                value: multiple ?
+                    value.map(o => this.state.options.find(option => option[id_key] === o.value)) :
+                    this.state.options.find(option => option[id_key] === value.value)
+            }));
+        }
     }
 
     componentDidMount() {
@@ -138,12 +159,20 @@ class Select extends Component {
             <ReactSelect name={'roles'}
                     onChange={this.handleFieldChange}
                     value={
-                        this.props.defaultValue ?
-                            (
-                                this.props.field.multiple ?
-                                    this.props.defaultValue.map(this.mapOptionToSelect) :
-                                    this.mapOptionToSelect(this.props.defaultValue)
-                            ) : this.mapOptionToSelect("")
+                        this.props.stateful ?
+                            (this.state.value ?
+                                    (
+                                        this.props.field.multiple ?
+                                            this.state.value.map(this.mapOptionToSelect) :
+                                            this.mapOptionToSelect(this.state.value)
+                                    ) : this.mapOptionToSelect("")
+                            ) : (this.props.defaultValue ?
+                                (
+                                    this.props.field.multiple ?
+                                        this.props.defaultValue.map(this.mapOptionToSelect) :
+                                        this.mapOptionToSelect(this.props.defaultValue)
+                                ) : this.mapOptionToSelect("")
+                            )
                     }
                     options={this.state.options.map(this.mapOptionToSelect)}
                     isMulti={this.props.field.multiple}
@@ -183,11 +212,3 @@ class Select extends Component {
         );
     }
 }
-
-Select.propTypes = {
-    defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.object]),
-    handleFieldChange: PropTypes.func.isRequired,
-    field: PropTypes.object.isRequired,
-};
-
-export default Select;

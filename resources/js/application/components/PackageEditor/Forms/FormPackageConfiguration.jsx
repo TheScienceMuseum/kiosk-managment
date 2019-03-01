@@ -68,7 +68,7 @@ export default class FormPackageConfiguration extends Component {
                                onChange={this.handleBSFormChange}
                         />
                 </FormGroup>
-                <FormGroup className={'mb-0'}>
+                <FormGroup>
                     <Label>Attractor</Label>
                         <Asset name={'content.titles.attractor'}
                                value={this.props.data.data.attractor}
@@ -78,7 +78,7 @@ export default class FormPackageConfiguration extends Component {
                                assetType={'attractor'}
                         />
                 </FormGroup>
-                <FormGroup>
+                <FormGroup className={'mb-0'}>
                     <Label>Title Image</Label>
                     <Asset name={'content.titles.image'}
                            value={this.props.data.data.image}

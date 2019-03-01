@@ -3,10 +3,33 @@ import PropTypes from 'prop-types';
 import {Button, ButtonGroup} from "reactstrap";
 import {ucwords} from "locutus/php/strings";
 import moment from "moment";
+import {each, get, has} from "lodash";
+import DisplayCondition from "../../../../../helpers/DisplayCondition";
+import Api from "../../../../../helpers/Api";
 
 class ResourceListRow extends Component {
     constructor(props) {
         super(props);
+
+        this._api = new Api(props.resourceName);
+        this.resourceInstanceActions = [];
+
+        if (has(this._api._resourceActions, 'index.actions')) {
+            each(this._api._resourceActions.index.actions, action => {
+                if (DisplayCondition.passes(get(action, 'display_condition'), this.props.resourceInstance)) {
+                    this.resourceInstanceActions.push({
+                        label: action.label,
+                        callback: (instance) => this._api.action(action, instance, {
+                            path: (path) => this.props.history.push(path),
+                            setState: this.setState.bind(this),
+                            getState: () => this.state,
+                        }),
+                    })
+                }
+            });
+        }
+
+        this.resourceInstanceActions = this.resourceInstanceActions.concat(this.props.resourceInstanceActions);
 
         this.getInstanceValue = this.getInstanceValue.bind(this);
     }
@@ -59,15 +82,15 @@ class ResourceListRow extends Component {
                     </td>
                 )}
 
-                {this.props.resourceInstanceActions.length > 0 &&
+                {this.resourceInstanceActions.length > 0 &&
                     <td className={'text-right'}>
                         <ButtonGroup size={'xs'}>
-                            {this.props.resourceInstanceActions.map(action =>
-                                <Button key={`action-${this.props.resourceInstance.id}-${action.name}`}
+                            {this.resourceInstanceActions.map(action =>
+                                <Button key={`action-${this.props.resourceInstance.id}-${action.label}`}
                                         onClick={action.callback(this.props.resourceInstance)}
                                         color={'primary'}
                                 >
-                                    {ucwords(action.name)}
+                                    {ucwords(action.label)}
                                 </Button>
                             )}
                         </ButtonGroup>
@@ -79,6 +102,7 @@ class ResourceListRow extends Component {
 }
 
 ResourceListRow.propTypes = {
+    resourceName: PropTypes.string.isRequired,
     resourceFields: PropTypes.array.isRequired,
     resourceInstance: PropTypes.object.isRequired,
     resourceInstanceActions: PropTypes.array,

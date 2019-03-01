@@ -51,6 +51,7 @@ Route::name('api.')
                 $router->post('', 'PackageController@store')->name('store');
                 $router->get('{package}', 'PackageController@show')->name('show');
                 $router->put('{package}', 'PackageController@update')->name('update');
+                $router->post('{package}', 'PackageController@duplicate')->name('duplicate');
                 $router->delete('{package}', 'PackageController@destroy')->name('destroy');
 
                 $router->get('{package}/version', 'PackageVersionController@index')->name('version.index');

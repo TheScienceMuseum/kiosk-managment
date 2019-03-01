@@ -1,9 +1,21 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {FormFeedback, InputGroup, InputGroupAddon, InputGroupText} from "reactstrap";
+import {InputGroup, InputGroupText} from "reactstrap";
 import Select from "./Select";
 
-class ResourceInstance extends Component {
+export default class ResourceInstance extends Component {
+    static propTypes = {
+        defaultValue: PropTypes.oneOfType([PropTypes.object]),
+        handleFieldChange: PropTypes.func.isRequired,
+        field: PropTypes.object.isRequired,
+        stateful: PropTypes.bool,
+    };
+
+    static defaultProps = {
+        defaultValue: {label: 'None', value: ''},
+        stateful: false,
+    };
+
     render() {
         return (
             <InputGroup>
@@ -22,17 +34,10 @@ class ResourceInstance extends Component {
                     <Select defaultValue={this.props.defaultValue}
                             field={this.props.field}
                             handleFieldChange={this.props.handleFieldChange}
+                            stateful={this.props.stateful}
                     />
                 )}
             </InputGroup>
         );
     }
 }
-
-ResourceInstance.propTypes = {
-    defaultValue: PropTypes.oneOfType([PropTypes.object]),
-    handleFieldChange: PropTypes.func.isRequired,
-    field: PropTypes.object.isRequired,
-};
-
-export default ResourceInstance;

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Button, ButtonGroup, Card, CardFooter, CardHeader} from "reactstrap";
+import {Button, Card, CardFooter, CardHeader} from "reactstrap";
 import {ucwords} from "locutus/php/strings";
 import queryString from 'query-string';
 
@@ -34,7 +34,7 @@ class ResourceIndex extends Component {
 
         if (this._api.hasAction('show')) {
             this.resourceInstanceActions.push({
-                name: 'View',
+                label: 'View',
                 callback: (instance) => {
                     return () => this.props.history.push(`/admin/${props.resourceName}s/${instance.id}`);
                 },
@@ -175,6 +175,8 @@ class ResourceIndex extends Component {
                               resourceIndexLoading={this.state.resourceIndexLoading}
                               resourceIndexParams={this.state.resourceIndexParams}
                               resourceInstanceActions={this.resourceInstanceActions}
+                              resourceName={this.props.resourceName}
+                              {...this.props}
                 />
                 <CardFooter className={'d-flex justify-content-center'}>
                     {this.state.resourceInstanceSelected === null &&
