@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Button, ButtonGroup, Card, CardFooter, CardHeader} from "reactstrap";
+import {Button, Card, CardFooter, CardHeader} from "reactstrap";
 import {ucwords} from "locutus/php/strings";
 import queryString from 'query-string';
 
