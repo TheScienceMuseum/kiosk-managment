@@ -250,8 +250,7 @@ class GenerateApplicationSchema extends Command
                             "action" => "delete",
                         ],
                         "post_action" => [
-                            "resource" => "package",
-                            "action" => "show",
+                            "refresh" => true,
                         ],
                         "display_condition" => [[
                             "PERMISSION" => "edit all packages",
