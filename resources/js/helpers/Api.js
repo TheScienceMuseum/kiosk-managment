@@ -61,6 +61,10 @@ class Api {
                     if (has(action, 'post_action')) {
                         toastr.success(`${action.label} completed`);
 
+                        if (has(action, 'post_action.refresh') && has(callbacks, 'requestInstance')) {
+                            callbacks.requestInstance();
+                        }
+
                         if (has(action, 'post_action.resource')) {
                             if (this._resourceName === get(action, 'post_action.resource')) {
                                 callbacks.requestInstance();
