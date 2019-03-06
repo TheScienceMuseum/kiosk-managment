@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\HelpTopic;
+use App\Http\Requests\HelpTopicForContextRequest;
 use App\Http\Requests\HelpTopicIndexRequest;
 use App\Http\Requests\HelpTopicShowRequest;
 use App\Http\Requests\HelpTopicUpdateRequest;
@@ -16,6 +17,16 @@ class HelpTopicController extends Controller
      * @return void
      */
     public function index(HelpTopicIndexRequest $request)
+    {
+        //
+    }
+
+    /**
+     * Display a HelpTopic given a contextual URL
+     *
+     * @param HelpTopicForContextRequest $request
+     */
+    public function showByContext(HelpTopicForContextRequest $request)
     {
         //
     }
