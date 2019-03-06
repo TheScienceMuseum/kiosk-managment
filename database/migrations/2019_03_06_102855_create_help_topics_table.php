@@ -15,6 +15,8 @@ class CreateHelpTopicsTable extends Migration
     {
         Schema::create('help_topics', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('context');
+            $table->longText('content');
             $table->timestamps();
         });
     }
