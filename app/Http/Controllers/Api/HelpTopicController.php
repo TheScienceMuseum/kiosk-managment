@@ -3,27 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use App\HelpTopic;
-use Illuminate\Http\Request;
+use App\Http\Requests\HelpTopicIndexRequest;
+use App\Http\Requests\HelpTopicShowRequest;
+use App\Http\Requests\HelpTopicUpdateRequest;
 
 class HelpTopicController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param HelpTopicIndexRequest $request
+     * @return void
      */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function index(HelpTopicIndexRequest $request)
     {
         //
     }
@@ -31,10 +23,11 @@ class HelpTopicController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\HelpTopic  $helpTopic
-     * @return \Illuminate\Http\Response
+     * @param HelpTopicShowRequest $request
+     * @param  \App\HelpTopic $helpTopic
+     * @return void
      */
-    public function show(HelpTopic $helpTopic)
+    public function show(HelpTopicShowRequest $request, HelpTopic $helpTopic)
     {
         //
     }
@@ -42,22 +35,11 @@ class HelpTopicController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\HelpTopic  $helpTopic
-     * @return \Illuminate\Http\Response
+     * @param HelpTopicUpdateRequest $request
+     * @param  \App\HelpTopic $helpTopic
+     * @return void
      */
-    public function update(Request $request, HelpTopic $helpTopic)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\HelpTopic  $helpTopic
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(HelpTopic $helpTopic)
+    public function update(HelpTopicUpdateRequest $request, HelpTopic $helpTopic)
     {
         //
     }
