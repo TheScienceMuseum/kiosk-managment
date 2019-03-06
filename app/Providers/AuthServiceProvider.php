@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\HelpTopic;
 use App\Kiosk;
 use App\Package;
 use App\PackageVersion;
+use App\Policies\HelpTopicPolicy;
 use App\Policies\KioskPolicy;
 use App\Policies\PackagePolicy;
 use App\Policies\PackageVersionPolicy;
@@ -26,6 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         Package::class => PackagePolicy::class,
         PackageVersion::class => PackageVersionPolicy::class,
         User::class => UserPolicy::class,
+        HelpTopic::class => HelpTopicPolicy::class,
     ];
 
     /**

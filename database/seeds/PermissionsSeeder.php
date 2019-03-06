@@ -67,6 +67,13 @@ class PermissionsSeeder extends Seeder
             $perm_view_kiosk_logs,
         ];
 
+        // Help Topic Permissions
+        $perm_edit_all_help_topics = Permission::create(['name' => 'edit all help topics']);
+
+        $perm_group_help_topics = [
+            $perm_edit_all_help_topics,
+        ];
+
         // System Developers get all permissions
         Role::create(['name' => 'developer'])
             ->syncPermissions(Permission::all());
@@ -77,7 +84,8 @@ class PermissionsSeeder extends Seeder
             ->syncPermissions(array_merge(
                 $perm_group_user,
                 $perm_group_package,
-                $perm_group_kiosk
+                $perm_group_kiosk,
+                $perm_group_help_topics
             ))
         ;
 

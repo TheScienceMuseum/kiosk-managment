@@ -62,6 +62,15 @@ Route::name('api.')
                 $router->post('{package}/version/{packageVersion}/asset', 'PackageVersionController@uploadAsset')->name('version.asset.upload');
                 $router->get('{package}/version/{packageVersion}/asset', 'PackageVersionController@searchAsset')->name('version.asset.search');
             });
+
+        $router->name('help.')
+            ->prefix('help')
+            ->group(function (Router $router) {
+                $router->get('', 'HelpTopicController@index')->name('index');
+                $router->get('context', 'HelpTopicController@showByContext')->name('show_context');
+                $router->get('{helpTopic}', 'HelpTopicController@show')->name('show');
+                $router->put('{helpTopic}', 'HelpTopicController@update')->name('update');
+            });
     });
 
 Route::name('api.information')
