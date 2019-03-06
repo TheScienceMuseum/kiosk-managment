@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {NavLink} from "react-router-dom";
+import {Converter} from 'showdown';
+import confirm from "reactstrap-confirm";
 
 export default class Help extends Component {
     static propTypes = {
@@ -19,6 +20,7 @@ export default class Help extends Component {
         };
 
         this.getHelpForContext = this.getHelpForContext.bind(this);
+        this.displayHelp = this.displayHelp.bind(this);
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -26,6 +28,10 @@ export default class Help extends Component {
             return {...prevState, location: nextProps.location};
         }
         return null;
+    }
+
+    componentDidMount() {
+        this.getHelpForContext();
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -45,9 +51,27 @@ export default class Help extends Component {
             });
     }
 
+    displayHelp() {
+        const converter = new Converter();
+        const convertedMarkdown = converter.makeHtml(this.state.content);
+
+        confirm({
+            className: 'modal-lg',
+            title: 'Help',
+            message: (
+                <Fragment>
+                    <div dangerouslySetInnerHTML={{__html: convertedMarkdown}} />
+                </Fragment>
+            ),
+            cancelText: User.can('edit all help topics') ? 'Edit Help Text' : null,
+            confirmText: 'Close',
+        });
+    }
+
     render() {
         return (
             <a className="nav-link"
+               onClick={this.displayHelp}
                style={{
                    cursor: 'pointer',
                }}
