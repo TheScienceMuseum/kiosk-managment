@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link, NavLink} from "react-router-dom";
 
 import logo from '../../images/logo.svg';
+import Help from "./Help";
 
 class SidebarComponent extends Component {
     render() {
@@ -29,6 +30,10 @@ class SidebarComponent extends Component {
                             </NavLink>
                         </li>
                     )}
+
+                    <li>
+                        <Help location={this.props.location} />
+                    </li>
                 </ul>
 
             </nav>

@@ -10,7 +10,7 @@ class AdminLayout extends Component {
     render() {
         return (
             <div className={'wrapper'}>
-                <SidebarComponent routes={AdminRoutes}/>
+                <SidebarComponent routes={AdminRoutes} location={this.props.location}/>
                 <div className={'container-fluid'}>
                     {AdminRoutes.map((prop, key) =>
                         prop.redirect ?
