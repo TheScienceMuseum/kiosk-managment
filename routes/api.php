@@ -68,8 +68,8 @@ Route::name('api.')
             ->group(function (Router $router) {
                 $router->get('', 'HelpTopicController@index')->name('index');
                 $router->get('context', 'HelpTopicController@showByContext')->name('show_context');
-                $router->get('{help}', 'HelpTopicController@show')->name('show');
-                $router->put('{help}', 'HelpTopicController@update')->name('update');
+                $router->get('{helpTopic}', 'HelpTopicController@show')->name('show');
+                $router->put('{helpTopic}', 'HelpTopicController@update')->name('update');
             });
     });
 
