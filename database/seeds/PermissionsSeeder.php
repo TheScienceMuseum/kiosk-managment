@@ -68,7 +68,7 @@ class PermissionsSeeder extends Seeder
         ];
 
         // Help Topic Permissions
-        $perm_edit_all_help_topics = Permission::create(['name' => 'edit all help_topics']);
+        $perm_edit_all_help_topics = Permission::create(['name' => 'edit all help topics']);
 
         $perm_group_help_topics = [
             $perm_edit_all_help_topics,
