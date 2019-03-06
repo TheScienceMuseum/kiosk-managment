@@ -24,7 +24,6 @@ class HelpTopicUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'context' => 'required|string',
             'content' => 'required|string',
         ];
     }

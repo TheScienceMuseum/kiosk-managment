@@ -58,7 +58,6 @@ class HelpTopicController extends Controller
     public function update(HelpTopicUpdateRequest $request, HelpTopic $helpTopic) : HelpTopicResource
     {
         $helpTopic->update([
-            'context' => $request->input('context'),
             'content' => $request->input('content'),
         ]);
 
