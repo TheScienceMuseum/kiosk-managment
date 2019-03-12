@@ -66,6 +66,7 @@ class FileUpload extends Component {
                                      this.props.assetTypes.map(type => this._acceptedFileTypes[type]) :
                                      Object.values(this._acceptedFileTypes)
                                  )}
+                                 label={Array.from(this.state.filesForUpload).map(file => file.name).join(', ')}
                                  multiple
                     />
                     <Button color="primary" onClick={this.uploadAssets} disabled={!this.state.canUpload}>Upload Asset(s)</Button>
