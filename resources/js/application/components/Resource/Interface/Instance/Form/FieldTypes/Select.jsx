@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactSelect from "react-select";
 import Api from "../../../../../../../helpers/Api";
 import {ucwords} from "locutus/php/strings";
-import {each, extend, get, has, keys, last, sortBy} from "lodash";
+import {each, get, has, keys, last, sortBy} from "lodash";
 
 export default class Select extends Component {
     static propTypes = {
