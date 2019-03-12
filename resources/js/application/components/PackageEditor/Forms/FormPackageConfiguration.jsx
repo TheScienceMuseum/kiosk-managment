@@ -69,6 +69,14 @@ export default class FormPackageConfiguration extends Component {
                         />
                 </FormGroup>
                 <FormGroup>
+                    <Label>Gallery Name</Label>
+                    <Input bsSize={'sm'}
+                           name={'content.titles.galleryName'}
+                           value={this.props.data.data.galleryName}
+                           onChange={this.handleBSFormChange}
+                    />
+                </FormGroup>
+                <FormGroup>
                     <Label>Attractor</Label>
                         <Asset name={'content.titles.attractor'}
                                value={this.props.data.data.attractor}
