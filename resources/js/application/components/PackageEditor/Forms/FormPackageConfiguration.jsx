@@ -77,6 +77,15 @@ export default class FormPackageConfiguration extends Component {
                     />
                 </FormGroup>
                 <FormGroup>
+                    <Label>Attractor Screen Display Timeout</Label>
+                    <Input bsSize={'sm'}
+                           name={'content.titles.idleTimeout'}
+                           type={'number'}
+                           value={this.props.data.data.idleTimeout}
+                           onChange={this.handleBSFormChange}
+                    />
+                </FormGroup>
+                <FormGroup>
                     <Label>Attractor</Label>
                         <Asset name={'content.titles.attractor'}
                                value={this.props.data.data.attractor}
