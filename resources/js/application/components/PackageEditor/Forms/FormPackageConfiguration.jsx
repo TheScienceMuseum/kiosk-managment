@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {parseInt} from 'lodash';
 import {FormGroup, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
 
@@ -53,8 +54,15 @@ export default class FormPackageConfiguration extends Component {
     handleBSFormChange(event) {
         const field = event.target.name;
         const value = event.target.value;
+        const type = event.target.type;
 
-        this.props.handlePackageDataChange(field, value);
+        let updateValue = value;
+
+        if (type === 'number') {
+            updateValue = parseInt(value);
+        }
+
+        this.props.handlePackageDataChange(field, updateValue);
     }
 
     render() {
@@ -73,6 +81,15 @@ export default class FormPackageConfiguration extends Component {
                     <Input bsSize={'sm'}
                            name={'content.titles.galleryName'}
                            value={this.props.data.data.galleryName}
+                           onChange={this.handleBSFormChange}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label>Attractor Screen Display Timeout</Label>
+                    <Input bsSize={'sm'}
+                           name={'content.titles.idleTimeout'}
+                           type={'number'}
+                           value={this.props.data.data.idleTimeout}
                            onChange={this.handleBSFormChange}
                     />
                 </FormGroup>
