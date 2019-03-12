@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ReactSelect from "react-select";
 import Api from "../../../../../../../helpers/Api";
 import {ucwords} from "locutus/php/strings";
-import {each, get, has, keys, last, sortBy} from "lodash";
+import {each, extend, get, has, keys, last, sortBy} from "lodash";
 
 export default class Select extends Component {
     static propTypes = {
@@ -114,7 +114,7 @@ export default class Select extends Component {
 
         if (this.props.field.nullable) {
             data.unshift({
-                label: 'None',
+                label: get(this.props, 'field.null_value_label', 'None'),
                 value: '',
             });
         }
@@ -123,8 +123,7 @@ export default class Select extends Component {
     }
 
     mapOptionToSelect(option) {
-        let label = 'none';
-        let value = '';
+        let {label, value} = this.props.defaultValue;
 
         if (JSON.stringify(sortBy(keys(option))) === JSON.stringify(['label', 'value'])) {
             return option;
