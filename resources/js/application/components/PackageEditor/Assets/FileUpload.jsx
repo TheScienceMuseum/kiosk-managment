@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import async from 'async';
+import {truncate} from 'lodash';
 import {Button, CustomInput, InputGroup} from "reactstrap";
 
 class FileUpload extends Component {
@@ -66,7 +67,7 @@ class FileUpload extends Component {
                                      this.props.assetTypes.map(type => this._acceptedFileTypes[type]) :
                                      Object.values(this._acceptedFileTypes)
                                  )}
-                                 label={Array.from(this.state.filesForUpload).map(file => file.name).join(', ')}
+                                 label={truncate(Array.from(this.state.filesForUpload).map(file => file.name).join(', '), {length: 50})}
                                  multiple
                     />
                     <Button color="primary" onClick={this.uploadAssets} disabled={!this.state.canUpload}>Upload Asset(s)</Button>
