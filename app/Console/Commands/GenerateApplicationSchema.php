@@ -205,12 +205,19 @@ class GenerateApplicationSchema extends Command
                             "no" => "Cancel",
                             "choices" => [[
                                 "name" => "approval",
+                                "label" => "Select an approver",
                                 "help" => "Choose a user to review your package.",
                                 "type" => "resource_instance",
                                 "resource" => "user",
                                 "resource_filters" => [
                                     "roles" => ["content editor"],
                                 ],
+                                "default" => [
+                                    "label" => "Not Needed",
+                                    "value" => "",
+                                ],
+                                "nullable" => true,
+                                "null_value_label" => "Not Needed",
                                 "id_key" => ["id"],
                                 "label_key" => ["name", "(", "email", ")"],
                                 "collapse_on_store" => true,
