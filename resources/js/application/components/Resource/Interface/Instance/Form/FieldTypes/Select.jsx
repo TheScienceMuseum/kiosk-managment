@@ -114,7 +114,7 @@ export default class Select extends Component {
 
         if (this.props.field.nullable) {
             data.unshift({
-                label: 'None',
+                label: get(this.props, 'field.null_value_label', 'None'),
                 value: '',
             });
         }
@@ -123,8 +123,7 @@ export default class Select extends Component {
     }
 
     mapOptionToSelect(option) {
-        let label = 'none';
-        let value = '';
+        let {label, value} = this.props.defaultValue;
 
         if (JSON.stringify(sortBy(keys(option))) === JSON.stringify(['label', 'value'])) {
             return option;

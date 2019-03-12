@@ -46,7 +46,9 @@ class Field extends Component {
         return (
             <FormGroup className={'row'}>
                 <Label className={`col-sm-2 col-form-label text-right ${this.largeFields.includes(this.props.field.type) ? 'mt-2' : 'my-auto'}`}>
-                    {ucwords(this.props.field.name.replace(/_at$/, '').replace(/_/g, " "))}
+                    {this.props.field.label ||
+                        ucwords(this.props.field.name.replace(/_at$/, '').replace(/_/g, " "))
+                    }
                 </Label>
                 <div className={'col-sm-10'}>
                     {(this.fieldMappings.hasOwnProperty(this.props.field.type) &&

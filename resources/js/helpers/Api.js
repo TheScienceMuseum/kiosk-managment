@@ -128,6 +128,10 @@ class Api {
                                                    field={choice}
                                                    stateful
                                                    handleFieldChange={(field, value) => {
+                                                       if (!value) {
+                                                           return instance[field.name] = value;
+                                                       }
+
                                                        if (value.constructor === String) {
                                                            return instance[field.name] = value;
                                                        }
