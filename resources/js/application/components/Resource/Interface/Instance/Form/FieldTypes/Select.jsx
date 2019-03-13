@@ -123,7 +123,7 @@ export default class Select extends Component {
     }
 
     mapOptionToSelect(option) {
-        let {label, value} = this.props.defaultValue;
+        let {label, value} = this.props.defaultValue ? this.props.defaultValue : Select.defaultProps.defaultValue;
 
         if (JSON.stringify(sortBy(keys(option))) === JSON.stringify(['label', 'value'])) {
             return option;
