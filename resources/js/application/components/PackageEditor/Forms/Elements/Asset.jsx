@@ -108,6 +108,10 @@ class Asset extends Component {
             }
         }, 200);
 
+        const disableCropper = () => {
+            this.toggleCropper(false);
+        };
+
         let boundingData = {};
 
         if (this.props.value && this.props.value.boundingBox) {
@@ -130,6 +134,9 @@ class Asset extends Component {
             crop(event) {
                 updateBoundingBox(event);
             },
+            ready() {
+                disableCropper();
+            }
         });
     }
 
