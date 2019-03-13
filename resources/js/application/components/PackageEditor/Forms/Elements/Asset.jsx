@@ -58,6 +58,7 @@ class Asset extends Component {
 
         this.state = {
             showAssetBrowser: false,
+            cropperEnabled: false,
         };
 
         this.createCropper = this.createCropper.bind(this);
@@ -66,6 +67,7 @@ class Asset extends Component {
         this.onClearChosenAsset = this.onClearChosenAsset.bind(this);
         this.onToggleAssetBrowser = this.onToggleAssetBrowser.bind(this);
         this.renderChosenAssetText = this.renderChosenAssetText.bind(this);
+        this.toggleCropper = this.toggleCropper.bind(this);
     }
 
     componentDidMount() {
@@ -106,6 +108,10 @@ class Asset extends Component {
             }
         }, 200);
 
+        const disableCropper = () => {
+            this.toggleCropper(false);
+        };
+
         let boundingData = {};
 
         if (this.props.value && this.props.value.boundingBox) {
@@ -128,6 +134,9 @@ class Asset extends Component {
             crop(event) {
                 updateBoundingBox(event);
             },
+            ready() {
+                disableCropper();
+            }
         });
     }
 
@@ -174,6 +183,15 @@ class Asset extends Component {
         return this.props.value ?
             `Chosen` :
             `None`;
+    }
+
+    toggleCropper(action) {
+        this.setState(prevState => ({
+            ...prevState,
+            cropperEnabled: (action !== undefined && action.constructor === Boolean) ? action : !prevState.cropperEnabled,
+        }), () => {
+            this.cropper[this.state.cropperEnabled ? 'enable' : 'disable']();
+        })
     }
 
     render() {
@@ -230,6 +248,14 @@ class Asset extends Component {
                              src={`/asset/${this.props.value.assetId}`}
                              alt={'Cropping Preview of image'}
                         />
+                        <FormGroup>
+                            <Button color={this.state.cropperEnabled ? 'success' : 'primary'}
+                                    onClick={this.toggleCropper}
+                                    size={'sm'}
+                            >
+                                Cropper
+                            </Button>
+                        </FormGroup>
                     </div>
                     }
 
