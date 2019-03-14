@@ -248,6 +248,7 @@ class Asset extends Component {
                              src={`/asset/${this.props.value.assetId}`}
                              alt={'Cropping Preview of image'}
                         />
+                        {this.cropper &&
                         <FormGroup>
                             <Button color={this.state.cropperEnabled ? 'success' : 'primary'}
                                     onClick={this.toggleCropper}
@@ -256,6 +257,7 @@ class Asset extends Component {
                                 Cropper
                             </Button>
                         </FormGroup>
+                        }
                     </div>
                     }
 
