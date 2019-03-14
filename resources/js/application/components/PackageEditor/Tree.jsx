@@ -38,23 +38,43 @@ class Tree extends Component {
                                 <details key={`page-${pageIndex}`}>
                                     <summary>
                                         {page.title && page.title.substring(0, 20)} ({this._types[page.type]})
-                                        <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('page', page, pageIndex)}>
+                                        <Button size={'xs'}
+                                                color={'primary'}
+                                                className={'float-right'}
+                                                onClick={this.props.handleViewElement('page', page, pageIndex)}
+                                        >
                                             <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
                                         </Button>
-                                        <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleAddElement('section', pageIndex)}>
+                                        <Button size={'xs'}
+                                                color={'primary'}
+                                                className={'float-right'}
+                                                onClick={this.props.handleAddElement('section', pageIndex)}
+                                        >
                                             <FontAwesomeIcon icon={['fal', 'plus']}/>
                                         </Button>
-                                        <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleRemoveElement('page', pageIndex)}>
+                                        <Button size={'xs'}
+                                                color={'primary'}
+                                                className={'float-right'}
+                                                onClick={this.props.handleRemoveElement('page', pageIndex)}
+                                        >
                                             <FontAwesomeIcon icon={['fal', 'minus']}/>
                                         </Button>
                                     </summary>
                                     {page.subpages && page.subpages.map((section, sectionIndex) =>
                                         <div key={`page-${pageIndex}-section-${sectionIndex}`}>
                                             {section.title && section.title.substring(0, 20)} ({this._types[section.type]})
-                                            <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('section', section, pageIndex, sectionIndex)}>
+                                            <Button size={'xs'}
+                                                    color={'primary'}
+                                                    className={'float-right'}
+                                                    onClick={this.props.handleViewElement('section', section, pageIndex, sectionIndex)}
+                                            >
                                                 <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
                                             </Button>
-                                            <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleRemoveElement('section', pageIndex, sectionIndex)}>
+                                            <Button size={'xs'}
+                                                    color={'primary'}
+                                                    className={'float-right'}
+                                                    onClick={this.props.handleRemoveElement('section', pageIndex, sectionIndex)}
+                                            >
                                                 <FontAwesomeIcon icon={['fal', 'minus']}/>
                                             </Button>
                                         </div>
@@ -63,10 +83,18 @@ class Tree extends Component {
                             ) || (page.type === 'video' &&
                                 <div key={`page-${pageIndex}`}>
                                     {page.title && page.title.substring(0, 20)} ({this._types[page.type]})
-                                    <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('page', page, pageIndex)}>
+                                    <Button size={'xs'}
+                                            color={'primary'}
+                                            className={'float-right'}
+                                            onClick={this.props.handleViewElement('page', page, pageIndex)}
+                                    >
                                         <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
                                     </Button>
-                                    <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleRemoveElement('page', pageIndex)}>
+                                    <Button size={'xs'}
+                                            color={'primary'}
+                                            className={'float-right'}
+                                            onClick={this.props.handleRemoveElement('page', pageIndex)}
+                                    >
                                         <FontAwesomeIcon icon={['fal', 'minus']}/>
                                     </Button>
                                 </div>
