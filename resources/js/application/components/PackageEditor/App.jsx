@@ -236,7 +236,7 @@ class App extends Component {
 
     render() {
         return (
-            <Container fluid>
+            <Container fluid className={'mb-3'}>
                 <AddElement showModal={this.state.showElementAddModal}
                             onToggleModal={this.handleToggleAddElementModal}
                             onElementAdded={this.handleAddedElement}

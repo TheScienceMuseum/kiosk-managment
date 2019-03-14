@@ -15,7 +15,7 @@ class Tree extends Component {
     render() {
         return (
             <div>
-                <div className={'mb-3 font-weight-bold mx-1'}>
+                <div className={'font-weight-bold mx-1'}>
                     Package Structure
                     <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleAddElement('page', null)}>
                         Add Page
