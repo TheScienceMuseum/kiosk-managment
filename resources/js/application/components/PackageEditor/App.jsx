@@ -34,6 +34,7 @@ class App extends Component {
         this.handleAddElement = this.handleAddElement.bind(this);
         this.handleAddedElement = this.handleAddedElement.bind(this);
         this.handleRemoveElement = this.handleRemoveElement.bind(this);
+        this.handleMoveElement = this.handleMoveElement.bind(this);
         this.handleToggleAddElementModal = this.handleToggleAddElementModal.bind(this);
         this.handleViewElement = this.handleViewElement.bind(this);
         this.setPackageDataState = this.setPackageDataState.bind(this);
@@ -234,6 +235,27 @@ class App extends Component {
         }
     }
 
+    handleMoveElement(direction, type, currentIndex, parent=null) {
+        return (event) => {
+            event.preventDefault();
+            const currentPages = [...this.state.packageVersionData.content.contents];
+            const newIndex = direction === 'down' ? currentIndex + 1 : currentIndex - 1;
+            const heldPages = currentPages.splice(currentIndex, 1);
+            currentPages.splice(newIndex, 0, heldPages[0]);
+
+            this.setState(prevState => ({
+                ...prevState,
+                packageVersionData: {
+                    ...prevState.packageVersionData,
+                    content: {
+                        ...prevState.packageVersionData.content,
+                        contents: [...currentPages],
+                    },
+                },
+            }));
+        }
+    }
+
     render() {
         return (
             <Container fluid className={'mb-3'}>
@@ -259,6 +281,7 @@ class App extends Component {
                                               handleAddElement={this.handleAddElement}
                                               handleRemoveElement={this.handleRemoveElement}
                                               handleViewElement={this.handleViewElement}
+                                              handleMoveElement={this.handleMoveElement}
                                         />
                                     </CardBody>
                                     <CardFooter>

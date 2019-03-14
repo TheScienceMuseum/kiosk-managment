@@ -59,6 +59,24 @@ class Tree extends Component {
                                         >
                                             <FontAwesomeIcon fixedWidth icon={['fal', 'minus']}/>
                                         </Button>
+                                        {pageIndex + 1 < this.props.data.contents.length &&
+                                        <Button size={'xs'}
+                                                color={'primary'}
+                                                className={'float-right'}
+                                                onClick={this.props.handleMoveElement('down', 'page', pageIndex)}
+                                        >
+                                            <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-down']}/>
+                                        </Button>
+                                        }
+                                        {pageIndex > 0 &&
+                                            <Button size={'xs'}
+                                                    color={'primary'}
+                                                    className={'float-right'}
+                                                    onClick={this.props.handleMoveElement('up', 'page', pageIndex)}
+                                            >
+                                                <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-up']}/>
+                                            </Button>
+                                        }
                                     </summary>
                                     {page.subpages && page.subpages.map((section, sectionIndex) =>
                                         <div key={`page-${pageIndex}-section-${sectionIndex}`}>
@@ -97,6 +115,25 @@ class Tree extends Component {
                                     >
                                         <FontAwesomeIcon fixedWidth icon={['fal', 'minus']}/>
                                     </Button>
+                                    {pageIndex + 1 < this.props.data.contents.length &&
+                                    <Button size={'xs'}
+                                            color={'primary'}
+                                            className={'float-right'}
+                                            onClick={this.props.handleMoveElement('down', 'page', pageIndex)}
+                                    >
+                                        <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-down']}/>
+                                    </Button>
+                                    }
+
+                                    {pageIndex > 0 &&
+                                    <Button size={'xs'}
+                                            color={'primary'}
+                                            className={'float-right'}
+                                            onClick={this.props.handleMoveElement('up', 'page', pageIndex)}
+                                    >
+                                        <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-up']}/>
+                                    </Button>
+                                    }
                                 </div>
                             )
                         )}
@@ -111,6 +148,7 @@ Tree.propTypes = {
     handleAddElement: PropTypes.func.isRequired,
     handleRemoveElement: PropTypes.func.isRequired,
     handleViewElement: PropTypes.func.isRequired,
+    handleMoveElement: PropTypes.func.isRequired,
     data: PropTypes.shape({
         titles: PropTypes.shape({
             galleryName: PropTypes.string.isRequired,
