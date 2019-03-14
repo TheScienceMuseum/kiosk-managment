@@ -29,7 +29,7 @@ class Tree extends Component {
                                 className={'float-right'}
                                 onClick={this.props.handleViewElement('title', this.props.data.titles)}
                         >
-                            <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
+                            <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-right']}/>
                         </Button>
                     </div>
                     <div className={'tree-list'}>
@@ -43,21 +43,21 @@ class Tree extends Component {
                                                 className={'float-right'}
                                                 onClick={this.props.handleViewElement('page', page, pageIndex)}
                                         >
-                                            <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
+                                            <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-right']}/>
                                         </Button>
                                         <Button size={'xs'}
                                                 color={'primary'}
                                                 className={'float-right'}
                                                 onClick={this.props.handleAddElement('section', pageIndex)}
                                         >
-                                            <FontAwesomeIcon icon={['fal', 'plus']}/>
+                                            <FontAwesomeIcon fixedWidth icon={['fal', 'plus']}/>
                                         </Button>
                                         <Button size={'xs'}
                                                 color={'primary'}
                                                 className={'float-right'}
                                                 onClick={this.props.handleRemoveElement('page', pageIndex)}
                                         >
-                                            <FontAwesomeIcon icon={['fal', 'minus']}/>
+                                            <FontAwesomeIcon fixedWidth icon={['fal', 'minus']}/>
                                         </Button>
                                     </summary>
                                     {page.subpages && page.subpages.map((section, sectionIndex) =>
@@ -68,14 +68,14 @@ class Tree extends Component {
                                                     className={'float-right'}
                                                     onClick={this.props.handleViewElement('section', section, pageIndex, sectionIndex)}
                                             >
-                                                <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
+                                                <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-right']}/>
                                             </Button>
                                             <Button size={'xs'}
                                                     color={'primary'}
                                                     className={'float-right'}
                                                     onClick={this.props.handleRemoveElement('section', pageIndex, sectionIndex)}
                                             >
-                                                <FontAwesomeIcon icon={['fal', 'minus']}/>
+                                                <FontAwesomeIcon fixedWidth icon={['fal', 'minus']}/>
                                             </Button>
                                         </div>
                                     )}
@@ -88,14 +88,14 @@ class Tree extends Component {
                                             className={'float-right'}
                                             onClick={this.props.handleViewElement('page', page, pageIndex)}
                                     >
-                                        <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
+                                        <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-right']}/>
                                     </Button>
                                     <Button size={'xs'}
                                             color={'primary'}
                                             className={'float-right'}
                                             onClick={this.props.handleRemoveElement('page', pageIndex)}
                                     >
-                                        <FontAwesomeIcon icon={['fal', 'minus']}/>
+                                        <FontAwesomeIcon fixedWidth icon={['fal', 'minus']}/>
                                     </Button>
                                 </div>
                             )
