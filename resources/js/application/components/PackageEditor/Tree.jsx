@@ -37,7 +37,7 @@ class Tree extends Component {
                             (page.type === 'mixed' &&
                                 <details key={`page-${pageIndex}`}>
                                     <summary>
-                                        {page.title && page.title.substring(0, 20)} ({this._types[page.type]})
+                                        {`${page.title} (${this._types[page.type]})`}
                                         <Button size={'xs'}
                                                 color={'primary'}
                                                 className={'float-right'}
@@ -62,7 +62,7 @@ class Tree extends Component {
                                     </summary>
                                     {page.subpages && page.subpages.map((section, sectionIndex) =>
                                         <div key={`page-${pageIndex}-section-${sectionIndex}`}>
-                                            {section.title && section.title.substring(0, 20)} ({this._types[section.type]})
+                                            {`${section.title} (${this._types[section.type]})`}
                                             <Button size={'xs'}
                                                     color={'primary'}
                                                     className={'float-right'}
