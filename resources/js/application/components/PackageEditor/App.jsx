@@ -248,8 +248,6 @@ class App extends Component {
 
                 currentPages[parentIndex].subpages = currentSections;
 
-                console.log(currentPages, currentSections);
-
                 this.setState(prevState => ({
                     ...prevState,
                     packageVersionData: {
