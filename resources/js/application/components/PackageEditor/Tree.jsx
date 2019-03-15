@@ -63,7 +63,7 @@ class Tree extends Component {
                                         <Button size={'xs'}
                                                 color={'primary'}
                                                 className={'float-right'}
-                                                onClick={this.props.handleMoveElement('down', 'page', pageIndex)}
+                                                onClick={this.props.handleMoveElement('down', pageIndex)}
                                         >
                                             <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-down']}/>
                                         </Button>
@@ -72,7 +72,7 @@ class Tree extends Component {
                                             <Button size={'xs'}
                                                     color={'primary'}
                                                     className={'float-right'}
-                                                    onClick={this.props.handleMoveElement('up', 'page', pageIndex)}
+                                                    onClick={this.props.handleMoveElement('up', pageIndex)}
                                             >
                                                 <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-up']}/>
                                             </Button>
@@ -95,6 +95,24 @@ class Tree extends Component {
                                             >
                                                 <FontAwesomeIcon fixedWidth icon={['fal', 'minus']}/>
                                             </Button>
+                                            {sectionIndex + 1 < page.subpages.length &&
+                                            <Button size={'xs'}
+                                                    color={'primary'}
+                                                    className={'float-right'}
+                                                    onClick={this.props.handleMoveElement('down', sectionIndex, pageIndex)}
+                                            >
+                                                <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-down']}/>
+                                            </Button>
+                                            }
+                                            {sectionIndex > 0 &&
+                                            <Button size={'xs'}
+                                                    color={'primary'}
+                                                    className={'float-right'}
+                                                    onClick={this.props.handleMoveElement('up', sectionIndex, pageIndex)}
+                                            >
+                                                <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-up']}/>
+                                            </Button>
+                                            }
                                         </div>
                                     )}
                                 </details>
@@ -119,7 +137,7 @@ class Tree extends Component {
                                     <Button size={'xs'}
                                             color={'primary'}
                                             className={'float-right'}
-                                            onClick={this.props.handleMoveElement('down', 'page', pageIndex)}
+                                            onClick={this.props.handleMoveElement('down', pageIndex)}
                                     >
                                         <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-down']}/>
                                     </Button>
@@ -129,7 +147,7 @@ class Tree extends Component {
                                     <Button size={'xs'}
                                             color={'primary'}
                                             className={'float-right'}
-                                            onClick={this.props.handleMoveElement('up', 'page', pageIndex)}
+                                            onClick={this.props.handleMoveElement('up', pageIndex)}
                                     >
                                         <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-up']}/>
                                     </Button>

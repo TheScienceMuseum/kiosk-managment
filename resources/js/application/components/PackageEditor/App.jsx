@@ -235,24 +235,48 @@ class App extends Component {
         }
     }
 
-    handleMoveElement(direction, type, currentIndex, parent=null) {
+    handleMoveElement(direction, currentIndex, parentIndex=null) {
         return (event) => {
             event.preventDefault();
-            const currentPages = [...this.state.packageVersionData.content.contents];
-            const newIndex = direction === 'down' ? currentIndex + 1 : currentIndex - 1;
-            const heldPages = currentPages.splice(currentIndex, 1);
-            currentPages.splice(newIndex, 0, heldPages[0]);
 
-            this.setState(prevState => ({
-                ...prevState,
-                packageVersionData: {
-                    ...prevState.packageVersionData,
-                    content: {
-                        ...prevState.packageVersionData.content,
-                        contents: [...currentPages],
+            if (parentIndex !== null) {
+                const currentPages = [...this.state.packageVersionData.content.contents];
+                const currentSections = [...this.state.packageVersionData.content.contents[parentIndex].subpages];
+                const newIndex = direction === 'down' ? currentIndex + 1 : currentIndex - 1;
+                const heldSections = currentSections.splice(currentIndex, 1);
+                currentSections.splice(newIndex, 0, heldSections[0]);
+
+                currentPages[parentIndex].subpages = currentSections;
+
+                console.log(currentPages, currentSections);
+
+                this.setState(prevState => ({
+                    ...prevState,
+                    packageVersionData: {
+                        ...prevState.packageVersionData,
+                        content: {
+                            ...prevState.packageVersionData.content,
+                            contents: currentPages,
+                        },
                     },
-                },
-            }));
+                }));
+            } else {
+                const currentPages = [...this.state.packageVersionData.content.contents];
+                const newIndex = direction === 'down' ? currentIndex + 1 : currentIndex - 1;
+                const heldPages = currentPages.splice(currentIndex, 1);
+                currentPages.splice(newIndex, 0, heldPages[0]);
+
+                this.setState(prevState => ({
+                    ...prevState,
+                    packageVersionData: {
+                        ...prevState.packageVersionData,
+                        content: {
+                            ...prevState.packageVersionData.content,
+                            contents: [...currentPages],
+                        },
+                    },
+                }));
+            }
         }
     }
 
