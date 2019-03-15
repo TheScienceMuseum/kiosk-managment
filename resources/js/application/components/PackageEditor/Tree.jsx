@@ -15,7 +15,7 @@ class Tree extends Component {
     render() {
         return (
             <div>
-                <div className={'mb-3 font-weight-bold mx-1'}>
+                <div className={'font-weight-bold mx-1'}>
                     Package Structure
                     <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleAddElement('page', null)}>
                         Add Page
@@ -29,7 +29,7 @@ class Tree extends Component {
                                 className={'float-right'}
                                 onClick={this.props.handleViewElement('title', this.props.data.titles)}
                         >
-                            <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
+                            <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-right']}/>
                         </Button>
                     </div>
                     <div className={'tree-list'}>
@@ -37,38 +37,121 @@ class Tree extends Component {
                             (page.type === 'mixed' &&
                                 <details key={`page-${pageIndex}`}>
                                     <summary>
-                                        {page.title && page.title.substring(0, 20)} ({this._types[page.type]})
-                                        <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('page', page, pageIndex)}>
-                                            <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
+                                        {`${page.title} (${this._types[page.type]})`}
+                                        <Button size={'xs'}
+                                                color={'primary'}
+                                                className={'float-right'}
+                                                onClick={this.props.handleViewElement('page', page, pageIndex)}
+                                        >
+                                            <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-right']}/>
                                         </Button>
-                                        <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleAddElement('section', pageIndex)}>
-                                            <FontAwesomeIcon icon={['fal', 'plus']}/>
+                                        <Button size={'xs'}
+                                                color={'primary'}
+                                                className={'float-right'}
+                                                onClick={this.props.handleAddElement('section', pageIndex)}
+                                        >
+                                            <FontAwesomeIcon fixedWidth icon={['fal', 'plus']}/>
                                         </Button>
-                                        <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleRemoveElement('page', pageIndex)}>
-                                            <FontAwesomeIcon icon={['fal', 'minus']}/>
+                                        <Button size={'xs'}
+                                                color={'primary'}
+                                                className={'float-right'}
+                                                onClick={this.props.handleRemoveElement('page', pageIndex)}
+                                        >
+                                            <FontAwesomeIcon fixedWidth icon={['fal', 'minus']}/>
                                         </Button>
+                                        {pageIndex + 1 < this.props.data.contents.length &&
+                                        <Button size={'xs'}
+                                                color={'primary'}
+                                                className={'float-right'}
+                                                onClick={this.props.handleMoveElement('down', pageIndex)}
+                                        >
+                                            <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-down']}/>
+                                        </Button>
+                                        }
+                                        {pageIndex > 0 &&
+                                            <Button size={'xs'}
+                                                    color={'primary'}
+                                                    className={'float-right'}
+                                                    onClick={this.props.handleMoveElement('up', pageIndex)}
+                                            >
+                                                <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-up']}/>
+                                            </Button>
+                                        }
                                     </summary>
                                     {page.subpages && page.subpages.map((section, sectionIndex) =>
                                         <div key={`page-${pageIndex}-section-${sectionIndex}`}>
-                                            {section.title && section.title.substring(0, 20)} ({this._types[section.type]})
-                                            <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('section', section, pageIndex, sectionIndex)}>
-                                                <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
+                                            {`${section.title} (${this._types[section.type]})`}
+                                            <Button size={'xs'}
+                                                    color={'primary'}
+                                                    className={'float-right'}
+                                                    onClick={this.props.handleViewElement('section', section, pageIndex, sectionIndex)}
+                                            >
+                                                <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-right']}/>
                                             </Button>
-                                            <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleRemoveElement('section', pageIndex, sectionIndex)}>
-                                                <FontAwesomeIcon icon={['fal', 'minus']}/>
+                                            <Button size={'xs'}
+                                                    color={'primary'}
+                                                    className={'float-right'}
+                                                    onClick={this.props.handleRemoveElement('section', pageIndex, sectionIndex)}
+                                            >
+                                                <FontAwesomeIcon fixedWidth icon={['fal', 'minus']}/>
                                             </Button>
+                                            {sectionIndex + 1 < page.subpages.length &&
+                                            <Button size={'xs'}
+                                                    color={'primary'}
+                                                    className={'float-right'}
+                                                    onClick={this.props.handleMoveElement('down', sectionIndex, pageIndex)}
+                                            >
+                                                <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-down']}/>
+                                            </Button>
+                                            }
+                                            {sectionIndex > 0 &&
+                                            <Button size={'xs'}
+                                                    color={'primary'}
+                                                    className={'float-right'}
+                                                    onClick={this.props.handleMoveElement('up', sectionIndex, pageIndex)}
+                                            >
+                                                <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-up']}/>
+                                            </Button>
+                                            }
                                         </div>
                                     )}
                                 </details>
                             ) || (page.type === 'video' &&
                                 <div key={`page-${pageIndex}`}>
                                     {page.title && page.title.substring(0, 20)} ({this._types[page.type]})
-                                    <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleViewElement('page', page, pageIndex)}>
-                                        <FontAwesomeIcon icon={['fal', 'angle-double-right']}/>
+                                    <Button size={'xs'}
+                                            color={'primary'}
+                                            className={'float-right'}
+                                            onClick={this.props.handleViewElement('page', page, pageIndex)}
+                                    >
+                                        <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-right']}/>
                                     </Button>
-                                    <Button size={'xs'} color={'primary'} className={'float-right'} onClick={this.props.handleRemoveElement('page', pageIndex)}>
-                                        <FontAwesomeIcon icon={['fal', 'minus']}/>
+                                    <Button size={'xs'}
+                                            color={'primary'}
+                                            className={'float-right'}
+                                            onClick={this.props.handleRemoveElement('page', pageIndex)}
+                                    >
+                                        <FontAwesomeIcon fixedWidth icon={['fal', 'minus']}/>
                                     </Button>
+                                    {pageIndex + 1 < this.props.data.contents.length &&
+                                    <Button size={'xs'}
+                                            color={'primary'}
+                                            className={'float-right'}
+                                            onClick={this.props.handleMoveElement('down', pageIndex)}
+                                    >
+                                        <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-down']}/>
+                                    </Button>
+                                    }
+
+                                    {pageIndex > 0 &&
+                                    <Button size={'xs'}
+                                            color={'primary'}
+                                            className={'float-right'}
+                                            onClick={this.props.handleMoveElement('up', pageIndex)}
+                                    >
+                                        <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-up']}/>
+                                    </Button>
+                                    }
                                 </div>
                             )
                         )}
@@ -83,6 +166,7 @@ Tree.propTypes = {
     handleAddElement: PropTypes.func.isRequired,
     handleRemoveElement: PropTypes.func.isRequired,
     handleViewElement: PropTypes.func.isRequired,
+    handleMoveElement: PropTypes.func.isRequired,
     data: PropTypes.shape({
         titles: PropTypes.shape({
             galleryName: PropTypes.string.isRequired,

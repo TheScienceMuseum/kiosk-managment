@@ -5,6 +5,8 @@ import * as Sentry from '@sentry/browser';
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {
     faAngleDoubleRight,
+    faAngleDoubleDown,
+    faAngleDoubleUp,
     faBox,
     faDesktopAlt,
     faEye,
@@ -17,7 +19,7 @@ import {
 } from '@fortawesome/pro-light-svg-icons';
 import {faSquare} from '@fortawesome/pro-solid-svg-icons';
 
-library.add(faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight, faPencil, faPlus, faMinus, faSquare, faSyncAlt, faQuestionCircle);
+library.add(faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight, faAngleDoubleDown, faAngleDoubleUp, faPencil, faPlus, faMinus, faSquare, faSyncAlt, faQuestionCircle);
 
 import IndexRoutes from './routes/BaseRoutes';
 
