@@ -4,9 +4,12 @@ namespace App;
 
 use App\Http\Requests\HelpTopicForContextRequest;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class HelpTopic extends Model
+class HelpTopic extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
     protected $fillable = ['content'];
 
     public static function getByRequestUrl(HelpTopicForContextRequest $request)
