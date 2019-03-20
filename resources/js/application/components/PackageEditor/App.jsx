@@ -40,7 +40,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        this.getPackageVersionData();
+        this.getPackageVersionData(true);
     }
 
     flushPackageVersionData() {
@@ -54,17 +54,17 @@ class App extends Component {
         });
     }
 
-    getPackageVersionData() {
+    getPackageVersionData(setPackageDataState = false) {
         this._api.request(
             'show',
             {},
             {id: this.props.packageVersionId, package: {id: this.props.packageId}}
         ).then(response => {
-            this.setPackageDataState(response.data);
+            this.setPackageDataState(response.data, setPackageDataState);
         })
     }
 
-    setPackageDataState(responseData) {
+    setPackageDataState(responseData, openPackageConfig = false) {
         const packageVersionData = responseData.data.package_data;
         const packageVersionStatus = responseData.data.status;
 
@@ -78,7 +78,9 @@ class App extends Component {
             packageVersionStatus,
         }));
 
-        this.handleViewElement('title', packageVersionData.content.titles)();
+        if (openPackageConfig) {
+            this.handleViewElement('title', packageVersionData.content.titles)();
+        }
     }
 
     handlePackageDataChange(path, value) {
