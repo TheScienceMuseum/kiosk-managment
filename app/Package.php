@@ -12,6 +12,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\OwenIt\Auditing\Models\Audit[] $audits
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Kiosk[] $kiosks
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\PackageVersion[] $versions
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Package newModelQuery()

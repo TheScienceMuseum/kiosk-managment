@@ -25,6 +25,7 @@ use Spatie\TemporaryDirectory\TemporaryDirectory;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property array|null $data
  * @property int $progress
+ * @property-read \Illuminate\Database\Eloquent\Collection|\OwenIt\Auditing\Models\Audit[] $audits
  * @property-read mixed $archive_path
  * @property-read mixed $archive_path_exists
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Kiosk[] $kiosks

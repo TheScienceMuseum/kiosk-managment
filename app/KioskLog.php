@@ -14,7 +14,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $timestamp
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $seen_by_user_id
  * @property-read \App\Kiosk $kiosk
+ * @property-read \App\User|null $seen_by_user
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KioskLog newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KioskLog newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KioskLog query()
@@ -23,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KioskLog whereKioskId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KioskLog whereLevel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KioskLog whereMessage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\KioskLog whereSeenByUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KioskLog whereTimestamp($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\KioskLog whereUpdatedAt($value)
  * @mixin \Eloquent

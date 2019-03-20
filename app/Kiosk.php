@@ -23,8 +23,8 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $manually_set_at
  * @property-read \App\PackageVersion|null $assigned_package_version
+ * @property-read \Illuminate\Database\Eloquent\Collection|\OwenIt\Auditing\Models\Audit[] $audits
  * @property-read mixed $current_package_version
- * @property-read mixed $currently_running_package
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\KioskLog[] $logs
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Kiosk newQuery()
