@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import Api from "../../../helpers/Api";
-import {Alert, Button, Card, CardBody, CardFooter, CardHeader, Col, Container, FormGroup, Label, Row} from "reactstrap";
+import {Alert, Button, Card, CardBody, CardFooter, CardHeader, Col, Container, Row} from "reactstrap";
 import {get, set} from 'lodash';
-import FormMain from './Forms/FormMain';
 import FormPackageConfiguration from './Forms/FormPackageConfiguration';
 import FormPage from './Forms/FormPage';
 import FormSection from './Forms/FormSection';
@@ -137,11 +136,10 @@ class App extends Component {
                     type: "mixed",
                 },
                 video: {
-                    image: null,
+                    asset: null,
                     title: "A video page",
                     titleImage: null,
-                    videoSrc: null,
-                }
+                },
             };
 
             this.setState(prevState => {
@@ -169,6 +167,10 @@ class App extends Component {
                     layout: "left",
                     title: "title",
                     type: "image",
+                },
+                video: {
+                    asset: null,
+                    title: "A video page",
                 },
                 textImage: {
                     content: "This text will appear alongside the image",
