@@ -13,6 +13,7 @@ definitions:
     - php artisan passport:keys --force
     artifacts:
     - vendor/**
+    - storage/*.key
 
   build-assets: &build-assets
     name: build frontend assets
