@@ -2,9 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import Api from "../../../helpers/Api";
-import {Alert, Button, Card, CardBody, CardFooter, CardHeader, Col, Container, FormGroup, Label, Row} from "reactstrap";
+import {Alert, Button, Card, CardBody, CardFooter, CardHeader, Col, Container, Row} from "reactstrap";
 import {get, set} from 'lodash';
-import FormMain from './Forms/FormMain';
 import FormPackageConfiguration from './Forms/FormPackageConfiguration';
 import FormPage from './Forms/FormPage';
 import FormSection from './Forms/FormSection';
@@ -41,7 +40,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        this.getPackageVersionData();
+        this.getPackageVersionData(true);
     }
 
     flushPackageVersionData() {
@@ -55,17 +54,17 @@ class App extends Component {
         });
     }
 
-    getPackageVersionData() {
+    getPackageVersionData(setPackageDataState = false) {
         this._api.request(
             'show',
             {},
             {id: this.props.packageVersionId, package: {id: this.props.packageId}}
         ).then(response => {
-            this.setPackageDataState(response.data);
+            this.setPackageDataState(response.data, setPackageDataState);
         })
     }
 
-    setPackageDataState(responseData) {
+    setPackageDataState(responseData, openPackageConfig = false) {
         const packageVersionData = responseData.data.package_data;
         const packageVersionStatus = responseData.data.status;
 
@@ -79,7 +78,9 @@ class App extends Component {
             packageVersionStatus,
         }));
 
-        this.handleViewElement('title', packageVersionData.content.titles)();
+        if (openPackageConfig) {
+            this.handleViewElement('title', packageVersionData.content.titles)();
+        }
     }
 
     handlePackageDataChange(path, value) {
@@ -137,11 +138,10 @@ class App extends Component {
                     type: "mixed",
                 },
                 video: {
-                    image: null,
+                    asset: null,
                     title: "A video page",
                     titleImage: null,
-                    videoSrc: null,
-                }
+                },
             };
 
             this.setState(prevState => {
@@ -169,6 +169,10 @@ class App extends Component {
                     layout: "left",
                     title: "title",
                     type: "image",
+                },
+                video: {
+                    asset: null,
+                    title: "A video page",
                 },
                 textImage: {
                     content: "This text will appear alongside the image",

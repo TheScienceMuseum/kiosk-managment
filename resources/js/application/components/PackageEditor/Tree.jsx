@@ -181,7 +181,7 @@ Tree.propTypes = {
                 pageID: PropTypes.string,
                 subtitle: PropTypes.string,
                 title: PropTypes.string,
-                type: PropTypes.oneOf(["title", "textImage", "image"]),
+                type: PropTypes.oneOf(["title", "textImage", "image", "video"]).isRequired,
                 layout: PropTypes.oneOf(["left", "right"]),
             })),
             title: PropTypes.string,
