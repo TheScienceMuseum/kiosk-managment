@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
@@ -24,6 +25,7 @@ use Spatie\TemporaryDirectory\TemporaryDirectory;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property array|null $data
  * @property int $progress
+ * @property-read \Illuminate\Database\Eloquent\Collection|\OwenIt\Auditing\Models\Audit[] $audits
  * @property-read mixed $archive_path
  * @property-read mixed $archive_path_exists
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Kiosk[] $kiosks
@@ -42,9 +44,9 @@ use Spatie\TemporaryDirectory\TemporaryDirectory;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereVersion($value)
  * @mixin \Eloquent
  */
-class PackageVersion extends Model implements HasMedia
+class PackageVersion extends Model implements HasMedia, Auditable
 {
-    use HasMediaTrait;
+    use \OwenIt\Auditing\Auditable, HasMediaTrait;
 
     protected $fillable = [
         'version',

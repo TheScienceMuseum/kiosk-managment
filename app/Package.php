@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * App\Package
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\OwenIt\Auditing\Models\Audit[] $audits
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Kiosk[] $kiosks
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\PackageVersion[] $versions
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Package newModelQuery()
@@ -22,8 +24,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Package whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Package extends Model
+class Package extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
+
     protected $fillable = ['name'];
 
     /**
