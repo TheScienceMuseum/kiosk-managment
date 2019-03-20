@@ -55,7 +55,7 @@ class UserOnBoardingController extends Controller
 
         $mfaSecret = \MultiFactorAuth::generateSecretKey();
 
-        $qrCode = \MultiFactorAuth::getQRCodeInline(
+        $qrCode = \MultiFactorAuth::getQRCodeUrl(
             config('app.name'),
             $onboarding->user->email,
             $mfaSecret
