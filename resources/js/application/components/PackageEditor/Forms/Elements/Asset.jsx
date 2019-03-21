@@ -221,7 +221,7 @@ class Asset extends Component {
                     <FormGroup className={'mt-3'}>
                         <InputGroup size={'sm'}>
                             <InputGroupAddon addonType="prepend">
-                                Asset Name
+                                Title
                             </InputGroupAddon>
                             <Input value={this.props.value.nameText} name={'nameText'}
                                    onChange={this.handleTextChange}/>
@@ -233,7 +233,7 @@ class Asset extends Component {
                     <FormGroup className={'mb-0'}>
                         <InputGroup size={'sm'}>
                             <InputGroupAddon addonType="prepend">
-                                Source Text
+                                Source
                             </InputGroupAddon>
                             <Input value={this.props.value.sourceText} name={'sourceText'}
                                    onChange={this.handleTextChange}/>
