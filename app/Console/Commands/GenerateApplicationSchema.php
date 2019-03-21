@@ -478,6 +478,10 @@ class GenerateApplicationSchema extends Command
                         "verb" => "delete",
                         "path" => "/api/package/{package.id}/version/{id}",
                     ],
+                    "deploy" => [
+                        "verb" => "post",
+                        "path" => "/api/package/{package.id}/version/{id}/deploy"
+                    ],
                 ],
             ],
             "user" => [

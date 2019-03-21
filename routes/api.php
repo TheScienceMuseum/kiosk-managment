@@ -59,6 +59,7 @@ Route::name('api.')
                 $router->get('{package}/version/{packageVersion}', 'PackageVersionController@show')->name('version.show');
                 $router->put('{package}/version/{packageVersion}', 'PackageVersionController@update')->name('version.update');
                 $router->delete('{package}/version/{packageVersion}', 'PackageVersionController@destroy')->name('version.delete');
+                $router->post('{package}/version/{packageVersion}/deploy', 'PackageVersionController@deploy')->name('version.deploy');
                 $router->post('{package}/version/{packageVersion}/asset', 'PackageVersionController@uploadAsset')->name('version.asset.upload');
                 $router->get('{package}/version/{packageVersion}/asset', 'PackageVersionController@searchAsset')->name('version.asset.search');
             });

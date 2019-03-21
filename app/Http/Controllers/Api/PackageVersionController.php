@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Events\PackageVersionSubmittedForApproval;
+use App\Http\Requests\PackageVersionDeployRequest;
 use App\Http\Requests\PackageVersionDestroyRequest;
 use App\Http\Requests\PackageVersionIndexRequest;
 use App\Http\Requests\PackageVersionSearchAssetRequest;
@@ -11,6 +12,7 @@ use App\Http\Requests\PackageVersionUpdateRequest;
 use App\Http\Requests\PackageVersionUploadAssetRequest;
 use App\Http\Resources\PackageVersionAssetResource;
 use App\Http\Resources\PackageVersionResource;
+use App\Kiosk;
 use App\Package;
 use App\PackageVersion;
 use App\User;
@@ -129,6 +131,24 @@ class PackageVersionController extends Controller
             // The package has been submitted for approval, triggering event
             event(new PackageVersionSubmittedForApproval($packageVersion, User::find($request->input('approval'))));
         }
+
+        return new PackageVersionResource($packageVersion);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param PackageVersionDeployRequest $request
+     * @param Package $package
+     * @param PackageVersion $packageVersion
+     * @return PackageVersionResource
+     */
+    public function deploy(PackageVersionDeployRequest $request, Package $package, PackageVersion $packageVersion): PackageVersionResource
+    {
+        $kiosk = Kiosk::findOrFail($request->input('kiosk'));
+
+        $kiosk->assigned_package_version()->associate($packageVersion);
+        $kiosk->save();
 
         return new PackageVersionResource($packageVersion);
     }
