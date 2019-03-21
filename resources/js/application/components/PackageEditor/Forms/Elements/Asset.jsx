@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Alert, Button, FormGroup, Input, InputGroup, InputGroupAddon} from "reactstrap";
-import {debounce, get, keys} from 'lodash';
+import {debounce, get, has, keys} from 'lodash';
 import Cropper from 'cropperjs';
 import AssetBrowser from "../../Assets/AssetBrowser";
 import Types from '../../PropTypes';
@@ -154,6 +154,7 @@ class Asset extends Component {
             assetId: asset.id,
             assetMime: asset.mime_type,
             assetType: asset.mime_type.indexOf('image/') !== -1 ? 'image' : 'video',
+            assetFilename: asset.file_name,
         };
 
         this.props.onChange(this.props.name, {
@@ -180,8 +181,8 @@ class Asset extends Component {
     }
 
     renderChosenAssetText() {
-        return this.props.value ?
-            `Chosen` :
+        return has(this.props, 'value.assetFilename') ?
+            get(this.props, 'value.assetFilename') :
             `None`;
     }
 
