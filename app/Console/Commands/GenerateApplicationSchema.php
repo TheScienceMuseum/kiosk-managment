@@ -193,8 +193,7 @@ class GenerateApplicationSchema extends Command
                             ],
                         ],
                         "post_action" => [
-                            "resource" => "package",
-                            "action" => "show",
+                            "path" => "/admin/packages/{package.id}",
                         ],
                         "display_condition" => [
                             "status" => "draft",
@@ -233,8 +232,7 @@ class GenerateApplicationSchema extends Command
                             ],
                         ],
                         "post_action" => [
-                            "resource" => "package",
-                            "action" => "show",
+                            "path" => "/admin/packages/{package.id}",
                         ],
                         "display_condition" => [
                             "PERMISSION" => "publish all packages",
