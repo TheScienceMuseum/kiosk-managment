@@ -187,6 +187,7 @@ class BuildPackageFromVersion implements ShouldQueue
         $assetEntry->assetSource = $this->copyAssetToBuildDir($titleAsset);
         unset($assetEntry->assetId);
         unset($assetEntry->assetMime);
+        unset($assetEntry->assetFilename);
 
         if ($assetEntry->assetType === 'image') {
             $imageSize = getimagesize($this->getFullBuildPath().'/'.$assetEntry->assetSource);
