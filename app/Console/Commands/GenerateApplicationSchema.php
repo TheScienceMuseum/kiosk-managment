@@ -193,8 +193,7 @@ class GenerateApplicationSchema extends Command
                             ],
                         ],
                         "post_action" => [
-                            "resource" => "package",
-                            "action" => "show",
+                            "path" => "/admin/packages/{package.id}",
                         ],
                         "display_condition" => [
                             "status" => "draft",
@@ -233,23 +232,45 @@ class GenerateApplicationSchema extends Command
                             ],
                         ],
                         "post_action" => [
-                            "resource" => "package",
-                            "action" => "show",
+                            "path" => "/admin/packages/{package.id}",
                         ],
                         "display_condition" => [
                             "PERMISSION" => "publish all packages",
                             "status" => "pending",
                             "progress" => 100,
                         ],
-//                    ],[
-//                        "label" => "Deploy",
-//                        "action" => [
-//                            "path" => "/editor/{package.id}/version/{id}",
-//                        ],
-//                        "display_condition" => [
-//                            "PERMISSION" => "deploy packages to all kiosks",
-//                            "status" => "approved",
-//                        ],
+                    ],[
+                        "label" => "Deploy",
+                        "action" => [
+                            "resource" => "package_version",
+                            "action" => "deploy",
+                        ],
+                        "display_condition" => [
+                            "PERMISSION" => "deploy packages to all kiosks",
+                            "status" => ["approved", "deployed"],
+                        ],
+                        "confirmation" => [
+                            "text" => "Are you sure you want to deploy this package version to a kiosk?",
+                            "yes" => "Go ahead",
+                            "no" => "Cancel",
+                            "choices" => [[
+                                "name" => "kiosk",
+                                "label" => "Select a Kiosk",
+                                "help" => "Choose a kiosk to deploy your package to.",
+                                "type" => "resource_instance",
+                                "resource" => "kiosk",
+                                "resource_filters" => [
+                                    "registered" => true,
+                                ],
+                                "null_value_label" => "Not Needed",
+                                "id_key" => ["id"],
+                                "label_key" => ["name", "(", "identifier", ")"],
+                                "collapse_on_store" => true,
+                            ]],
+                        ],
+                        "post_action" => [
+                            "path" => "/admin/packages/{package.id}",
+                        ],
                     ], [
                         "label" => "Delete",
                         "action" => [
@@ -477,6 +498,10 @@ class GenerateApplicationSchema extends Command
                     "delete" => [
                         "verb" => "delete",
                         "path" => "/api/package/{package.id}/version/{id}",
+                    ],
+                    "deploy" => [
+                        "verb" => "post",
+                        "path" => "/api/package/{package.id}/version/{id}/deploy"
                     ],
                 ],
             ],
