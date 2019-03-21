@@ -88,6 +88,13 @@ class Api {
 
                         if (has(action, 'confirmation.choices')) {
                             each(get(action, 'confirmation.choices'), choice => {
+                                if (
+                                    get(choice, 'nullable') &&
+                                    JSON.stringify(get(choice, 'default')) === JSON.stringify(instance[choice.name])
+                                ) {
+                                    instance[choice.name] = null;
+                                }
+
                                 params[choice.name] = instance[choice.name];
                             });
                         }
@@ -100,6 +107,13 @@ class Api {
 
                         if (has(action, 'confirmation.choices')) {
                             each(get(action, 'confirmation.choices'), choice => {
+                                if (
+                                    get(choice, 'nullable') &&
+                                    JSON.stringify(get(choice, 'default')) === JSON.stringify(instance[choice.name])
+                                ) {
+                                    instance[choice.name] = null;
+                                }
+
                                 params[choice.name] = instance[choice.name];
                             });
                         }
@@ -139,6 +153,8 @@ class Api {
                                                        if (has(value, 'id')) {
                                                            return instance[field.name] = value.id;
                                                        }
+
+                                                       return instance[field.name] = null;
                                                    }}
                                             />
                                         )
