@@ -49,12 +49,14 @@ class Field extends Component {
     render() {
         return (
             <FormGroup className={'row'}>
+                {this.props.field.label &&
                 <Label className={`col-sm-2 col-form-label text-right ${this.largeFields.includes(this.props.field.type) ? 'mt-2' : 'my-auto'}`}>
                     {this.props.field.label ||
                         ucwords(this.props.field.name.replace(/_at$/, '').replace(/_/g, " "))
                     }
                 </Label>
-                <div className={'col-sm-10'}>
+                }
+                <div className={this.props.field.label ? 'col-sm-10' : 'col-sm-12'}>
                     {(this.fieldMappings.hasOwnProperty(this.props.field.type) &&
                         this.getFieldComponent()
                     ) || (
@@ -76,7 +78,7 @@ class Field extends Component {
                 )}
 
                 {this.props.field.help &&
-                    <FormText className={'offset-sm-2 col-sm-10'}>
+                    <FormText className={this.props.field.label ? 'offset-sm-2 col-sm-10' : 'col-sm-12'}>
                         {this.props.field.help}
                     </FormText>
                 }
