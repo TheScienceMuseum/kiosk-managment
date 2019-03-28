@@ -22,7 +22,7 @@ export default class Select extends Component {
         super(props);
 
         this.state = {
-            options: props.options ? props.options : [],
+            options: props.field.options ? props.field.options : [],
             value: props.defaultValue,
         };
 

@@ -1,8 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import {FormGroup, FormText, Input, Label} from "reactstrap";
-import {ucwords} from "locutus/php/strings";
+import { FormGroup, FormText, Input, Label } from "reactstrap";
+import { ucwords } from 'locutus/php/strings';
 
 import Text from "./FieldTypes/Text";
 import Select from "./FieldTypes/Select";
@@ -11,17 +10,22 @@ import ResourceInstance from "./FieldTypes/ResourceInstance";
 import ResourceCollection from "./FieldTypes/ResourceCollection";
 
 class Field extends Component {
-    fieldMappings = {
-        text: Text,
-        select: Select,
-        time_ago: TimeAgo,
-        resource_instance: ResourceInstance,
-        resource_collection: ResourceCollection,
-    };
+    constructor(props) {
+        super(props);
 
-    largeFields = [
-        'resource_collection',
-    ];
+        this.fieldMappings = {
+            text: Text,
+            select: Select,
+            time_ago: TimeAgo,
+            resource_instance: ResourceInstance,
+            resource_collection: ResourceCollection,
+        };
+
+        this.largeFields = [
+            'resource_collection',
+        ];
+    }
+
 
     getFieldComponent() {
         if (this.fieldMappings.hasOwnProperty(this.props.field.type)) {
@@ -45,12 +49,14 @@ class Field extends Component {
     render() {
         return (
             <FormGroup className={'row'}>
+                {this.props.field.label &&
                 <Label className={`col-sm-2 col-form-label text-right ${this.largeFields.includes(this.props.field.type) ? 'mt-2' : 'my-auto'}`}>
                     {this.props.field.label ||
                         ucwords(this.props.field.name.replace(/_at$/, '').replace(/_/g, " "))
                     }
                 </Label>
-                <div className={'col-sm-10'}>
+                }
+                <div className={this.props.field.label ? 'col-sm-10' : 'col-sm-12'}>
                     {(this.fieldMappings.hasOwnProperty(this.props.field.type) &&
                         this.getFieldComponent()
                     ) || (
@@ -72,7 +78,7 @@ class Field extends Component {
                 )}
 
                 {this.props.field.help &&
-                    <FormText className={'offset-sm-2 col-sm-10'}>
+                    <FormText className={this.props.field.label ? 'offset-sm-2 col-sm-10' : 'col-sm-12'}>
                         {this.props.field.help}
                     </FormText>
                 }

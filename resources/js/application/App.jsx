@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
-import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
+import React, { Component } from 'react';
+import {
+    BrowserRouter, Redirect, Route, Switch,
+} from 'react-router-dom';
 import * as Sentry from '@sentry/browser';
-
-import {library} from '@fortawesome/fontawesome-svg-core'
+import { library } from '@fortawesome/fontawesome-svg-core';
 import {
     faAngleDoubleRight,
     faAngleDoubleDown,
@@ -16,12 +17,12 @@ import {
     faUsers,
     faSyncAlt,
     faQuestionCircle,
+    faDownload,
 } from '@fortawesome/pro-light-svg-icons';
-import {faSquare} from '@fortawesome/pro-solid-svg-icons';
-
-library.add(faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight, faAngleDoubleDown, faAngleDoubleUp, faPencil, faPlus, faMinus, faSquare, faSyncAlt, faQuestionCircle);
-
+import { faSquare } from '@fortawesome/pro-solid-svg-icons';
 import IndexRoutes from './routes/BaseRoutes';
+
+library.add(faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight, faAngleDoubleDown, faAngleDoubleUp, faPencil, faPlus, faMinus, faSquare, faSyncAlt, faQuestionCircle, faDownload);
 
 if (window.env !== 'local') {
     Sentry.init({
@@ -32,14 +33,14 @@ if (window.env !== 'local') {
 export default class App extends Component {
     constructor(props) {
         super(props);
-        this.state = {error: null};
+        this.state = { error: null };
     }
 
     componentDidCatch(error, errorInfo) {
         if (window.env !== 'local') {
-            this.setState({error});
-            Sentry.withScope(scope => {
-                Object.keys(errorInfo).forEach(key => {
+            this.setState({ error });
+            Sentry.withScope((scope) => {
+                Object.keys(errorInfo).forEach((key) => {
                     scope.setExtra(key, errorInfo[key]);
                 });
                 Sentry.captureException(error);
@@ -48,17 +49,17 @@ export default class App extends Component {
     }
 
     render() {
+        const { error } = this.state;
+
         return (
             <BrowserRouter>
                 <Switch>
-                    {this.state.error &&
-                        Sentry.showReportDialog()
+                    {error
+                        && Sentry.showReportDialog()
                     }
-                    {IndexRoutes.map((prop, key) =>
-                        prop.redirect ?
-                            <Redirect from={prop.path} to={prop.pathTo} key={`routes-redirect-${key}`}/> :
-                            <Route path={prop.path} component={prop.component} key={`routes-path-${key}`}/>
-                    )}
+                    {IndexRoutes.map((prop, key) => (prop.redirect
+                        ? <Redirect from={prop.path} to={prop.pathTo} key={`routes-redirect-${key}`} />
+                        : <Route path={prop.path} component={prop.component} key={`routes-path-${key}`} />))}
                 </Switch>
             </BrowserRouter>
         );
