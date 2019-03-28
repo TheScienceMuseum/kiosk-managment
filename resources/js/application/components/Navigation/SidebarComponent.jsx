@@ -34,6 +34,7 @@ class SidebarComponent extends Component {
                         ))}
                 </ul>
 
+                <ul className="list-unstyled menu-bottom">
                     <li>
                         <Help location={this.props.location} />
                     </li>
