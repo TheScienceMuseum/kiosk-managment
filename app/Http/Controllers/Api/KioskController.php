@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\ClientOutdatedKioskFilter;
 use App\Filters\UnregisteredKioskFilter;
 use App\Filters\UnseenKioskLogErrorFilter;
 use App\Http\Requests\KioskDestroyRequest;
@@ -46,6 +47,7 @@ class KioskController extends Controller
                 'current_package',
                 Filter::custom('registered', UnregisteredKioskFilter::class),
                 Filter::custom('unseen_errors', UnseenKioskLogErrorFilter::class),
+                Filter::custom('client_outdated', ClientOutdatedKioskFilter::class),
             ])
             ->jsonPaginate()
         ;
