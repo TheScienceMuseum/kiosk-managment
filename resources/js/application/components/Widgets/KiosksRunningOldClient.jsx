@@ -5,7 +5,7 @@ import {
 import { Link } from 'react-router-dom';
 import { BounceLoader } from 'react-spinners';
 
-export default class KiosksWithoutRunningPackages extends Component {
+export default class KiosksRunningOldClient extends Component {
     constructor(props) {
         super(props);
 
