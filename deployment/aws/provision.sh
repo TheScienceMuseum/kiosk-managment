@@ -101,3 +101,6 @@ sudo service nginx restart
 
 # Ensure sentry cli is installed
 curl -sL https://sentry.io/get-cli/ | bash
+
+# Ensure laravel scheduled commands run under www-data
+sudo -u www-data -- sh -c '(crontab -l ; echo "* * * * * cd /var/www/kiosk_manager && php artisan schedule:run >> /dev/null 2>&1") | sort - | uniq - | crontab -'
