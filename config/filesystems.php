@@ -68,6 +68,15 @@ return [
             'url' => env('FILESYSTEM_ASSETS_STORAGE_URL'),
         ],
 
+        'backups' => [
+            'driver' => 's3',
+            'key' => env('FILESYSTEM_BACKUP_KEY'),
+            'secret' => env('FILESYSTEM_BACKUP_SECRET'),
+            'region' => env('FILESYSTEM_BACKUP_REGION'),
+            'bucket' => env('FILESYSTEM_BACKUP_BUCKET'),
+            'url' => env('FILESYSTEM_BACKUP_URL'),
+        ],
+
         'builds' => [
             'driver' => 's3',
             'key' => env('FILESYSTEM_BUILD_STORAGE_KEY'),

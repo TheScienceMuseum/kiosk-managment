@@ -53,6 +53,11 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
+            'dump' => [
+                'dump_binary_path' => '/usr/bin',
+                'use_single_transaction',
+                'timeout' => 60 * 5,
+            ]
         ],
 
         'pgsql' => [
