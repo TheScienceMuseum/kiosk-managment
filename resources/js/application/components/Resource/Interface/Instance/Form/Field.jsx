@@ -1,8 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import {FormGroup, FormText, Input, Label} from "reactstrap";
-import {ucwords} from "locutus/php/strings";
+import { FormGroup, FormText, Input, Label } from "reactstrap";
+import { ucwords } from 'locutus/php/strings';
 
 import Text from "./FieldTypes/Text";
 import Select from "./FieldTypes/Select";
@@ -11,17 +10,22 @@ import ResourceInstance from "./FieldTypes/ResourceInstance";
 import ResourceCollection from "./FieldTypes/ResourceCollection";
 
 class Field extends Component {
-    fieldMappings = {
-        text: Text,
-        select: Select,
-        time_ago: TimeAgo,
-        resource_instance: ResourceInstance,
-        resource_collection: ResourceCollection,
-    };
+    constructor(props) {
+        super(props);
 
-    largeFields = [
-        'resource_collection',
-    ];
+        this.fieldMappings = {
+            text: Text,
+            select: Select,
+            time_ago: TimeAgo,
+            resource_instance: ResourceInstance,
+            resource_collection: ResourceCollection,
+        };
+
+        this.largeFields = [
+            'resource_collection',
+        ];
+    }
+
 
     getFieldComponent() {
         if (this.fieldMappings.hasOwnProperty(this.props.field.type)) {
