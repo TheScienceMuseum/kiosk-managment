@@ -255,7 +255,7 @@ class Asset extends Component {
                                     onClick={this.toggleCropper}
                                     size={'sm'}
                             >
-                                Cropper
+                                Change the image crop
                             </Button>
                         </FormGroup>
                         }
