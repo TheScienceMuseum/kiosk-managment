@@ -17,11 +17,12 @@ import {
     faUsers,
     faSyncAlt,
     faQuestionCircle,
+    faDownload,
 } from '@fortawesome/pro-light-svg-icons';
 import { faSquare } from '@fortawesome/pro-solid-svg-icons';
 import IndexRoutes from './routes/BaseRoutes';
 
-library.add(faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight, faAngleDoubleDown, faAngleDoubleUp, faPencil, faPlus, faMinus, faSquare, faSyncAlt, faQuestionCircle);
+library.add(faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight, faAngleDoubleDown, faAngleDoubleUp, faPencil, faPlus, faMinus, faSquare, faSyncAlt, faQuestionCircle, faDownload);
 
 if (window.env !== 'local') {
     Sentry.init({
