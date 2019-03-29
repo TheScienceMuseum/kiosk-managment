@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {parseInt} from 'lodash';
-import {FormGroup, Input, Label} from "reactstrap";
+import {FormGroup, FormText, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
 
 export default class FormPackageConfiguration extends Component {
@@ -94,7 +94,12 @@ export default class FormPackageConfiguration extends Component {
                     />
                 </FormGroup>
                 <FormGroup>
-                    <Label>Attractor</Label>
+                    <Label>
+                        Attractor
+                        <FormText color="muted">
+                            Note: Any audio used in the attractor will be muted when played on the kiosk.
+                        </FormText>
+                    </Label>
                     <Asset name={'content.titles.attractor'}
                            value={this.props.data.data.attractor}
                            packageId={this.props.packageId}
