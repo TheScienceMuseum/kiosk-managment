@@ -76,7 +76,7 @@ Route::name('api.')
         $router->name('site.')
             ->prefix('site')
             ->group(function (Router $router) {
-                $router->get('site', 'SiteController@index')->name('index');
+                $router->get('', 'SiteController@index')->name('index');
             });
     });
 
