@@ -95,13 +95,13 @@ export default class FormPackageConfiguration extends Component {
                 </FormGroup>
                 <FormGroup>
                     <Label>Attractor</Label>
-                        <Asset name={'content.titles.attractor'}
-                               value={this.props.data.data.attractor}
-                               packageId={this.props.packageId}
-                               packageVersionId={this.props.packageVersionId}
-                               onChange={this.handleFormChange}
-                               assetType={'attractor'}
-                        />
+                    <Asset name={'content.titles.attractor'}
+                           value={this.props.data.data.attractor}
+                           packageId={this.props.packageId}
+                           packageVersionId={this.props.packageVersionId}
+                           onChange={this.handleFormChange}
+                           assetType={'attractor'}
+                    />
                 </FormGroup>
                 <FormGroup className={'mb-0'}>
                     <Label>Title Image</Label>
