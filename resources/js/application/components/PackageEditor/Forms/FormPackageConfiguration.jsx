@@ -43,8 +43,39 @@ export default class FormPackageConfiguration extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            sites: [],
+        };
+
+        this.getSites = this.getSites.bind(this);
         this.handleBSFormChange = this.handleBSFormChange.bind(this);
         this.handleFormChange   = this.handleFormChange.bind(this);
+    }
+
+    componentDidMount() {
+        this.getSites();
+    }
+
+    getSites() {
+        axios.get('/api/site')
+            .then(response => response.data)
+            .then(data => {
+                const sites = data.data.filter(site => site.galleries.length)
+                    .map(site => {
+                        return {
+                            label: site.name,
+                            options: site.galleries.map(gallery => ({
+                                label: gallery.name,
+                                value: gallery.id,
+                            })),
+                        };
+                    });
+
+                this.setState(prevState => ({
+                    ...prevState,
+                    sites
+                }));
+            });
     }
 
     handleFormChange(field, value) {
