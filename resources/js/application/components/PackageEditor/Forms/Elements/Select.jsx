@@ -1,8 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactSelect from "react-select";
-import {ucwords} from "locutus/php/strings";
-import {get, has, keys, last, sortBy, find} from "lodash";
+import ReactSelect from 'react-select';
+import { has, flatten } from 'lodash';
 
 class Select extends Component {
     constructor(props) {
@@ -12,22 +11,44 @@ class Select extends Component {
             options: props.options ? props.options : [],
         };
 
+        this.getDefaultValue = this.getDefaultValue.bind(this);
         this.handleFieldChange = this.handleFieldChange.bind(this);
     }
 
+    getDefaultValue() {
+        const { options } = this.state;
+        const { defaultValue } = this.props;
+        const groups = options.filter(option => has(option, 'options'));
+        const hasOptionGroups = groups.length > 0;
+
+        if (hasOptionGroups) {
+            const allOptions = flatten(groups.map(group => group.options));
+
+            return {
+                label: allOptions.find(el => el.value === defaultValue).label,
+                value: defaultValue,
+            };
+        }
+
+        return {
+            label: options.find(el => el.value === defaultValue).label,
+            value: defaultValue,
+        };
+    }
+
     handleFieldChange(value) {
-        this.props.handleFieldChange(this.props.field, value.value);
+        const { handleFieldChange, field } = this.props;
+        handleFieldChange(field, value.value);
     }
 
     render() {
+        const { field } = this.props;
+        const { options } = this.state;
         return (
-            <ReactSelect name={'roles'}
+            <ReactSelect name={field}
                          onChange={this.handleFieldChange}
-                         defaultValue={{
-                             label: this.state.options.find(el => el.value === this.props.defaultValue).label,
-                             value: this.props.defaultValue,
-                         }}
-                         options={this.state.options}
+                         defaultValue={this.getDefaultValue()}
+                         options={options}
                          styles={{
                              container: (base) => ({
                                  ...base,
@@ -55,7 +76,7 @@ class Select extends Component {
                                  ...base,
                                  paddingLeft: '1rem',
                                  paddingRight: '1rem',
-                             })
+                             }),
                          }}
             />
         );
@@ -63,9 +84,15 @@ class Select extends Component {
 }
 
 Select.propTypes = {
-    defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.object]).isRequired,
+    defaultValue: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.array,
+        PropTypes.object,
+        PropTypes.number,
+    ]).isRequired,
     handleFieldChange: PropTypes.func.isRequired,
     field: PropTypes.string.isRequired,
+    options: PropTypes.array,
 };
 
 export default Select;
