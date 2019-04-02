@@ -7,15 +7,12 @@ use App\Gallery;
 use App\PackageVersion;
 use App\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Spatie\Image\Image;
 use Spatie\MediaLibrary\Models\Media;
 use Symfony\Component\Process\Process;
 
@@ -126,6 +123,9 @@ class BuildPackageFromVersion implements ShouldQueue
         }
     }
 
+    /**
+     * Runs when a job fails
+     */
     public function failed()
     {
         $this->packageVersion->update([
@@ -160,6 +160,11 @@ class BuildPackageFromVersion implements ShouldQueue
         ]);
     }
 
+    /**
+     * @param PackageVersion $packageVersion
+     * @return object
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
     private function buildManifest(PackageVersion $packageVersion)
     {
         $manifest = (object) json_decode(json_encode($packageVersion->data));
@@ -188,6 +193,11 @@ class BuildPackageFromVersion implements ShouldQueue
         return $manifest;
     }
 
+    /**
+     * @param $assetEntry
+     * @return \stdClass|null
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
     private function convertToManifestAsset($assetEntry)
     {
         if (empty($assetEntry)) return null;
@@ -211,6 +221,11 @@ class BuildPackageFromVersion implements ShouldQueue
         return $assetEntry;
     }
 
+    /**
+     * @param Media $media
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
     private function copyAssetToBuildDir(Media $media)
     {
         $diskConfig = config("filesystems.disks.{$media->disk}");
@@ -228,6 +243,9 @@ class BuildPackageFromVersion implements ShouldQueue
         return './media/'.$newFilename;
     }
 
+    /**
+     * @return string
+     */
     private function getFullBuildPath()
     {
         $diskConfig = config("filesystems.disks.build-temp");
