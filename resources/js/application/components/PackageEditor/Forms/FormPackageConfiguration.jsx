@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {parseInt} from 'lodash';
 import {FormGroup, FormText, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
+import Select from "./Elements/Select";
 
 export default class FormPackageConfiguration extends Component {
     static propTypes = {
@@ -11,7 +12,7 @@ export default class FormPackageConfiguration extends Component {
         handlePackageDataChange: PropTypes.func.isRequired,
         data: PropTypes.shape({
             data: PropTypes.shape({
-                galleryName: PropTypes.string.isRequired,
+                gallery: PropTypes.number.isRequired,
                 image: PropTypes.oneOfType([
                     PropTypes.string,
                     PropTypes.shape({
@@ -43,8 +44,39 @@ export default class FormPackageConfiguration extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            sites: [],
+        };
+
+        this.getSites = this.getSites.bind(this);
         this.handleBSFormChange = this.handleBSFormChange.bind(this);
         this.handleFormChange   = this.handleFormChange.bind(this);
+    }
+
+    componentDidMount() {
+        this.getSites();
+    }
+
+    getSites() {
+        axios.get('/api/site')
+            .then(response => response.data)
+            .then(data => {
+                const sites = data.data.filter(site => site.galleries.length)
+                    .map(site => {
+                        return {
+                            label: site.name,
+                            options: site.galleries.map(gallery => ({
+                                label: gallery.name,
+                                value: gallery.id,
+                            })),
+                        };
+                    });
+
+                this.setState(prevState => ({
+                    ...prevState,
+                    sites
+                }));
+            });
     }
 
     handleFormChange(field, value) {
@@ -76,13 +108,16 @@ export default class FormPackageConfiguration extends Component {
                                onChange={this.handleBSFormChange}
                         />
                 </FormGroup>
+
                 <FormGroup>
                     <Label>Gallery Name</Label>
-                    <Input bsSize={'sm'}
-                           name={'content.titles.galleryName'}
-                           value={this.props.data.data.galleryName}
-                           onChange={this.handleBSFormChange}
+                    {!!this.state.sites.length &&
+                    <Select defaultValue={1}
+                            field={`gallery`}
+                            handleFieldChange={this.handleFormChange}
+                            options={this.state.sites}
                     />
+                    }
                 </FormGroup>
                 <FormGroup>
                     <Label>Attractor Screen Display Timeout</Label>

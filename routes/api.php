@@ -72,6 +72,12 @@ Route::name('api.')
                 $router->get('{helpTopic}', 'HelpTopicController@show')->name('show');
                 $router->put('{helpTopic}', 'HelpTopicController@update')->name('update');
             });
+
+        $router->name('site.')
+            ->prefix('site')
+            ->group(function (Router $router) {
+                $router->get('', 'SiteController@index')->name('index');
+            });
     });
 
 Route::name('api.information')

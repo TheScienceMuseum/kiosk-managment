@@ -16,6 +16,7 @@ class PackagesTableSeeder extends Seeder
             'requirements' => [
                 'client_version' => '0.0.1',
             ],
+            'gallery' => 1,
             'content' => [
                 'titles' => [
                     'type' => 'text',
