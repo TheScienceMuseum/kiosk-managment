@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Events\PackageBuildCompleted;
+use App\Gallery;
 use App\PackageVersion;
 use App\User;
 use Illuminate\Bus\Queueable;
@@ -88,6 +89,14 @@ class BuildPackageFromVersion implements ShouldQueue
             $this->updateProgress($this->packageVersion, 40);
             $packageData = $this->buildManifest($this->packageVersion);
             Storage::disk('build-temp')->put($this->buildDirectory . '/manifest.json', json_encode($packageData));
+
+            // insert the customised style based on gallery chosen
+            $gallery = Gallery::find($packageData->gallery);
+            $cssFiles = Storage::disk('build-temp')->files($this->buildDirectory . '/static/css');
+            $cssFile = last(array_filter($cssFiles, function ($filename) {
+                return last(explode('.', $filename)) === 'css';
+            }));
+            Storage::disk('build-temp')->put($cssFile, $gallery->style);
 
             // compress package
             $this->updateProgress($this->packageVersion, 60);
@@ -175,6 +184,7 @@ class BuildPackageFromVersion implements ShouldQueue
             }
         }
 
+        $manifest->content->titles->galleryName = Gallery::find($manifest->gallery);
         return $manifest;
     }
 
