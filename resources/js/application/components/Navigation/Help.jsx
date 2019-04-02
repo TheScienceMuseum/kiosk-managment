@@ -1,10 +1,13 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {Converter} from 'showdown';
-import ReactMde from "react-mde";
-import confirm from "reactstrap-confirm";
+import { Converter } from 'showdown';
 import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
+import { Editor } from '@toast-ui/react-editor';
+
+import 'codemirror/lib/codemirror.css';
+import 'tui-editor/dist/tui-editor.min.css';
+import 'tui-editor/dist/tui-editor-contents.min.css';
 
 export default class Help extends Component {
     static propTypes = {
@@ -32,9 +35,9 @@ export default class Help extends Component {
             tasklists: true,
         });
 
+        this.editorRef = React.createRef();
+
         this.getHelpForContext = this.getHelpForContext.bind(this);
-        this.handleContentUpdate = this.handleContentUpdate.bind(this);
-        this.generateMarkdownPreview = this.generateMarkdownPreview.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
         this.saveChanges = this.saveChanges.bind(this);
     }
@@ -56,13 +59,6 @@ export default class Help extends Component {
         }
     }
 
-    handleContentUpdate(content) {
-        this.setState(prevState => ({
-            ...prevState,
-            content,
-        }))
-    }
-
     getHelpForContext() {
         axios.get('/api/help/context', {params: {context: this.state.location.pathname}})
             .then(response => response.data.data)
@@ -77,7 +73,9 @@ export default class Help extends Component {
     }
 
     saveChanges () {
-        const {content, id} = this.state;
+        const { id } = this.state;
+        const content = this.editorRef.current.getInstance().getMarkdown();
+
         axios.put(`/api/help/${id}`, {content})
             .then(response => response.data.data)
             .then(data => {
@@ -90,10 +88,6 @@ export default class Help extends Component {
                 this.toggleModal('edit')();
                 this.toggleModal('show')();
             });
-    }
-
-    generateMarkdownPreview(markdown) {
-        return Promise.resolve(this.converter.makeHtml(markdown))
     }
 
     toggleModal(type) {
@@ -112,11 +106,13 @@ export default class Help extends Component {
                     <ModalHeader toggle={this.toggleModal('edit')}>Help</ModalHeader>
                     <ModalBody>
                         <div className={'container'}>
-                            <ReactMde onChange={this.handleContentUpdate}
-                                      value={this.state.content}
-                                      generateMarkdownPreview={this.generateMarkdownPreview}
-                                      selectedTab={this.state.editTab}
-                                      onTabChange={editTab => {this.setState(prevState => ({...prevState, editTab}))}}
+                            <Editor
+                                initialValue={this.state.content}
+                                initialEditType="wysiwyg"
+                                previewStyle="vertical"
+                                height="400px"
+                                usageStatistics={false}
+                                ref={this.editorRef}
                             />
                         </div>
                     </ModalBody>
