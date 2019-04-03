@@ -31,6 +31,7 @@ use Spatie\TemporaryDirectory\TemporaryDirectory;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Kiosk[] $kiosks
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\Models\Media[] $media
  * @property-read \App\Package $package
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\PackageVersionPreview[] $previews
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion query()
@@ -100,6 +101,14 @@ class PackageVersion extends Model implements HasMedia, Auditable
     public function package()
     {
         return $this->belongsTo(Package::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function previews()
+    {
+        return $this->hasMany(PackageVersionPreview::class);
     }
 
     public function createNewVersion(Package $package = null)
