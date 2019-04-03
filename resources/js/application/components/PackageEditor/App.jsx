@@ -291,7 +291,7 @@ class App extends Component {
         const { packageVersionId } = this.props;
 
         this.flushPackageVersionData(() => {
-            window.open(`/preview/${packageVersionId}`, "Previewing Package", "toolbar=no,scrollbars=no,resizable=no,width=1920,height=1080");
+            window.open(`/preview/${packageVersionId}/build`, "Previewing Package", "toolbar=no,scrollbars=no,resizable=no,width=1920,height=1080");
         });
     }
 
