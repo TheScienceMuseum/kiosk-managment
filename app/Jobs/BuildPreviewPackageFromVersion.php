@@ -40,6 +40,7 @@ class BuildPreviewPackageFromVersion implements ShouldQueue
      * Execute the job.
      *
      * @return void
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function handle()
     {
@@ -54,14 +55,18 @@ class BuildPreviewPackageFromVersion implements ShouldQueue
             'preview_path' => $previewPath,
         ]);
 
-        $builtPackage = Storage::disk(config('filesystems.packages'))
-            ->get($packageVersion->archive_path);
-
         Storage::disk('local')
             ->makeDirectory('public/previews/'.$previewPath);
 
-        Storage::disk('local')
-            ->put('public/previews/'.$previewPath.'/package.tar.gz', $builtPackage);
+        $stream = Storage::disk(config('filesystems.packages'))
+            ->getDriver()
+            ->readStream($packageVersion->archive_path);
+
+        file_put_contents(
+            storage_path('app/public/previews/'.$previewPath.'/package.tar.gz'),
+            stream_get_contents($stream),
+            FILE_APPEND
+        );
 
         $packageVersion->update([
             'status' => 'draft',
