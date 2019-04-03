@@ -189,7 +189,8 @@ class BuildPackageFromVersion implements ShouldQueue
             }
         }
 
-        $manifest->content->titles->galleryName = Gallery::find($manifest->gallery);
+        $manifest->content->titles->galleryName = Gallery::find($manifest->gallery)->name;
+
         return $manifest;
     }
 

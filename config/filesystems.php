@@ -27,7 +27,6 @@ return [
     */
 
     'cloud' => env('FILESYSTEM_CLOUD', 's3'),
-
     'assets' => env('FILESYSTEM_ASSETS', 'testing-assets'),
     'builds' => env('FILESYSTEM_BUILDS', 'testing-builds'),
     'packages' => env('FILESYSTEM_PACKAGES', 'testing-packages'),

@@ -37,13 +37,14 @@ class App extends Component {
         this.handleToggleAddElementModal = this.handleToggleAddElementModal.bind(this);
         this.handleViewElement = this.handleViewElement.bind(this);
         this.setPackageDataState = this.setPackageDataState.bind(this);
+        this.showPreview = this.showPreview.bind(this);
     }
 
     componentDidMount() {
         this.getPackageVersionData(true);
     }
 
-    flushPackageVersionData() {
+    flushPackageVersionData(callback=null) {
         axios.put(
             `/api/package/${this.props.packageId}/version/${this.props.packageVersionId}`,
             {package_data: this.state.packageVersionData}
@@ -51,6 +52,10 @@ class App extends Component {
             this.setPackageDataState(response.data);
 
             toastr.success('Updated package data successfully.')
+
+            if (callback) {
+                callback();
+            }
         });
     }
 
@@ -282,6 +287,14 @@ class App extends Component {
         }
     }
 
+    showPreview() {
+        const { packageVersionId } = this.props;
+
+        this.flushPackageVersionData(() => {
+            window.open(`/preview/${packageVersionId}/build`, "Previewing Package", "toolbar=no,scrollbars=no,resizable=no,width=1920,height=1080");
+        });
+    }
+
     render() {
         return (
             <Container fluid className={'mb-3'}>
@@ -319,6 +332,11 @@ class App extends Component {
                                                 className={'float-right'}
                                                 onClick={this.flushPackageVersionData}
                                         >Save</Button>
+                                        <Button size={'xs'}
+                                                color={'primary'}
+                                                className={'float-right'}
+                                                onClick={this.showPreview}
+                                        >Preview</Button>
                                     </CardFooter>
                                 </Card>
                             </Col>

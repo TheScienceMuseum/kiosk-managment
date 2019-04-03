@@ -63,6 +63,9 @@ Route::group([
         ]);
     })->name('asset');
 
+    $router->get('/preview/{packageVersion}/build', 'PackagePreviewController@build')->name('preview.build');
+    $router->get('/preview/{packageVersion}/show/{packageVersionPreview}', 'PackagePreviewController@show')->name('preview.show');
+
     $router->get('/{all}', 'HomeController@spa')
         ->where(['all' => '.*'])
         ->name('spa');

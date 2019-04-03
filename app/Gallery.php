@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $id
  * @property string $name
- * @property string $style
+ * @property string|null $style
  * @property int $site_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Gallery whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Gallery whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Gallery whereSiteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Gallery whereStyle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Gallery whereUpdatedAt($value)
  * @mixin \Eloquent
  */
@@ -31,7 +32,7 @@ class Gallery extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function site(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function site(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Site::class);
     }
