@@ -44,7 +44,7 @@ class App extends Component {
         this.getPackageVersionData(true);
     }
 
-    flushPackageVersionData(callback=null) {
+    flushPackageVersionData(onFinish=null) {
         axios.put(
             `/api/package/${this.props.packageId}/version/${this.props.packageVersionId}`,
             {package_data: this.state.packageVersionData}
@@ -52,9 +52,9 @@ class App extends Component {
             this.setPackageDataState(response.data);
 
             toastr.success('Updated package data successfully.')
-
-            if (callback) {
-                callback();
+            
+            if (typeof onFinish === 'function') {
+                onFinish();
             }
         });
     }
