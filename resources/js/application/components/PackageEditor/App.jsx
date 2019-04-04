@@ -44,7 +44,7 @@ class App extends Component {
         this.getPackageVersionData(true);
     }
 
-    flushPackageVersionData(callback=null) {
+    flushPackageVersionData(onFinish=null) {
         axios.put(
             `/api/package/${this.props.packageId}/version/${this.props.packageVersionId}`,
             {package_data: this.state.packageVersionData}
@@ -52,9 +52,9 @@ class App extends Component {
             this.setPackageDataState(response.data);
 
             toastr.success('Updated package data successfully.')
-
-            if (callback) {
-                callback();
+            
+            if (typeof onFinish === 'function') {
+                onFinish();
             }
         });
     }
@@ -324,15 +324,15 @@ class App extends Component {
                                         />
                                     </CardBody>
                                     <CardFooter>
-                                        <Link className={'btn btn-xs btn-primary'}
+                                        <Link className={'btn btn-sm btn-primary'}
                                               to={`/admin/packages/${this.props.packageId}`}
                                         >Back To Package</Link>
-                                        <Button size={'xs'}
+                                        <Button size={'sm'}
                                                 color={'primary'}
                                                 className={'float-right'}
                                                 onClick={this.flushPackageVersionData}
                                         >Save</Button>
-                                        <Button size={'xs'}
+                                        <Button size={'sm'}
                                                 color={'primary'}
                                                 className={'float-right'}
                                                 onClick={this.showPreview}
