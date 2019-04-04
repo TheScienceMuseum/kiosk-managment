@@ -324,15 +324,15 @@ class App extends Component {
                                         />
                                     </CardBody>
                                     <CardFooter>
-                                        <Link className={'btn btn-xs btn-primary'}
+                                        <Link className={'btn btn-sm btn-primary'}
                                               to={`/admin/packages/${this.props.packageId}`}
                                         >Back To Package</Link>
-                                        <Button size={'xs'}
+                                        <Button size={'sm'}
                                                 color={'primary'}
                                                 className={'float-right'}
                                                 onClick={this.flushPackageVersionData}
                                         >Save</Button>
-                                        <Button size={'xs'}
+                                        <Button size={'sm'}
                                                 color={'primary'}
                                                 className={'float-right'}
                                                 onClick={this.showPreview}
