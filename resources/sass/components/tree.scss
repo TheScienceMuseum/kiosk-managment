@@ -1,16 +1,5 @@
 .tree {
-  summary:focus {
-    outline: none;
-  }
-
   .tree-list {
-    div {
-      margin-left: 15px;
-    }
-    details {
-      > *:not(summary) {
-        margin-left: 25px;
-      }
-    }
+    margin-top: 15px;
   }
 }

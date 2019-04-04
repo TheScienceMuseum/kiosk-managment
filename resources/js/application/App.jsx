@@ -5,11 +5,14 @@ import {
 import * as Sentry from '@sentry/browser';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
+    faAngleRight,
+    faAngleDown,
     faAngleDoubleRight,
     faAngleDoubleDown,
     faAngleDoubleUp,
     faBox,
     faDesktopAlt,
+    faEdit,
     faEye,
     faMinus,
     faPencil,
@@ -22,7 +25,7 @@ import {
 import { faSquare } from '@fortawesome/pro-solid-svg-icons';
 import IndexRoutes from './routes/BaseRoutes';
 
-library.add(faBox, faDesktopAlt, faEye, faUsers, faAngleDoubleRight, faAngleDoubleDown, faAngleDoubleUp, faPencil, faPlus, faMinus, faSquare, faSyncAlt, faQuestionCircle, faDownload);
+library.add(faBox, faDesktopAlt, faEye, faEdit, faUsers, faAngleRight, faAngleDown, faAngleDoubleRight, faAngleDoubleDown, faAngleDoubleUp, faPencil, faPlus, faMinus, faSquare, faSyncAlt, faQuestionCircle, faDownload);
 
 if (window.env !== 'local') {
     Sentry.init({

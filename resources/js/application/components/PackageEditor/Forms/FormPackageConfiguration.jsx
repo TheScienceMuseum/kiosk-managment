@@ -12,7 +12,6 @@ export default class FormPackageConfiguration extends Component {
         handlePackageDataChange: PropTypes.func.isRequired,
         data: PropTypes.shape({
             data: PropTypes.shape({
-                gallery: PropTypes.number.isRequired,
                 image: PropTypes.oneOfType([
                     PropTypes.string,
                     PropTypes.shape({
