@@ -8,6 +8,10 @@ use App\Http\Requests\OnBoardingProcessStepPasswordRequest;
 use App\Http\Requests\OnBoardingShowStepMFARegistrationRequest;
 use App\Http\Requests\OnBoardingShowStepPasswordRequest;
 use App\OnBoarding\OnBoardingService;
+use BaconQrCode\Renderer\Image\ImagickImageBackEnd;
+use BaconQrCode\Renderer\ImageRenderer;
+use BaconQrCode\Renderer\RendererStyle\RendererStyle;
+use BaconQrCode\Writer;
 use Illuminate\Support\Facades\Hash;
 
 class UserOnBoardingController extends Controller
@@ -55,11 +59,18 @@ class UserOnBoardingController extends Controller
 
         $mfaSecret = \MultiFactorAuth::generateSecretKey();
 
-        $qrCode = \MultiFactorAuth::getQRCodeUrl(
+        $qrCodeUrl = \MultiFactorAuth::getQRCodeUrl(
             config('app.name'),
             $onboarding->user->email,
             $mfaSecret
         );
+
+        $renderer = new ImageRenderer(
+            new RendererStyle(400),
+            new ImagickImageBackEnd()
+        );
+        $writer = new Writer($renderer);
+        $qrCode = base64_encode($writer->writeString($qrCodeUrl));
 
         $onboarding->user->mfa_secret = $mfaSecret;
         $onboarding->user->save();

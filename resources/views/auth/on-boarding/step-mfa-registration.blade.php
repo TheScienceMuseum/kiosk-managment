@@ -32,7 +32,7 @@
 
                 <div class="row">
                     <div class="col-md-5">
-                        <img src="{{ $qr }}" class="w-100">
+                        <img src="data:image/png;base64,{{ $qr }}" class="w-100">
                     </div>
                     <div class="col-md-7 pt-3">
                         <div class="form-group">
