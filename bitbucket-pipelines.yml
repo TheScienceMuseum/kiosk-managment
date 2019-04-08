@@ -1,4 +1,4 @@
-image: acodeninja/laravel-phpunit
+image: acodeninja/laravel-phpunit:0.0.2
 definitions:
 
   setup-test-environment: &setup-test-environment
@@ -52,7 +52,7 @@ definitions:
 
   browser-tests: &browser-tests
     name: browser-tests
-    image: acodeninja/laravel-dusk
+    image: acodeninja/laravel-dusk:0.0.2
     caches:
     - composer
     script:
