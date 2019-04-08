@@ -6,6 +6,7 @@ import { Link, NavLink } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import Help from './Help';
 import DownloadClient from './DownloadClient';
+import Logout from './Logout';
 
 class SidebarComponent extends Component {
     render() {
@@ -36,6 +37,9 @@ class SidebarComponent extends Component {
                 </ul>
 
                 <ul className="list-unstyled menu-bottom">
+                    <li>
+                        <Logout />
+                    </li>
                     <li>
                         <Help location={this.props.location} />
                     </li>
