@@ -16,6 +16,7 @@
   - php7.2-mysql
   - php7.2-curl
   - php7.2-gd
+  - php7.2-imagick
 
 - name: ensure composer is installed
   apt:
