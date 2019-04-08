@@ -55,34 +55,40 @@ class GenerateApplicationSchema extends Command
                 "fields" => [
                     [
                         "name" => "identifier",
+                        "label" => "Identifier",
                         "type" => "text",
                         "readonly" => true,
                         "help" => "The identifier used to set up the kiosk initially."
                     ],
                     [
                         "name" => "name",
+                        "label" => "Name",
                         "type" => "text",
                         "filter" => true,
                         "sub_fields" => ["identifier"]
                     ],
                     [
                         "name" => "location",
+                        "label" => "Location",
                         "type" => "text",
                         "filter" => true,
                     ],
                     [
                         "name" => "asset_tag",
+                        "label" => "Asset Tag",
                         "type" => "text",
                         "filter" => true,
                     ],
                     [
                         "name" => "last_seen_at",
+                        "label" => "Last Seen",
                         "type" => "time_ago",
                         "filter" => true,
                         "readonly" => true,
                     ],
                     [
                         "name" => "assigned_package_version",
+                        "label" => "Assigned Package",
                         "help" => "This is the package that is assigned to the kiosk.",
                         "type" => "resource_instance",
                         "nullable" => true,
@@ -96,6 +102,7 @@ class GenerateApplicationSchema extends Command
                     ],
                     [
                         "name" => "current_package_version",
+                        "label" => "Currently Running Package",
                         "help" => "This is the package that the kiosk last reported in use.",
                         "type" => "resource_instance",
                         "resource" => "package",
@@ -105,6 +112,7 @@ class GenerateApplicationSchema extends Command
                     ],
                     [
                         "name" => "logs",
+                        "label" => "Kiosk Logs",
                         "type" => "resource_collection",
                         "label_key" => ["level", " triggered at ", "timestamp"],
                         "resource" => "kiosk_logs",
@@ -146,16 +154,19 @@ class GenerateApplicationSchema extends Command
             "kiosk_logs" => [
                 "fields" => [[
                     "name" => "level",
+                    "label" => "Level",
                     "type" => "log_level",
                     "readonly" => true,
                     "filter" => true,
                 ], [
                     "name" => "message",
+                    "label" => "Message",
                     "type" => "text",
                     "readonly" => true,
                     "filter" => true,
                 ], [
                     "name" => "timestamp",
+                    "label" => "Timestamp",
                     "type" => "time_stamp",
                     "readonly" => true,
                     "filter" => true,
@@ -172,12 +183,14 @@ class GenerateApplicationSchema extends Command
                 "label_key" => "name",
                 "fields" => [[
                     "name" => "name",
+                    "label" => "Name",
                     "type" => "text",
                     "filter" => true,
                     "readonly" => true,
                     "create_with" => true,
                 ], [
                     "name" => "versions",
+                    "label" => "Versions",
                     "type" => "resource_collection",
                     "readonly" => true,
                     "resource" => "package_version",
@@ -402,16 +415,19 @@ class GenerateApplicationSchema extends Command
                 "label_key" => "version",
                 "fields" => [[
                     "name" => "version",
+                    "label" => "Version",
                     "type" => "text",
                     "filter" => true,
                     "readonly" => true,
                 ], [
                     "name" => "created_at",
+                    "label" => "Created",
                     "type" => "text",
                     "filter" => true,
                     "readonly" => true,
                 ], [
                     "name" => "status",
+                    "label" => "Status",
                     "type" => "text",
                     "filter" => true,
                     "readonly" => true,
@@ -510,6 +526,7 @@ class GenerateApplicationSchema extends Command
                 "fields" => [
                     [
                         "name" => "name",
+                        "label" => "Name",
                         "type" => "text",
                         "help" => "The full name of the user.",
                         "filter" => true,
@@ -517,6 +534,7 @@ class GenerateApplicationSchema extends Command
                         "create_with" => true,
                     ], [
                         "name" => "email",
+                        "label" => "Email",
                         "type" => "text",
                         "help" => "A valid email address for the user.",
                         "filter" => true,
@@ -525,6 +543,7 @@ class GenerateApplicationSchema extends Command
                         "create_with" => true,
                     ], [
                         "name" => "roles",
+                        "label" => "User Roles",
                         "type" => "select",
                         "resource" => "user_role",
                         "multiple" => true,
