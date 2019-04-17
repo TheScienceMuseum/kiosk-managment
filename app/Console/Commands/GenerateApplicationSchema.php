@@ -31,11 +31,6 @@ class GenerateApplicationSchema extends Command
         parent::__construct();
     }
 
-    public function buildResourceFromModel()
-    {
-
-    }
-
     /**
      * Execute the console command.
      *
