@@ -6,6 +6,8 @@ import DisplayCondition from "../../../../../../../helpers/DisplayCondition";
 import {BounceLoader} from "react-spinners";
 import {each, get, has} from 'lodash';
 import {ucwords} from "locutus/php/strings";
+import ResourceListPagination from '../../../List/ResourceListPagination';
+import queryString from 'query-string';
 
 class ResourceCollection extends Component {
     constructor(props) {
@@ -14,14 +16,17 @@ class ResourceCollection extends Component {
         this._api = new Api(this.props.field.resource);
 
         this.state = {
-            resourceIndexLoading: true,
             resourceIndex: [],
+            resourceIndexLoading: true,
+            resourceIndexParams: {},
             highlightedId: null,
             pagination: {},
             filters: {},
         };
 
         this.resourceInstanceActions = [];
+
+        this.handleResourceListPagination = this.handleResourceListPagination.bind(this);
 
         each(this.props.field.actions, action => {
             this.resourceInstanceActions.push({
@@ -55,7 +60,7 @@ class ResourceCollection extends Component {
             ...prevState,
             resourceIndexLoading: true,
         }), () => {
-            this._api.request('index', {}, this.props.defaultValue)
+            this._api.request('index', this.state.resourceIndexParams, this.props.defaultValue)
                 .then(response => {
                     this.setState(prevState => ({
                         ...prevState,
@@ -67,10 +72,31 @@ class ResourceCollection extends Component {
         });
     }
 
+    handleResourceListPagination(page) {
+        let nextPage = page;
+
+        if (["next", "prev"].includes(page)) {
+            nextPage = this.state.pagination.current_page + (page === 'next' ? 1 : -1)
+        }
+
+        return () => {
+            this.setState(prevState => ({
+                ...prevState,
+                resourceIndexParams: {
+                    ...prevState.resourceIndexParams,
+                    'page[number]': nextPage,
+                },
+            }), () => {
+                this.requestInstance();
+            });
+        };
+    }
+
     render() {
         return (
             <div>
                 {(this.props.field.readonly &&
+                    <>
                     <Table responsive hover>
                         <thead>
                         <tr>
@@ -122,6 +148,18 @@ class ResourceCollection extends Component {
                         }
                         </tbody>
                     </Table>
+
+                    <div className={'d-flex justify-content-center'}>
+                    {!this.state.resourceIndexLoading &&
+                        this.state.pagination.current_page &&
+                        <ResourceListPagination
+                            current={this.state.pagination.current_page}
+                            handleResourceListPagination={this.handleResourceListPagination}
+                            last={this.state.pagination.last_page}
+                        />
+                    }
+                    </div>
+                    </>
                 ) || (
                     <span className={'text-danger'}>Cannot create a non-readonly resource collection field.</span>
                 )}
