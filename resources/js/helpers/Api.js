@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import axios from 'axios';
-import {each, get, has, last} from "lodash";
+import {each, extend, get, has, last} from "lodash";
 import confirm from "reactstrap-confirm";
 
 import ApplicationSchema from '../../application-schema';
@@ -180,7 +180,6 @@ class Api {
     }
 
     request(actionName, params, instance = null) {
-        console.log(`triggering request ${actionName} on resource ${this._resourceName} with params: ${JSON.stringify(params)} and instance: ${JSON.stringify(instance)}`);
         const action = this._resourceActions[actionName];
         let actionParams = {};
 
@@ -226,7 +225,7 @@ class Api {
         }
 
         if (action.verb === 'get') {
-            actionParams = { params: actionParams };
+            actionParams = { params: extend(actionParams, params) };
         }
 
         return axios[action.verb](path, actionParams)

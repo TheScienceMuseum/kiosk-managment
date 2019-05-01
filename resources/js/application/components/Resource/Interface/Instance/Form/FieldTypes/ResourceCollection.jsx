@@ -6,6 +6,9 @@ import DisplayCondition from "../../../../../../../helpers/DisplayCondition";
 import {BounceLoader} from "react-spinners";
 import {each, get, has} from 'lodash';
 import {ucwords} from "locutus/php/strings";
+import ResourceListPagination from '../../../List/ResourceListPagination';
+import queryString from 'query-string';
+import ResourceListHeaderSelect from '../../../List/ResourceListHeaderSelect';
 
 class ResourceCollection extends Component {
     constructor(props) {
@@ -14,14 +17,19 @@ class ResourceCollection extends Component {
         this._api = new Api(this.props.field.resource);
 
         this.state = {
-            resourceIndexLoading: true,
             resourceIndex: [],
+            resourceIndexLoading: true,
+            resourceIndexParams: {},
             highlightedId: null,
             pagination: {},
             filters: {},
         };
 
         this.resourceInstanceActions = [];
+
+        this.handleResourceListPagination = this.handleResourceListPagination.bind(this);
+        this.handleResourceListParamsUpdate = this.handleResourceListParamsUpdate.bind(this);
+        this.handleResourceListSearch = this.handleResourceListSearch.bind(this);
 
         each(this.props.field.actions, action => {
             this.resourceInstanceActions.push({
@@ -55,7 +63,7 @@ class ResourceCollection extends Component {
             ...prevState,
             resourceIndexLoading: true,
         }), () => {
-            this._api.request('index', {}, this.props.defaultValue)
+            this._api.request('index', this.state.resourceIndexParams, this.props.defaultValue)
                 .then(response => {
                     this.setState(prevState => ({
                         ...prevState,
@@ -67,16 +75,84 @@ class ResourceCollection extends Component {
         });
     }
 
+    handleResourceListPagination(page) {
+        let nextPage = page;
+
+        if (["next", "prev"].includes(page)) {
+            nextPage = this.state.pagination.current_page + (page === 'next' ? 1 : -1)
+        }
+
+        return () => {
+            this.setState(prevState => ({
+                ...prevState,
+                resourceIndexParams: {
+                    ...prevState.resourceIndexParams,
+                    'page[number]': nextPage,
+                },
+            }), () => {
+                this.requestInstance();
+            });
+        };
+    }
+
+    handleResourceListParamsUpdate(field, value, callback) {
+        this.setState(prevState => {
+            const params = {...prevState.resourceIndexParams};
+
+            if (! value) {
+                delete params[`filter[${field.name}]`];
+            } else {
+                params[`filter[${field.name}]`] = value;
+            }
+
+            return {
+                ...prevState,
+                resourceIndexParams: params,
+            }
+        }, callback);
+    }
+
+    handleResourceListSearch() {
+        this.setState(prevState => {
+            const params = {...prevState.resourceIndexParams};
+
+            delete params['page[number]'];
+
+            return {
+                ...prevState,
+                resourceIndexParams: params,
+            }
+        }, () => {
+            this.requestInstance();
+        });
+    }
+
     render() {
         return (
             <div>
                 {(this.props.field.readonly &&
+                    <>
                     <Table responsive hover>
                         <thead>
                         <tr>
-                            {this._api._resourceFields.map(field =>
-                                field.filter && <th key={`${this.props.field.name}-rc-${field.name}`}>{field.name}</th>
-                            )}
+                            {this._api._resourceFields.map(field => {
+                                if (!field.filter) return (<th className={'align-middle'} key={`${this.props.field.name}-rc-${field.name}`}>{field.label}</th>);
+
+                                switch (field.type) {
+                                    case 'select':
+                                        return (
+                                            <ResourceListHeaderSelect
+                                                handleResourceListParamsUpdate={this.handleResourceListParamsUpdate}
+                                                handleResourceListSearch={this.handleResourceListSearch}
+                                                key={`${this.props.field.name}-rc-${field.name}`}
+                                                options={field}
+                                                initialValue={''}
+                                            />
+                                        );
+                                    default:
+                                        return (<th className={'align-middle'} key={`${this.props.field.name}-rc-${field.name}`}>{field.label}</th>);
+                                }
+                            })}
                             {this.resourceInstanceActions.length > 0 &&
                                 <th className={'text-right'}>Actions</th>
                             }
@@ -94,7 +170,6 @@ class ResourceCollection extends Component {
                             this.state.resourceIndex.map(row =>
                                 <tr key={row.id} className={this.state.highlightedId === row.id.toString() ? 'table-primary text-light' : ''}>
                                     {this._api._resourceFields.map(field =>
-                                        field.filter &&
                                         <td key={`${field.name}-${row.id}`}>
                                             {get(row, field.name)}
                                         </td>
@@ -122,6 +197,18 @@ class ResourceCollection extends Component {
                         }
                         </tbody>
                     </Table>
+
+                    <div className={'d-flex justify-content-center'}>
+                    {!this.state.resourceIndexLoading &&
+                        this.state.pagination.current_page &&
+                        <ResourceListPagination
+                            current={this.state.pagination.current_page}
+                            handleResourceListPagination={this.handleResourceListPagination}
+                            last={this.state.pagination.last_page}
+                        />
+                    }
+                    </div>
+                    </>
                 ) || (
                     <span className={'text-danger'}>Cannot create a non-readonly resource collection field.</span>
                 )}

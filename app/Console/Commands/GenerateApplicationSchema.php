@@ -31,11 +31,6 @@ class GenerateApplicationSchema extends Command
         parent::__construct();
     }
 
-    public function buildResourceFromModel()
-    {
-
-    }
-
     /**
      * Execute the console command.
      *
@@ -155,7 +150,11 @@ class GenerateApplicationSchema extends Command
                 "fields" => [[
                     "name" => "level",
                     "label" => "Level",
-                    "type" => "log_level",
+                    "type" => "select",
+                    "options" => [
+                        "error",
+                        "info",
+                    ],
                     "readonly" => true,
                     "filter" => true,
                 ], [
@@ -163,13 +162,11 @@ class GenerateApplicationSchema extends Command
                     "label" => "Message",
                     "type" => "text",
                     "readonly" => true,
-                    "filter" => true,
                 ], [
                     "name" => "timestamp",
                     "label" => "Timestamp",
                     "type" => "time_stamp",
                     "readonly" => true,
-                    "filter" => true,
                 ]],
                 "actions" => [
                     "index" => [
@@ -417,19 +414,16 @@ class GenerateApplicationSchema extends Command
                     "name" => "version",
                     "label" => "Version",
                     "type" => "text",
-                    "filter" => true,
                     "readonly" => true,
                 ], [
                     "name" => "created_at",
                     "label" => "Created",
                     "type" => "text",
-                    "filter" => true,
                     "readonly" => true,
                 ], [
                     "name" => "status",
                     "label" => "Status",
                     "type" => "text",
-                    "filter" => true,
                     "readonly" => true,
                 ]],
                 "actions" => [
