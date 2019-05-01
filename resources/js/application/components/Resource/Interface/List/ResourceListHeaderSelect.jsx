@@ -22,7 +22,16 @@ class ResourceListHeaderSelect extends Component {
     }
 
     componentDidMount() {
-        this.requestResource()
+        if (this.props.options.resource !== undefined) {
+            this.requestResource()
+        } else {
+            if (this.props.options.options !== undefined) {
+                this.setState(prevState => ({
+                    ...prevState,
+                    resource: this.props.options.options,
+                }));
+            }
+        }
     }
 
     handleChange(value) {
@@ -129,6 +138,7 @@ class ResourceListHeaderSelect extends Component {
                             control: (base) => ({
                                 ...base,
                                 minHeight: 34,
+                                minWidth: 80,
                                 backgroundColor: '#f7f7f9',
                                 border: 'none',
                                 borderRadius: 'none',

@@ -205,6 +205,10 @@ export default class Select extends Component {
                             ...base,
                             paddingLeft: '1.75rem',
                             paddingRight: '1.75rem',
+                        }),
+                        menuContainerStyle: (base) => ({
+                            ...base,
+                            zIndex: 100,
                         })
                     }}
             />
