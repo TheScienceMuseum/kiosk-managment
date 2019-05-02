@@ -105,11 +105,12 @@ export default class FormPackageConfiguration extends Component {
                                name={'content.titles.title'}
                                value={this.props.data.data.title}
                                onChange={this.handleBSFormChange}
+                               maxlength={72}
                         />
                 </FormGroup>
 
                 <FormGroup>
-                    <Label>Gallery Name</Label>
+                    <Label>Gallery</Label>
                     {!!this.state.sites.length &&
                     <Select defaultValue={1}
                             field={`gallery`}
