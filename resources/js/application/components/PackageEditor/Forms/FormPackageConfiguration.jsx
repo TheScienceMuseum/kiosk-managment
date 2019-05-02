@@ -109,7 +109,7 @@ export default class FormPackageConfiguration extends Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label>Gallery Name</Label>
+                    <Label>Gallery</Label>
                     {!!this.state.sites.length &&
                     <Select defaultValue={1}
                             field={`gallery`}
