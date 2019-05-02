@@ -32,6 +32,7 @@ export default class SectionTextImage extends Component {
                            name={'title'}
                            value={this.props.data.data.title}
                            onChange={this.handleBSFormChange}
+                           maxlength={100}
                     />
                 </FormGroup>
 
