@@ -9,4 +9,8 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 class CustomPage extends Model implements HasMedia
 {
     use HasMediaTrait;
+
+    protected $casts = [
+        'data' => 'json',
+    ];
 }
