@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\CustomPage;
-use Illuminate\Http\Request;
+use App\Http\Resources\CustomPageResource;
 
 class CustomPageController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        return CustomPageResource::collection(CustomPage::all());
     }
 
     /**
@@ -25,6 +24,6 @@ class CustomPageController extends Controller
      */
     public function show(CustomPage $customPage)
     {
-        //
+        return new CustomPageResource($customPage);
     }
 }

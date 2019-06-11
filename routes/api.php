@@ -78,6 +78,13 @@ Route::name('api.')
             ->group(function (Router $router) {
                 $router->get('', 'SiteController@index')->name('index');
             });
+
+        $router->name('custom_page.')
+            ->prefix('custom_page')
+            ->group(function (Router $router) {
+                $router->get('', 'CustomPageController@index')->name('index');
+                $router->get('{customPage}', 'CustomPageController@show')->name('show');
+            });
     });
 
 Route::name('api.information')
