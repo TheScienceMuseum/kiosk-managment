@@ -66,6 +66,7 @@ class AddElement extends Component {
             ...prevState,
             type: '',
             title: '',
+            types: this._types,
         }));
     }
 
