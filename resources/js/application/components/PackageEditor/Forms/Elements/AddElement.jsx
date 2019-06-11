@@ -57,8 +57,10 @@ class AddElement extends Component {
     }
 
     flushState() {
-        this.props.onToggleModal();
-        this.props.onElementAdded(this.props.elementType, this.state);
+        const {elementType, onElementAdded, onToggleModal} = this.props;
+
+        onToggleModal();
+        onElementAdded(elementType, this.state);
 
         this.setState(prevState => ({
             ...prevState,
