@@ -52,7 +52,7 @@ class App extends Component {
             this.setPackageDataState(response.data);
 
             toastr.success('Updated package data successfully.')
-            
+
             if (typeof onFinish === 'function') {
                 onFinish();
             }
@@ -301,7 +301,7 @@ class App extends Component {
                 <AddElement showModal={this.state.showElementAddModal}
                             onToggleModal={this.handleToggleAddElementModal}
                             onElementAdded={this.handleAddedElement}
-                            type={this.state.showElementAddModalType}
+                            elementType={this.state.showElementAddModalType}
                 />
                 {this.state.packageVersionData &&
                 <Row>

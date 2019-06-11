@@ -32,7 +32,7 @@ class FormPageMixed extends Component {
                            name={'title'}
                            value={this.props.data.data.title}
                            onChange={this.handleBSFormChange}
-                           maxlength={72}
+                           maxLength={72}
                     />
                 </FormGroup>
 
