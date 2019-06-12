@@ -29,7 +29,7 @@ class Api {
     }
 
     getUrlFromPathAndInstance(path, instance) {
-        const matches = path.match(/{[A-Za-z0-9.]+}/g);
+        const matches = path.match(/{[A-Za-z0-9.\[\]]+}/g);
 
         if (matches && matches.length > 0) {
             if (instance === null) {

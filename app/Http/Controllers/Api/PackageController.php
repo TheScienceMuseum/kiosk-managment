@@ -45,6 +45,8 @@ class PackageController extends Controller
             'name' => $request->input('name'),
         ]);
 
+        $package->createVersion();
+
         return new PackageResource($package);
     }
 

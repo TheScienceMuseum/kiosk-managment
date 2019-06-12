@@ -69,7 +69,6 @@ export default class Select extends Component {
 
                 api.request('index', filters)
                     .then(response => {
-                        console.log(response.data);
                         this.setState(prevState => ({
                             ...prevState,
                             options: this.getOptionsFromResponse(response.data.data),

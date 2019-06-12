@@ -86,9 +86,6 @@ class Asset extends Component {
         const imageElement = document.getElementById(`asset-image-cropper-${this.props.name}`);
 
         if (!imageElement || !Asset._assetTypes[this.props.assetType].hasCrop) {
-            console.log(`did not create cropper`);
-            console.log(imageElement);
-            console.log(Asset._assetTypes[this.props.assetType]);
             return;
         }
 
