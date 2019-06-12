@@ -41,13 +41,11 @@ class PackageController extends Controller
      */
     public function store(PackageStoreRequest $request)
     {
-        $thePackage = Package::create([
+        $package = Package::create([
             'name' => $request->input('name'),
         ]);
 
-        $thePackage->createVersion();
-
-        $package = Package::find($thePackage->id);
+        $package->createVersion();
 
         return new PackageResource($package);
     }

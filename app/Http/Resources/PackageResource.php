@@ -24,7 +24,7 @@ class PackageResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'slug' => Str::kebab($this->name),
-            'versions' => PackageVersionResource::collection($this->versions),
+            'versions' => PackageVersionResource::collection($this->versions()->get()),
             'kiosks' => KioskResource::collection($this->kiosks),
             'latest_approved_version' => $latest_approved_version ? $latest_approved_version->version : null,
         ];
