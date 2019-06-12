@@ -387,6 +387,9 @@ class GenerateApplicationSchema extends Command
                     "store" => [
                         "verb" => "post",
                         "path" => "/api/package",
+                        "post_action" => [
+                            "path" => "/editor/{id}/version/{versions[0].id}",
+                        ],
                     ],
                     "update" => [
                         "verb" => "put",
