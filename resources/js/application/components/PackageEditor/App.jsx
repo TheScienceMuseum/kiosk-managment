@@ -52,7 +52,7 @@ class App extends Component {
             this.setPackageDataState(response.data);
 
             toastr.success('Updated package data successfully.')
-            
+
             if (typeof onFinish === 'function') {
                 onFinish();
             }
@@ -101,7 +101,6 @@ class App extends Component {
         }
 
         const currentValue = get(packageVersionData, resolvedPath);
-        console.log(`path: ${resolvedPath}, current value: ${JSON.stringify(currentValue)}`);
         if (currentValue !== value) {
             set(packageVersionData, resolvedPath, value);
 
@@ -133,7 +132,6 @@ class App extends Component {
     }
 
     handleAddedElement(type, setup) {
-        console.log(arguments);
         if (type === 'page') {
             const defaults = {
                 mixed: {
@@ -239,8 +237,6 @@ class App extends Component {
 
                 return newState;
             });
-
-            console.log('handleViewElement', arguments);
         }
     }
 

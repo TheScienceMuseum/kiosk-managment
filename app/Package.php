@@ -50,4 +50,39 @@ class Package extends Model implements Auditable
     {
         return $this->hasMany(PackageVersion::class);
     }
+
+    public function createVersion()
+    {
+        $previousVersion = $this->versions->first();
+
+        if ($previousVersion) {
+            $newVersion = $previousVersion->createNewVersion();
+        } else {
+            $newVersion = $this->versions()->create([
+                'version' => 1,
+                'status' => 'draft',
+                'progress' => 0,
+                'data' => [
+                    'main' => 'index.html',
+                    'requirements' => [
+                        'client_version' => '0.0.1',
+                    ],
+                    'content' => [
+                        'titles' => [
+                            'type' => 'text',
+                            'image' => NULL,
+                            'title' => $this->name,
+                            'galleryName' => 'The Gallery this Kiosk is in',
+                            'attractor' => NULL,
+                        ],
+                        'contents' => [
+
+                        ],
+                    ],
+                ],
+            ]);
+        }
+
+        return $newVersion;
+    }
 }
