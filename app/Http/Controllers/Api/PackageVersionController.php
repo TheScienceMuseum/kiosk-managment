@@ -54,31 +54,7 @@ class PackageVersionController extends Controller
      */
     public function store(Request $request, Package $package): PackageVersionResource
     {
-        $previousVersion = PackageVersion::wherePackageId($package->id)->latest('version')->first();
-
-        $packageVersion = $previousVersion ? $previousVersion->createNewVersion() : $package->versions()->create([
-            'version' => $package->versions()->count() === 0 ? 1 : $package->versions()->count() + 1,
-            'status' => 'draft',
-            'progress' => 0,
-            'data' => [
-                'main' => 'index.html',
-                'requirements' => [
-                    'client_version' => '0.0.1',
-                ],
-                'content' => [
-                    'titles' => [
-                        'type' => 'text',
-                        'image' => NULL,
-                        'title' => $package->name,
-                        'galleryName' => 'The Gallery this Kiosk is in',
-                        'attractor' => NULL,
-                    ],
-                    'contents' => [
-
-                    ],
-                ],
-            ],
-        ]);
+        $packageVersion = $package->createVersion();
 
         return new PackageVersionResource($packageVersion);
     }
