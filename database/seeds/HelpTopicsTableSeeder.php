@@ -19,6 +19,7 @@ class HelpTopicsTableSeeder extends Seeder
             ['context' => '/admin/kiosks', 'content' => '# Kiosk Management'],
             ['context' => '/admin/kiosks/#', 'content' => '# Kiosk View'],
             ['context' => '/admin/packages', 'content' => '# Package Management'],
+            ['context' => '/admin/packages/create', 'content' => '# Package Creation'],
             ['context' => '/admin/packages/#', 'content' => '# Package View'],
             ['context' => '/editor/#/version/#', 'content' => '# Package Editor'],
         ];
