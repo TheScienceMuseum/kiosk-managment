@@ -114,8 +114,20 @@ class ResourceInstance extends Component {
         this._api.request('store', this.state.resourceInstance, this.state.resourceInstance)
             .then(response => {
                 toastr.success(`${ucwords(this._api._resourceName)} has been created`);
-                this.props.history.push(`/admin/${this.props.resourceName}s/${response.data.data.id}`);
-                this.setInstance(response.data.data);
+                const action = this._api._resourceActions.store;
+                if (has(action, 'post_action')) {
+                    if (has(action, 'post_action.path')) {
+                        this.props.history.push(
+                            this._api.getUrlFromPathAndInstance(
+                                get(action, 'post_action.path'),
+                                response.data.data
+                            )
+                        );
+                    }
+                } else {
+                    this.props.history.push(`/admin/${this.props.resourceName}s/${response.data.data.id}`);
+                    this.setInstance(response.data.data);
+                }
             })
             .catch(this.handleErrorOnInstanceUpdate);
     }
