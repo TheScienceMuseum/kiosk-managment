@@ -17,6 +17,7 @@ class CustomPageResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'data' => $this->data,
         ];
     }
 }

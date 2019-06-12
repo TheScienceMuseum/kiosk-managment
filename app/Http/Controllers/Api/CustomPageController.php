@@ -19,10 +19,9 @@ class CustomPageController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\CustomPage  $customPage
-     * @return \Illuminate\Http\Response
+     * @param  CustomPage  $customPage
      */
-    public function show(CustomPage $customPage)
+    public function show(CustomPage $customPage) : CustomPageResource
     {
         return new CustomPageResource($customPage);
     }
