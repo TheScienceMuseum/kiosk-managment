@@ -63,9 +63,12 @@ class AddElement extends Component {
 
     flushState() {
         const {elementType, onElementAdded, onToggleModal} = this.props;
+        const { type, title, customPage } = this.state;
 
         onToggleModal();
-        onElementAdded(elementType, this.state);
+        onElementAdded(elementType, {
+            type, title, customPage
+        });
 
         this.setState(prevState => ({
             ...prevState,
@@ -78,7 +81,7 @@ class AddElement extends Component {
         this.setState(prevState => ({
             ...prevState,
             [field]: value,
-            showCustom:  field === 'custom-page'
+            showCustom:  field === 'customPage'
                 || (field === 'type' && value === 'custom')
                 || (prevState.showCustom && field === 'type' && value === 'custom'),
         }));
@@ -147,7 +150,7 @@ class AddElement extends Component {
                         <Label className={'col-3 my-auto text-right'}>Custom Page</Label>
                         <div className={'col-9'}>
                             <Select defaultValue={0}
-                                    field={`custom-page`}
+                                    field={`customPage`}
                                     handleFieldChange={this.handleFieldChange}
                                     options={customPages}
                             />

@@ -134,7 +134,7 @@ class App extends Component {
     handleAddedElement(type, setup) {
         if (type === 'page') {
             if (setup.type === 'custom') {
-                const customPageId = setup['custom-page'];
+                const customPageId = setup['customPage'];
 
                 axios.get(`/api/custom_page/${customPageId}`)
                     .then((response) => {
