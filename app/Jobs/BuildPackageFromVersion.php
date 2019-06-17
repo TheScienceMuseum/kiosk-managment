@@ -82,6 +82,9 @@ class BuildPackageFromVersion implements ShouldQueue
             $this->updateProgress($this->packageVersion, 25);
             Storage::disk('build-temp')->delete($this->buildDirectory . '/interface.tar.gz');
 
+            // delete the current media
+            $this->createProcess(['rm', '-rf', $this->buildDirectory.'/media/*'])->mustRun();
+
             // import package data
             $this->updateProgress($this->packageVersion, 40);
             $packageData = $this->buildManifest($this->packageVersion);
@@ -203,14 +206,31 @@ class BuildPackageFromVersion implements ShouldQueue
     {
         if (empty($assetEntry)) return null;
 
-        $titleAsset = Media::find($assetEntry->assetId);
+        $assetMedia = Media::find($assetEntry->assetId);
 
-        $assetEntry->assetSource = $this->copyAssetToBuildDir($titleAsset);
+        $assetEntry->assetSource = $this->copyAssetToBuildDir($assetMedia);
         unset($assetEntry->assetId);
         unset($assetEntry->assetMime);
         unset($assetEntry->assetFilename);
 
-        if ($assetEntry->assetType === 'image') {
+        if ($assetEntry->assetType === 'model') {
+            // extract the zip to a folder with random name
+            $folder = './media/'.uniqid().'/';
+            $extractionPath = Storage::disk('build-temp')->path($this->buildDirectory.'/'.$folder);
+            $zipPath = Storage::disk('build-temp')->path($this->buildDirectory.'/'.$assetEntry->assetSource);
+
+            $archive = new \ZipArchive();
+            $archive->open($zipPath);
+            $archive->extractTo($extractionPath);
+
+            unlink($zipPath);
+
+            unset($assetEntry->assetSource);
+
+            $assetEntry->assetDirectory = $folder;
+        }
+
+        if ($assetEntry->assetType === 'image' && !empty($assetEntry->boundingBox)) {
             $imageSize = getimagesize($this->getFullBuildPath().'/'.$assetEntry->assetSource);
             $assetEntry->boundingBox->y = round($assetEntry->boundingBox->y / $imageSize[1], 2);
             $assetEntry->boundingBox->height = round($assetEntry->boundingBox->height / $imageSize[1], 2);
