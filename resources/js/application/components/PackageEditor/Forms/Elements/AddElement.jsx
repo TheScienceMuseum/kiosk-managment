@@ -29,6 +29,9 @@ class AddElement extends Component {
                 }, {
                     label: "Video",
                     value: 'video',
+                }, {
+                    label: "Custom",
+                    value: 'custom',
                 }],
                 section: [{label: 'Select a Type', value: ''},{
                     label: "Title",
@@ -135,7 +138,7 @@ class AddElement extends Component {
                         <FormGroup className={'row'}>
                             <Label className={'col-3 my-auto text-right'}>Type</Label>
                             <div className={'col-9'}>
-                                <Select defaultValue={this.state.type}
+                                <Select defaultValue={type}
                                         field={`type`}
                                         handleFieldChange={this.handleFieldChange}
                                         options={this.getAvailableTypes()}
@@ -143,16 +146,6 @@ class AddElement extends Component {
                             </div>
                         </FormGroup>
                     </div>
-                    <FormGroup className={'row'}>
-                        <Label className={'col-3 my-auto text-right'}>Type</Label>
-                        <div className={'col-9'}>
-                            <Select defaultValue={this.state.type}
-                                    field={`type`}
-                                    handleFieldChange={this.handleFieldChange}
-                                    options={types[elementType]}
-                            />
-                        </div>
-                    </FormGroup>
                     {!showCustom &&
                     <FormGroup className={'row'}>
                         <Label className={'col-3 my-auto text-right'}>
