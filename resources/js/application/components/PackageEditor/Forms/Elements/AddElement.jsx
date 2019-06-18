@@ -11,37 +11,38 @@ import Select from "./Select";
 import {ucwords} from "locutus/php/strings";
 
 class AddElement extends Component {
-    _types = {
-        page: [{label: 'Select a Type', value: ''},{
-            label: "Mixed",
-            value: "mixed",
-        }, {
-            label: "Video",
-            value: 'video',
-        }],
-        section: [{label: 'Select a Type', value: ''},{
-            label: "Title",
-            value: "title",
-        }, {
-            label: "Image",
-            value: "image",
-        }, {
-            label: "Video",
-            value: "video",
-        }, {
-            label: "Text with Image",
-            value: "textImage",
-        }],
-    };
     constructor(props) {
         super(props);
 
         this.state = {
             type: '',
             title: '',
+            types: {
+                page: [{label: 'Select a Type', value: ''},{
+                    label: "Mixed",
+                    value: "mixed",
+                }, {
+                    label: "Video",
+                    value: 'video',
+                }],
+                section: [{label: 'Select a Type', value: ''},{
+                    label: "Title",
+                    value: "title",
+                }, {
+                    label: "Image",
+                    value: "image",
+                }, {
+                    label: "Video",
+                    value: "video",
+                }, {
+                    label: "Text with Image",
+                    value: "textImage",
+                }],
+            }
         };
 
         this.flushState = this.flushState.bind(this);
+        this.getAvailableTypes = this.getAvailableTypes.bind(this);
         this.handleFieldChange = this.handleFieldChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
@@ -69,6 +70,17 @@ class AddElement extends Component {
         this.handleFieldChange(field, value);
     }
 
+    getAvailableTypes() {
+        const { types } = this.state;
+        const { type, validTypes } = this.props;
+
+        const typesAvailable = types[type];
+
+        return typesAvailable.filter(typeAvailable =>
+            typeAvailable.value === '' || validTypes[type].includes(typeAvailable.value)
+        );
+    }
+
     render() {
         return (
             <Modal isOpen={this.props.showModal} toggle={this.props.onToggleModal}>
@@ -83,7 +95,7 @@ class AddElement extends Component {
                                 <Select defaultValue={this.state.type}
                                         field={`type`}
                                         handleFieldChange={this.handleFieldChange}
-                                        options={this._types[this.props.type]}
+                                        options={this.getAvailableTypes()}
                                 />
                             </div>
                         </FormGroup>

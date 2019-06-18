@@ -89,11 +89,15 @@ class BuildPackageFromVersion implements ShouldQueue
 
             // insert the customised style based on gallery chosen
             $gallery = Gallery::find($packageData->gallery);
-            $cssFiles = Storage::disk('build-temp')->files($this->buildDirectory . '/static/css');
-            $cssFile = last(array_filter($cssFiles, function ($filename) {
-                return last(explode('.', $filename)) === 'css';
-            }));
-            Storage::disk('build-temp')->put($cssFile, $gallery->style);
+            $indexFile = Storage::disk('build-temp')->get($this->buildDirectory . '/index.html');
+
+            $indexFile = str_replace(
+                '<html lang="en">',
+                '<html lang="en" class="'.$gallery->classes.'">',
+                $indexFile
+            );
+
+            Storage::disk('build-temp')->put($this->buildDirectory . '/index.html', $indexFile);
 
             // compress package
             $this->updateProgress($this->packageVersion, 60);
@@ -102,7 +106,8 @@ class BuildPackageFromVersion implements ShouldQueue
 
             // copy the package
             $this->updateProgress($this->packageVersion, 80);
-            Storage::disk(config('filesystems.packages'))->put($this->packageVersion->archive_path, Storage::disk('build-temp')->get($archiveFilename));
+            Storage::disk(config('filesystems.packages'))
+                ->put($this->packageVersion->archive_path, Storage::disk('build-temp')->get($archiveFilename));
 
             // finish the process
             $this->updateProgress($this->packageVersion, 100);

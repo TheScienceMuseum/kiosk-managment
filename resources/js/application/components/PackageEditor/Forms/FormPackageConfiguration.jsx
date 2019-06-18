@@ -105,20 +105,34 @@ export default class FormPackageConfiguration extends Component {
                                name={'content.titles.title'}
                                value={this.props.data.data.title}
                                onChange={this.handleBSFormChange}
-                               maxlength={72}
+                               maxLength={72}
                         />
                 </FormGroup>
 
+                {this.props.data.data.aspect_ratio &&
+                <FormGroup>
+                    <Label>Kiosk Layout</Label>
+                    <Select defaultValue={this.props.data.data.aspect_ratio}
+                            field={"aspect_ratio"}
+                            handleFieldChange={this.handleFormChange}
+                            options={[
+                                {label: 'Landscape', value: "16:9"},
+                                {label: 'Portrait', value: "9:16"},
+                            ]}
+                    />
+                </FormGroup>
+                }
+
+                {!!this.state.sites.length &&
                 <FormGroup>
                     <Label>Gallery</Label>
-                    {!!this.state.sites.length &&
                     <Select defaultValue={1}
                             field={`gallery`}
                             handleFieldChange={this.handleFormChange}
                             options={this.state.sites}
                     />
-                    }
                 </FormGroup>
+                }
                 <FormGroup>
                     <Label>Attractor Screen Display Timeout</Label>
                     <Input bsSize={'sm'}
