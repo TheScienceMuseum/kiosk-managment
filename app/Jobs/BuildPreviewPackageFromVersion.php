@@ -46,8 +46,17 @@ class BuildPreviewPackageFromVersion implements ShouldQueue
     {
         $packageVersion = $this->packageVersionPreview->package_version;
 
-        $buildJob = new BuildPackageFromVersion($packageVersion, null);
-        $buildJob->handle();
+        try {
+            $buildJob = new BuildPackageFromVersion($packageVersion, null);
+            $buildJob->handle();
+        } catch (\Exception $exception) {
+            $packageVersion->update([
+                'status' => 'draft',
+                'progress' => 0,
+            ]);
+
+            return false;
+        }
 
         $previewPath = Str::random(16);
 

@@ -12,6 +12,7 @@ class Tree extends Component {
         title: 'Title',
         textImage: 'Image Text',
         image: 'Image',
+        model: '3D Model',
     };
 
     constructor(props) {
@@ -78,7 +79,7 @@ class Tree extends Component {
                             <div>
                                 <div className={'page-section'}>
                                     <InputGroup size={'sm'}>
-                                        {page.type !== 'video' &&
+                                        {page.type !== 'video' && page.type !== 'model' &&
                                         <InputGroupAddon addonType={'prepend'}>
                                             <Button
                                                 color={'primary'}
@@ -107,33 +108,46 @@ class Tree extends Component {
                                                 <FontAwesomeIcon fixedWidth icon={['fal', 'angle-double-up']}/>
                                             </Button>
                                             }
-                                            {page.type !== 'video' &&
-                                            <Button
-                                                color={'primary'}
-                                                onClick={this.props.handleAddElement('section', pageIndex)}
-                                            >
-                                                <FontAwesomeIcon fixedWidth icon={['fal', 'plus']}/>
-                                            </Button>
+                                            {page.type !== 'video' && page.type !== 'model' &&
+                                                <Button
+                                                    color={'primary'}
+                                                    onClick={this.props.handleAddElement('section', pageIndex)}
+                                                >
+                                                    <FontAwesomeIcon fixedWidth
+                                                                     icon={['fal', 'plus']}/>
+                                                </Button>
                                             }
                                             <Button
                                                 color={'primary'}
                                                 onClick={this.props.handleRemoveElement('page', pageIndex)}
                                             >
-                                                <FontAwesomeIcon fixedWidth
-                                                                 icon={['fal', 'minus']}/>
+                                                <FontAwesomeIcon fixedWidth icon={['fal', 'minus']}/>
                                             </Button>
+
+                                            {page.type !== 'video' && page.type !== 'model' &&
+                                                <Button
+                                                    color={'primary'}
+                                                    onClick={this.props.handleAddElement('section', pageIndex)}
+                                                >
+                                                    <FontAwesomeIcon fixedWidth icon={['fal', 'plus']}/>
+                                                </Button>
+                                            }
+
+                                            {page.type !== 'model' &&
                                             <Button
                                                 color={'primary'}
                                                 onClick={this.props.handleViewElement('page', page, pageIndex)}
                                             >
-                                                <FontAwesomeIcon fixedWidth icon={['fal', 'edit']}/>
+                                                <FontAwesomeIcon fixedWidth
+                                                                 icon={['fal', 'edit']}/>
                                             </Button>
+                                            }
                                         </InputGroupAddon>
                                     </InputGroup>
                                 </div>
                             </div>
 
-                            {page.type !== 'video' &&
+                            {page.type !== 'video' && page.type !== 'model' &&
                             <Collapse isOpen={this.pageIsOpen(pageIndex)} className={'sections'}>
                                 {page.subpages.length === 0 &&
                                 <InputGroup size={'sm'}>
@@ -209,12 +223,11 @@ Tree.propTypes = {
                     pageID: PropTypes.string,
                     subtitle: PropTypes.string,
                     title: PropTypes.string,
-                    type: PropTypes.oneOf(["title", "textImage", "image", "video"]).isRequired,
+                    type: PropTypes.oneOf(["title", "textImage", "image", "video", "hotspot"]).isRequired,
                     layout: PropTypes.oneOf(["left", "right"]),
                 })),
-                title: PropTypes.string,
                 titleImage: Types.asset,
-                type: PropTypes.oneOf(["mixed", "video"]),
+                type: PropTypes.oneOf(["mixed", "video", "model"]),
                 videoSrc: Types.asset,
             })),
         }),

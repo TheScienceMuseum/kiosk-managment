@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {
-    Button, FormGroup, Input, Label,
+    Button,
+    FormGroup,
+    Input,
+    Label,
     Modal,
     ModalBody,
     ModalFooter,
@@ -17,6 +20,8 @@ class AddElement extends Component {
         this.state = {
             type: '',
             title: '',
+            showCustom: false,
+            customPages: [],
             types: {
                 page: [{label: 'Select a Type', value: ''},{
                     label: "Mixed",
@@ -42,15 +47,27 @@ class AddElement extends Component {
         };
 
         this.flushState = this.flushState.bind(this);
+        this.getCustomPages = this.getCustomPages.bind(this);
         this.getAvailableTypes = this.getAvailableTypes.bind(this);
         this.handleFieldChange = this.handleFieldChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+
+        if (props.elementType === 'page') {
+            this.getCustomPages();
+        }
     }
 
     flushState() {
-        this.props.onToggleModal();
-        this.props.onElementAdded(this.props.type, this.state);
+        const {elementType, onElementAdded, onToggleModal} = this.props;
+        const { type, title, customPage } = this.state;
+
+        onToggleModal();
+        onElementAdded(elementType, {
+            type, title, customPage
+        });
+
         this.setState(prevState => ({
+            ...prevState,
             type: '',
             title: '',
         }));
@@ -60,7 +77,10 @@ class AddElement extends Component {
         this.setState(prevState => ({
             ...prevState,
             [field]: value,
-        }))
+            showCustom:  field === 'customPage'
+                || (field === 'type' && value === 'custom')
+                || (prevState.showCustom && field === 'type' && value === 'custom'),
+        }));
     }
 
     handleInputChange(event) {
@@ -68,6 +88,26 @@ class AddElement extends Component {
         const value = event.target.value;
 
         this.handleFieldChange(field, value);
+    }
+
+    getCustomPages() {
+        axios.get('/api/custom_page')
+            .then((response) => {
+                const customPages = response.data.data.map((datum) => ({
+                    label: datum.name,
+                    value: datum.id,
+                }));
+
+                customPages.unshift({
+                    label: 'Select a Custom Page',
+                    value: 0
+                });
+
+                this.setState(prevState => ({
+                    ...prevState,
+                    customPages,
+                }));
+            });
     }
 
     getAvailableTypes() {
@@ -82,10 +122,13 @@ class AddElement extends Component {
     }
 
     render() {
+        const { elementType } = this.props;
+        const { customPages, showCustom, title, types, type } = this.state;
+
         return (
             <Modal isOpen={this.props.showModal} toggle={this.props.onToggleModal}>
                 <ModalHeader toggle={this.props.onToggleModal}>
-                    Add {this.props.type}
+                    Add {elementType}
                 </ModalHeader>
                 <ModalBody>
                     <div>
@@ -101,11 +144,41 @@ class AddElement extends Component {
                         </FormGroup>
                     </div>
                     <FormGroup className={'row'}>
-                        <Label className={'col-3 my-auto text-right'}>{ucwords(this.props.type)} Title</Label>
+                        <Label className={'col-3 my-auto text-right'}>Type</Label>
                         <div className={'col-9'}>
-                            <Input name={'title'} value={this.state.title} onChange={this.handleInputChange}/>
+                            <Select defaultValue={this.state.type}
+                                    field={`type`}
+                                    handleFieldChange={this.handleFieldChange}
+                                    options={types[elementType]}
+                            />
                         </div>
                     </FormGroup>
+                    {!showCustom &&
+                    <FormGroup className={'row'}>
+                        <Label className={'col-3 my-auto text-right'}>
+                            {ucwords(elementType)} Title
+                        </Label>
+                        <div className={'col-9'}>
+                            <Input
+                                name={'title'}
+                                value={title}
+                                onChange={this.handleInputChange}
+                            />
+                        </div>
+                    </FormGroup>
+                    }
+                    {showCustom &&
+                    <FormGroup className={'row'}>
+                        <Label className={'col-3 my-auto text-right'}>Custom Page</Label>
+                        <div className={'col-9'}>
+                            <Select defaultValue={0}
+                                    field={`customPage`}
+                                    handleFieldChange={this.handleFieldChange}
+                                    options={customPages}
+                            />
+                        </div>
+                    </FormGroup>
+                    }
                 </ModalBody>
                 <ModalFooter>
                     <Button color={'primary'} size={'sm'} onClick={this.flushState}>Add</Button>
@@ -118,7 +191,7 @@ class AddElement extends Component {
 AddElement.propTypes = {
     showModal: PropTypes.bool.isRequired,
     onToggleModal: PropTypes.func.isRequired,
-    type: PropTypes.oneOf(['section', 'page']).isRequired,
+    elementType: PropTypes.oneOf(['section', 'page']).isRequired,
     onElementAdded: PropTypes.func.isRequired,
 };
 

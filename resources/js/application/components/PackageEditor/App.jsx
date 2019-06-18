@@ -143,30 +143,50 @@ class App extends Component {
 
     handleAddedElement(type, setup) {
         if (type === 'page') {
-            const defaults = {
-                mixed: {
-                    subpages: [],
-                    title: "Mixed media page",
-                    titleImage: null,
-                    type: "mixed",
-                },
-                video: {
-                    asset: null,
-                    title: "A video page",
-                    titleImage: null,
-                },
-            };
+            if (setup.type === 'custom') {
+                const customPageId = setup['customPage'];
 
-            this.setState(prevState => {
-                let packageVersionData = prevState.packageVersionData;
+                axios.get(`/api/custom_page/${customPageId}`)
+                    .then((response) => {
+                        const { data } = response.data;
 
-                packageVersionData.content.contents.push({
-                    ...defaults[setup.type],
-                    ...setup,
+                        this.setState(prevState => {
+                            let packageVersionData = prevState.packageVersionData;
+
+                            packageVersionData.content.contents.push({
+                                ...data
+                            });
+
+                            return {...prevState, packageVersionData, showElementAddModalParent: null};
+                        });
+                    });
+
+            } else {
+                const defaults = {
+                    mixed: {
+                        subpages: [],
+                        title: "Mixed media page",
+                        titleImage: null,
+                        type: "mixed",
+                    },
+                    video: {
+                        asset: null,
+                        title: "A video page",
+                        titleImage: null,
+                    },
+                };
+
+                this.setState(prevState => {
+                    let { packageVersionData } = prevState;
+
+                    packageVersionData.content.contents.push({
+                        ...defaults[setup.type],
+                        ...setup,
+                    });
+
+                    return {...prevState, packageVersionData, showElementAddModalParent: null};
                 });
-
-                return {...prevState, packageVersionData, showElementAddModalParent: null};
-            })
+            }
         }
 
         if (type === 'section') {
@@ -311,6 +331,7 @@ class App extends Component {
                 <AddElement showModal={this.state.showElementAddModal}
                             onToggleModal={this.handleToggleAddElementModal}
                             onElementAdded={this.handleAddedElement}
+                            elementType={this.state.showElementAddModalType}
                             type={this.state.showElementAddModalType}
                             validTypes={{
                                 page: this.validPageTypes[packageVersionData.aspect_ratio],
