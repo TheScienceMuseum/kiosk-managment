@@ -58,7 +58,6 @@ definitions:
     script:
     - ln -f -s .env.dusk.local .env
     - touch ./database/database.sqlite
-    - php artisan dusk:update --detect
     - php artisan serve > /dev/null &
     - php artisan dusk --log-junit ./test-reports/junit.xml
     artifacts:
