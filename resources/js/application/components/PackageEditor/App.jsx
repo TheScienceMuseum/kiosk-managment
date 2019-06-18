@@ -28,8 +28,8 @@ class App extends Component {
         };
 
         this.validPageTypes = {
-            "16:9": ['mixed', 'video', 'model'],
-            "9:16": ['mixed'],
+            "16:9": ['mixed', 'video', 'custom'],
+            "9:16": ['mixed', 'custom'],
         };
 
         this.validSectionTypes = {
@@ -334,8 +334,8 @@ class App extends Component {
                             elementType={this.state.showElementAddModalType}
                             type={this.state.showElementAddModalType}
                             validTypes={{
-                                page: this.validPageTypes[packageVersionData.aspect_ratio],
-                                section: this.validSectionTypes[packageVersionData.aspect_ratio],
+                                page: this.validPageTypes[packageVersionData.aspect_ratio || "16:9"],
+                                section: this.validSectionTypes[packageVersionData.aspect_ratio || "16:9"],
                             }}
                 />
                 <Row>
