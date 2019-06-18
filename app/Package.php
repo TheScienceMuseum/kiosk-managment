@@ -53,7 +53,8 @@ class Package extends Model implements Auditable
 
     public function createVersion()
     {
-        $previousVersion = $this->versions->first();
+        /** @var PackageVersion $previousVersion */
+        $previousVersion = $this->versions->last();
 
         if ($previousVersion) {
             $newVersion = $previousVersion->createNewVersion();
