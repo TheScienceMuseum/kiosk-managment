@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import { extend } from 'lodash';
 import {Button, ButtonGroup, Collapse, Input, InputGroup, InputGroupAddon} from 'reactstrap';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Types from "./PropTypes";
@@ -48,6 +49,8 @@ class Tree extends Component {
     }
 
     render() {
+        const { data } = this.props;
+
         return (
             <div>
                 <div className={'font-weight-bold mb-3 d-flex justify-content-between'}>
@@ -55,7 +58,7 @@ class Tree extends Component {
                     <ButtonGroup size={'sm'}>
                         <Button
                             color={'primary'}
-                            onClick={this.props.handleViewElement('title', this.props.data.titles)}
+                            onClick={this.props.handleViewElement('title', extend(data.content.titles, { aspect_ratio: data.aspect_ratio}))}
                         >
                             Configure
                         </Button>
@@ -70,7 +73,7 @@ class Tree extends Component {
                 </div>
                 <div>
                     <div className={'tree-list'}>
-                        {this.props.data.contents.map((page, pageIndex) =>
+                        {data.content.contents.map((page, pageIndex) =>
                         <div key={`page-${pageIndex}`} className={'mb-1'}>
                             <div>
                                 <div className={'page-section'}>
@@ -88,7 +91,7 @@ class Tree extends Component {
                                         <Input value={`${this._types[page.type]}: ${page.title}`} disabled />
 
                                         <InputGroupAddon addonType={'append'}>
-                                            {pageIndex + 1 < this.props.data.contents.length &&
+                                            {pageIndex + 1 < data.content.contents.length &&
                                             <Button
                                                 color={'primary'}
                                                 onClick={this.props.handleMoveElement('down', pageIndex)}
@@ -105,21 +108,20 @@ class Tree extends Component {
                                             </Button>
                                             }
                                             {page.type !== 'video' &&
-                                            <>
-                                                <Button
-                                                    color={'primary'}
-                                                    onClick={this.props.handleAddElement('section', pageIndex)}
-                                                >
-                                                    <FontAwesomeIcon fixedWidth icon={['fal', 'plus']}/>
-                                                </Button>
-                                                <Button
-                                                    color={'primary'}
-                                                    onClick={this.props.handleRemoveElement('page', pageIndex)}
-                                                >
-                                                    <FontAwesomeIcon fixedWidth icon={['fal', 'minus']}/>
-                                                </Button>
-                                            </>
+                                            <Button
+                                                color={'primary'}
+                                                onClick={this.props.handleAddElement('section', pageIndex)}
+                                            >
+                                                <FontAwesomeIcon fixedWidth icon={['fal', 'plus']}/>
+                                            </Button>
                                             }
+                                            <Button
+                                                color={'primary'}
+                                                onClick={this.props.handleRemoveElement('page', pageIndex)}
+                                            >
+                                                <FontAwesomeIcon fixedWidth
+                                                                 icon={['fal', 'minus']}/>
+                                            </Button>
                                             <Button
                                                 color={'primary'}
                                                 onClick={this.props.handleViewElement('page', page, pageIndex)}
@@ -193,27 +195,29 @@ Tree.propTypes = {
     handleViewElement: PropTypes.func.isRequired,
     handleMoveElement: PropTypes.func.isRequired,
     data: PropTypes.shape({
-        titles: PropTypes.shape({
-            galleryName: PropTypes.string.isRequired,
-            image: Types.asset,
-            title: PropTypes.string.isRequired,
-            type: PropTypes.oneOf(["text"]).isRequired,
-        }).isRequired,
-        contents: PropTypes.arrayOf(PropTypes.shape({
-            articleID: PropTypes.string,
-            subpages: PropTypes.arrayOf(PropTypes.shape({
-                image: Types.image,
-                pageID: PropTypes.string,
-                subtitle: PropTypes.string,
+        content: PropTypes.shape({
+            titles: PropTypes.shape({
+                galleryName: PropTypes.string.isRequired,
+                image: Types.asset,
+                title: PropTypes.string.isRequired,
+                type: PropTypes.oneOf(["text"]).isRequired,
+            }).isRequired,
+            contents: PropTypes.arrayOf(PropTypes.shape({
+                articleID: PropTypes.string,
+                subpages: PropTypes.arrayOf(PropTypes.shape({
+                    image: Types.image,
+                    pageID: PropTypes.string,
+                    subtitle: PropTypes.string,
+                    title: PropTypes.string,
+                    type: PropTypes.oneOf(["title", "textImage", "image", "video"]).isRequired,
+                    layout: PropTypes.oneOf(["left", "right"]),
+                })),
                 title: PropTypes.string,
-                type: PropTypes.oneOf(["title", "textImage", "image", "video"]).isRequired,
-                layout: PropTypes.oneOf(["left", "right"]),
+                titleImage: Types.asset,
+                type: PropTypes.oneOf(["mixed", "video"]),
+                videoSrc: Types.asset,
             })),
-            title: PropTypes.string,
-            titleImage: Types.asset,
-            type: PropTypes.oneOf(["mixed", "video"]),
-            videoSrc: Types.asset,
-        })),
+        }),
     }),
 };
 
