@@ -111,6 +111,10 @@ class PackageVersion extends Model implements HasMedia, Auditable
         return $this->hasMany(PackageVersionPreview::class);
     }
 
+    /**
+     * @param Package|null $package
+     * @return PackageVersion
+     */
     public function createNewVersion(Package $package = null)
     {
         $newVersion = $this->replicate(['media', 'kiosks']);
