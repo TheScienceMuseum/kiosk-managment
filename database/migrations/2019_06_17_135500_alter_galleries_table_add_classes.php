@@ -14,8 +14,7 @@ class AlterGalleriesTableAddClasses extends Migration
     public function up()
     {
         Schema::table('galleries', function (Blueprint $table) {
-            $table->string('classes')->nullable()->after('site_id');
-            $table->dropColumn('style');
+            $table->string('classes')->nullable();
         });
     }
 
@@ -27,8 +26,7 @@ class AlterGalleriesTableAddClasses extends Migration
     public function down()
     {
         Schema::table('galleries', function (Blueprint $table) {
-            $table->longText('style');
-            $table->dropColumn('classes');
+            $table->dropColumn(['classes']);
         });
     }
 }

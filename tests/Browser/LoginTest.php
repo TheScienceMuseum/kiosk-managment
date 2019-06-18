@@ -4,7 +4,6 @@ namespace Tests\Browser;
 
 use App\User;
 use Tests\Browser\Components\LoginSecondFactorConfirmationComponent;
-use Tests\Browser\Pages\HomePage;
 use Tests\Browser\Pages\LoginPage;
 use Tests\Browser\Pages\LoginSecondFactorPage;
 use Tests\DuskTestCase;
