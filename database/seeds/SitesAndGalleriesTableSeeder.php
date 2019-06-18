@@ -31,7 +31,6 @@ class SitesAndGalleriesTableSeeder extends Seeder
             foreach($galleries as $gallery) {
                 $siteModel->galleries()->create([
                     'name' => $gallery,
-                    'classes' => '',
                 ]);
 
             }
