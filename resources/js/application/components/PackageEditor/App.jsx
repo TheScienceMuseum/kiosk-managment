@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Api from "../../../helpers/Api";
 import {Alert, Button, Card, CardBody, CardFooter, CardHeader, Col, Container, Row} from "reactstrap";
-import {get, set} from 'lodash';
+import { extend, get, set } from 'lodash';
 import FormPackageConfiguration from './Forms/FormPackageConfiguration';
 import FormPage from './Forms/FormPage';
 import FormSection from './Forms/FormSection';
@@ -25,6 +25,16 @@ class App extends Component {
             showElementAddModal: false,
             showElementAddModalType: 'page',
             showElementAddModalParent: null,
+        };
+
+        this.validPageTypes = {
+            "16:9": ['mixed', 'video', 'model'],
+            "9:16": ['mixed'],
+        };
+
+        this.validSectionTypes = {
+            "16:9": ['textImage', 'title', 'video', 'image', 'textAudio'],
+            "9:16": ['textImage', 'title', 'textAudio', 'textVideo'],
         };
 
         this.getPackageVersionData = this.getPackageVersionData.bind(this);
@@ -84,7 +94,7 @@ class App extends Component {
         }));
 
         if (openPackageConfig) {
-            this.handleViewElement('title', packageVersionData.content.titles)();
+            this.handleViewElement('title', extend(packageVersionData.content.titles, { aspect_ratio: packageVersionData.aspect_ratio}))();
         }
     }
 
@@ -312,14 +322,22 @@ class App extends Component {
     }
 
     render() {
+        const { packageVersionData } = this.state;
+
         return (
             <Container fluid className={'mb-3'}>
+                {this.state.packageVersionData &&
+                <>
                 <AddElement showModal={this.state.showElementAddModal}
                             onToggleModal={this.handleToggleAddElementModal}
                             onElementAdded={this.handleAddedElement}
                             elementType={this.state.showElementAddModalType}
+                            type={this.state.showElementAddModalType}
+                            validTypes={{
+                                page: this.validPageTypes[packageVersionData.aspect_ratio],
+                                section: this.validSectionTypes[packageVersionData.aspect_ratio],
+                            }}
                 />
-                {this.state.packageVersionData &&
                 <Row>
                     <Col lg={{size: 12}} className={'mt-3'}>
                         <Row>
@@ -332,7 +350,7 @@ class App extends Component {
                                         {/*<FormMain data={this.state.packageVersionData}*/}
                                         {/*handlePackageDataChange={this.handlePackageDataChange}*/}
                                         {/*/>*/}
-                                        <Tree data={this.state.packageVersionData.content}
+                                        <Tree data={this.state.packageVersionData}
                                               handleAddElement={this.handleAddElement}
                                               handleRemoveElement={this.handleRemoveElement}
                                               handleViewElement={this.handleViewElement}
@@ -393,6 +411,7 @@ class App extends Component {
                     {/*<Preview data={this.state.packageVersionData}/>*/}
                     {/*</Col>*/}
                 </Row>
+                </>
                 }
             </Container>
         );

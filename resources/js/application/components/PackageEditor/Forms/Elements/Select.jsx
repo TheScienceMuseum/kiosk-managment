@@ -30,8 +30,10 @@ class Select extends Component {
             };
         }
 
+        const label = options.find(el => el.value === defaultValue);
+
         return {
-            label: options.find(el => el.value === defaultValue).label,
+            label: !!label ? label.label : "Select an Option",
             value: defaultValue,
         };
     }

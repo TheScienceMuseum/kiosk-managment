@@ -12,47 +12,43 @@ import {
 } from "reactstrap";
 import Select from "./Select";
 import {ucwords} from "locutus/php/strings";
-import {each} from 'lodash';
 
 class AddElement extends Component {
-    _types = {
-        page: [{label: 'Select a Type', value: ''},{
-            label: "Mixed",
-            value: "mixed",
-        }, {
-            label: "Video",
-            value: 'video',
-        }, {
-            label: 'Custom',
-            value: 'custom'
-        }],
-        section: [{label: 'Select a Type', value: ''},{
-            label: "Title",
-            value: "title",
-        }, {
-            label: "Image",
-            value: "image",
-        }, {
-            label: "Video",
-            value: "video",
-        }, {
-            label: "Text with Image",
-            value: "textImage",
-        }],
-    };
     constructor(props) {
         super(props);
 
         this.state = {
             type: '',
             title: '',
-            types: this._types,
             showCustom: false,
             customPages: [],
+            types: {
+                page: [{label: 'Select a Type', value: ''},{
+                    label: "Mixed",
+                    value: "mixed",
+                }, {
+                    label: "Video",
+                    value: 'video',
+                }],
+                section: [{label: 'Select a Type', value: ''},{
+                    label: "Title",
+                    value: "title",
+                }, {
+                    label: "Image",
+                    value: "image",
+                }, {
+                    label: "Video",
+                    value: "video",
+                }, {
+                    label: "Text with Image",
+                    value: "textImage",
+                }],
+            }
         };
 
         this.flushState = this.flushState.bind(this);
         this.getCustomPages = this.getCustomPages.bind(this);
+        this.getAvailableTypes = this.getAvailableTypes.bind(this);
         this.handleFieldChange = this.handleFieldChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
 
@@ -102,13 +98,27 @@ class AddElement extends Component {
                     value: datum.id,
                 }));
 
-                customPages.unshift({label: 'Select a Custom Page', value: 0});
+                customPages.unshift({
+                    label: 'Select a Custom Page',
+                    value: 0
+                });
 
                 this.setState(prevState => ({
                     ...prevState,
                     customPages,
                 }));
             });
+    }
+
+    getAvailableTypes() {
+        const { types } = this.state;
+        const { type, validTypes } = this.props;
+
+        const typesAvailable = types[type];
+
+        return typesAvailable.filter(typeAvailable =>
+            typeAvailable.value === '' || validTypes[type].includes(typeAvailable.value)
+        );
     }
 
     render() {
@@ -121,6 +131,18 @@ class AddElement extends Component {
                     Add {elementType}
                 </ModalHeader>
                 <ModalBody>
+                    <div>
+                        <FormGroup className={'row'}>
+                            <Label className={'col-3 my-auto text-right'}>Type</Label>
+                            <div className={'col-9'}>
+                                <Select defaultValue={this.state.type}
+                                        field={`type`}
+                                        handleFieldChange={this.handleFieldChange}
+                                        options={this.getAvailableTypes()}
+                                />
+                            </div>
+                        </FormGroup>
+                    </div>
                     <FormGroup className={'row'}>
                         <Label className={'col-3 my-auto text-right'}>Type</Label>
                         <div className={'col-9'}>
