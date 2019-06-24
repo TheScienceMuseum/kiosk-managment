@@ -5,25 +5,25 @@
     update_cache: yes
     state: present
 
-- name: ensure php7.2 and required extensions are installed
+- name: ensure php7.3 and required extensions are installed
   apt:
     name: "{{ item }}"
   loop:
-  - php7.2-fpm
-  - php7.2-mbstring
-  - php7.2-xml
-  - php7.2-zip
-  - php7.2-mysql
-  - php7.2-curl
-  - php7.2-gd
-  - php7.2-imagick
+  - php7.3-fpm
+  - php7.3-mbstring
+  - php7.3-xml
+  - php7.3-zip
+  - php7.3-mysql
+  - php7.3-curl
+  - php7.3-gd
+  - php7.3-imagick
 
 - name: ensure composer is installed
   apt:
     name: composer
 
 - name: set max upload file sizes
-  shell: sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 999M/' /etc/php/7.2/fpm/php.ini
+  shell: sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 999M/' /etc/php/7.3/fpm/php.ini
 
 - name: set max upload file sizes
-  shell: sed -i 's/post_max_size = 8M/post_max_size = 999M/' /etc/php/7.2/fpm/php.ini
+  shell: sed -i 's/post_max_size = 8M/post_max_size = 999M/' /etc/php/7.3/fpm/php.ini
