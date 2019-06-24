@@ -27,7 +27,7 @@
 
   - name: ensure sqlite extention is installed
     apt:
-      name: php7.2-sqlite3
+      name: php7.3-sqlite3
 
   - name: set nginx user as vagrant
     replace:
@@ -38,7 +38,7 @@
 
   - name: set php-fpm user as vagrant
     replace:
-      path: /etc/php/7.2/fpm/pool.d/www.conf
+      path: /etc/php/7.3/fpm/pool.d/www.conf
       regexp: 'www-data'
       replace: 'vagrant'
       backup: yes
@@ -49,7 +49,7 @@
       state: restarted
     loop:
     - nginx
-    - php7.2-fpm
+    - php7.3-fpm
 
   - name: set up .env file
     copy:
