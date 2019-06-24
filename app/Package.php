@@ -10,6 +10,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  *
  * @property int $id
  * @property string $name
+ * @property string $aspect_ratio
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\OwenIt\Auditing\Models\Audit[] $audits
@@ -18,6 +19,7 @@ use OwenIt\Auditing\Contracts\Auditable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Package newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Package newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Package query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Package whereAspectRatio($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Package whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Package whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Package whereName($value)

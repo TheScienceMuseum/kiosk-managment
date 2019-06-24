@@ -13,10 +13,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $site_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $classes
  * @property-read \App\Site $site
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Gallery newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Gallery newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Gallery query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Gallery whereClasses($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Gallery whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Gallery whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Gallery whereName($value)
