@@ -93,6 +93,22 @@ class PackageVersion extends Model implements HasMedia, Auditable
             ->exists($this->archive_path);
     }
 
+    /**
+     * @return array
+     */
+    public function getDataAttribute() : array
+    {
+        if (empty($this->attributes['data'])) {
+            return null;
+        }
+
+        $data = json_decode($this->attributes['data'], true);
+
+        $data['aspect_ration'] = $this->package->aspect_ratio;
+
+        return $data;
+    }
+
     public function kiosks()
     {
         return $this->hasMany(Kiosk::class, 'assigned_package_version_id');
