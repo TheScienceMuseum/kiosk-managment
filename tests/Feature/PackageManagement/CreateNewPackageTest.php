@@ -22,6 +22,7 @@ class CreateNewPackageTest extends TestCase
                 'message' => true,
                 'errors' => [
                     'name' => true,
+                    'aspect_ratio' => true,
                 ]
             ])
         ;
@@ -32,6 +33,7 @@ class CreateNewPackageTest extends TestCase
         $response = $this->actingAsContentAuthor()
             ->postJson('/api/package', [
                 'name' => 'default',
+                'aspect_ratio' => '16:9',
             ])
         ;
 
@@ -50,6 +52,7 @@ class CreateNewPackageTest extends TestCase
         $response = $this->actingAsDeveloper()
             ->postJson('/api/package', [
                 'name' => $this->faker->unique()->word,
+                'aspect_ratio' => '16:9',
             ])
         ;
 
@@ -67,6 +70,7 @@ class CreateNewPackageTest extends TestCase
         $response = $this->actingAsAdmin()
             ->postJson('/api/package', [
                 'name' => $this->faker->unique()->word,
+                'aspect_ratio' => '16:9',
             ])
         ;
 
@@ -84,6 +88,7 @@ class CreateNewPackageTest extends TestCase
         $response = $this->actingAsTechAdmin()
             ->postJson('/api/package', [
                 'name' => $this->faker->unique()->word,
+                'aspect_ratio' => '16:9',
             ])
         ;
 
@@ -95,6 +100,7 @@ class CreateNewPackageTest extends TestCase
         $response = $this->actingAsContentAuthor()
             ->postJson('/api/package', [
                 'name' => $this->faker->unique()->word,
+                'aspect_ratio' => '16:9',
             ])
         ;
 
@@ -112,6 +118,7 @@ class CreateNewPackageTest extends TestCase
         $response = $this->actingAsContentEditor()
             ->postJson('/api/package', [
                 'name' => $this->faker->unique()->word,
+                'aspect_ratio' => '16:9',
             ])
         ;
 
