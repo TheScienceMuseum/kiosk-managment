@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Package;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PackageStoreRequest extends FormRequest
 {
@@ -26,6 +27,11 @@ class PackageStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string|unique:packages,name',
+            'aspect_ratio' => [
+                'required',
+                'string',
+                Rule::in(['16:9', '9:16']),
+            ],
         ];
     }
 }
