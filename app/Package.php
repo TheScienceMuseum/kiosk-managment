@@ -30,7 +30,7 @@ class Package extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'aspect_ratio'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
