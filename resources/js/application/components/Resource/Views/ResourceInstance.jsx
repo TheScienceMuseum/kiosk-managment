@@ -215,7 +215,9 @@ class ResourceInstance extends Component {
                                 <Link className={'btn btn-secondary'}
                                       to={this.props.location.pathname.split('/').slice(0, -1).join('/')}
                                 >Back</Link>
-                                <Button color={'primary'} onClick={this.flush}>Save</Button>
+                                {(this.state.isCreating || this._api._resourceActions.update) &&
+                                    <Button color={'primary'} onClick={this.flush}>Save</Button>
+                                }
                             </div>
                         </FormGroup>
                     </CardBody>

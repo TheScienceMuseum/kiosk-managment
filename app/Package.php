@@ -30,7 +30,7 @@ class Package extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'aspect_ratio'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
@@ -75,12 +75,11 @@ class Package extends Model implements Auditable
                             'type' => 'text',
                             'image' => NULL,
                             'title' => $this->name,
-                            'galleryName' => 'The Gallery this Kiosk is in',
+                            'gallery' => 1,
                             'attractor' => NULL,
+                            'idleTimeout' => 60,
                         ],
-                        'contents' => [
-
-                        ],
+                        'contents' => [],
                     ],
                 ],
             ]);

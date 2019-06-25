@@ -73,8 +73,17 @@ class ResourceListHeaderSelect extends Component {
             }
 
             if (option.constructor === String) {
-                value = option;
-                label = option
+                if (this.props.options.options) {
+                    const foundOption = this.props.options.options.find(o => o.value === option);
+
+                    if (foundOption) {
+                        value = foundOption.value;
+                        label = foundOption.label;
+                    }
+                } else {
+                    value = option;
+                    label = option;
+                }
             }
         }
 

@@ -180,8 +180,8 @@ class ResourceIndex extends Component {
                 />
                 <CardFooter className={'d-flex justify-content-center'}>
                     {this.state.resourceInstanceSelected === null &&
-                        this.state.resourceIndexPagination.current_page &&
-                        this.state.resourceIndexPagination.total &&
+                        !!this.state.resourceIndexPagination.current_page &&
+                        !!this.state.resourceIndexPagination.total &&
                         <ResourceListPagination current={this.state.resourceIndexPagination.current_page}
                                                 last={this.state.resourceIndexPagination.last_page}
                                                 handleResourceListPagination={this.handleResourceListPagination}

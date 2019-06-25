@@ -407,10 +407,6 @@ class GenerateApplicationSchema extends Command
                             "path" => "/editor/{id}/version/{versions[0].id}",
                         ],
                     ],
-                    "update" => [
-                        "verb" => "put",
-                        "path" => "/api/package/{id}",
-                    ],
                     "duplicate" => [
                         "verb" => "post",
                         "path" => "/api/package/{id}",

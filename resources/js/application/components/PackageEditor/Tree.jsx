@@ -124,15 +124,6 @@ class Tree extends Component {
                                                 <FontAwesomeIcon fixedWidth icon={['fal', 'minus']}/>
                                             </Button>
 
-                                            {page.type !== 'video' && page.type !== 'model' &&
-                                                <Button
-                                                    color={'primary'}
-                                                    onClick={this.props.handleAddElement('section', pageIndex)}
-                                                >
-                                                    <FontAwesomeIcon fixedWidth icon={['fal', 'plus']}/>
-                                                </Button>
-                                            }
-
                                             {page.type !== 'model' &&
                                             <Button
                                                 color={'primary'}
@@ -211,7 +202,7 @@ Tree.propTypes = {
     data: PropTypes.shape({
         content: PropTypes.shape({
             titles: PropTypes.shape({
-                galleryName: PropTypes.string.isRequired,
+                gallery: PropTypes.number.isRequired,
                 image: Types.asset,
                 title: PropTypes.string.isRequired,
                 type: PropTypes.oneOf(["text"]).isRequired,
