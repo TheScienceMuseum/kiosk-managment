@@ -211,7 +211,7 @@ Tree.propTypes = {
     data: PropTypes.shape({
         content: PropTypes.shape({
             titles: PropTypes.shape({
-                galleryName: PropTypes.string.isRequired,
+                gallery: PropTypes.number.isRequired,
                 image: Types.asset,
                 title: PropTypes.string.isRequired,
                 type: PropTypes.oneOf(["text"]).isRequired,
