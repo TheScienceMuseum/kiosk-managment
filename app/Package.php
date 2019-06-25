@@ -75,7 +75,7 @@ class Package extends Model implements Auditable
                             'type' => 'text',
                             'image' => NULL,
                             'title' => $this->name,
-                            'galleryName' => 'The Gallery this Kiosk is in',
+                            'gallery' => 1,
                             'attractor' => NULL,
                         ],
                         'contents' => [
