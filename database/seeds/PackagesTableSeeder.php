@@ -34,6 +34,7 @@ class PackagesTableSeeder extends Seeder
         factory(App\Package::class, 1)
             ->create([
                 'name' => 'default',
+                'aspect_ratio' => '16:9',
             ])
             ->each(function (\App\Package $package) use ($defaultPackageData) {
                 $package

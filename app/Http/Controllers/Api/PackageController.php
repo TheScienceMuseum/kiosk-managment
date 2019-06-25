@@ -28,6 +28,7 @@ class PackageController extends Controller
         $kiosks = QueryBuilder::for(Package::class)
             ->allowedFilters([
                 'name',
+                'aspect_ratio',
             ])
             ->jsonPaginate()
         ;
@@ -43,6 +44,7 @@ class PackageController extends Controller
     {
         $package = Package::create([
             'name' => $request->input('name'),
+            'aspect_ratio' => $request->input('aspect_ratio'),
         ]);
 
         $package->createVersion();

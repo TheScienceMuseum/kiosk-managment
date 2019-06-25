@@ -186,6 +186,22 @@ class GenerateApplicationSchema extends Command
                     "readonly" => true,
                     "create_with" => true,
                 ], [
+                    "name" => "aspect_ratio",
+                    "label" => "Aspect Ratio",
+                    "type" => "select",
+                    "options" => [[
+                        "label" => "Landscape",
+                        "value" => "16:9",
+                    ], [
+                        "label" => "Portrait",
+                        "value" => "9:16",
+                    ]],
+                    "filter" => true,
+                    "readonly" => true,
+                    "create_with" => true,
+                    "id_key" => "value",
+                    "collapse_on_store" => true,
+                ], [
                     "name" => "versions",
                     "label" => "Versions",
                     "type" => "resource_collection",

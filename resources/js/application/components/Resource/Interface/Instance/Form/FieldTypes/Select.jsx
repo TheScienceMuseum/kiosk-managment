@@ -141,8 +141,17 @@ export default class Select extends Component {
             }
 
             if (option.constructor === String) {
-                value = option;
-                label = option
+                if (this.props.field.options) {
+                    const foundOption = this.props.field.options.find(o => o.value === option);
+
+                    if (foundOption) {
+                        value = foundOption.value;
+                        label = foundOption.label;
+                    }
+                } else {
+                    value = option;
+                    label = option;
+                }
             }
         }
 
@@ -174,7 +183,7 @@ export default class Select extends Component {
                     }
                     options={this.state.options.map(this.mapOptionToSelect)}
                     isMulti={this.props.field.multiple}
-                    isDisabled={this.props.field.readonly}
+                    isDisabled={this.props.disabled}
                     styles={{
                         container: (base) => ({
                             ...base,
