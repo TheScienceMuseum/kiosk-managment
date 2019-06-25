@@ -109,18 +109,6 @@ export default class FormPackageConfiguration extends Component {
                         />
                 </FormGroup>
 
-                <FormGroup>
-                    <Label>Kiosk Layout</Label>
-                    <Select defaultValue={this.props.data.data.aspect_ratio || "16:9"}
-                            field={"aspect_ratio"}
-                            handleFieldChange={this.handleFormChange}
-                            options={[
-                                {label: 'Landscape', value: "16:9"},
-                                {label: 'Portrait', value: "9:16"},
-                            ]}
-                    />
-                </FormGroup>
-
                 {!!this.state.sites.length &&
                 <FormGroup>
                     <Label>Gallery</Label>
