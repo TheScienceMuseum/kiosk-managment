@@ -315,9 +315,17 @@ class App extends Component {
 
     showPreview() {
         const { packageVersionId } = this.props;
+        const { packageVersionData } = this.state;
+
+        const width = packageVersionData.aspect_ratio === '16:9' ? '1920' : '1080';
+        const height = packageVersionData.aspect_ratio === '16:9' ? '1080' : '1920';
 
         this.flushPackageVersionData(() => {
-            window.open(`/preview/${packageVersionId}/build`, "Previewing Package", "toolbar=no,scrollbars=no,resizable=no,width=1920,height=1080");
+            window.open(
+                `/preview/${packageVersionId}/build`,
+                "Previewing Package",
+                `toolbar=no,scrollbars=no,resizable=no,width=${width},height=${height}`
+            );
         });
     }
 
