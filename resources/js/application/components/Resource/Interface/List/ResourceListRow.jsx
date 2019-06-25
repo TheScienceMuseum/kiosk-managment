@@ -62,12 +62,27 @@ class ResourceListRow extends Component {
                     </span>
                 );
             case 'select':
-                return instance[field.name].map(item =>
-                    <strong key={`${field.name}-${instance.id}-${item.name.replace(' ', '_')}`}
-                            className={'badge badge-primary mr-1'}>
-                        {item.name}
-                    </strong>
-                );
+                if (field.multiple) {
+                    return instance[field.name].map(item =>
+                        <strong key={`${field.name}-${instance.id}-${item.name.replace(' ', '_')}`}
+                                className={'badge badge-primary mr-1'}>
+                            {field.options ?
+                                field.options.find(option => option.value === item.name).label
+                                : item.name
+                            }
+                        </strong>
+                    );
+                } else {
+                    return (
+                        <strong className={'badge badge-primary mr-1'}>
+                            {field.options ?
+                                field.options.find(option => option.value === instance[field.name]).label
+                                : instance[field.name]
+                            }
+                        </strong>
+                    );
+                }
+
             case 'time_ago':
                 return instance[field.name] ? moment(instance[field.name]).fromNow() : 'Never';
         }

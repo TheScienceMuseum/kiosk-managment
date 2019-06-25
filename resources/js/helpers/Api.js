@@ -210,9 +210,12 @@ class Api {
 
                     if (param) {
                         if (field.collapse_on_store) {
+                            const id_key = field.id_key.constructor === Array ?
+                                last(field.id_key) : field.id_key;
+
                             param = field.multiple ?
-                                param.map(o => get(o, last(field.id_key))) :
-                                param[last(field.id_key)];
+                                param.map(o => get(o, id_key)) :
+                                param[id_key];
 
                         }
                     }
