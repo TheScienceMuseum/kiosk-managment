@@ -124,15 +124,6 @@ class Tree extends Component {
                                                 <FontAwesomeIcon fixedWidth icon={['fal', 'minus']}/>
                                             </Button>
 
-                                            {page.type !== 'video' && page.type !== 'model' &&
-                                                <Button
-                                                    color={'primary'}
-                                                    onClick={this.props.handleAddElement('section', pageIndex)}
-                                                >
-                                                    <FontAwesomeIcon fixedWidth icon={['fal', 'plus']}/>
-                                                </Button>
-                                            }
-
                                             {page.type !== 'model' &&
                                             <Button
                                                 color={'primary'}
