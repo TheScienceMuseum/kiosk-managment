@@ -77,10 +77,9 @@ class Package extends Model implements Auditable
                             'title' => $this->name,
                             'gallery' => 1,
                             'attractor' => NULL,
+                            'idleTimeout' => 60,
                         ],
-                        'contents' => [
-
-                        ],
+                        'contents' => [],
                     ],
                 ],
             ]);
