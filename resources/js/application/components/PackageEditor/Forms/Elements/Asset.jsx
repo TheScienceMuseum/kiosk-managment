@@ -11,14 +11,15 @@ class Asset extends Component {
         '16:9': {
             attractor: 16 / 9,
             titleImage: 16 / 9,
-            image: 16 / 9,
             contentVideoImage: 16 / 9,
-            sectionImage: 91 / 108,
+            sectionImage: 16 / 9,
+            sectionTextImage: 91 / 108,
         },
         '9:16': {
             attractor: 9 / 16,
             titleImage: 9 / 16,
-            sectionImage: 9 / 8,
+            sectionImage: 9 / 16,
+            sectionTextImage: 9 / 8,
         },
     };
 
@@ -28,6 +29,8 @@ class Asset extends Component {
             hasName: true,
             hasSource: true,
             hasCrop: true,
+            maxSource: 100,
+            maxTitle: 100,
         },
         attractor: {
             hasName: false,
@@ -60,7 +63,17 @@ class Asset extends Component {
             hasCrop: true,
             hasName: true,
             hasSource: true,
+            maxSource: 100,
+            maxTitle: 100,
         },
+        sectionTextImage: {
+            mimeType: 'image/',
+            hasCrop: true,
+            hasName: true,
+            hasSource: true,
+            maxSource: 100,
+            maxTitle: 100,
+        }
     };
 
     constructor(props) {
@@ -234,7 +247,7 @@ class Asset extends Component {
                             <Input value={this.props.value.nameText}
                                    name={'nameText'}
                                    onChange={this.handleTextChange}
-                                   maxLength={100}
+                                   maxLength={Asset._assetTypes[this.props.assetType].maxTitle}
                             />
                         </InputGroup>
                     </FormGroup>
@@ -249,7 +262,7 @@ class Asset extends Component {
                             <Input value={this.props.value.sourceText}
                                    name={'sourceText'}
                                    onChange={this.handleTextChange}
-                                   maxLength={100}
+                                   maxLength={Asset._assetTypes[this.props.assetType].maxSource}
                             />
                         </InputGroup>
                     </FormGroup>
