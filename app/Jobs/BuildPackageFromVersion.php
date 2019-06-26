@@ -186,7 +186,8 @@ class BuildPackageFromVersion implements ShouldQueue
         }
 
         // insert the customised style based on gallery chosen
-        $gallery = Gallery::find($manifest->gallery);
+        $galleryID = empty($manifest->gallery) ? 1 : $manifest->gallery;
+        $gallery = Gallery::find($galleryID);
         $indexFile = Storage::disk('build-temp')->get($this->buildDirectory . '/index.html');
 
         $indexFile = str_replace(
