@@ -328,7 +328,7 @@ class GenerateApplicationSchema extends Command
                             "path" => "/editor/{package.id}/version/{id}",
                         ],
                         "display_condition" => [
-                            "status" => "draft",
+                            "status" => ["draft", "failed"],
                         ],
                     ]]
                 ]],
