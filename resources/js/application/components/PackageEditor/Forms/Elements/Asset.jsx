@@ -7,47 +7,55 @@ import AssetBrowser from "../../Assets/AssetBrowser";
 import Types from '../../PropTypes';
 
 class Asset extends Component {
+    static _cropRatios = {
+        '16:9': {
+            attractor: 16 / 9,
+            titleImage: 16 / 9,
+            image: 16 / 9,
+            contentVideoImage: 16 / 9,
+            sectionImage: 91 / 108,
+        },
+        '9:16': {
+            attractor: 9 / 16,
+            titleImage: 9 / 16,
+            sectionImage: 9 / 8,
+        },
+    };
+
     static _assetTypes = {
         titleImage: {
-            aspectRatio: 1 / 1,
             mimeType: 'image/',
             hasName: true,
             hasSource: true,
             hasCrop: true,
         },
         attractor: {
-            aspectRatio: 16 / 9,
             hasName: false,
             hasSource: false,
             hasCrop: true,
         },
         attractorVideoLandscape: {
-            aspectRatio: 16 / 9,
             mimeType: 'video/',
             hasName: false,
             hasSource: false,
             hasCrop: false,
         },
         contentImageLandscape: {
-            aspectRatio: 16 / 9,
             mimeType: 'image/',
             hasName: true,
             hasSource: true,
             hasCrop: true,
         },
         contentVideo: {
-            aspectRatio: 16 / 9,
             mimeType: 'video/',
             hasName: true,
             hasSource: true,
         },
         contentVideoImage: {
-            aspectRatio: 16 / 9,
             mimeType: 'image/',
             hasCrop: true,
         },
         sectionImage: {
-            aspectRatio: 8 / 9,
             mimeType: 'image/',
             hasCrop: true,
         },
@@ -127,7 +135,7 @@ class Asset extends Component {
             scalable: false,
             zoomable: false,
             data: boundingData,
-            aspectRatio: Asset._assetTypes[this.props.assetType].aspectRatio,
+            aspectRatio: Asset._cropRatios[this.props.aspectRatio][this.props.assetType],
             crop(event) {
                 updateBoundingBox(event);
             },
@@ -282,6 +290,7 @@ Asset.propTypes = {
     value: Types.asset,
     onChange: PropTypes.func.isRequired,
     assetType: PropTypes.oneOf(keys(Asset._assetTypes)).isRequired,
+    aspectRatio: PropTypes.oneOf(keys(Asset._cropRatios)).isRequired,
 };
 
 export default Asset;

@@ -141,6 +141,7 @@ export default class FormPackageConfiguration extends Component {
                            packageVersionId={this.props.packageVersionId}
                            onChange={this.handleFormChange}
                            assetType={'attractor'}
+                           aspectRatio={this.props.aspectRatio}
                     />
                 </FormGroup>
                 <FormGroup className={'mb-0'}>
