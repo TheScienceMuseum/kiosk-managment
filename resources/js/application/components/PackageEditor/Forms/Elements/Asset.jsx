@@ -231,8 +231,11 @@ class Asset extends Component {
                             <InputGroupAddon addonType="prepend">
                                 Title
                             </InputGroupAddon>
-                            <Input value={this.props.value.nameText} name={'nameText'}
-                                   onChange={this.handleTextChange}/>
+                            <Input value={this.props.value.nameText}
+                                   name={'nameText'}
+                                   onChange={this.handleTextChange}
+                                   maxLength={100}
+                            />
                         </InputGroup>
                     </FormGroup>
                     }
@@ -243,8 +246,11 @@ class Asset extends Component {
                             <InputGroupAddon addonType="prepend">
                                 Source
                             </InputGroupAddon>
-                            <Input value={this.props.value.sourceText} name={'sourceText'}
-                                   onChange={this.handleTextChange}/>
+                            <Input value={this.props.value.sourceText}
+                                   name={'sourceText'}
+                                   onChange={this.handleTextChange}
+                                   maxLength={100}
+                            />
                         </InputGroup>
                     </FormGroup>
                     }
