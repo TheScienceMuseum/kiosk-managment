@@ -90,18 +90,6 @@ class BuildPackageFromVersion implements ShouldQueue
             $packageData = $this->buildManifest($this->packageVersion);
             Storage::disk('build-temp')->put($this->buildDirectory . '/manifest.json', json_encode($packageData));
 
-            // insert the customised style based on gallery chosen
-            $gallery = Gallery::find($packageData->gallery);
-            $indexFile = Storage::disk('build-temp')->get($this->buildDirectory . '/index.html');
-
-            $indexFile = str_replace(
-                '<html lang="en">',
-                '<html lang="en" class="'.$gallery->classes.'">',
-                $indexFile
-            );
-
-            Storage::disk('build-temp')->put($this->buildDirectory . '/index.html', $indexFile);
-
             // compress package
             $this->updateProgress($this->packageVersion, 60);
             $archiveFilename = $this->packageVersion->package->name . '_' . $this->packageVersion->version . '.package';
@@ -197,7 +185,17 @@ class BuildPackageFromVersion implements ShouldQueue
             }
         }
 
-        $manifest->content->titles->galleryName = Gallery::find($manifest->gallery)->name;
+        // insert the customised style based on gallery chosen
+        $gallery = Gallery::find($manifest->gallery);
+        $indexFile = Storage::disk('build-temp')->get($this->buildDirectory . '/index.html');
+
+        $indexFile = str_replace(
+            '<html lang="en">',
+            '<html lang="en" class="'.$gallery->classes.'">',
+            $indexFile
+        );
+
+        Storage::disk('build-temp')->put($this->buildDirectory . '/index.html', $indexFile);
 
         return $manifest;
     }
