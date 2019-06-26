@@ -151,10 +151,13 @@ class GenerateApplicationSchema extends Command
                     "name" => "level",
                     "label" => "Level",
                     "type" => "select",
-                    "options" => [
-                        "error",
-                        "info",
-                    ],
+                    "options" => [[
+                        'label' => 'Error',
+                        'value' => 'error',
+                    ], [
+                        'label' => 'Info',
+                        'value' => 'info',
+                    ]],
                     "readonly" => true,
                     "filter" => true,
                 ], [
