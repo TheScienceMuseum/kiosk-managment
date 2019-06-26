@@ -71,6 +71,7 @@ export default class SectionImage extends Component {
                            packageVersionId={this.props.packageVersionId}
                            onChange={this.handleFormChange}
                            assetType={'sectionImage'}
+                           aspectRatio={this.props.aspectRatio}
                     />
                 </FormGroup>
             </div>

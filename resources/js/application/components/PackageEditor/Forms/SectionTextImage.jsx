@@ -71,6 +71,7 @@ export default class SectionTextImage extends Component {
                            packageVersionId={this.props.packageVersionId}
                            onChange={this.handleFormChange}
                            assetType={'sectionImage'}
+                           aspectRatio={this.props.aspectRatio}
                     />
                 </FormGroup>
             </div>

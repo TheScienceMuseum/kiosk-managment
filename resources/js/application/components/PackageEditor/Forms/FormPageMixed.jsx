@@ -44,6 +44,7 @@ class FormPageMixed extends Component {
                            packageVersionId={this.props.packageVersionId}
                            onChange={this.handleFormChange}
                            assetType={'titleImage'}
+                           aspectRatio={this.props.aspectRatio}
                     />
                 </FormGroup>
             </div>

@@ -395,18 +395,21 @@ class App extends Component {
                                                                           handlePackageDataChange={this.handlePackageDataChange}
                                                                           packageId={this.props.packageId}
                                                                           packageVersionId={this.props.packageVersionId}
+                                                                          aspectRatio={this.state.packageVersionData.aspect_ratio}
                                                 />
                                             ) || (this.state.currentlyViewingPage.type === 'page' &&
                                                 <FormPage data={this.state.currentlyViewingPage}
                                                           handlePackageDataChange={this.handlePackageDataChange}
                                                           packageId={this.props.packageId}
                                                           packageVersionId={this.props.packageVersionId}
+                                                          aspectRatio={this.state.packageVersionData.aspect_ratio}
                                                 />
                                             ) || (this.state.currentlyViewingPage.type === 'section' &&
                                                 <FormSection data={this.state.currentlyViewingPage}
                                                              handlePackageDataChange={this.handlePackageDataChange}
                                                              packageId={this.props.packageId}
                                                              packageVersionId={this.props.packageVersionId}
+                                                             aspectRatio={this.state.packageVersionData.aspect_ratio}
                                                 />
                                             )
                                         )}

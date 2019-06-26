@@ -282,6 +282,7 @@ Asset.propTypes = {
     value: Types.asset,
     onChange: PropTypes.func.isRequired,
     assetType: PropTypes.oneOf(keys(Asset._assetTypes)).isRequired,
+    aspectRatio: PropTypes.oneOf(keys(Asset._cropRatios)).isRequired,
 };
 
 export default Asset;
