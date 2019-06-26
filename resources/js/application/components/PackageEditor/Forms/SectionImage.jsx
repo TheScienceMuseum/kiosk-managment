@@ -32,7 +32,7 @@ export default class SectionImage extends Component {
                            name={'title'}
                            value={this.props.data.data.title}
                            onChange={this.handleBSFormChange}
-                           maxLength={100}
+                           maxLength={40}
                     />
                 </FormGroup>
 
@@ -43,7 +43,8 @@ export default class SectionImage extends Component {
                            value={this.props.data.data.content}
                            onChange={this.handleBSFormChange}
                            type={'textarea'}
-                           rows={10}
+                           rows={8}
+                           maxLength={320}
                     />
                 </FormGroup>
                 {this.props.aspectRatio === '16:9' &&
