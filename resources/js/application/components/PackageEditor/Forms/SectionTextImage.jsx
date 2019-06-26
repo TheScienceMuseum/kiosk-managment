@@ -32,7 +32,7 @@ export default class SectionTextImage extends Component {
                            name={'title'}
                            value={this.props.data.data.title}
                            onChange={this.handleBSFormChange}
-                           maxLength={100}
+                           maxLength={40}
                     />
                 </FormGroup>
 
@@ -44,6 +44,7 @@ export default class SectionTextImage extends Component {
                            onChange={this.handleBSFormChange}
                            type={'textarea'}
                            rows={10}
+                           maxLength={1080}
                     />
                 </FormGroup>
 
@@ -72,7 +73,7 @@ export default class SectionTextImage extends Component {
                            packageId={this.props.packageId}
                            packageVersionId={this.props.packageVersionId}
                            onChange={this.handleFormChange}
-                           assetType={'sectionImage'}
+                           assetType={'sectionTextImage'}
                            aspectRatio={this.props.aspectRatio}
                     />
                 </FormGroup>
