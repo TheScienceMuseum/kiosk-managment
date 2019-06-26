@@ -47,6 +47,7 @@ export default class SectionTextImage extends Component {
                     />
                 </FormGroup>
 
+                {this.props.aspectRatio === '16:9' &&
                 <FormGroup>
                     <Label>Layout</Label>
                     <Select className={'col-sm-9'}
@@ -56,12 +57,13 @@ export default class SectionTextImage extends Component {
                             options={[{
                                 label: "Left",
                                 value: "left",
-                            },{
+                            }, {
                                 label: "Right",
                                 value: "right",
                             }]}
                     />
                 </FormGroup>
+                }
 
                 <FormGroup>
                     <Label>Title Image</Label>
