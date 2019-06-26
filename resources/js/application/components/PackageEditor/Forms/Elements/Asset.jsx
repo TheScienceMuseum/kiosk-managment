@@ -58,6 +58,8 @@ class Asset extends Component {
         sectionImage: {
             mimeType: 'image/',
             hasCrop: true,
+            hasName: true,
+            hasSource: true,
         },
     };
 
