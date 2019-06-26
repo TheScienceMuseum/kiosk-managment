@@ -311,7 +311,7 @@ class GenerateApplicationSchema extends Command
                         ],
                         "display_condition" => [[
                             "PERMISSION" => "edit all packages",
-                            "status" => "draft",
+                            "status" => ["draft", "failed"],
                         ], [
                             "PERMISSION" => "deploy packages to all kiosks",
                             "status" => ["pending", "approved"],
