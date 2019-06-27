@@ -4,6 +4,7 @@ import SectionImage from "./SectionImage";
 import SectionTextImage from "./SectionTextImage";
 import SectionVideo from "./SectionVideo";
 import SectionTextVideo from './SectionTextVideo';
+import SectionTextAudio from './SectionTextAudio';
 
 export default class FormSection extends Component {
     _components = {
@@ -11,6 +12,7 @@ export default class FormSection extends Component {
         image: SectionImage,
         textImage: SectionTextImage,
         textVideo: SectionTextVideo,
+        textAudio: SectionTextAudio,
         video: SectionVideo,
     };
 
