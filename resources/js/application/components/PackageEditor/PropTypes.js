@@ -9,7 +9,7 @@ const assetType = PropTypes.shape({
     }),
     assetId: PropTypes.number.isRequired,
     assetMime: PropTypes.string.isRequired,
-    assetType: PropTypes.oneOf(['image', 'video']).isRequired,
+    assetType: PropTypes.oneOf(['audio', 'image', 'video']).isRequired,
     nameText: PropTypes.string,
     sourceText: PropTypes.string,
 });
