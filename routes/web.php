@@ -11,17 +11,19 @@
 |
 */
 
+use Illuminate\Routing\Router;
+
 Auth::routes();
 
 Route::group([
     'middleware' => [],
-], function (\Illuminate\Routing\Router $router) {
+], function (Router $router) {
     $router->get('download/client/{os}', 'DownloadController@downloadKioskClient');
 });
 
 Route::group([
     'middleware' => [],
-], function (\Illuminate\Routing\Router $router) {
+], function (Router $router) {
     $router->get('registration/step/password/{token}/{encryptedEmail}', 'Auth\UserOnBoardingController@showStepPassword')
         ->name('user.onboarding.password');
     $router->post('registration/step/password/{token}/{encryptedEmail}', 'Auth\UserOnBoardingController@processStepPassword')
@@ -36,7 +38,7 @@ Route::group([
 
 Route::group([
     'middleware' => ['auth', 'mfa'],
-], function (\Illuminate\Routing\Router $router) {
+], function (Router $router) {
     $router->post('login/authorize', function () {
         return str_replace(url('/'), '', url()->previous()) === '/login/authorize' ?
             redirect('/') :
