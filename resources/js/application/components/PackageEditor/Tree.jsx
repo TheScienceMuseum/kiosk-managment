@@ -11,6 +11,7 @@ class Tree extends Component {
         mixed: 'Mixed',
         title: 'Title',
         textImage: 'Image Text',
+        textVideo: 'Video Text',
         image: 'Image',
         model: '3D Model',
     };
@@ -214,7 +215,7 @@ Tree.propTypes = {
                     pageID: PropTypes.string,
                     subtitle: PropTypes.string,
                     title: PropTypes.string,
-                    type: PropTypes.oneOf(["title", "textImage", "image", "video", "hotspot"]).isRequired,
+                    type: PropTypes.oneOf(["title", "textImage", "image", "video", "hotspot", "textVideo"]).isRequired,
                     layout: PropTypes.oneOf(["left", "right"]),
                 })),
                 titleImage: Types.asset,

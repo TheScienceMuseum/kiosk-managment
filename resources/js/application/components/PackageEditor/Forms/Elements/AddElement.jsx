@@ -45,6 +45,9 @@ class AddElement extends Component {
                 }, {
                     label: "Text with Image",
                     value: "textImage",
+                }, {
+                    label: "Text with Video",
+                    value: "textVideo",
                 }],
             }
         };
