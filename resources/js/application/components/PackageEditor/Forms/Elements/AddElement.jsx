@@ -48,6 +48,9 @@ class AddElement extends Component {
                 }, {
                     label: "Text with Video",
                     value: "textVideo",
+                }, {
+                    label: "Text with Audio",
+                    value: "textAudio",
                 }],
             }
         };

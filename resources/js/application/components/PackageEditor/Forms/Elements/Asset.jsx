@@ -73,7 +73,11 @@ class Asset extends Component {
             hasSource: true,
             maxSource: 100,
             maxTitle: 100,
-        }
+        },
+        audio: {
+            mimeType: 'audio/',
+            hasTranscript: true,
+        },
     };
 
     constructor(props) {
@@ -173,7 +177,7 @@ class Asset extends Component {
         const assetData = {
             assetId: asset.id,
             assetMime: asset.mime_type,
-            assetType: asset.mime_type.indexOf('image/') !== -1 ? 'image' : 'video',
+            assetType: asset.mime_type.split('/')[0],
             assetFilename: asset.file_name,
         };
 
@@ -237,7 +241,7 @@ class Asset extends Component {
                 </InputGroup>
 
                 {this.props.value &&
-                <div>
+                <>
                     {Asset._assetTypes[this.props.assetType].hasName &&
                     <FormGroup className={'mt-3'}>
                         <InputGroup size={'sm'}>
@@ -290,15 +294,41 @@ class Asset extends Component {
 
                     {this.props.value.assetType === 'video' && this.props.value.assetId &&
                     <div className={'mt-3 embed-responsive embed-responsive-16by9'}>
-                        <video controls loop autoPlay poster={this.props.value.assetThumb}>
-                            <source src={`/asset/${this.props.value.assetId}`} type={this.props.value.assetMime} />
-                                Your browser does not support the video tag.
+                        <video controls poster={this.props.value.assetThumb}>
+                            <source src={`/asset/${this.props.value.assetId}`}
+                                    type={this.props.value.assetMime}/>
+                            Your browser does not support the video tag.
                         </video>
                     </div>
                     }
-                </div>
-                }
 
+                    {this.props.value.assetType === 'audio' && this.props.value.assetId &&
+                    <>
+                        <div className={'mt-3 embed-responsive'}>
+                            <audio controls style={{ width: '100%' }}>
+                                <source src={`/asset/${this.props.value.assetId}`}
+                                        type={this.props.value.assetMime}/>
+                                Your browser does not support the audio tag.
+                            </audio>
+                        </div>
+
+                        <FormGroup className={'mb-0 mt-3'}>
+                            <InputGroup size={'sm'}>
+                                <InputGroupAddon addonType="prepend">
+                                    Transcript
+                                </InputGroupAddon>
+                                <Input value={this.props.value.transcript}
+                                       name={'transcript'}
+                                       onChange={this.handleTextChange}
+                                       type={'textarea'}
+                                       rows={10}
+                                />
+                            </InputGroup>
+                        </FormGroup>
+                    </>
+                    }
+                </>
+                }
             </Alert>
         );
     }

@@ -8,6 +8,7 @@ class FileUpload extends Component {
     _acceptedFileTypes = {
         image: ['.jpg', '.jpeg', '.png'],
         video: ['.mp4'],
+        audio: ['.mp3'],
     };
 
     constructor(props) {

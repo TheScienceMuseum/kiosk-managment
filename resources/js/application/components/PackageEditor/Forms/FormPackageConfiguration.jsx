@@ -144,16 +144,6 @@ export default class FormPackageConfiguration extends Component {
                            aspectRatio={this.props.aspectRatio}
                     />
                 </FormGroup>
-                <FormGroup className={'mb-0'}>
-                    <Label>Title Image</Label>
-                    <Asset name={'content.titles.image'}
-                           value={this.props.data.data.image}
-                           packageId={this.props.packageId}
-                           packageVersionId={this.props.packageVersionId}
-                           onChange={this.handleFormChange}
-                           assetType={'titleImage'}
-                    />
-                </FormGroup>
             </div>
         );
     }
