@@ -67,6 +67,18 @@ export default class SectionTextImage extends Component {
                 }
 
                 <FormGroup>
+                    <Label>Audio</Label>
+                    <Asset name={'audio'}
+                           value={this.props.data.data.audio}
+                           packageId={this.props.packageId}
+                           packageVersionId={this.props.packageVersionId}
+                           onChange={this.handleFormChange}
+                           assetType={'audio'}
+                           aspectRatio={this.props.aspectRatio}
+                    />
+                </FormGroup>
+
+                <FormGroup>
                     <Label>Image</Label>
                     <Asset name={'asset'}
                            value={this.props.data.data.asset}
