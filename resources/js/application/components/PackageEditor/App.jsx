@@ -207,6 +207,15 @@ class App extends Component {
                     asset: null,
                     title: "A video page",
                 },
+                textVideo: {
+                    type: "textVideo",
+                    layout: "left",
+                    asset: null,
+                    title: "A video with text",
+                    content: [
+                        "Some content here"
+                    ]
+                },
                 textImage: {
                     content: "This text will appear alongside the image",
                     image: null,
