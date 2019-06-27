@@ -310,6 +310,20 @@ class Asset extends Component {
                                 Your browser does not support the audio tag.
                             </audio>
                         </div>
+
+                        <FormGroup className={'mb-0 mt-3'}>
+                            <InputGroup size={'sm'}>
+                                <InputGroupAddon addonType="prepend">
+                                    Transcription
+                                </InputGroupAddon>
+                                <Input value={this.props.value.transcription}
+                                       name={'transcription'}
+                                       onChange={this.handleTextChange}
+                                       type={'textarea'}
+                                       rows={10}
+                                />
+                            </InputGroup>
+                        </FormGroup>
                     </>
                     }
                 </>
