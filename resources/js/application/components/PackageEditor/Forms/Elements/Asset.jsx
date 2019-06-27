@@ -294,9 +294,10 @@ class Asset extends Component {
 
                     {this.props.value.assetType === 'video' && this.props.value.assetId &&
                     <div className={'mt-3 embed-responsive embed-responsive-16by9'}>
-                        <video controls loop autoPlay poster={this.props.value.assetThumb}>
-                            <source src={`/asset/${this.props.value.assetId}`} type={this.props.value.assetMime} />
-                                Your browser does not support the video tag.
+                        <video controls poster={this.props.value.assetThumb}>
+                            <source src={`/asset/${this.props.value.assetId}`}
+                                    type={this.props.value.assetMime}/>
+                            Your browser does not support the video tag.
                         </video>
                     </div>
                     }
