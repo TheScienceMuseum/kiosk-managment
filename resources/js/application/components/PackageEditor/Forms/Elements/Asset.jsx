@@ -315,10 +315,10 @@ class Asset extends Component {
                         <FormGroup className={'mb-0 mt-3'}>
                             <InputGroup size={'sm'}>
                                 <InputGroupAddon addonType="prepend">
-                                    Transcription
+                                    Transcript
                                 </InputGroupAddon>
-                                <Input value={this.props.value.transcription}
-                                       name={'transcription'}
+                                <Input value={this.props.value.transcript}
+                                       name={'transcript'}
                                        onChange={this.handleTextChange}
                                        type={'textarea'}
                                        rows={10}
