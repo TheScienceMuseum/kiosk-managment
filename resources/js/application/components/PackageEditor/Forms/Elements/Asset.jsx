@@ -85,6 +85,7 @@ class Asset extends Component {
 
         this.state = {
             showAssetBrowser: false,
+            browsingForAsset: 'main',
             cropperEnabled: false,
         };
 
@@ -164,30 +165,46 @@ class Asset extends Component {
         });
     }
 
-    onToggleAssetBrowser() {
-        this.setState(prevState => ({
-            ...prevState,
-            showAssetBrowser: !this.state.showAssetBrowser,
-        }))
+    onToggleAssetBrowser(browseFor) {
+        return () => {
+            this.setState(prevState => ({
+                ...prevState,
+                showAssetBrowser: !this.state.showAssetBrowser,
+                browsingForAsset: browseFor,
+            }));
+        }
     }
 
-    onAssetChosen(asset) {
-        this.onClearChosenAsset();
+    onAssetChosen(chosenFor) {
+        return (asset) => {
+            let assetData = {};
 
-        const assetData = {
-            assetId: asset.id,
-            assetMime: asset.mime_type,
-            assetType: asset.mime_type.split('/')[0],
-            assetFilename: asset.file_name,
+            if (chosenFor === 'main') {
+                assetData = {
+                    assetId: asset.id,
+                    assetMime: asset.mime_type,
+                    assetType: asset.mime_type.split('/')[0],
+                    assetFilename: asset.file_name,
+                };
+            }
+
+            if (chosenFor === 'bslAsset') {
+                assetData = {
+                    bslAssetId: asset.id,
+                    bslAssetMime: asset.mime_type,
+                    bslAssetType: asset.mime_type.split('/')[0],
+                    bslAssetFilename: asset.file_name,
+                };
+            }
+
+            this.props.onChange(this.props.name, {
+                ...this.props.value,
+                ...assetData,
+            });
+
+            this.onToggleAssetBrowser(chosenFor)();
+            setTimeout(this.createCropper);
         };
-
-        this.props.onChange(this.props.name, {
-            ...this.props.value,
-            ...assetData,
-        });
-
-        this.onToggleAssetBrowser();
-        setTimeout(this.createCropper);
     }
 
     handleTextChange(event) {
@@ -200,14 +217,29 @@ class Asset extends Component {
         });
     }
 
-    onClearChosenAsset() {
-        this.props.onChange(this.props.name, null);
+    onClearChosenAsset(clearFor = 'main') {
+        return () => {
+            if (clearFor === 'main') {
+                this.props.onChange(this.props.name, null);
+            }
+
+            if (clearFor === 'bslAsset') {
+                const asset = {...this.props.value};
+
+                if (asset.bslAssetId) delete asset.bslAssetId;
+                if (asset.bslAssetMime) delete asset.bslAssetMime;
+                if (asset.bslAssetType) delete asset.bslAssetType;
+                if (asset.bslAssetFilename) delete asset.bslAssetFilename;
+
+                this.props.onChange(this.props.name, asset);
+            }
+        }
     }
 
-    renderChosenAssetText() {
-        return has(this.props, 'value.assetFilename') ?
-            get(this.props, 'value.assetFilename') :
-            `None`;
+    renderChosenAssetText(section = 'main') {
+        const path = `value.${section === 'main' ? 'asset' : section}Filename`;
+
+        return has(this.props, path) ? get(this.props, path) : 'None';
     }
 
     toggleCropper(action) {
@@ -220,68 +252,75 @@ class Asset extends Component {
     }
 
     render() {
+        const { packageId,  packageVersionId, assetType, name, value } = this.props;
+        const { showAssetBrowser, browsingForAsset, cropperEnabled } = this.state;
+
         return (
             <Alert color={'primary'} className={'mb-0 border-0'}>
-                <AssetBrowser packageId={this.props.packageId}
-                              packageVersionId={this.props.packageVersionId}
-                              showModal={this.state.showAssetBrowser}
+                <AssetBrowser packageId={packageId}
+                              packageVersionId={packageVersionId}
+                              showModal={showAssetBrowser}
+                              chooseAssetFor={browsingForAsset}
                               onToggleModal={this.onToggleAssetBrowser}
-                              onAssetChosen={this.onAssetChosen}
+                              onAssetChosen={this.onAssetChosen(browsingForAsset)}
                               filter={{
-                                  mime_type: Asset._assetTypes[this.props.assetType].mimeType
+                                  mime_type: Asset._assetTypes[assetType].mimeType
                               }}
                 />
 
+                {value &&
+                <>
+                    {Asset._assetTypes[assetType].hasName &&
+                    <FormGroup className={'mb-3'}>
+                        <InputGroup size={'sm'}>
+                            <InputGroupAddon addonType="prepend">Title</InputGroupAddon>
+                            <Input value={value.nameText}
+                                   name={'nameText'}
+                                   onChange={this.handleTextChange}
+                                   maxLength={Asset._assetTypes[assetType].maxTitle}
+                            />
+                        </InputGroup>
+                    </FormGroup>
+                    }
+
+                    {Asset._assetTypes[assetType].hasSource &&
+                    <FormGroup className={'mb-3'}>
+                        <InputGroup size={'sm'}>
+                            <InputGroupAddon addonType="prepend">Source</InputGroupAddon>
+                            <Input value={value.sourceText}
+                                   name={'sourceText'}
+                                   onChange={this.handleTextChange}
+                                   maxLength={Asset._assetTypes[assetType].maxSource}
+                            />
+                        </InputGroup>
+                    </FormGroup>
+                    }
+                </>
+                }
+
                 <InputGroup size={'sm'}>
+                    <InputGroupAddon addonType="prepend">Main</InputGroupAddon>
                     <Input readOnly value={this.renderChosenAssetText()}/>
                     <InputGroupAddon addonType="append">
-                        <Button color={'primary'} onClick={this.onToggleAssetBrowser}>Choose Asset</Button>
-                        <Button color={'secondary'} onClick={this.onClearChosenAsset}>Clear</Button>
+                        <Button color={'primary'} onClick={this.onToggleAssetBrowser('main')}>Choose Asset</Button>
+                        <Button color={'secondary'} onClick={this.onClearChosenAsset('main')}>Clear</Button>
                     </InputGroupAddon>
                 </InputGroup>
 
-                {this.props.value &&
+
+
+                {value &&
                 <>
-                    {Asset._assetTypes[this.props.assetType].hasName &&
-                    <FormGroup className={'mt-3'}>
-                        <InputGroup size={'sm'}>
-                            <InputGroupAddon addonType="prepend">
-                                Title
-                            </InputGroupAddon>
-                            <Input value={this.props.value.nameText}
-                                   name={'nameText'}
-                                   onChange={this.handleTextChange}
-                                   maxLength={Asset._assetTypes[this.props.assetType].maxTitle}
-                            />
-                        </InputGroup>
-                    </FormGroup>
-                    }
-
-                    {Asset._assetTypes[this.props.assetType].hasSource &&
-                    <FormGroup className={'mb-0'}>
-                        <InputGroup size={'sm'}>
-                            <InputGroupAddon addonType="prepend">
-                                Source
-                            </InputGroupAddon>
-                            <Input value={this.props.value.sourceText}
-                                   name={'sourceText'}
-                                   onChange={this.handleTextChange}
-                                   maxLength={Asset._assetTypes[this.props.assetType].maxSource}
-                            />
-                        </InputGroup>
-                    </FormGroup>
-                    }
-
-                    {this.props.value.assetType === 'image' && this.props.value.assetId &&
+                    {value.assetType === 'image' && value.assetId &&
                     <div className={'mt-3'}>
-                        <img id={`asset-image-cropper-${this.props.name}`}
+                        <img id={`asset-image-cropper-${name}`}
                              className={'img-fluid'}
-                             src={`/asset/${this.props.value.assetId}`}
+                             src={`/asset/${value.assetId}`}
                              alt={'Cropping Preview of image'}
                         />
                         {this.cropper &&
                         <FormGroup>
-                            <Button color={this.state.cropperEnabled ? 'success' : 'primary'}
+                            <Button color={cropperEnabled ? 'success' : 'primary'}
                                     onClick={this.toggleCropper}
                                     size={'sm'}
                             >
@@ -292,32 +331,21 @@ class Asset extends Component {
                     </div>
                     }
 
-                    {this.props.value.assetType === 'video' && this.props.value.assetId &&
-                    <div className={'mt-3 embed-responsive embed-responsive-16by9'}>
-                        <video controls poster={this.props.value.assetThumb}>
-                            <source src={`/asset/${this.props.value.assetId}`}
-                                    type={this.props.value.assetMime}/>
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                    }
-
-                    {this.props.value.assetType === 'audio' && this.props.value.assetId &&
+                    {value.assetType === 'audio' && value.assetId &&
                     <>
                         <div className={'mt-3 embed-responsive'}>
                             <audio controls style={{ width: '100%' }}>
-                                <source src={`/asset/${this.props.value.assetId}`}
-                                        type={this.props.value.assetMime}/>
+                                <source src={`/asset/${value.assetId}`}
+                                        type={value.assetMime}
+                                />
                                 Your browser does not support the audio tag.
                             </audio>
                         </div>
 
                         <FormGroup className={'mb-0 mt-3'}>
                             <InputGroup size={'sm'}>
-                                <InputGroupAddon addonType="prepend">
-                                    Transcript
-                                </InputGroupAddon>
-                                <Input value={this.props.value.transcript}
+                                <InputGroupAddon addonType="prepend">Transcript</InputGroupAddon>
+                                <Input value={value.transcript}
                                        name={'transcript'}
                                        onChange={this.handleTextChange}
                                        type={'textarea'}
@@ -326,6 +354,39 @@ class Asset extends Component {
                             </InputGroup>
                         </FormGroup>
                     </>
+                    }
+
+                    {value.assetType === 'video' && value.assetId &&
+                        <>
+                            <div className={`embed-responsive embed-responsive-16by9`}>
+                                <video controls poster={value.assetThumb}>
+                                    <source src={`/asset/${value.assetId}`}
+                                            type={value.assetMime}
+                                    />
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+
+                            <InputGroup size={'sm mt-3'}>
+                                <InputGroupAddon addonType="prepend">BSL Version</InputGroupAddon>
+                                <Input readOnly value={this.renderChosenAssetText('bslAsset')}/>
+                                <InputGroupAddon addonType="append">
+                                    <Button color={'primary'} onClick={this.onToggleAssetBrowser('bslAsset')}>Choose Asset</Button>
+                                    <Button color={'secondary'} onClick={this.onClearChosenAsset('bslAsset')}>Clear</Button>
+                                </InputGroupAddon>
+                            </InputGroup>
+
+                            {value.bslAssetId &&
+                            <div className={`embed-responsive embed-responsive-16by9`}>
+                                <video controls>
+                                    <source src={`/asset/${value.bslAssetId}`}
+                                            type={value.bslAssetMime}
+                                    />
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                            }
+                        </>
                     }
                 </>
                 }
