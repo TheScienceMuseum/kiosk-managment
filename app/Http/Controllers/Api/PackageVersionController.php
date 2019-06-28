@@ -150,7 +150,12 @@ class PackageVersionController extends Controller
      */
     public function uploadAsset(PackageVersionUploadAssetRequest $request, Package $package, PackageVersion $packageVersion)
     {
-        $packageVersion->addMediaFromRequest('file')->toMediaCollection();
+        $media = $packageVersion->addMediaFromRequest('file')->toMediaCollection();
+
+        if (strpos($media->file_name, '.srt') !== false) {
+            $media->mime_type = 'text/srt';
+            $media->save();
+        }
 
         return new PackageVersionResource($packageVersion);
     }

@@ -24,7 +24,7 @@ class PackageVersionUploadAssetRequest extends FormRequest
     public function rules()
     {
         return [
-            'file' => 'required|file|mimes:jpeg,png,mp4,mp3,mpeg,mpga',
+            'file' => 'required|file|mimes:jpeg,png,mp4,mp3,mpeg,mpga,txt',
         ];
     }
 }

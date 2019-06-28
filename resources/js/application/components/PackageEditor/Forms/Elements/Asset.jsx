@@ -197,6 +197,15 @@ class Asset extends Component {
                 };
             }
 
+            if (chosenFor === 'subtitleAsset') {
+                assetData = {
+                    subtitleAssetId: asset.id,
+                    subtitleAssetMime: asset.mime_type,
+                    subtitleAssetType: 'subtitle',
+                    subtitleAssetFilename: asset.file_name,
+                };
+            }
+
             this.props.onChange(this.props.name, {
                 ...this.props.value,
                 ...assetData,
@@ -230,6 +239,17 @@ class Asset extends Component {
                 if (asset.bslAssetMime) delete asset.bslAssetMime;
                 if (asset.bslAssetType) delete asset.bslAssetType;
                 if (asset.bslAssetFilename) delete asset.bslAssetFilename;
+
+                this.props.onChange(this.props.name, asset);
+            }
+
+            if (clearFor === 'subtitleAsset') {
+                const asset = {...this.props.value};
+
+                if (asset.subtitleAssetId) delete asset.subtitleAssetId;
+                if (asset.subtitleAssetMime) delete asset.subtitleAssetMime;
+                if (asset.subtitleAssetType) delete asset.subtitleAssetType;
+                if (asset.subtitleAssetFilename) delete asset.subtitleAssetFilename;
 
                 this.props.onChange(this.props.name, asset);
             }
@@ -366,6 +386,15 @@ class Asset extends Component {
                                     Your browser does not support the video tag.
                                 </video>
                             </div>
+
+                            <InputGroup size={'sm mt-3'}>
+                                <InputGroupAddon addonType="prepend">Subtitles</InputGroupAddon>
+                                <Input readOnly value={this.renderChosenAssetText('subtitleAsset')}/>
+                                <InputGroupAddon addonType="append">
+                                    <Button color={'primary'} onClick={this.onToggleAssetBrowser('subtitleAsset')}>Choose Asset</Button>
+                                    <Button color={'secondary'} onClick={this.onClearChosenAsset('subtitleAsset')}>Clear</Button>
+                                </InputGroupAddon>
+                            </InputGroup>
 
                             <InputGroup size={'sm mt-3'}>
                                 <InputGroupAddon addonType="prepend">BSL Version</InputGroupAddon>

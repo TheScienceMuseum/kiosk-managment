@@ -35,7 +35,22 @@ class AssetBrowser extends Component {
         this.searchAssets        = this.searchAssets.bind(this);
     }
 
-    componentWillReceiveProps(nextProps, nextContext) {
+    componentWillReceiveProps(nextProps) {
+        const { chooseAssetFor } = nextProps;
+        let mime_type = this.state.filter.mime_type;
+
+        if (chooseAssetFor === 'subtitleAsset') {
+            mime_type = 'text/srt';
+        }
+
+        this.setState(prevState => ({
+            ...prevState,
+            filter: {
+                ...prevState.filter,
+                mime_type,
+            }
+        }));
+
         if (nextProps.showModal) {
             this.searchAssets();
         }
@@ -73,11 +88,15 @@ class AssetBrowser extends Component {
         };
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+
+    }
+
     render() {
         return (
-            <Modal isOpen={this.props.showModal} toggle={this.props.onToggleModal} className={this.props.className}
+            <Modal isOpen={this.props.showModal} toggle={this.props.onToggleModal(this.props.chooseAssetFor)} className={this.props.className}
                    size={'lg'}>
-                <ModalHeader toggle={this.props.onToggleModal}>
+                <ModalHeader toggle={this.props.onToggleModal(this.props.chooseAssetFor)}>
                     Asset Browser
                 </ModalHeader>
                 <ModalBody style={{
@@ -120,7 +139,7 @@ class AssetBrowser extends Component {
                     <FileUpload handleAssetUploaded={this.handleAssetUploaded}
                                 packageId={this.props.packageId}
                                 packageVersionId={this.props.packageVersionId}
-                                assetTypes={get(this.props, 'filter.mime_type') ? [get(this.props, 'filter.mime_type').replace('/', '')] : null}
+                                assetTypes={get(this.state, 'filter.mime_type') ? [get(this.state, 'filter.mime_type').replace('/', '')] : null}
                     />
                 </ModalFooter>
             </Modal>
@@ -132,6 +151,7 @@ AssetBrowser.propTypes = {
     packageId: PropTypes.string.isRequired,
     packageVersionId: PropTypes.string.isRequired,
     showModal: PropTypes.bool.isRequired,
+    chooseAssetFor: PropTypes.oneOf(['main', 'bslAsset', 'subtitleAsset']),
     onToggleModal: PropTypes.func.isRequired,
     onAssetChosen: PropTypes.func.isRequired,
     filter: PropTypes.shape({

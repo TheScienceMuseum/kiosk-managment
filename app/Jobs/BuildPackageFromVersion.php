@@ -226,6 +226,14 @@ class BuildPackageFromVersion implements ShouldQueue
                 unset($assetEntry->bslAssetMime);
                 unset($assetEntry->bslAssetFilename);
             }
+
+            if (!empty($assetEntry->subtitleAssetId)) {
+                $subtitleMedia = Media::find($assetEntry->subtitleAssetId);
+                $assetEntry->subtitlesSource = $this->copyAssetToBuildDir($subtitleMedia);
+                unset($assetEntry->subtitleAssetId);
+                unset($assetEntry->subtitleAssetMime);
+                unset($assetEntry->subtitleAssetFilename);
+            }
         }
 
         if ($assetEntry->assetType === 'model') {
