@@ -9,7 +9,7 @@ class FileUpload extends Component {
         image: ['.jpg', '.jpeg', '.png'],
         video: ['.mp4'],
         audio: ['.mp3'],
-        textsrt: ['.srt'],
+        textvtt: ['.vtt'],
     };
 
     constructor(props) {

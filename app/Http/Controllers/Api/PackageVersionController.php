@@ -152,8 +152,8 @@ class PackageVersionController extends Controller
     {
         $media = $packageVersion->addMediaFromRequest('file')->toMediaCollection();
 
-        if (strpos($media->file_name, '.srt') !== false) {
-            $media->mime_type = 'text/srt';
+        if (strpos($media->file_name, '.vtt') !== false) {
+            $media->mime_type = 'text/vtt';
             $media->save();
         }
 

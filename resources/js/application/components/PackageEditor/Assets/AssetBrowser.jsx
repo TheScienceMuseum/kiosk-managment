@@ -40,7 +40,7 @@ class AssetBrowser extends Component {
         let mime_type = this.state.filter.mime_type;
 
         if (chooseAssetFor === 'subtitleAsset') {
-            mime_type = 'text/srt';
+            mime_type = 'text/vtt';
         }
 
         this.setState(prevState => ({
