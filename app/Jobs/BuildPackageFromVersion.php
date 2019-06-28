@@ -218,6 +218,16 @@ class BuildPackageFromVersion implements ShouldQueue
         unset($assetEntry->assetMime);
         unset($assetEntry->assetFilename);
 
+        if ($assetEntry->assetType === 'video') {
+            if (!empty($assetEntry->bslAssetId)) {
+                $bslMedia = Media::find($assetEntry->bslAssetId);
+                $assetEntry->bslSource = $this->copyAssetToBuildDir($bslMedia);
+                unset($assetEntry->bslAssetId);
+                unset($assetEntry->bslAssetMime);
+                unset($assetEntry->bslAssetFilename);
+            }
+        }
+
         if ($assetEntry->assetType === 'model') {
             // extract the zip to a folder with random name
             $folder = './media/'.uniqid().'/';
