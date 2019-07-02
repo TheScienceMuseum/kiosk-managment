@@ -2,11 +2,16 @@
 $body-bg: #f8fafc;
 
 // Typography
-$font-family-sans-serif: "Nunito", sans-serif;
+@font-face {
+  font-family: 'SMG-Regular';
+  src: url("../fonts/smg-regular-webfont.woff") format("woff"),
+       url("../fonts/smg-regular-webfont.woff2") format("woff2");
+}
+
+$font-family-sans-serif: "SMG-Regular", sans-serif;
 $font-size-base: 0.9rem;
 $font-size-large: $font-size-base + 0.6rem;
 $line-height-base: 1.6;
-
 
 // Colours
 $azure: #23CCEF;
