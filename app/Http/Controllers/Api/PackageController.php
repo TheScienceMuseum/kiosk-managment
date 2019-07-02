@@ -10,7 +10,9 @@ use App\Http\Requests\PackageStoreRequest;
 use App\Http\Requests\PackageUpdateRequest;
 use App\Http\Resources\PackageResource;
 use App\Package;
+use App\PackageVersion;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\Models\Media;
 use Spatie\QueryBuilder\QueryBuilder;
 
 /**
@@ -98,6 +100,14 @@ class PackageController extends Controller
      */
     public function destroy(PackageDestroyRequest $request, Package $package)
     {
+        $package->versions->each(function (PackageVersion $packageVersion) {
+            $packageVersion->media->each(function (Media $media) {
+                $media->delete();
+            });
+
+            $packageVersion->delete();
+        });
+
         $package->delete();
 
         return response('', 204);
