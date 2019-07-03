@@ -373,6 +373,9 @@ class GenerateApplicationSchema extends Command
                                 "post_action" => [
                                     "path" => "/admin/packages",
                                 ],
+                                "display_condition" => [
+                                    "kiosks" => "0-LENGTH",
+                                ],
                             ],
                         ],
                     ],
