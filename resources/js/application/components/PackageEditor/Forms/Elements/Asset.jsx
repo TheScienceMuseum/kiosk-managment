@@ -36,12 +36,16 @@ class Asset extends Component {
             hasName: false,
             hasSource: false,
             hasCrop: true,
+            hasSubs: false,
+            hasBSL: false,
         },
         attractorVideoLandscape: {
             mimeType: 'video/',
             hasName: false,
             hasSource: false,
             hasCrop: false,
+            hasSubs: false,
+            hasBSL: false,
         },
         contentImageLandscape: {
             mimeType: 'image/',
@@ -53,6 +57,8 @@ class Asset extends Component {
             mimeType: 'video/',
             hasName: true,
             hasSource: true,
+            hasSubs: true,
+            hasBSL: true,
         },
         contentVideoImage: {
             mimeType: 'image/',
@@ -387,6 +393,7 @@ class Asset extends Component {
                                 </video>
                             </div>
 
+                            {Asset._assetTypes[assetType].hasSubs &&
                             <InputGroup size={'sm mt-3'}>
                                 <InputGroupAddon addonType="prepend">Subtitles</InputGroupAddon>
                                 <Input readOnly value={this.renderChosenAssetText('subtitleAsset')}/>
@@ -395,7 +402,9 @@ class Asset extends Component {
                                     <Button color={'secondary'} onClick={this.onClearChosenAsset('subtitleAsset')}>Clear</Button>
                                 </InputGroupAddon>
                             </InputGroup>
+                            }
 
+                            {Asset._assetTypes[assetType].hasBSL &&
                             <InputGroup size={'sm mt-3'}>
                                 <InputGroupAddon addonType="prepend">BSL Version</InputGroupAddon>
                                 <Input readOnly value={this.renderChosenAssetText('bslAsset')}/>
@@ -404,6 +413,7 @@ class Asset extends Component {
                                     <Button color={'secondary'} onClick={this.onClearChosenAsset('bslAsset')}>Clear</Button>
                                 </InputGroupAddon>
                             </InputGroup>
+                            }
 
                             {value.bslAssetId &&
                             <div className={`embed-responsive embed-responsive-16by9`}>
