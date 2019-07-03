@@ -30,7 +30,8 @@
         "spatie/laravel-medialibrary": "^7.0.0",
         "spatie/laravel-permission": "^2.21",
         "spatie/laravel-query-builder": "^1.13.1",
-        "spatie/temporary-directory": "^1.1"
+        "spatie/temporary-directory": "^1.1",
+        "staudenmeir/eloquent-has-many-deep": "^1.8"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.5",
