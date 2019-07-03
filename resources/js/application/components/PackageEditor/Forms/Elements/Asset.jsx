@@ -393,6 +393,7 @@ class Asset extends Component {
                                 </video>
                             </div>
 
+                            {Asset._assetTypes[assetType].hasSubs &&
                             <InputGroup size={'sm mt-3'}>
                                 <InputGroupAddon addonType="prepend">Subtitles</InputGroupAddon>
                                 <Input readOnly value={this.renderChosenAssetText('subtitleAsset')}/>
@@ -401,6 +402,7 @@ class Asset extends Component {
                                     <Button color={'secondary'} onClick={this.onClearChosenAsset('subtitleAsset')}>Clear</Button>
                                 </InputGroupAddon>
                             </InputGroup>
+                            }
 
                             <InputGroup size={'sm mt-3'}>
                                 <InputGroupAddon addonType="prepend">BSL Version</InputGroupAddon>
