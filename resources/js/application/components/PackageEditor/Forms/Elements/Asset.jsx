@@ -36,12 +36,16 @@ class Asset extends Component {
             hasName: false,
             hasSource: false,
             hasCrop: true,
+            hasSubs: false,
+            hasBSL: false,
         },
         attractorVideoLandscape: {
             mimeType: 'video/',
             hasName: false,
             hasSource: false,
             hasCrop: false,
+            hasSubs: false,
+            hasBSL: false,
         },
         contentImageLandscape: {
             mimeType: 'image/',
@@ -53,6 +57,8 @@ class Asset extends Component {
             mimeType: 'video/',
             hasName: true,
             hasSource: true,
+            hasSubs: true,
+            hasBSL: true,
         },
         contentVideoImage: {
             mimeType: 'image/',
