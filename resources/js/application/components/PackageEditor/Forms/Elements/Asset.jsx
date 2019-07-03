@@ -282,7 +282,7 @@ class Asset extends Component {
         const { showAssetBrowser, browsingForAsset, cropperEnabled } = this.state;
 
         return (
-            <Alert color={'primary'} className={'mb-0 border-0'}>
+            <Alert color={'primary'} className={'mb-0 border-0 Asset'}>
                 <AssetBrowser packageId={packageId}
                               packageVersionId={packageVersionId}
                               showModal={showAssetBrowser}

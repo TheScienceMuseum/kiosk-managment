@@ -1,0 +1,17 @@
+.Asset {
+  .cropper-disabled {
+    .cropper-crop-box {
+      .cropper-view-box {
+        outline: none !important;
+      }
+
+      .cropper-point {
+        background-color: rgba(0, 0, 0, 0) !important;
+      }
+
+      .cropper-line {
+        background-color: rgba(0, 0, 0, 0) !important;
+      }
+    }
+  }
+}
