@@ -28,7 +28,8 @@ use OwenIt\Auditing\Contracts\Auditable;
  */
 class Package extends Model implements Auditable
 {
-    use \OwenIt\Auditing\Auditable;
+    use \OwenIt\Auditing\Auditable,
+        \Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
     protected $fillable = ['name', 'aspect_ratio'];
 
@@ -37,11 +38,10 @@ class Package extends Model implements Auditable
      */
     public function kiosks()
     {
-        return $this->hasManyThrough(
+        return $this->hasManyDeep(
             Kiosk::class,
-            PackageVersion::class,
-            'id',
-            'assigned_package_version_id'
+            [PackageVersion::class],
+            ['package_id', 'assigned_package_version_id']
         );
     }
 

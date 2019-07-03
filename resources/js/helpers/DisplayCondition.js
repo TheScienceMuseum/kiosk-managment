@@ -39,6 +39,10 @@ class DisplayCondition {
                 return User.is(value);
             }
 
+            if (value === '0-LENGTH') {
+                return get(instance, field, []).length === 0;
+            }
+
             if (value.constructor === Boolean) {
                 return !!get(instance, field) === value;
             }
