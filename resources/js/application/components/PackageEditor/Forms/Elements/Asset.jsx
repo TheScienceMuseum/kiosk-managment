@@ -404,6 +404,7 @@ class Asset extends Component {
                             </InputGroup>
                             }
 
+                            {Asset._assetTypes[assetType].hasBSL &&
                             <InputGroup size={'sm mt-3'}>
                                 <InputGroupAddon addonType="prepend">BSL Version</InputGroupAddon>
                                 <Input readOnly value={this.renderChosenAssetText('bslAsset')}/>
@@ -412,6 +413,7 @@ class Asset extends Component {
                                     <Button color={'secondary'} onClick={this.onClearChosenAsset('bslAsset')}>Clear</Button>
                                 </InputGroupAddon>
                             </InputGroup>
+                            }
 
                             {value.bslAssetId &&
                             <div className={`embed-responsive embed-responsive-16by9`}>
