@@ -384,6 +384,24 @@ class GenerateApplicationSchema extends Command
                         "path" => "/api/package/{id}",
                         "actions" => [
                             [
+                                "label" => "Delete",
+                                "action" => [
+                                    "resource" => "package",
+                                    "action" => "delete",
+                                ],
+                                "confirmation" => [
+                                    "text" => "You are about to delete the package <span class='text-dark'>{name}</span>, this will delete all versions of this package. Are you sure?",
+                                    "yes" => "Go ahead",
+                                    "no" => "Cancel",
+                                ],
+                                "post_action" => [
+                                    "path" => "/admin/packages",
+                                ],
+                                "display_condition" => [
+                                    "kiosks" => "0-LENGTH",
+                                ],
+                            ],
+                            [
                                 "label" => "Duplicate",
                                 "action" => [
                                     "resource" => "package",
