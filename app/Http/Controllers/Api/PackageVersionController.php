@@ -102,10 +102,15 @@ class PackageVersionController extends Controller
             ]);
         }
 
-
         if ($request->input('status') === 'pending' && in_array($currentVersion->status, ['draft', 'failed'])) {
             // The package has been submitted for approval, triggering event
             event(new PackageVersionSubmittedForApproval($packageVersion, User::find($request->input('approval'))));
+        }
+
+        if (array_keys($request->all()) === ['package_data'] && $currentVersion->status === 'failed') {
+            $packageVersion->update([
+                'status' => 'draft',
+            ]);
         }
 
         return new PackageVersionResource($packageVersion);
