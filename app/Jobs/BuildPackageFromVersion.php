@@ -189,6 +189,7 @@ class BuildPackageFromVersion implements ShouldQueue
         // insert the customised style based on gallery chosen
         $galleryID = empty($manifest->gallery) ? 1 : $manifest->gallery;
         $gallery = Gallery::find($galleryID);
+        $manifest->content->titles->galleryName = $gallery->name;
         $indexFile = Storage::disk('build-temp')->get($this->buildDirectory . '/index.html');
 
         $indexFile = str_replace(
@@ -196,6 +197,9 @@ class BuildPackageFromVersion implements ShouldQueue
             '<html lang="en" class="'.$gallery->classes.'">',
             $indexFile
         );
+
+        unset($manifest->gallery);
+        unset($manifest->content->titles->gallery);
 
         Storage::disk('build-temp')->put($this->buildDirectory . '/index.html', $indexFile);
 

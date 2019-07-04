@@ -83,6 +83,8 @@ class Asset extends Component {
         audio: {
             mimeType: 'audio/',
             hasTranscript: true,
+            hasName: true,
+            hasSource: true,
         },
     };
 
