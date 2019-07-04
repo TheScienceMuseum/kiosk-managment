@@ -198,6 +198,9 @@ class BuildPackageFromVersion implements ShouldQueue
             $indexFile
         );
 
+        unset($manifest->gallery);
+        unset($manifest->content->titles->gallery);
+
         Storage::disk('build-temp')->put($this->buildDirectory . '/index.html', $indexFile);
 
         return $manifest;
