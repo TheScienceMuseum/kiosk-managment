@@ -223,6 +223,14 @@ class App extends Component {
                     title: "title",
                     type: "textImage",
                 },
+                textAudio: {
+                    content: "This text will appear alongside the image and audio",
+                    asset: null,
+                    audio: null,
+                    layout: "right",
+                    title: "title",
+                    type: "textAudio",
+                },
             };
 
             this.setState(prevState => {
