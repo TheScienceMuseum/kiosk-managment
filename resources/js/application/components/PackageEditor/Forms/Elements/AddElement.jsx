@@ -132,7 +132,7 @@ class AddElement extends Component {
 
     render() {
         const { elementType } = this.props;
-        const { customPages, showCustom, title, types, type } = this.state;
+        const { customPages, showCustom, title, type } = this.state;
 
         return (
             <Modal isOpen={this.props.showModal} toggle={this.props.onToggleModal}>
