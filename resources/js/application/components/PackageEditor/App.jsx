@@ -9,6 +9,8 @@ import FormPage from './Forms/FormPage';
 import FormSection from './Forms/FormSection';
 import Tree from "./Tree";
 import AddElement from "./Forms/Elements/AddElement";
+import Help from '../Navigation/Help';
+
 import {Link} from "react-router-dom";
 
 class App extends Component {
@@ -348,6 +350,7 @@ class App extends Component {
 
     render() {
         const { packageVersionData } = this.state;
+        const { location } = this.props;
 
         return (
             <Container fluid className={'mb-3'}>
@@ -368,8 +371,13 @@ class App extends Component {
                         <Row>
                             <Col sm={4}>
                                 <Card>
-                                    <CardHeader>
-                                        Package {this.state.packageVersionData.name} version {this.state.packageVersionData.version}
+                                    <CardHeader className={'d-flex justify-content-between'}>
+                                        <span style={{
+                                            margin: "auto 0",
+                                        }}>
+                                            Package {this.state.packageVersionData.name} version {this.state.packageVersionData.version}
+                                        </span>
+                                        <Help location={location} showText={false} />
                                     </CardHeader>
                                     <CardBody>
                                         {/*<FormMain data={this.state.packageVersionData}*/}
