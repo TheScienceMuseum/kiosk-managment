@@ -14,6 +14,13 @@ export default class Help extends Component {
         location: PropTypes.shape({
             pathname: PropTypes.string.isRequired,
         }).isRequired,
+        iconSize: PropTypes.oneOf(['1x', '2x', '3x', '4x', '5x']),
+        showText: PropTypes.bool,
+    };
+
+    static defaultProps = {
+        iconSize: '1x',
+        showText: true,
     };
 
     constructor(props) {
@@ -100,6 +107,7 @@ export default class Help extends Component {
     }
 
     render() {
+        const { iconSize, showText } = this.props;
         return (
             <div>
                 <Modal isOpen={this.state.edit} toggle={this.toggleModal('edit')} size={'lg'}>
@@ -139,8 +147,10 @@ export default class Help extends Component {
                        cursor: 'pointer',
                    }}
                 >
-                    <FontAwesomeIcon icon={['fal', 'question-circle']} size={'2x'} fixedWidth />
-                    <span className={'nav-text'}>Help</span>
+                    <FontAwesomeIcon icon={['fal', 'question-circle']} size={iconSize} fixedWidth />
+                    {showText &&
+                        <span className={'nav-text'}>Help</span>
+                    }
                 </a>
             </div>
         );
