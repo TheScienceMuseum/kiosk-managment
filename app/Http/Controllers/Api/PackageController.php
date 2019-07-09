@@ -84,7 +84,8 @@ class PackageController extends Controller
     public function duplicate(PackageDuplicateRequest $request, Package $package) : PackageResource
     {
         $newPackage = Package::create([
-            'name' => $request->input('name')
+            'name' => $request->input('name'),
+            'aspect_ratio' => $package->aspect_ratio,
         ]);
 
         $package->versions->last()->createNewVersion($newPackage);
