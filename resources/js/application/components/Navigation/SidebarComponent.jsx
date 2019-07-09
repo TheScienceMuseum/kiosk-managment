@@ -41,7 +41,7 @@ class SidebarComponent extends Component {
                         <Logout />
                     </li>
                     <li>
-                        <Help location={this.props.location} />
+                        <Help location={this.props.location} iconSize={'2x'} />
                     </li>
                     <li>
                         <DownloadClient />
