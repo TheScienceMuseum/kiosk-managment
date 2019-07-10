@@ -4,6 +4,7 @@ export default {
             mixed: 'Multiple - Mixed Media',
             video: 'Single - Video',
             custom: 'Single - Custom',
+            model: '3D Model',
         },
         SECTION: {
             title: 'Title',
