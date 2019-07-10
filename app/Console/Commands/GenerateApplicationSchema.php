@@ -219,7 +219,9 @@ class GenerateApplicationSchema extends Command
                                 "path" => "/editor/{package.id}/version/{id}",
                             ],
                             "display_condition" => [
-                                "status" => ["draft", "failed"],
+                                "rules" => [
+                                    "status" => ["draft", "failed"],
+                                ],
                             ],
                         ],
                         [
@@ -232,12 +234,16 @@ class GenerateApplicationSchema extends Command
                                 "refresh" => true,
                             ],
                             "display_condition" => [[
-                                "PERMISSION" => "edit all packages",
-                                "status" => ["draft", "failed"],
+                                "rules" => [
+                                    "PERMISSION" => "edit all packages",
+                                    "status" => ["draft", "failed"],
+                                ],
                             ], [
-                                "PERMISSION" => "deploy packages to all kiosks",
-                                "status" => ["pending", "approved"],
-                                "progress" => "100",
+                                "rules" => [
+                                    "PERMISSION" => "deploy packages to all kiosks",
+                                    "status" => ["pending", "approved"],
+                                    "progress" => "100",
+                                ],
                             ]],
                             "confirmation" => [
                                 "text" => "Are you sure you want to delete this version of the package?",
@@ -258,7 +264,9 @@ class GenerateApplicationSchema extends Command
                                 "path" => "/admin/packages/{package.id}",
                             ],
                             "display_condition" => [
-                                "status" => "draft",
+                                "rules" => [
+                                    "status" => "draft",
+                                ],
                             ],
                             "confirmation" => [
                                 "text" => "Are you sure you want to submit this package version for approval? No changes can be made after this action.",
@@ -297,9 +305,11 @@ class GenerateApplicationSchema extends Command
                                 "path" => "/admin/packages/{package.id}",
                             ],
                             "display_condition" => [
-                                "PERMISSION" => "publish all packages",
-                                "status" => "pending",
-                                "progress" => 100,
+                                "rules" => [
+                                    "PERMISSION" => "publish all packages",
+                                    "status" => "pending",
+                                    "progress" => 100,
+                                ],
                             ],
                         ], [
                             "label" => "Deploy",
@@ -308,8 +318,10 @@ class GenerateApplicationSchema extends Command
                                 "action" => "deploy",
                             ],
                             "display_condition" => [
-                                "PERMISSION" => "deploy packages to all kiosks",
-                                "status" => ["approved", "deployed"],
+                                "rules" => [
+                                    "PERMISSION" => "deploy packages to all kiosks",
+                                    "status" => ["approved", "deployed"],
+                                ],
                             ],
                             "confirmation" => [
                                 "text" => "Are you sure you want to deploy this package version to a kiosk?",
@@ -378,7 +390,9 @@ class GenerateApplicationSchema extends Command
                                     "path" => "/admin/packages",
                                 ],
                                 "display_condition" => [
-                                    "kiosks" => "0-LENGTH",
+                                    "rules" => [
+                                        "kiosks" => "0-LENGTH",
+                                    ],
                                 ],
                             ],
                         ],
@@ -402,7 +416,9 @@ class GenerateApplicationSchema extends Command
                                     "path" => "/admin/packages",
                                 ],
                                 "display_condition" => [
-                                    "kiosks" => "0-LENGTH",
+                                    "rules" => [
+                                        "kiosks" => "0-LENGTH",
+                                    ],
                                 ],
                             ],
                             [
@@ -515,7 +531,9 @@ class GenerateApplicationSchema extends Command
                                 "action" => "show",
                             ],
                             "display_condition" => [
-                                "status" => "draft",
+                                "rules" => [
+                                    "status" => "draft",
+                                ],
                             ],
                             "confirmation" => [
                                 "text" => "Are you sure you want to submit this package version for approval? No changes can be made after this action.",
@@ -548,8 +566,10 @@ class GenerateApplicationSchema extends Command
                                 "action" => "show",
                             ],
                             "display_condition" => [
-                                "status" => "pending",
-                                "PERMISSION" => "publish all packages",
+                                "rules" => [
+                                    "status" => "pending",
+                                    "PERMISSION" => "publish all packages",
+                                ],
                             ],
                             "confirmation" => [
                                 "text" => "Are you sure you want to approve this package version? No changes can be made after this action.",
@@ -633,7 +653,9 @@ class GenerateApplicationSchema extends Command
                                     "action" => "show",
                                 ],
                                 "display_condition" => [
-                                    "deleted_at" => false,
+                                    "rules" => [
+                                        "deleted_at" => false,
+                                    ],
                                 ],
                                 "confirmation" => [
                                     "text" => "Are you sure you want to suspend this account?",
@@ -652,7 +674,9 @@ class GenerateApplicationSchema extends Command
                                     "action" => "show",
                                 ],
                                 "display_condition" => [
-                                    "deleted_at" => true,
+                                    "rules" => [
+                                        "deleted_at" => true,
+                                    ],
                                 ],
                                 "confirmation" => [
                                     "text" => "Are you sure you want to restore this account?",
@@ -671,7 +695,9 @@ class GenerateApplicationSchema extends Command
                                     "action" => "show",
                                 ],
                                 "display_condition" => [
-                                    "deleted_at" => false,
+                                    "rules" => [
+                                        "deleted_at" => false,
+                                    ],
                                 ],
                                 "confirmation" => [
                                     "text" => "Are you sure you want to reset this accounts authentication details? (password and second factor will be reset)",
