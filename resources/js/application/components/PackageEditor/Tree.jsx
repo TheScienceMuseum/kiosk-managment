@@ -4,17 +4,21 @@ import { extend } from 'lodash';
 import {Button, ButtonGroup, Collapse, Input, InputGroup, InputGroupAddon} from 'reactstrap';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Types from "./PropTypes";
+import CONSTANTS from './Constants';
 
 class Tree extends Component {
     _types = {
-        video: 'Video',
-        mixed: 'Mixed',
-        title: 'Title',
-        textImage: 'Image Text',
-        textVideo: 'Video Text',
-        textAudio: 'Audio Text',
-        image: 'Image',
-        model: '3D Model',
+        // Pages
+        video: CONSTANTS.LABELS.PAGE.video,
+        mixed: CONSTANTS.LABELS.PAGE.mixed,
+        model: CONSTANTS.LABELS.PAGE.model,
+
+        // Sections
+        title: CONSTANTS.LABELS.SECTION.title,
+        textImage: CONSTANTS.LABELS.SECTION.textImage,
+        textVideo: CONSTANTS.LABELS.SECTION.textVideo,
+        textAudio: CONSTANTS.LABELS.SECTION.textAudio,
+        image: CONSTANTS.LABELS.SECTION.image,
     };
 
     constructor(props) {

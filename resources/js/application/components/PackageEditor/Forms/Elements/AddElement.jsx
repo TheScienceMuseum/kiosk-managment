@@ -12,6 +12,7 @@ import {
 } from "reactstrap";
 import Select from "./Select";
 import {ucwords} from "locutus/php/strings";
+import CONSTANTS from '../../Constants';
 
 class AddElement extends Component {
     constructor(props) {
@@ -24,32 +25,32 @@ class AddElement extends Component {
             customPages: [],
             types: {
                 page: [{label: 'Select a Type', value: ''},{
-                    label: "Mixed",
+                    label: CONSTANTS.LABELS.PAGE.mixed,
                     value: "mixed",
                 }, {
-                    label: "Video",
+                    label: CONSTANTS.LABELS.PAGE.video,
                     value: 'video',
                 }, {
-                    label: "Custom",
+                    label: CONSTANTS.LABELS.PAGE.custom,
                     value: 'custom',
                 }],
                 section: [{label: 'Select a Type', value: ''},{
-                    label: "Title",
+                    label: CONSTANTS.LABELS.SECTION.title,
                     value: "title",
                 }, {
-                    label: "Image",
+                    label: CONSTANTS.LABELS.SECTION.image,
                     value: "image",
                 }, {
-                    label: "Video",
-                    value: "video",
-                }, {
-                    label: "Text with Image",
+                    label: CONSTANTS.LABELS.SECTION.textImage,
                     value: "textImage",
                 }, {
-                    label: "Text with Video",
+                    label: CONSTANTS.LABELS.SECTION.video,
+                    value: "video",
+                }, {
+                    label: CONSTANTS.LABELS.SECTION.textVideo,
                     value: "textVideo",
                 }, {
-                    label: "Text with Audio",
+                    label: CONSTANTS.LABELS.SECTION.textAudio,
                     value: "textAudio",
                 }],
             }
