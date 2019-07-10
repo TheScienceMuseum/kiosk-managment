@@ -41,7 +41,7 @@ class ResourceListHeader extends Component {
                         }
                     })}
                     {this.props.resourceInstanceActions.length > 0 &&
-                        <th className={'text-right align-middle'}>Actions</th>
+                        <th className={'text-right align-middle sr-only'}>Actions</th>
                     }
                 </tr>
             </thead>

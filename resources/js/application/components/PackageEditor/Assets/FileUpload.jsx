@@ -61,6 +61,7 @@ class FileUpload extends Component {
     render() {
         return (
             <div className={'w-100'}>
+                <h5 className={'modal-title mb-3 ml-1'}>Or upload a new asset</h5>
                 <InputGroup>
                     <CustomInput id={'assetUploadInput'}
                                  type={'file'}
