@@ -63,7 +63,7 @@ class Tree extends Component {
                             color={'primary'}
                             onClick={this.props.handleViewElement('title', extend(data.content.titles, { aspect_ratio: data.aspect_ratio}))}
                         >
-                            Configure
+                            Package Setup
                         </Button>
 
                         <Button
