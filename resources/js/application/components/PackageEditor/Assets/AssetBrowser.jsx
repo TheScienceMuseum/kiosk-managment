@@ -97,7 +97,7 @@ class AssetBrowser extends Component {
             <Modal isOpen={this.props.showModal} toggle={this.props.onToggleModal(this.props.chooseAssetFor)} className={this.props.className}
                    size={'lg'}>
                 <ModalHeader toggle={this.props.onToggleModal(this.props.chooseAssetFor)}>
-                    Asset Browser
+                    Choose an Asset
                 </ModalHeader>
                 <ModalBody style={{
                     maxHeight: '75vh',
