@@ -390,6 +390,7 @@ class GenerateApplicationSchema extends Command
                                     "path" => "/admin/packages",
                                 ],
                                 "display_condition" => [
+                                    "message" => "Cannot delete a package that has at least one deployed version.",
                                     "rules" => [
                                         "kiosks" => "0-LENGTH",
                                     ],
@@ -416,6 +417,7 @@ class GenerateApplicationSchema extends Command
                                     "path" => "/admin/packages",
                                 ],
                                 "display_condition" => [
+                                    "message" => "Cannot delete a package that has at least one deployed version.",
                                     "rules" => [
                                         "kiosks" => "0-LENGTH",
                                     ],
