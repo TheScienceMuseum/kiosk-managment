@@ -1,11 +1,11 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import Api from "../../../../helpers/Api";
-import {Button, Card, CardBody, CardHeader, FormGroup} from "reactstrap";
+import { Button, Card, CardBody, CardHeader, FormGroup, UncontrolledTooltip } from 'reactstrap';
 import {BounceLoader} from "react-spinners";
 
 import {ucwords} from "locutus/php/strings";
-import {each, get, has, keys} from "lodash";
+import { each, get, has, kebabCase, keys } from 'lodash';
 
 import Field from "../Interface/Instance/Form/Field";
 import {Link} from "react-router-dom";
@@ -45,6 +45,7 @@ class ResourceInstance extends Component {
         this.requestInstance                = this.requestInstance.bind(this);
         this.setInstance                    = this.setInstance.bind(this);
         this.updateInstance                 = this.updateInstance.bind(this);
+        this.renderResourceActionButton     = this.renderResourceActionButton.bind(this);
 
         this.resourceInstanceActions = [];
     }
@@ -82,6 +83,11 @@ class ResourceInstance extends Component {
                             getState: () => this.state,
                         }),
                     })
+                } else if (DisplayCondition.getFailureMessage(get(action, 'display_condition'), this.props.resourceInstance)) {
+                    this.resourceInstanceActions.push({
+                        label: action.label,
+                        popout: DisplayCondition.getFailureMessage(get(action, 'display_condition'), this.props.resourceInstance),
+                    });
                 }
             });
         }
@@ -163,6 +169,32 @@ class ResourceInstance extends Component {
         });
     }
 
+    renderResourceActionButton(action) {
+        const { resourceInstance } = this.state;
+        const { callback, label, popout } = action;
+
+        const button = (
+            <Button key={`instance-actions-${kebabCase(action.label)}`}
+                    id={`instance-actions-${kebabCase(action.label)}`}
+                    size={'xs'}
+                    className={'mx-1'}
+                    onClick={action.callback}
+                    color={`${action.color || 'primary'} ${!callback ? 'disabled' : ''}`}
+            >
+                {action.label}
+            </Button>
+        );
+
+        return (!!callback) ? button : (
+            <Fragment key={`action-${resourceInstance.id}-${kebabCase(label)}`}>
+                {button}
+                <UncontrolledTooltip placement="top" target={`instance-actions-${kebabCase(label)}`}>
+                    {popout}
+                </UncontrolledTooltip>
+            </Fragment>
+        );
+    }
+
     render() {
         return (
             <Card>
@@ -178,16 +210,7 @@ class ResourceInstance extends Component {
                     </div>
                     <div>
                         {!this.state.resourceInstanceLoading &&
-                            this.resourceInstanceActions.map(action =>
-                                <Button key={`index-actions-${action.label}`}
-                                        size={'xs'}
-                                        className={'mx-1'}
-                                        onClick={action.callback}
-                                        color={action.color || 'primary'}
-                                >
-                                    {action.label}
-                                </Button>
-                        )}
+                            this.resourceInstanceActions.map(action => this.renderResourceActionButton(action))}
                     </div>
                 </CardHeader>
 

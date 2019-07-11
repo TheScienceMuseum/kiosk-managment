@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {Button, ButtonGroup} from "reactstrap";
-import {ucwords} from "locutus/php/strings";
-import moment from "moment";
-import {each, get, has} from "lodash";
-import DisplayCondition from "../../../../../helpers/DisplayCondition";
-import Api from "../../../../../helpers/Api";
+import { Button, ButtonGroup, UncontrolledTooltip } from 'reactstrap';
+import { ucwords } from 'locutus/php/strings';
+import moment from 'moment';
+import { each, get, has, kebabCase } from 'lodash';
+import DisplayCondition from '../../../../../helpers/DisplayCondition';
+import Api from '../../../../../helpers/Api';
 
 class ResourceListRow extends Component {
     constructor(props) {
@@ -24,7 +24,12 @@ class ResourceListRow extends Component {
                             setState: this.setState.bind(this),
                             getState: () => this.state,
                         }),
-                    })
+                    });
+                } else if (DisplayCondition.getFailureMessage(get(action, 'display_condition'), this.props.resourceInstance)) {
+                    this.resourceInstanceActions.push({
+                        label: action.label,
+                        popout: DisplayCondition.getFailureMessage(get(action, 'display_condition'), this.props.resourceInstance),
+                    });
                 }
             });
         }
@@ -32,6 +37,7 @@ class ResourceListRow extends Component {
         this.resourceInstanceActions = this.resourceInstanceActions.concat(this.props.resourceInstanceActions);
 
         this.getInstanceValue = this.getInstanceValue.bind(this);
+        this.renderActionButton = this.renderActionButton.bind(this);
     }
 
     getInstanceValue(instance, field) {
@@ -84,8 +90,34 @@ class ResourceListRow extends Component {
                 }
 
             case 'time_ago':
-                return instance[field.name] ? moment(instance[field.name]).fromNow() : 'Never';
+                return instance[field.name] ? moment(instance[field.name])
+                    .fromNow() : 'Never';
         }
+    }
+
+    renderActionButton(action) {
+        const { resourceInstance } = this.props;
+        const { callback, label, popout } = action;
+
+        const button = (
+            <Button key={`action-${resourceInstance.id}-${kebabCase(label)}`}
+                    id={`action-${resourceInstance.id}-${kebabCase(label)}`}
+                    onClick={callback ? callback(resourceInstance) : () => {
+                    }}
+                    color={`primary ${!callback ? 'disabled' : ''}`}
+            >
+                {ucwords(label)}
+            </Button>
+        );
+
+        return (!!callback) ? button : (
+            <Fragment key={`action-${resourceInstance.id}-${kebabCase(label)}`}>
+                {button}
+                <UncontrolledTooltip placement="top" target={`action-${resourceInstance.id}-${kebabCase(label)}`}>
+                    {popout}
+                </UncontrolledTooltip>
+            </Fragment>
+        );
     }
 
     render() {
@@ -100,14 +132,7 @@ class ResourceListRow extends Component {
                 {this.resourceInstanceActions.length > 0 &&
                     <td className={'text-right'}>
                         <ButtonGroup size={'xs'}>
-                            {this.resourceInstanceActions.map(action =>
-                                <Button key={`action-${this.props.resourceInstance.id}-${action.label}`}
-                                        onClick={action.callback(this.props.resourceInstance)}
-                                        color={'primary'}
-                                >
-                                    {ucwords(action.label)}
-                                </Button>
-                            )}
+                            {this.resourceInstanceActions.map(action => this.renderActionButton(action))}
                         </ButtonGroup>
                     </td>
                 }
