@@ -1,31 +1,27 @@
-import {each, get, has, includes, map} from "lodash";
+import {each, get, includes, map} from "lodash";
 
 class DisplayCondition {
     getFailureMessage(displayConditions, instance) {
-        // If there is no display condition we just skip everything
-        if (!displayConditions) { return false; }
-
-        let displayConditionsPassed = false;
-        let resolvedDisplayConditions = [];
+        let displayConditionMessages = '';
 
         // If we are dealing with an array, the first instance
         // of all checks passing means we pass the checks
         if (displayConditions.constructor === Array) {
             each(displayConditions, (condition) => {
-                if (displayConditionsPassed) { return; }
-
-                resolvedDisplayConditions = this.check(condition, instance);
-
-                if (!includes(resolvedDisplayConditions, false)) {
-                    displayConditionsPassed = true;
+                if (this.check(condition, instance)) {
+                    displayConditionMessages += condition.message + ' ';
+                    console.log('failed', condition.message)
                 }
             });
 
         } else {
-            resolvedDisplayConditions = this.check(displayConditions, instance);
+            if (this.check(displayConditions, instance)) {
+                displayConditionMessages += displayConditions.message;
+                console.log('failed', displayConditions.message)
+            }
         }
 
-        return displayConditionsPassed || !includes(resolvedDisplayConditions, false);
+        return displayConditionMessages ? displayConditionMessages : false;
     }
 
     passes(displayConditions, instance) {
