@@ -139,7 +139,7 @@ class ResourceListHeaderSelect extends Component {
             <th>
                 <Select name={this.props.options.name}
                         onChange={this.handleChange}
-                        defaultValue={this.mapOptionToSelect(this.props.initialValue)}
+                        value={this.mapOptionToSelect(this.props.initialValue)}
                         options={this.state.resource.map(this.mapOptionToSelect)}
                         isMulti={false}
                         placeholder={ucwords(this.props.options.name)}

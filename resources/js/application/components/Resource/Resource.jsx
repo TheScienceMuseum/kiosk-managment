@@ -38,7 +38,7 @@ class Resource extends Component {
 
     render() {
         return (
-            <div>
+            <div className={'Resource'}>
                 <Route component={(props) => this.getComponent(ResourceIndex, props)}
                        path={`${this.props.path}`}
                        exact

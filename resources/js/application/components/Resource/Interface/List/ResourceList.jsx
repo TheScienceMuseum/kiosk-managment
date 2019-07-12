@@ -1,41 +1,49 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ResourceListHeader from "./ResourceListHeader";
-import {Table} from "reactstrap";
-import ResourceListRow from "./ResourceListRow";
-import {BounceLoader} from "react-spinners";
+import ResourceListHeader from './ResourceListHeader';
+import { Table } from 'reactstrap';
+import ResourceListRow from './ResourceListRow';
+import { BounceLoader } from 'react-spinners';
 
-class ResourceList extends Component {
-    render() {
-        return (
-            <Table hover responsive className={'mb-0'}>
-                <ResourceListHeader handleResourceListParamsUpdate={this.props.handleResourceListParamsUpdate}
-                                    handleResourceListSearch={this.props.handleResourceListSearch}
-                                    resourceFields={this.props.resourceFields}
-                                    resourceInstanceActions={this.props.resourceInstanceActions}
-                                    resourceIndexParams={this.props.resourceIndexParams}
+const ResourceList = (props) => {
+    const {
+        resourceFields,
+        resourceIndexList,
+        resourceIndexLoading,
+        resourceIndexParams,
+        resourceInstanceActions,
+        resourceName,
+        handleResourceListPagination,
+        handleResourceListParamsUpdate,
+        handleResourceListSearch,
+    } = props;
+
+    return (
+        <>
+            <Table
+                className={`ResourceList mb-0 ${resourceIndexLoading ? 'loading' : ''}`}
+                hover
+            >
+                <ResourceListHeader
+                    handleResourceListParamsUpdate={handleResourceListParamsUpdate}
+                    handleResourceListSearch={handleResourceListSearch}
+                    resourceFields={resourceFields}
+                    resourceInstanceActions={resourceInstanceActions}
+                    resourceIndexParams={resourceIndexParams}
                 />
                 <tbody>
-                {(this.props.resourceIndexLoading &&
-                        <tr>
-                            <td colSpan={this.props.resourceFields.length + 1} style={{height: '480px'}} className={'align-middle'}>
-                                <div className={'d-flex justify-content-center'}>
-                                    <BounceLoader />
-                                </div>
-                            </td>
-                        </tr>
-                ) || (this.props.resourceIndexList.map(resourceInstance =>
-                        <ResourceListRow key={`resource-instance-${resourceInstance.id}`}
-                                         resourceInstance={resourceInstance}
-                                         {...this.props}
-                        />
-                    )
+                {resourceIndexList.map(resourceInstance =>
+                    <ResourceListRow
+                        key={`resource-instance-${resourceInstance.id}`}
+                        resourceInstance={resourceInstance}
+                        {...props}
+                    />
                 )}
                 </tbody>
             </Table>
-        );
-    }
-}
+        </>
+    );
+};
 
 ResourceList.propTypes = {
     resourceName: PropTypes.string.isRequired,
