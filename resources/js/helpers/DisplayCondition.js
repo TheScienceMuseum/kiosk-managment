@@ -8,13 +8,13 @@ class DisplayCondition {
         // of all checks passing means we pass the checks
         if (displayConditions.constructor === Array) {
             each(displayConditions, (condition) => {
-                if (this.check(condition, instance)) {
+                if (this.check(condition, instance) && condition.message) {
                     displayConditionMessages += condition.message + ' ';
                 }
             });
 
         } else {
-            if (this.check(displayConditions, instance)) {
+            if (this.check(displayConditions, instance) && displayConditions.message) {
                 displayConditionMessages += displayConditions.message;
             }
         }
