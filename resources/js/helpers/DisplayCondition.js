@@ -10,14 +10,12 @@ class DisplayCondition {
             each(displayConditions, (condition) => {
                 if (this.check(condition, instance)) {
                     displayConditionMessages += condition.message + ' ';
-                    console.log('failed', condition.message)
                 }
             });
 
         } else {
             if (this.check(displayConditions, instance)) {
                 displayConditionMessages += displayConditions.message;
-                console.log('failed', displayConditions.message)
             }
         }
 
