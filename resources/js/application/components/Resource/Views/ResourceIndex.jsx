@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Button, Card, CardFooter, CardHeader} from "reactstrap";
+import { Alert, Button, Card, CardFooter, CardHeader, Navbar } from 'reactstrap';
 import {ucwords} from "locutus/php/strings";
 import queryString from 'query-string';
 
@@ -58,7 +58,7 @@ class ResourceIndex extends Component {
 
         if (this._api.hasAction('store') && User.can(`create new ${this.props.resourceName}s`) ) {
             this.resourceIndexActions.push({
-                label: 'Create',
+                label: 'Create ' + this._api._resourceName,
                 callback: () => {
                     this.props.history.push(`/admin/${this.props.resourceName}s/create`);
                 },
@@ -83,6 +83,12 @@ class ResourceIndex extends Component {
                         resourceIndexLoading: false,
                         resourceIndexPagination: response.data.meta
                     }));
+
+                    const query = queryString.stringify(this.state.resourceIndexParams);
+
+                    this.props.history.push({
+                        search: `?${query}`,
+                    });
                 });
         });
     }
@@ -102,16 +108,14 @@ class ResourceIndex extends Component {
                     'page[number]': nextPage,
                 },
             }), () => {
-                const query = queryString.stringify(this.state.resourceIndexParams);
-
-                this.props.history.push({
-                    search: `?${query}`,
-                });
+                this.request();
             });
         };
     }
 
     handleResourceListParamsUpdate(field, value, callback) {
+        console.log('updating params', field.name, value);
+
         this.setState(prevState => {
             const params = {...prevState.resourceIndexParams};
 
@@ -141,32 +145,30 @@ class ResourceIndex extends Component {
         }, () => {
             const query = queryString.stringify(this.state.resourceIndexParams);
 
-            this.props.history.push({
-                search: `?${query}`,
-            });
+            this.request();
         });
     }
 
     render() {
         return (
-            <Card>
-                <CardHeader className={'d-flex justify-content-between'}>
-                    <div>
+            <div className={'ResourceIndex'}>
+                <Navbar className={'ResourceHeader d-flex justify-content-between'} dark color={'primary'}>
+                    <h1 className={'text-light my-auto'}>
                         Manage {ucwords(this.props.resourceName.replace('_', ' '))}s
-                    </div>
-                    <div className={'xs'}>
+                    </h1>
+                    <div>
                         {this.resourceIndexActions.map(action =>
                             <Button key={`index-actions-${action.label}`}
-                                    size={'xs'}
                                     className={'mx-1'}
                                     onClick={action.callback}
-                                    color={action.color || 'primary'}
+                                    color={action.color || 'secondary'}
                             >
                                 {action.label}
                             </Button>
                         )}
                     </div>
-                </CardHeader>
+                </Navbar>
+
                 <ResourceList handleResourceListPagination={this.handleResourceListPagination}
                               handleResourceListParamsUpdate={this.handleResourceListParamsUpdate}
                               handleResourceListSearch={this.handleResourceListSearch}
@@ -178,7 +180,8 @@ class ResourceIndex extends Component {
                               resourceName={this.props.resourceName}
                               {...this.props}
                 />
-                <CardFooter className={'d-flex justify-content-center'}>
+
+                <Navbar className={'d-flex justify-content-center'}>
                     {this.state.resourceInstanceSelected === null &&
                         !!this.state.resourceIndexPagination.current_page &&
                         !!this.state.resourceIndexPagination.total &&
@@ -187,8 +190,8 @@ class ResourceIndex extends Component {
                                                 handleResourceListPagination={this.handleResourceListPagination}
                         />
                     }
-                </CardFooter>
-            </Card>
+                </Navbar>
+            </div>
         );
     }
 }

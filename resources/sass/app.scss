@@ -1,7 +1,7 @@
 // Variables
-@import "variables";
-@import "~bootswatch/dist/lux/variables";
 @import "mixins";
+@import "~bootswatch/dist/lux/variables";
+@import "variables";
 
 // Bootstrap
 @import "~bootstrap/scss/bootstrap";
@@ -17,6 +17,8 @@
 @import "components/tables";
 @import "components/tree";
 
+// Resource
+@import "components/Resource/Resource";
 
 // Third Party Components
 @import "~cropperjs/src/index";

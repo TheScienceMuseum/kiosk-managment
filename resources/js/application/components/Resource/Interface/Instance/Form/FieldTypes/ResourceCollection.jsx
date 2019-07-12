@@ -132,7 +132,7 @@ class ResourceCollection extends Component {
             <div>
                 {(this.props.field.readonly &&
                     <>
-                    <Table responsive hover>
+                    <Table responsive hover bordered>
                         <thead>
                         <tr>
                             {this._api._resourceFields.map(field => {
@@ -154,7 +154,11 @@ class ResourceCollection extends Component {
                                 }
                             })}
                             {this.resourceInstanceActions.length > 0 &&
-                                <th className={'text-right'}>Actions</th>
+                                <th className={'text-right'}>
+                                    <span className={'sr-only'}>
+                                          Actions
+                                    </span>
+                                </th>
                             }
                         </tr>
                         </thead>
@@ -176,7 +180,7 @@ class ResourceCollection extends Component {
                                     )}
                                     {this.resourceInstanceActions.length > 0 &&
                                         <td className={'text-right'}>
-                                            <ButtonGroup size={'xs'}>
+                                            <ButtonGroup>
                                                 {this.resourceInstanceActions.map(action => {
                                                     if (DisplayCondition.passes(action.display_condition, row)) {
                                                         return (

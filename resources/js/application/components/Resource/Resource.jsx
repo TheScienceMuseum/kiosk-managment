@@ -16,6 +16,11 @@ class Resource extends Component {
         this._api = new Api(this.props.resourceName);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        const { location } = this.props;
+        return location.pathname !== nextProps.location.pathname;
+    }
+
     getComponent(Component, props, field = null) {
         const componentProps = {...props};
         let componentResource = this.props.resourceName;
@@ -38,7 +43,7 @@ class Resource extends Component {
 
     render() {
         return (
-            <div>
+            <div className={'Resource'}>
                 <Route component={(props) => this.getComponent(ResourceIndex, props)}
                        path={`${this.props.path}`}
                        exact

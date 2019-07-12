@@ -1,7 +1,15 @@
 import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
 import Api from "../../../../helpers/Api";
-import { Button, Card, CardBody, CardHeader, FormGroup, UncontrolledTooltip } from 'reactstrap';
+import {
+    Button,
+    Card,
+    CardBody,
+    CardHeader,
+    FormGroup,
+    Navbar,
+    UncontrolledTooltip
+} from 'reactstrap';
 import {BounceLoader} from "react-spinners";
 
 import {ucwords} from "locutus/php/strings";
@@ -34,7 +42,7 @@ class ResourceInstance extends Component {
             resourceInstance: initialResourceInstance,
             resourceInstanceLoading: !! keys(this.props.resource).length,
             resourceInstanceErrors: {},
-            isCreating: ! keys(this.props.resource).length,
+            isCreating: !keys(props.resource).length,
         };
 
         this.flush                          = this.flush.bind(this);
@@ -143,8 +151,13 @@ class ResourceInstance extends Component {
     }
 
     getResourceInstanceTitleValue() {
-        return (this._api._resourceLabelKey && has(this.state.resourceInstance, this._api._resourceLabelKey)) ?
-            get(this.state.resourceInstance, this._api._resourceLabelKey) : '';
+        const {isCreating, resourceInstance} = this.state;
+
+        const type = isCreating ? 'Create' : 'View';
+        const resource = this._api._resourceName;
+        const name = get(resourceInstance, this._api._resourceLabelKey, '');
+
+        return `${type} ${isCreating ? resource : name}`;
     }
 
     handleErrorOnInstanceUpdate(error) {
@@ -176,10 +189,9 @@ class ResourceInstance extends Component {
         const button = (
             <Button key={`instance-actions-${kebabCase(action.label)}`}
                     id={`instance-actions-${kebabCase(action.label)}`}
-                    size={'xs'}
                     className={'mx-1'}
                     onClick={action.callback}
-                    color={`${action.color || 'primary'} ${!callback ? 'disabled' : ''}`}
+                    color={`${action.color || 'secondary'} ${!callback ? 'disabled' : ''}`}
             >
                 {action.label}
             </Button>
@@ -197,23 +209,18 @@ class ResourceInstance extends Component {
 
     render() {
         return (
-            <Card>
-                <CardHeader className={'d-flex justify-content-between'}>
-                    <div>
-                    {(this.props.resource && this.getResourceInstanceTitleValue() &&
-                        <span>Viewing {this.getResourceInstanceTitleValue()}</span>
-                    ) || (this.props.resource &&
-                        <span>&nbsp;</span>
-                    ) || (
-                        <span>Creating new {this.props.resourceName}</span>
-                    )}
-                    </div>
+            <div className={'ResourceInstance'}>
+                <Navbar className={'ResourceHeader d-flex justify-content-between'} dark color={'primary'}>
+                    <h1 className={'text-light my-auto'}>
+                        {this.getResourceInstanceTitleValue()}
+                    </h1>
                     <div>
                         {!this.state.resourceInstanceLoading &&
                             this.resourceInstanceActions.map(action => this.renderResourceActionButton(action))}
                     </div>
-                </CardHeader>
+                </Navbar>
 
+                <Card className={'mt-3'}>
                 {(this.state.resourceInstanceLoading &&
                     <CardBody className={'d-flex justify-content-center'}>
                         <BounceLoader/>
@@ -245,7 +252,8 @@ class ResourceInstance extends Component {
                         </FormGroup>
                     </CardBody>
                 )}
-            </Card>
+                </Card>
+            </div>
         );
     }
 }

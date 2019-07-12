@@ -1,9 +1,46 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { each } from 'lodash';
+import { series } from 'async';
+import { Button } from 'reactstrap';
 import ResourceListHeaderSelect from "./ResourceListHeaderSelect";
 import ResourceListHeaderText from "./ResourceListHeaderText";
 
 class ResourceListHeader extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleResetFilters = this.handleResetFilters.bind(this);
+    }
+
+    handleResetFilters() {
+        const calls = [];
+
+        each(this.props.resourceFields.filter(field => field.filter), (field) => {
+            calls.push(callback => {
+                console.log('clearing', field.name);
+                if (field.filter) {
+                    this.props.handleResourceListParamsUpdate(
+                        field,
+                        '',
+                        () => {
+                            callback();
+                        },
+                    );
+                }
+            });
+        });
+
+        calls.push((callback) => {
+            console.log('running search');
+            this.props.handleResourceListSearch();
+            callback();
+        });
+
+        series(calls);
+    }
+
     render() {
         return (
             <thead>
@@ -41,7 +78,11 @@ class ResourceListHeader extends Component {
                         }
                     })}
                     {this.props.resourceInstanceActions.length > 0 &&
-                        <th className={'text-right align-middle sr-only'}>Actions</th>
+                    <th className={'text-right align-middle'}>
+                        <Button size={'sm'} onClick={this.handleResetFilters}>
+                            <FontAwesomeIcon icon={['fas', 'times']} /> Clear Filters
+                        </Button>
+                    </th>
                     }
                 </tr>
             </thead>

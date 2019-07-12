@@ -1,14 +1,35 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Input} from "reactstrap";
+import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import {ucwords} from "locutus/php/strings";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class ResourceListHeaderText extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            value: props.initialValue || '',
+        };
+
         this.getFieldPlaceholderText = this.getFieldPlaceholderText.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleReset = this.handleReset.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        console.log('ResourceListHeaderText#componentWillReceiveProps', nextProps);
+
+        let value = nextProps.initialValue;
+
+        if (nextProps.initialValue === undefined) {
+            value = '';
+        }
+
+        this.setState(prevState => ({
+            ...prevState,
+            value,
+        }));
     }
 
     handleChange(event) {
@@ -22,6 +43,12 @@ class ResourceListHeaderText extends Component {
         });
     }
 
+    handleReset(event) {
+        this.props.handleResourceListParamsUpdate(this.props.options, '', () => {
+            this.props.handleResourceListSearch(event);
+        });
+    }
+
     getFieldPlaceholderText() {
         return this.props.options.sub_fields ?
             `${this.props.options.name.replace(/_at$/, '').replace(/[_]/g, " ")} OR ${this.props.options.sub_fields.join(' OR ')}`.toUpperCase() :
@@ -29,15 +56,33 @@ class ResourceListHeaderText extends Component {
     }
 
     render() {
+        const { options } = this.props;
+        const { value } = this.state;
+
         return (
             <th>
-                <Input bsSize={'sm'}
-                       className={'my-auto'}
-                       defaultValue={this.props.initialValue}
-                       name={`filter[${this.props.options.name}]`}
-                       onKeyUp={this.handleChange}
-                       placeholder={ucwords(this.getFieldPlaceholderText())}
-                />
+                <InputGroup size={'sm'}>
+                    <InputGroupAddon addonType={'prepend'}>
+                        <Button disabled>
+                            <FontAwesomeIcon icon={['fas', 'search']} />
+                        </Button>
+                    </InputGroupAddon>
+                    <Input
+                        className={'my-auto'}
+                        value={value}
+                        name={`filter[${options.name}]`}
+                        onKeyUp={this.handleChange}
+                        onChange={this.handleChange}
+                        placeholder={ucwords(this.getFieldPlaceholderText())}
+                    />
+                    {value &&
+                    <InputGroupAddon addonType={'append'}>
+                        <Button onClick={this.handleReset} color={'secondary'}>
+                            <FontAwesomeIcon icon={['fas', 'times']} />
+                        </Button>
+                    </InputGroupAddon>
+                    }
+                </InputGroup>
             </th>
         );
     }

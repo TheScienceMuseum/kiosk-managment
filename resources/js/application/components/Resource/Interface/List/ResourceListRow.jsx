@@ -102,8 +102,7 @@ class ResourceListRow extends Component {
         const button = (
             <Button key={`action-${resourceInstance.id}-${kebabCase(label)}`}
                     id={`action-${resourceInstance.id}-${kebabCase(label)}`}
-                    onClick={callback ? callback(resourceInstance) : () => {
-                    }}
+                    onClick={callback ? callback(resourceInstance) : () => {}}
                     color={`primary ${!callback ? 'disabled' : ''}`}
             >
                 {ucwords(label)}
@@ -131,7 +130,7 @@ class ResourceListRow extends Component {
 
                 {this.resourceInstanceActions.length > 0 &&
                     <td className={'text-right'}>
-                        <ButtonGroup size={'xs'}>
+                        <ButtonGroup size={'sm'}>
                             {this.resourceInstanceActions.map(action => this.renderActionButton(action))}
                         </ButtonGroup>
                     </td>

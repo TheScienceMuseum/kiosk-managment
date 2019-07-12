@@ -1,0 +1,58 @@
+.ResourceIndex {
+  table.ResourceList {
+    border-collapse: separate;
+    border-spacing: 0 2px;
+    color: black;
+
+    text-transform: capitalize;
+
+    &.loading {
+      tbody {
+        filter: blur(2px);
+        cursor: not-allowed;
+      }
+    }
+
+    thead {
+      tr {
+
+        th {
+          text-transform: capitalize;
+          border-bottom: none;
+          border-top: none;
+          padding: 5px 5px 5px 0;
+
+          &:last-child {
+            padding: 5px 0;
+          }
+
+          input::placeholder {
+            color: black;
+            text-transform: capitalize;
+          }
+
+          .btn {
+            padding: 8px 10px;
+            font-size: 1em;
+            letter-spacing: 2px;
+          }
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        background-color: white;
+        margin-top: 5px;
+
+        td {
+          .badge {
+            padding: 4px 8px;
+            font-size: 1em;
+            letter-spacing: 1.1px;
+          }
+        }
+      }
+    }
+  }
+}

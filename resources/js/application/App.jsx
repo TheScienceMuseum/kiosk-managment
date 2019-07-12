@@ -22,11 +22,44 @@ import {
     faQuestionCircle,
     faDownload,
     faSignOut,
+    faTrash,
 } from '@fortawesome/pro-light-svg-icons';
-import { faSquare } from '@fortawesome/pro-solid-svg-icons';
+
+import {
+    faSquare,
+    faArrowAltDown,
+    faArrowAltUp,
+    faSearch,
+    faTimes,
+} from '@fortawesome/pro-solid-svg-icons';
+
 import IndexRoutes from './routes/BaseRoutes';
 
-library.add(faBox, faDesktopAlt, faEye, faEdit, faUsers, faAngleRight, faAngleDown, faAngleDoubleRight, faAngleDoubleDown, faAngleDoubleUp, faPencil, faPlus, faMinus, faSquare, faSyncAlt, faQuestionCircle, faDownload, faSignOut);
+library.add(
+    faBox,
+    faDesktopAlt,
+    faEye,
+    faEdit,
+    faUsers,
+    faAngleRight,
+    faAngleDown,
+    faAngleDoubleRight,
+    faAngleDoubleDown,
+    faAngleDoubleUp,
+    faPencil,
+    faPlus,
+    faMinus,
+    faSquare,
+    faSyncAlt,
+    faQuestionCircle,
+    faDownload,
+    faSignOut,
+    faArrowAltDown,
+    faArrowAltUp,
+    faTrash,
+    faSearch,
+    faTimes,
+);
 
 if (window.env !== 'local') {
     Sentry.init({
