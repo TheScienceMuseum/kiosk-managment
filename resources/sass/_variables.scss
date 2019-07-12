@@ -8,7 +8,19 @@ $body-bg: #f8fafc;
        url("../fonts/smg-regular-webfont.woff2") format("woff2");
 }
 
-$font-family-sans-serif: "SMG-Regular", sans-serif;
+@font-face {
+  font-family: 'SMG-Light';
+  src: url("../fonts/smg-light-webfont.woff") format("woff"),
+  url("../fonts/smg-light-webfont.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: 'SMG-Hair';
+  src: url("../fonts/smg-hair-webfont.woff") format("woff"),
+  url("../fonts/smg-hair-webfont.woff2") format("woff2");
+}
+
+$font-family-sans-serif: 'SMG-Light';
 $font-size-base: 0.9rem;
 $font-size-large: $font-size-base + 0.6rem;
 $line-height-base: 1.6;
