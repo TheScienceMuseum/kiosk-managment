@@ -16,11 +16,15 @@ export default class Help extends Component {
         }).isRequired,
         iconSize: PropTypes.oneOf(['1x', '2x', '3x', '4x', '5x']),
         showText: PropTypes.bool,
+        showIcon: PropTypes.bool,
+        className: PropTypes.string,
     };
 
     static defaultProps = {
         iconSize: '1x',
         showText: true,
+        showIcon: true,
+        className: '',
     };
 
     constructor(props) {
@@ -107,7 +111,7 @@ export default class Help extends Component {
     }
 
     render() {
-        const { iconSize, showText } = this.props;
+        const { iconSize, showText, showIcon, className } = this.props;
         return (
             <div>
                 <Modal isOpen={this.state.edit} toggle={this.toggleModal('edit')} size={'lg'}>
@@ -141,13 +145,15 @@ export default class Help extends Component {
                     </ModalFooter>
                 </Modal>
 
-                <a className="nav-link"
+                <a className={!!className ? className : 'nav-link'}
                    onClick={this.toggleModal('show')}
                    style={{
                        cursor: 'pointer',
                    }}
                 >
-                    <FontAwesomeIcon icon={['fal', 'question-circle']} size={iconSize} fixedWidth />
+                    {showIcon &&
+                        <FontAwesomeIcon icon={['fal', 'question-circle']} size={iconSize} fixedWidth/>
+                    }
                     {showText &&
                         <span className={'nav-text'}>Help</span>
                     }

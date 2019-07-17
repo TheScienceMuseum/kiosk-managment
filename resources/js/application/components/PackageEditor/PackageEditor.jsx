@@ -2,18 +2,26 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import Api from "../../../helpers/Api";
-import {Alert, Button, Card, CardBody, CardFooter, CardHeader, Col, Container, Row} from "reactstrap";
+import {
+    Alert,
+    Button,
+    ButtonGroup,
+    Card,
+    CardBody,
+    Col,
+    Container,
+    Navbar,
+    Row
+} from 'reactstrap';
 import { extend, get, set } from 'lodash';
 import FormPackageConfiguration from './Forms/FormPackageConfiguration';
 import FormPage from './Forms/FormPage';
 import FormSection from './Forms/FormSection';
-import Tree from "./Tree";
+import Tree from "./Tree/Tree";
 import AddElement from "./Forms/Elements/AddElement";
 import Help from '../Navigation/Help';
 
-import {Link} from "react-router-dom";
-
-class App extends Component {
+class PackageEditor extends Component {
     constructor(props) {
         super(props);
 
@@ -353,36 +361,49 @@ class App extends Component {
         const { location } = this.props;
 
         return (
-            <Container fluid className={'mb-3'}>
+            <Container fluid className={'PackageEditor mb-3'}>
                 {this.state.packageVersionData &&
                 <>
-                <AddElement showModal={this.state.showElementAddModal}
-                            onToggleModal={this.handleToggleAddElementModal}
-                            onElementAdded={this.handleAddedElement}
-                            elementType={this.state.showElementAddModalType}
-                            type={this.state.showElementAddModalType}
-                            validTypes={{
-                                page: this.validPageTypes[packageVersionData.aspect_ratio || "16:9"],
-                                section: this.validSectionTypes[packageVersionData.aspect_ratio || "16:9"],
-                            }}
+                <AddElement
+                    showModal={this.state.showElementAddModal}
+                    onToggleModal={this.handleToggleAddElementModal}
+                    onElementAdded={this.handleAddedElement}
+                    elementType={this.state.showElementAddModalType}
+                    type={this.state.showElementAddModalType}
+                    validTypes={{
+                        page: this.validPageTypes[packageVersionData.aspect_ratio || "16:9"],
+                        section: this.validSectionTypes[packageVersionData.aspect_ratio || "16:9"],
+                    }}
                 />
                 <Row>
-                    <Col lg={{size: 12}} className={'mt-3'}>
+                    <Col lg={{size: 12}}>
+                        <Navbar className={'PackageEditorHeader d-flex justify-content-between mb-3'} dark color={'primary'}>
+                            <h1 className={'text-light my-auto'}>
+                                {this.state.packageVersionData.name} version {this.state.packageVersionData.version}
+                            </h1>
+                            <div>
+                                <ButtonGroup size={'lg'}>
+                                    <Help
+                                        className="btn btn-secondary"
+                                        location={location}
+                                        showIcon={false}
+                                        showText
+                                    />
+                                    <Button
+                                        color={'secondary'}
+                                        onClick={this.showPreview}
+                                    >Preview</Button>
+                                    <Button
+                                        color={'secondary'}
+                                        onClick={this.flushPackageVersionData}
+                                    >Save</Button>
+                                </ButtonGroup>
+                            </div>
+                        </Navbar>
                         <Row>
                             <Col sm={4}>
-                                <Card>
-                                    <CardHeader className={'d-flex justify-content-between'}>
-                                        <span style={{
-                                            margin: "auto 0",
-                                        }}>
-                                            Package {this.state.packageVersionData.name} version {this.state.packageVersionData.version}
-                                        </span>
-                                        <Help location={location} showText={false} />
-                                    </CardHeader>
+                                <Card className={'TreeContainer'}>
                                     <CardBody>
-                                        {/*<FormMain data={this.state.packageVersionData}*/}
-                                        {/*handlePackageDataChange={this.handlePackageDataChange}*/}
-                                        {/*/>*/}
                                         <Tree data={this.state.packageVersionData}
                                               handleAddElement={this.handleAddElement}
                                               handleRemoveElement={this.handleRemoveElement}
@@ -390,51 +411,42 @@ class App extends Component {
                                               handleMoveElement={this.handleMoveElement}
                                         />
                                     </CardBody>
-                                    <CardFooter>
-                                        <Link className={'btn btn-sm btn-primary'}
-                                              to={`/admin/packages/${this.props.packageId}`}
-                                        >Back To Package</Link>
-                                        <Button size={'sm'}
-                                                color={'primary'}
-                                                className={'float-right'}
-                                                onClick={this.flushPackageVersionData}
-                                        >Save</Button>
-                                        <Button size={'sm'}
-                                                color={'primary'}
-                                                className={'float-right'}
-                                                onClick={this.showPreview}
-                                        >Preview</Button>
-                                    </CardFooter>
                                 </Card>
                             </Col>
                             <Col sm={8}>
                                 <Card>
-                                    <CardBody>
+                                    <CardBody className="PackageEditorForm">
                                         {(this.state.currentlyViewingPage === null &&
-                                            <Alert color={'info'} className={'my-auto text-center'}>
+                                            <Alert
+                                                color={'info'}
+                                                className={'my-auto text-center'}
+                                            >
                                                 Choose a page or section on the left to edit it here.
                                             </Alert>
                                         ) || (
                                             (this.state.currentlyViewingPage.type === 'title' &&
-                                                <FormPackageConfiguration data={this.state.currentlyViewingPage}
-                                                                          handlePackageDataChange={this.handlePackageDataChange}
-                                                                          packageId={this.props.packageId}
-                                                                          packageVersionId={this.props.packageVersionId}
-                                                                          aspectRatio={this.state.packageVersionData.aspect_ratio}
+                                                <FormPackageConfiguration
+                                                    data={this.state.currentlyViewingPage}
+                                                    handlePackageDataChange={this.handlePackageDataChange}
+                                                    packageId={this.props.packageId}
+                                                    packageVersionId={this.props.packageVersionId}
+                                                    aspectRatio={this.state.packageVersionData.aspect_ratio}
                                                 />
                                             ) || (this.state.currentlyViewingPage.type === 'page' &&
-                                                <FormPage data={this.state.currentlyViewingPage}
-                                                          handlePackageDataChange={this.handlePackageDataChange}
-                                                          packageId={this.props.packageId}
-                                                          packageVersionId={this.props.packageVersionId}
-                                                          aspectRatio={this.state.packageVersionData.aspect_ratio}
+                                                <FormPage
+                                                    data={this.state.currentlyViewingPage}
+                                                    handlePackageDataChange={this.handlePackageDataChange}
+                                                    packageId={this.props.packageId}
+                                                    packageVersionId={this.props.packageVersionId}
+                                                    aspectRatio={this.state.packageVersionData.aspect_ratio}
                                                 />
                                             ) || (this.state.currentlyViewingPage.type === 'section' &&
-                                                <FormSection data={this.state.currentlyViewingPage}
-                                                             handlePackageDataChange={this.handlePackageDataChange}
-                                                             packageId={this.props.packageId}
-                                                             packageVersionId={this.props.packageVersionId}
-                                                             aspectRatio={this.state.packageVersionData.aspect_ratio}
+                                                <FormSection
+                                                    data={this.state.currentlyViewingPage}
+                                                    handlePackageDataChange={this.handlePackageDataChange}
+                                                    packageId={this.props.packageId}
+                                                    packageVersionId={this.props.packageVersionId}
+                                                    aspectRatio={this.state.packageVersionData.aspect_ratio}
                                                 />
                                             )
                                         )}
@@ -443,9 +455,6 @@ class App extends Component {
                             </Col>
                         </Row>
                     </Col>
-                    {/*<Col lg={{size: 12}} className={'mt-3'}>*/}
-                    {/*<Preview data={this.state.packageVersionData}/>*/}
-                    {/*</Col>*/}
                 </Row>
                 </>
                 }
@@ -454,7 +463,7 @@ class App extends Component {
     }
 }
 
-App.propTypes = {
+PackageEditor.propTypes = {
     packageId: PropTypes.oneOfType([
         PropTypes.number,
         PropTypes.string,
@@ -465,4 +474,4 @@ App.propTypes = {
     ]).isRequired,
 };
 
-export default App;
+export default PackageEditor;

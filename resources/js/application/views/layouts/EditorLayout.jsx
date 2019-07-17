@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-
-import PackageEditorApp from '../../components/PackageEditor/App';
+import AdminRoutes from '../../routes/AdminRoutes';
+import PackageEditorApp from '../../components/PackageEditor/PackageEditor';
+import SidebarComponent from '../../components/Navigation/SidebarComponent';
 
 class EditorLayout extends Component {
     render() {
         return (
-            <PackageEditorApp packageId={this.props.match.params.package_id}
-                              packageVersionId={this.props.match.params.package_version_id}
-                              {...this.props}
-            />
+            <div className={'wrapper'}>
+                <SidebarComponent routes={AdminRoutes} location={this.props.location}/>
+                <PackageEditorApp packageId={this.props.match.params.package_id}
+                                  packageVersionId={this.props.match.params.package_version_id}
+                                  {...this.props}
+                />
+            </div>
         );
     }
 }

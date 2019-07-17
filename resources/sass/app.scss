@@ -8,14 +8,16 @@
 @import "~bootswatch/dist/lux/bootswatch";
 
 // Components
-@import "components/asset";
 @import "components/cards";
 @import "components/modal";
 @import "components/sidebar";
 @import "components/buttons";
 @import "components/pagination";
 @import "components/tables";
-@import "components/tree";
+@import "components/typography";
+
+// Package Editor
+@import "components/PackageEditor/PackageEditor";
 
 // Resource
 @import "components/Resource/Resource";

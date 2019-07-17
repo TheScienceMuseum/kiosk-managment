@@ -1,0 +1,23 @@
+.TreeContainer {
+  max-height: calc(100vh - 113px);
+  overflow-y: auto;
+
+  .Tree {
+    .Branch {
+      .input-group > .input-group-prepend > .btn {
+        width: 25px;
+        text-align: center;
+        padding: 0;
+      }
+
+      .Leaf {
+        margin-left: 50px;
+        width: calc(100% - 50px);
+      }
+
+      hr {
+        margin-top: 0.85rem;
+      }
+    }
+  }
+}

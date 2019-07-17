@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
 import SidebarComponent from "../../components/Navigation/SidebarComponent";
 

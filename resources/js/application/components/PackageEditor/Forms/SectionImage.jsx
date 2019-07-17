@@ -67,8 +67,8 @@ export default class SectionImage extends Component {
 
                 <FormGroup>
                     <Label>Image</Label>
-                    <Asset name={'asset'}
-                           value={this.props.data.data.asset}
+                    <Asset name={'Asset.scss'}
+                           value={this.props.data.data.Asset}
                            packageId={this.props.packageId}
                            packageVersionId={this.props.packageVersionId}
                            onChange={this.handleFormChange}
