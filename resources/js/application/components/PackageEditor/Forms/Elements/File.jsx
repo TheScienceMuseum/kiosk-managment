@@ -6,7 +6,7 @@ class File extends Component {
     render() {
         return (
             <div className="custom-file">
-                <Input className={'custom-file-input'} bsSize={'sm'} type={'file'} />
+                <Input className={'custom-file-input'}  type={'file'} />
                 <label className="custom-file-label" htmlFor="customFile">Choose file</label>
             </div>
         );

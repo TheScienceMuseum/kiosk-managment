@@ -22,7 +22,7 @@ import {
     faQuestionCircle,
     faDownload,
     faSignOut,
-    faTrash,
+    faTrashAlt,
 } from '@fortawesome/pro-light-svg-icons';
 
 import {
@@ -56,7 +56,7 @@ library.add(
     faSignOut,
     faArrowAltDown,
     faArrowAltUp,
-    faTrash,
+    faTrashAlt,
     faSearch,
     faTimes,
 );

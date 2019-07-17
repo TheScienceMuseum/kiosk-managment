@@ -1,0 +1,17 @@
+.PackageEditor {
+  @import "PackageEditorHeader";
+  @import "PackageEditorForm";
+  @import "Tree";
+
+  .btn {
+    padding: 2px 10px;
+    letter-spacing: 1.1px;
+
+    &.btn-primary {
+      font-size: 1.1em;
+    }
+    &.btn-success {
+      font-size: 1.1em;
+    }
+  }
+}

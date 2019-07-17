@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Alert, Button, FormGroup, Input, InputGroup, InputGroupAddon} from "reactstrap";
-import {debounce, get, has, keys} from 'lodash';
+import { Alert, Button, FormGroup, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import { debounce, get, has, keys } from 'lodash';
 import Cropper from 'cropperjs';
-import AssetBrowser from "../../Assets/AssetBrowser";
-import Types from '../../PropTypes';
+import AssetBrowser from '../../Assets/AssetBrowser';
+import { assetType } from '../../PropTypes';
 
 class Asset extends Component {
     static _cropRatios = {
@@ -265,7 +265,7 @@ class Asset extends Component {
     }
 
     renderChosenAssetText(section = 'main') {
-        const path = `value.${section === 'main' ? 'asset' : section}Filename`;
+        const path = `value.${section === 'main' ? 'Asset.scss' : section}Filename`;
 
         return has(this.props, path) ? get(this.props, path) : 'None';
     }
@@ -340,23 +340,25 @@ class Asset extends Component {
                 {value &&
                 <>
                     {value.assetType === 'image' && value.assetId &&
-                    <div className={'mt-3'}>
-                        <img id={`asset-image-cropper-${name}`}
-                             className={'img-fluid'}
-                             src={`/asset/${value.assetId}`}
-                             alt={'Cropping Preview of image'}
-                        />
+                    <>
+                        <div className={'mt-3'}>
+                            <img id={`asset-image-cropper-${name}`}
+                                 className={'img-fluid'}
+                                 src={`/asset/${value.assetId}`}
+                                 alt={'Cropping Preview of image'}
+                            />
+                        </div>
                         {this.cropper &&
-                        <FormGroup>
-                            <Button color={cropperEnabled ? 'success' : 'primary'}
-                                    onClick={this.toggleCropper}
-                                    size={'sm'}
-                            >
-                                Change the image crop
-                            </Button>
-                        </FormGroup>
+                        <Button
+                            className="CropperButton"
+                            color={cropperEnabled ? 'success' : 'primary'}
+                            onClick={this.toggleCropper}
+                            size={'sm'}
+                        >
+                            Change the image crop
+                        </Button>
                         }
-                    </div>
+                    </>
                     }
 
                     {value.assetType === 'audio' && value.assetId &&
@@ -440,7 +442,7 @@ Asset.propTypes = {
     packageId: PropTypes.string.isRequired,
     packageVersionId: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    value: Types.asset,
+    value: assetType,
     onChange: PropTypes.func.isRequired,
     assetType: PropTypes.oneOf(keys(Asset._assetTypes)).isRequired,
     aspectRatio: PropTypes.oneOf(keys(Asset._cropRatios)).isRequired,

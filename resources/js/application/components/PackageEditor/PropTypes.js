@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const assetType = PropTypes.shape({
+export const assetType = PropTypes.shape({
     boundingBox: PropTypes.shape({
         x: PropTypes.number,
         y: PropTypes.number,
@@ -14,7 +14,16 @@ const assetType = PropTypes.shape({
     sourceText: PropTypes.string,
 });
 
+export const contentSectionType = PropTypes.shape({
+    image: assetType,
+    subtitle: PropTypes.string,
+    title: PropTypes.string,
+    type: PropTypes.oneOf(["title", "textImage", "image", "video", "hotspot", "textVideo", "textAudio"]).isRequired,
+    layout: PropTypes.oneOf(["left", "right"]),
+});
 
-export default {
-    asset: assetType,
-}
+export const contentPageType = PropTypes.shape({
+    type: PropTypes.oneOf(['mixed', 'video', 'model']).isRequired,
+    title: PropTypes.string.isRequired,
+    subpages: PropTypes.arrayOf(contentSectionType),
+});
