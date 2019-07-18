@@ -58,6 +58,18 @@ class FormPageVideo extends Component {
                            aspectRatio={this.props.aspectRatio}
                     />
                 </FormGroup>
+
+                <FormGroup>
+                    <Label>Video Image</Label>
+                    <Asset name={'titleImage'}
+                           value={this.props.data.data.titleImage}
+                           packageId={this.props.packageId}
+                           packageVersionId={this.props.packageVersionId}
+                           onChange={this.handleFormChange}
+                           assetType={'contentVideoImage'}
+                           aspectRatio={this.props.aspectRatio}
+                    />
+                </FormGroup>
             </div>
         );
     }
