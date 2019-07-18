@@ -60,7 +60,7 @@ const Branch = (props) => {
                     handleMoveElement={handleMoveElement}
                 />
             )}
-            {shouldDisplayAddSection(page.type) &&
+            {shouldDisplayAddSection(page) &&
             <Button
                 className={'float-right my-auto'}
                 onClick={handleAddElement('section', index)}

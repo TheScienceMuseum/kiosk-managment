@@ -62,7 +62,6 @@ class Asset extends Component {
         },
         contentVideoImage: {
             mimeType: 'image/',
-            hasCrop: true,
         },
         sectionImage: {
             mimeType: 'image/',
@@ -265,7 +264,7 @@ class Asset extends Component {
     }
 
     renderChosenAssetText(section = 'main') {
-        const path = `value.${section === 'main' ? 'Asset.scss' : section}Filename`;
+        const path = `value.${section === 'main' ? 'asset' : section}Filename`;
 
         return has(this.props, path) ? get(this.props, path) : 'None';
     }
