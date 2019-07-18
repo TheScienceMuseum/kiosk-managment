@@ -176,13 +176,15 @@ class PackageEditor extends Component {
                     mixed: {
                         subpages: [],
                         title: "Mixed media page",
+                        subTitle: "",
                         titleImage: null,
                         type: "mixed",
                     },
                     video: {
-                        asset: null,
                         title: "A video page",
+                        subTitle: "",
                         titleImage: null,
+                        asset: null,
                     },
                 };
 
