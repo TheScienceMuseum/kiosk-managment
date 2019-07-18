@@ -43,8 +43,8 @@ class PackageEditor extends Component {
         };
 
         this.validSectionTypes = {
-            "16:9": ['textImage', 'title', 'video', 'image', 'textAudio'],
-            "9:16": ['textImage', 'title', 'textAudio', 'textVideo'],
+            "16:9": ['textImage', 'video', 'image', 'textAudio'],
+            "9:16": ['textImage', 'textAudio', 'textVideo'],
         };
 
         this.getPackageVersionData = this.getPackageVersionData.bind(this);
@@ -203,11 +203,6 @@ class PackageEditor extends Component {
 
         if (type === 'section') {
             const defaults = {
-                title: {
-                    title: "Mixed media page",
-                    image: null,
-                    type: "title",
-                },
                 image: {
                     content: "Image that is wide",
                     image: null,
