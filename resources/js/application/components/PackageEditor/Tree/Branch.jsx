@@ -20,7 +20,7 @@ const Branch = (props) => {
     } = props;
 
     const shouldDisplayLeaves = (page) => ['mixed'].includes(page.type);
-    const shouldDisplayAddSection = (type) => ['mixed', 'video'].includes(type);
+    const shouldDisplayAddSection = (page) => ['mixed'].includes(page.type);
 
     return (
         <div className={'Branch'}>
