@@ -62,7 +62,6 @@ class Asset extends Component {
         },
         contentVideoImage: {
             mimeType: 'image/',
-            hasCrop: true,
         },
         sectionImage: {
             mimeType: 'image/',
