@@ -5,7 +5,6 @@ import {
     Button,
     Card,
     CardBody,
-    CardHeader,
     FormGroup,
     Navbar,
     UncontrolledTooltip
@@ -220,12 +219,7 @@ class ResourceInstance extends Component {
                     </div>
                 </Navbar>
 
-                <Card className={'mt-3'}>
-                {(this.state.resourceInstanceLoading &&
-                    <CardBody className={'d-flex justify-content-center'}>
-                        <BounceLoader/>
-                    </CardBody>
-                ) || (
+                <Card className={`mt-3 ResourceInstanceForm ${this.state.resourceInstanceLoading ? 'loading' : ''}`}>
                     <CardBody>
                         {this._api._resourceFields.map(field =>
                             (!this.state.isCreating || field.type !== 'resource_collection') &&
@@ -236,7 +230,11 @@ class ResourceInstance extends Component {
                                        isCreate={this.state.isCreating}
                                        location={this.props.location}
                                        key={field.name}
-                                       value={field.type === 'resource_collection' ? this.props.resource : this.state.resourceInstance[field.name]}
+                                       value={
+                                           field.type === 'resource_collection'
+                                                ? this.props.resource
+                                                : this.state.resourceInstance[field.name]
+                                       }
                                 />
                         )}
 
@@ -251,7 +249,6 @@ class ResourceInstance extends Component {
                             </div>
                         </FormGroup>
                     </CardBody>
-                )}
                 </Card>
             </div>
         );
