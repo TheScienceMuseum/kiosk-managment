@@ -1,31 +1,42 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {Pagination, PaginationItem, PaginationLink} from "reactstrap";
+import { Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 
 class ResourceListPagination extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            pages: this.calculatePages(props.last),
+            pages: this.calculateTotalPages(props.current, props.last),
         };
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
         this.setState(prevState => ({
             ...prevState,
-            pages: this.calculatePages(nextProps.last),
+            pages: this.calculateTotalPages(nextProps.current, nextProps.last),
         }));
     }
 
-    calculatePages(total_pages) {
-        const pages = [];
+    calculateTotalPages(current, total) {
+        const delta = 2;
 
-        for (let i = 0; i < total_pages; i++) {
-            pages.push(i + 1);
-        }
+        const separate = (a, b) => [a, ...({
+            0: [],
+            1: [b],
+            2: [a + 1, b],
+        }[b - a] || ['...', b])];
 
-        return pages;
+        return Array(delta * 2 + 1)
+            .fill()
+            .map((_, index) => current - delta + index)
+            .filter(page => 0 < page && page <= total)
+            .flatMap((page, index, { length }) => {
+                if (!index) return separate(1, page);
+                if (index === length - 1) return separate(page, total);
+
+                return [page]
+            })
     }
 
     render() {
