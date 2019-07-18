@@ -41,6 +41,7 @@ class ResourceListPagination extends Component {
 
     render() {
         const { current, handleResourceListPagination, last } = this.props;
+        const { pages } = this.state;
 
         return (
             <Pagination
@@ -54,7 +55,7 @@ class ResourceListPagination extends Component {
                         previous
                     />
                 </PaginationItem>
-                {this.state.pages.map((page, index) =>
+                {pages.map((page, index) =>
                     <PaginationItem
                         active={current === page}
                         key={`pagination-page-${index}`}
