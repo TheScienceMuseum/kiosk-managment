@@ -19,8 +19,8 @@ const Branch = (props) => {
         handleMoveElement,
     } = props;
 
-    const shouldDisplayLeaves = (type) => ['mixed', 'video'].includes(type);
-    const shouldDisplayAddSection = (type) => ['mixed', 'video'].includes(type);
+    const shouldDisplayLeaves = (page) => ['mixed'].includes(page.type);
+    const shouldDisplayAddSection = (page) => ['mixed'].includes(page.type);
 
     return (
         <div className={'Branch'}>
@@ -46,7 +46,7 @@ const Branch = (props) => {
                 </InputGroupAddon>
             </InputGroup>
 
-            {shouldDisplayLeaves(page.type) &&
+            {shouldDisplayLeaves(page) &&
             page.subpages.map((section, sectionIndex) =>
                 <Leaf
                     key={`section-${index}-${sectionIndex}`}
