@@ -36,6 +36,18 @@ class FormPageVideo extends Component {
                 </FormGroup>
 
                 <FormGroup>
+                    <Label>Subtitle</Label>
+                    <Input bsSize={'sm'}
+                           name={'subtitle'}
+                           value={this.props.data.data.subtitle}
+                           onChange={this.handleBSFormChange}
+                           type={'textarea'}
+                           rows={10}
+                           maxLength={300}
+                    />
+                </FormGroup>
+
+                <FormGroup>
                     <Label>Video</Label>
                     <Asset name={'asset'}
                            value={this.props.data.data.asset}
