@@ -18,8 +18,6 @@ class ResourceListHeaderText extends Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        console.log('ResourceListHeaderText#componentWillReceiveProps', nextProps);
-
         let value = nextProps.initialValue;
 
         if (nextProps.initialValue === undefined) {
