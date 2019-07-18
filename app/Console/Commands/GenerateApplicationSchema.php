@@ -261,7 +261,7 @@ class GenerateApplicationSchema extends Command
                                 ],
                             ],
                             "post_action" => [
-                                "path" => "/admin/packages/{package.id}",
+                                "refresh" => true,
                             ],
                             "display_condition" => [
                                 "rules" => [
@@ -302,7 +302,7 @@ class GenerateApplicationSchema extends Command
                                 ],
                             ],
                             "post_action" => [
-                                "path" => "/admin/packages/{package.id}",
+                                "refresh" => true,
                             ],
                             "display_condition" => [
                                 "rules" => [
@@ -343,7 +343,7 @@ class GenerateApplicationSchema extends Command
                                 ]],
                             ],
                             "post_action" => [
-                                "path" => "/admin/packages/{package.id}",
+                                "refresh" => true,
                             ],
                         ],
                     ],
