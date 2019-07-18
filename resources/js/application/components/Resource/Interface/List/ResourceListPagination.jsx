@@ -40,22 +40,47 @@ class ResourceListPagination extends Component {
     }
 
     render() {
+        const { current, handleResourceListPagination, last } = this.props;
+
         return (
-            <Pagination size={'sm'}>
-                <PaginationItem disabled={this.props.current === 1}>
-                    <PaginationLink previous onClick={this.props.handleResourceListPagination('previous')} />
+            <Pagination
+                size={'sm'}
+            >
+                <PaginationItem
+                    disabled={current === 1}
+                >
+                    <PaginationLink
+                        onClick={handleResourceListPagination('previous')}
+                        previous
+                    />
                 </PaginationItem>
-                {this.state.pages.map(page =>
-                    <PaginationItem active={this.props.current === page}
-                                    key={`pagination-page-${page}`}
+                {this.state.pages.map((page, index) =>
+                    <PaginationItem
+                        active={current === page}
+                        key={`pagination-page-${index}`}
                     >
-                        <PaginationLink onClick={this.props.handleResourceListPagination(page)}>
+                        {(typeof page === 'number' &&
+                        <PaginationLink
+                            onClick={handleResourceListPagination(page)}
+                        >
                             {page}
                         </PaginationLink>
+                        ) || (
+                        <PaginationLink
+                            className={'disabled'}
+                        >
+                            {page}
+                        </PaginationLink>
+                        )}
                     </PaginationItem>
                 )}
-                <PaginationItem disabled={this.props.current === this.props.last}>
-                    <PaginationLink next onClick={this.props.handleResourceListPagination('next')} />
+                <PaginationItem
+                    disabled={current === last}
+                >
+                    <PaginationLink
+                        onClick={handleResourceListPagination('next')}
+                        next
+                    />
                 </PaginationItem>
             </Pagination>
         );
