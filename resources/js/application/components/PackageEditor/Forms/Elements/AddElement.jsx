@@ -35,9 +35,6 @@ class AddElement extends Component {
                     value: 'custom',
                 }],
                 section: [{label: 'Select a Type', value: ''},{
-                    label: CONSTANTS.LABELS.SECTION.title,
-                    value: "title",
-                }, {
                     label: CONSTANTS.LABELS.SECTION.image,
                     value: "image",
                 }, {
