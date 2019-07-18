@@ -37,8 +37,8 @@ class FormPageVideo extends Component {
 
                 <FormGroup>
                     <Label>Video</Label>
-                    <Asset name={'Asset.scss'}
-                           value={this.props.data.data.Asset}
+                    <Asset name={'asset'}
+                           value={this.props.data.data.asset}
                            packageId={this.props.packageId}
                            packageVersionId={this.props.packageVersionId}
                            onChange={this.handleFormChange}
