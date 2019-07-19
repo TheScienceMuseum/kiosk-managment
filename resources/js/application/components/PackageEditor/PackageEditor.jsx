@@ -413,6 +413,11 @@ class PackageEditor extends Component {
                             </Col>
                             <Col sm={8}>
                                 <Card>
+                                    {/*{this.state.currentlyViewingPage !== null &&*/}
+                                    {/*<CardHeader>*/}
+                                    {/*    {ucwords(this.state.currentlyViewingPage.type)}*/}
+                                    {/*</CardHeader>*/}
+                                    {/*}*/}
                                     <CardBody className="PackageEditorForm">
                                         {(this.state.currentlyViewingPage === null &&
                                             <Alert
