@@ -22,6 +22,7 @@ const Branch = (props) => {
 
     const shouldDisplayLeaves = (page) => ['mixed'].includes(page.type);
     const shouldDisplayAddSection = (page) => ['mixed'].includes(page.type);
+    const shouldDisplayEditPage = (page) => ['mixed', 'video'].includes(page.type);
 
     const shouldHighlightBranch = !!props.currentlyViewing
         && props.currentlyViewing.sectionIndex === null
@@ -46,9 +47,11 @@ const Branch = (props) => {
                 />
 
                 <InputGroupAddon addonType={'append'}>
+                    {shouldDisplayEditPage(page) &&
                     <Button onClick={handleViewElement('page', page, index)} color={'primary'}>
                         <FontAwesomeIcon icon={['fal', 'edit']}/>
                     </Button>
+                    }
                     <Button onClick={handleRemoveElement('page', index)}>
                         <FontAwesomeIcon icon={['fal', 'trash-alt']}/>
                     </Button>
