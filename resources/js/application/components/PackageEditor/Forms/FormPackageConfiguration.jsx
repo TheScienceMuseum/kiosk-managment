@@ -100,6 +100,10 @@ export default class FormPackageConfiguration extends Component {
         return (
             <div>
                 <FormGroup>
+                    <Label size={'lg'}>Package Configuration</Label>
+                </FormGroup>
+
+                <FormGroup>
                     <Label>Kiosk Title</Label>
                         <Input bsSize={'sm'}
                                name={'content.titles.title'}
