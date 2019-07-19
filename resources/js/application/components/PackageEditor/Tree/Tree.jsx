@@ -29,6 +29,7 @@ class Tree extends Component {
             handleAddElement,
             handleRemoveElement,
             handleMoveElement,
+            currentViewing,
         } = this.props;
 
         return (
@@ -51,6 +52,7 @@ class Tree extends Component {
                             key={`tree-page-${pageIndex}`}
                             index={pageIndex}
                             page={page}
+                            currentlyViewing={currentViewing}
                             canMoveUp={pageIndex !== 0}
                             canMoveDown={pageIndex !== data.content.contents.length - 1}
                             handleAddElement={handleAddElement}
@@ -74,10 +76,10 @@ class Tree extends Component {
 }
 
 Tree.propTypes = {
-    handleAddElement: PropTypes.func.isRequired,
-    handleRemoveElement: PropTypes.func.isRequired,
-    handleViewElement: PropTypes.func.isRequired,
-    handleMoveElement: PropTypes.func.isRequired,
+    currentViewing: PropTypes.shape({
+        pageIndex: PropTypes.number,
+        sectionIndex: PropTypes.number,
+    }),
     data: PropTypes.shape({
         content: PropTypes.shape({
             titles: PropTypes.shape({
@@ -101,6 +103,10 @@ Tree.propTypes = {
             })),
         }),
     }),
+    handleAddElement: PropTypes.func.isRequired,
+    handleRemoveElement: PropTypes.func.isRequired,
+    handleViewElement: PropTypes.func.isRequired,
+    handleMoveElement: PropTypes.func.isRequired,
 };
 
 export default Tree;

@@ -13,6 +13,7 @@ const Leaf = (props) => {
         section,
         canMoveUp,
         canMoveDown,
+        currentlyViewing,
         handleMoveElement,
         handleViewElement,
         handleRemoveElement,
@@ -44,6 +45,10 @@ const Leaf = (props) => {
 };
 
 Leaf.propTypes = {
+    currentViewing: PropTypes.shape({
+        pageIndex: PropTypes.number,
+        sectionIndex: PropTypes.number,
+    }),
     section: contentSectionType,
     index: PropTypes.number.isRequired,
     pageIndex: PropTypes.number.isRequired,

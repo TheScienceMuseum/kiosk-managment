@@ -13,6 +13,7 @@ const Branch = (props) => {
         index,
         canMoveUp,
         canMoveDown,
+        currentlyViewing,
         handleAddElement,
         handleViewElement,
         handleRemoveElement,
@@ -55,6 +56,7 @@ const Branch = (props) => {
                     pageIndex={index}
                     canMoveUp={sectionIndex !== 0}
                     canMoveDown={sectionIndex !== page.subpages.length -1}
+                    currentlyViewing={currentlyViewing}
                     handleViewElement={handleViewElement}
                     handleRemoveElement={handleRemoveElement}
                     handleMoveElement={handleMoveElement}
@@ -74,6 +76,10 @@ const Branch = (props) => {
 };
 
 Branch.propTypes = {
+    currentViewing: PropTypes.shape({
+        pageIndex: PropTypes.number,
+        sectionIndex: PropTypes.number,
+    }),
     page: contentPageType,
     index: PropTypes.number.isRequired,
     canMoveUp: PropTypes.bool.isRequired,
