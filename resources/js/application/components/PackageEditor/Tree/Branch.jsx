@@ -23,6 +23,10 @@ const Branch = (props) => {
     const shouldDisplayLeaves = (page) => ['mixed'].includes(page.type);
     const shouldDisplayAddSection = (page) => ['mixed'].includes(page.type);
 
+    const shouldHighlightBranch = !!props.currentlyViewing
+        && props.currentlyViewing.sectionIndex === null
+        && props.currentlyViewing.pageIndex === props.index;
+
     return (
         <div className={'Branch'}>
             <InputGroup size={'sm'}>
@@ -35,7 +39,11 @@ const Branch = (props) => {
                     </Button>
                 </InputGroupAddon>
 
-                <Input value={`${CONSTANTS.LABELS.PAGE[page.type]}: ${page.title}`} disabled/>
+                <Input
+                    value={`${CONSTANTS.LABELS.PAGE[page.type]}: ${page.title}`}
+                    className={`${shouldHighlightBranch ? 'active' : ''}`}
+                    disabled
+                />
 
                 <InputGroupAddon addonType={'append'}>
                     <Button onClick={handleViewElement('page', page, index)} color={'primary'}>

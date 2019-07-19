@@ -19,6 +19,10 @@ const Leaf = (props) => {
         handleRemoveElement,
     } = props;
 
+    const shouldHighlightLeaf = !!props.currentlyViewing
+        && props.currentlyViewing.pageIndex === props.pageIndex
+        && props.currentlyViewing.sectionIndex === props.index;
+
     return (
         <InputGroup size={'sm'} className={'Leaf'}>
             <InputGroupAddon addonType={'prepend'}>
@@ -30,7 +34,11 @@ const Leaf = (props) => {
                 </Button>
             </InputGroupAddon>
 
-            <Input value={`${CONSTANTS.LABELS.SECTION[section.type]}: ${section.title}`} disabled/>
+            <Input
+                value={`${CONSTANTS.LABELS.SECTION[section.type]}: ${section.title}`}
+                className={`${shouldHighlightLeaf ? 'active' : ''}`}
+                disabled
+            />
 
             <InputGroupAddon addonType={'append'}>
                 <Button onClick={handleViewElement('section', section, pageIndex, index)} color={'primary'}>
