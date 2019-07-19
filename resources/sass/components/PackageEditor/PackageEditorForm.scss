@@ -2,6 +2,8 @@
   @import "Asset";
 
   color: #000000;
+  max-height: calc(100vh - 113px);
+  overflow-y: auto;
 
   .form-control {
     color: #000000;

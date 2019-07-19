@@ -13,6 +13,7 @@ const Branch = (props) => {
         index,
         canMoveUp,
         canMoveDown,
+        currentlyViewing,
         handleAddElement,
         handleViewElement,
         handleRemoveElement,
@@ -21,6 +22,11 @@ const Branch = (props) => {
 
     const shouldDisplayLeaves = (page) => ['mixed'].includes(page.type);
     const shouldDisplayAddSection = (page) => ['mixed'].includes(page.type);
+    const shouldDisplayEditPage = (page) => ['mixed', 'video'].includes(page.type);
+
+    const shouldHighlightBranch = !!props.currentlyViewing
+        && props.currentlyViewing.sectionIndex === null
+        && props.currentlyViewing.pageIndex === props.index;
 
     return (
         <div className={'Branch'}>
@@ -34,12 +40,18 @@ const Branch = (props) => {
                     </Button>
                 </InputGroupAddon>
 
-                <Input value={`${CONSTANTS.LABELS.PAGE[page.type]}: ${page.title}`} disabled/>
+                <Input
+                    value={`${CONSTANTS.LABELS.PAGE[page.type]}: ${page.title}`}
+                    className={`${shouldHighlightBranch ? 'active' : ''}`}
+                    disabled
+                />
 
                 <InputGroupAddon addonType={'append'}>
+                    {shouldDisplayEditPage(page) &&
                     <Button onClick={handleViewElement('page', page, index)} color={'primary'}>
                         <FontAwesomeIcon icon={['fal', 'edit']}/>
                     </Button>
+                    }
                     <Button onClick={handleRemoveElement('page', index)}>
                         <FontAwesomeIcon icon={['fal', 'trash-alt']}/>
                     </Button>
@@ -55,6 +67,7 @@ const Branch = (props) => {
                     pageIndex={index}
                     canMoveUp={sectionIndex !== 0}
                     canMoveDown={sectionIndex !== page.subpages.length -1}
+                    currentlyViewing={currentlyViewing}
                     handleViewElement={handleViewElement}
                     handleRemoveElement={handleRemoveElement}
                     handleMoveElement={handleMoveElement}
@@ -74,6 +87,10 @@ const Branch = (props) => {
 };
 
 Branch.propTypes = {
+    currentViewing: PropTypes.shape({
+        pageIndex: PropTypes.number,
+        sectionIndex: PropTypes.number,
+    }),
     page: contentPageType,
     index: PropTypes.number.isRequired,
     canMoveUp: PropTypes.bool.isRequired,

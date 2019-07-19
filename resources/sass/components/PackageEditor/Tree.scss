@@ -4,15 +4,24 @@
 
   .Tree {
     .Branch {
-      .input-group > .input-group-prepend > .btn {
-        width: 25px;
-        text-align: center;
-        padding: 0;
-      }
-
       .Leaf {
         margin-left: 50px;
         width: calc(100% - 50px);
+      }
+
+      .input-group {
+        > .form-control {
+          &.active {
+            background-color: #454a4d;
+            color: #ffffff;
+          }
+        }
+
+        > .input-group-prepend > .btn {
+          width: 25px;
+          text-align: center;
+          padding: 0;
+        }
       }
 
       hr {

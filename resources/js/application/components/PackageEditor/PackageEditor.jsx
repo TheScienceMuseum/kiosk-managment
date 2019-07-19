@@ -354,7 +354,7 @@ class PackageEditor extends Component {
     }
 
     render() {
-        const { packageVersionData } = this.state;
+        const { packageVersionData, currentlyViewingPage } = this.state;
         const { location } = this.props;
 
         return (
@@ -401,7 +401,8 @@ class PackageEditor extends Component {
                             <Col sm={4}>
                                 <Card className={'TreeContainer'}>
                                     <CardBody>
-                                        <Tree data={this.state.packageVersionData}
+                                        <Tree data={packageVersionData}
+                                              currentViewing={currentlyViewingPage}
                                               handleAddElement={this.handleAddElement}
                                               handleRemoveElement={this.handleRemoveElement}
                                               handleViewElement={this.handleViewElement}
@@ -412,6 +413,11 @@ class PackageEditor extends Component {
                             </Col>
                             <Col sm={8}>
                                 <Card>
+                                    {/*{this.state.currentlyViewingPage !== null &&*/}
+                                    {/*<CardHeader>*/}
+                                    {/*    {ucwords(this.state.currentlyViewingPage.type)}*/}
+                                    {/*</CardHeader>*/}
+                                    {/*}*/}
                                     <CardBody className="PackageEditorForm">
                                         {(this.state.currentlyViewingPage === null &&
                                             <Alert
