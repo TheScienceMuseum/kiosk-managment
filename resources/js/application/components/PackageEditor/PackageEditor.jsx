@@ -14,6 +14,8 @@ import {
     Row
 } from 'reactstrap';
 import { extend, get, intersection, set } from 'lodash';
+import confirm from 'reactstrap-confirm';
+import CONSTANTS from './Constants';
 import FormPackageConfiguration from './Forms/FormPackageConfiguration';
 import FormPage from './Forms/FormPage';
 import FormSection from './Forms/FormSection';
@@ -40,11 +42,6 @@ class PackageEditor extends Component {
         this.validPageTypes = {
             "16:9": ['mixed', 'video', 'timeline', 'custom'],
             "9:16": ['mixed', 'custom'],
-        };
-
-        this.validSectionTypes = {
-            "16:9": ['textImage', 'video', 'image', 'textAudio'],
-            "9:16": ['textImage', 'textAudio', 'textVideo'],
         };
 
         this.getPackageVersionData = this.getPackageVersionData.bind(this);
@@ -293,23 +290,70 @@ class PackageEditor extends Component {
 
     handleRemoveElement(type, pageIndex, sectionIndex) {
         return () => {
-            if (type === 'page') {
-                this.setState(prevState => {
-                    const packageVersionData = prevState.packageVersionData;
-                    packageVersionData.content.contents.splice(pageIndex, 1);
+            const { packageVersionData } = this.state;
+            const elementIsSection = sectionIndex !== undefined;
 
-                    return {...prevState, packageVersionData};
-                })
+            let element = packageVersionData.content.contents[pageIndex];
+
+            if (elementIsSection) element = element.subpages[sectionIndex];
+
+            console.log(elementIsSection, element, sectionIndex);
+
+            const label = CONSTANTS.LABELS[elementIsSection ? 'SECTION' : 'PAGE'][element.type];
+            let message = (
+                <p>Are you sure you want to delete {label}: {element.title}?</p>
+            );
+
+            if (!elementIsSection && element.subpages.length) {
+                message = (
+                    <div>
+                        {message}
+                        This will also delete the following sections:
+                        <ul>
+                        {element.subpages.map((section, index) => (
+                            <li key={`delete-section-${index}`}>
+                                {CONSTANTS.LABELS.SECTION[section.type]}: {element.title}
+                            </li>
+                        ))}
+                        </ul>
+                    </div>
+                )
             }
 
-            if (type === 'section') {
-                this.setState(prevState => {
-                    const packageVersionData = prevState.packageVersionData;
-                    packageVersionData.content.contents[pageIndex].subpages.splice(sectionIndex, 1);
+            confirm({
+                className: 'modal-lg',
+                title: `Delete ${elementIsSection ? 'Section' : 'Page'}`,
+                message,
+                confirmText: 'Delete',
+                cancelText: 'Cancel',
+            }).then(confirmed => {
 
-                    return {...prevState, packageVersionData};
-                });
-            }
+                if (confirmed) {
+                    if (type === 'page') {
+                        this.setState(prevState => {
+                            const packageVersionData = prevState.packageVersionData;
+                            packageVersionData.content.contents.splice(pageIndex, 1);
+
+                            return {
+                                ...prevState,
+                                packageVersionData
+                            };
+                        })
+                    }
+
+                    if (type === 'section') {
+                        this.setState(prevState => {
+                            const packageVersionData = prevState.packageVersionData;
+                            packageVersionData.content.contents[pageIndex].subpages.splice(sectionIndex, 1);
+
+                            return {
+                                ...prevState,
+                                packageVersionData
+                            };
+                        });
+                    }
+                }
+            });
         }
     }
 
