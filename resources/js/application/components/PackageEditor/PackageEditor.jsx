@@ -42,11 +42,6 @@ class PackageEditor extends Component {
             "9:16": ['mixed', 'custom'],
         };
 
-        this.validSectionTypes = {
-            "16:9": ['textImage', 'video', 'image', 'textAudio'],
-            "9:16": ['textImage', 'textAudio', 'textVideo'],
-        };
-
         this.getPackageVersionData = this.getPackageVersionData.bind(this);
         this.flushPackageVersionData = this.flushPackageVersionData.bind(this);
         this.handlePackageDataChange = this.handlePackageDataChange.bind(this);
