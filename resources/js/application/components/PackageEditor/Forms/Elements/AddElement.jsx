@@ -28,6 +28,9 @@ class AddElement extends Component {
                     label: CONSTANTS.LABELS.PAGE.mixed,
                     value: "mixed",
                 }, {
+                    label: CONSTANTS.LABELS.PAGE.timeline,
+                    value: "timeline",
+                }, {
                     label: CONSTANTS.LABELS.PAGE.video,
                     value: 'video',
                 }, {

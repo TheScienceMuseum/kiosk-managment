@@ -98,7 +98,7 @@ Tree.propTypes = {
                     layout: PropTypes.oneOf(['left', 'right']),
                 })),
                 titleImage: assetType,
-                type: PropTypes.oneOf(['mixed', 'video', 'model']),
+                type: PropTypes.oneOf(['mixed', 'video', 'timeline', 'model']),
                 videoSrc: assetType,
             })),
         }),

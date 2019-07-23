@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import {FormGroup, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
 
-class FormPageVideo extends Component {
+class FormPageTimeline extends Component {
     constructor(props) {
         super(props);
 
-        this.handleFormChange   = this.handleFormChange.bind(this);
+        this.handleFormChange = this.handleFormChange.bind(this);
         this.handleBSFormChange = this.handleBSFormChange.bind(this);
     }
 
@@ -47,25 +47,13 @@ class FormPageVideo extends Component {
                 </FormGroup>
 
                 <FormGroup>
-                    <Label>Video</Label>
-                    <Asset name={'asset'}
-                           value={this.props.data.data.asset}
-                           packageId={this.props.packageId}
-                           packageVersionId={this.props.packageVersionId}
-                           onChange={this.handleFormChange}
-                           assetType={'contentVideo'}
-                           aspectRatio={this.props.aspectRatio}
-                    />
-                </FormGroup>
-
-                <FormGroup>
-                    <Label>Video Image</Label>
+                    <Label>Title Image</Label>
                     <Asset name={'titleImage'}
                            value={this.props.data.data.titleImage}
                            packageId={this.props.packageId}
                            packageVersionId={this.props.packageVersionId}
                            onChange={this.handleFormChange}
-                           assetType={'contentVideoImage'}
+                           assetType={'titleImage'}
                            aspectRatio={this.props.aspectRatio}
                     />
                 </FormGroup>
@@ -74,8 +62,6 @@ class FormPageVideo extends Component {
     }
 }
 
-FormPageVideo.propTypes = {
+FormPageTimeline.propTypes = {};
 
-};
-
-export default FormPageVideo;
+export default FormPageTimeline;

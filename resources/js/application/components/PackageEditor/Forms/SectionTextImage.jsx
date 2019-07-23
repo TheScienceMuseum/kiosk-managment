@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {FormGroup, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
 import Select from "./Elements/Select";
@@ -24,6 +23,9 @@ export default class SectionTextImage extends Component {
     }
 
     render() {
+        const { data } = this.props;
+        const shouldDisplayYear = data.parentPage.type === 'timeline';
+
         return (
             <div>
                 <FormGroup>
@@ -35,6 +37,18 @@ export default class SectionTextImage extends Component {
                            maxLength={40}
                     />
                 </FormGroup>
+
+                {shouldDisplayYear &&
+                <FormGroup>
+                    <Label>Year</Label>
+                    <Input bsSize={'sm'}
+                           name={'date'}
+                           value={this.props.data.data.date}
+                           onChange={this.handleBSFormChange}
+                           maxLength={40}
+                    />
+                </FormGroup>
+                }
 
                 <FormGroup>
                     <Label>Content</Label>
