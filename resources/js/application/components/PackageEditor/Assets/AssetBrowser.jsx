@@ -121,6 +121,9 @@ class AssetBrowser extends Component {
                                         alt={''}
                                         className={'img-square'}
                                         onClick={this.handleAssetSelected(asset)}
+                                        style={{
+                                            cursor: 'pointer',
+                                        }}
                                     />
                                     <div className={'media-body p-3'}>
                                         <InputGroup size={'sm'} className={'mb-1'}>
