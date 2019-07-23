@@ -2,6 +2,7 @@ export default {
     LABELS: {
         PAGE: {
             mixed: 'Multiple - Mixed Media',
+            timeline: 'Multiple - Timeline',
             video: 'Single - Video',
             custom: 'Single - Custom',
             model: '3D Model',

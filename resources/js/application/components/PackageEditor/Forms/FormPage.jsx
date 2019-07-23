@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import FormPageMixed from "./FormPageMixed";
+import FormPageTimeline from "./FormPageTimeline";
 import FormPageVideo from "./FormPageVideo";
 
 class FormPage extends Component {
     _pageTypes = {
         mixed: FormPageMixed,
+        timeline: FormPageTimeline,
         video: FormPageVideo,
     };
 

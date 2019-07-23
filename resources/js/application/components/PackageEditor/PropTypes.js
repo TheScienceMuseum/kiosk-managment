@@ -23,7 +23,7 @@ export const contentSectionType = PropTypes.shape({
 });
 
 export const contentPageType = PropTypes.shape({
-    type: PropTypes.oneOf(['mixed', 'video', 'model']).isRequired,
+    type: PropTypes.oneOf(['mixed', 'video', 'timeline', 'model']).isRequired,
     title: PropTypes.string.isRequired,
     subpages: PropTypes.arrayOf(contentSectionType),
 });

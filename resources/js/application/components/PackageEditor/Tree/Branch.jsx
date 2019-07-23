@@ -20,9 +20,9 @@ const Branch = (props) => {
         handleMoveElement,
     } = props;
 
-    const shouldDisplayLeaves = (page) => ['mixed'].includes(page.type);
-    const shouldDisplayAddSection = (page) => ['mixed'].includes(page.type);
-    const shouldDisplayEditPage = (page) => ['mixed', 'video'].includes(page.type);
+    const shouldDisplayLeaves = (page) => ['mixed', 'timeline'].includes(page.type);
+    const shouldDisplayAddSection = (page) => ['mixed', 'timeline'].includes(page.type);
+    const shouldDisplayEditPage = (page) => ['mixed', 'timeline', 'video'].includes(page.type);
 
     const shouldHighlightBranch = !!props.currentlyViewing
         && props.currentlyViewing.sectionIndex === null

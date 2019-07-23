@@ -38,7 +38,7 @@ class PackageEditor extends Component {
         };
 
         this.validPageTypes = {
-            "16:9": ['mixed', 'video', 'custom'],
+            "16:9": ['mixed', 'video', 'timeline', 'custom'],
             "9:16": ['mixed', 'custom'],
         };
 
@@ -180,6 +180,13 @@ class PackageEditor extends Component {
                         titleImage: null,
                         type: "mixed",
                     },
+                    timeline: {
+                        subpages: [],
+                        title: "Mixed Timeline Page",
+                        subTitle: "",
+                        titleImage: null,
+                        type: "timeline",
+                    },
                     video: {
                         title: "A video page",
                         subTitle: "",
@@ -221,7 +228,7 @@ class PackageEditor extends Component {
                     title: "A video with text",
                     content: [
                         "Some content here"
-                    ]
+                    ],
                 },
                 textImage: {
                     content: "This text will appear alongside the image",
