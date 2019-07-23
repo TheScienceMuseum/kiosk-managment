@@ -88,10 +88,6 @@ class AssetBrowser extends Component {
         };
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-
-    }
-
     render() {
         return (
             <Modal isOpen={this.props.showModal} toggle={this.props.onToggleModal(this.props.chooseAssetFor)} className={this.props.className}
