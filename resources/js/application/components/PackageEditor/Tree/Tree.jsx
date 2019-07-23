@@ -34,18 +34,18 @@ class Tree extends Component {
 
         return (
             <>
-                <div className={'mb-3'}>
-                    <span className={'text-muted text-sm my-auto'}>Note: Amend location, title and attractor</span>
+                <div className={'d-flex justify-content-between'}>
+                    <div></div>
                     <Button
                         color={'primary'}
                         onClick={handleViewElement('title', extend(data.content.titles, { aspect_ratio: data.aspect_ratio }))}
                         size={'sm'}
                         className={'float-right'}
                     >
-                        Package Setup
+                        Package &amp; Attractor Setup
                     </Button>
-                    <hr />
                 </div>
+                <hr />
                 <div className={'Tree'}>
                     {data.content.contents.map((page, pageIndex) =>
                         <Branch
