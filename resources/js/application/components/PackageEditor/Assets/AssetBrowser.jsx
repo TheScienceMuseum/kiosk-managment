@@ -14,7 +14,7 @@ import {
     ModalHeader
 } from "reactstrap";
 import FileUpload from "./FileUpload";
-import {each, get} from 'lodash';
+import {each, get, last} from 'lodash';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 class AssetBrowser extends Component {
@@ -78,7 +78,11 @@ class AssetBrowser extends Component {
         });
     }
 
-    handleAssetUploaded() {
+    handleAssetUploaded(err, responses) {
+        if (responses.length === 1) {
+            this.handleAssetSelected(last(responses[0].data.data.assets))();
+        }
+
         this.searchAssets();
     }
 
