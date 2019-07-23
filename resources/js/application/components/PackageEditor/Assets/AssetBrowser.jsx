@@ -116,7 +116,12 @@ class AssetBrowser extends Component {
                         <Card className={'mb-3'} key={`asset-item-${asset.id}`}>
                             <CardBody className={'p-0'}>
                                 <Media>
-                                    <img src={`/asset/${asset.id}/thumb`} alt={''} className={'img-square'} />
+                                    <img
+                                        src={`/asset/${asset.id}/thumb`}
+                                        alt={''}
+                                        className={'img-square'}
+                                        onClick={this.handleAssetSelected(asset)}
+                                    />
                                     <div className={'media-body p-3'}>
                                         <InputGroup size={'sm'} className={'mb-1'}>
                                             <Input readOnly value={asset.file_name} />
