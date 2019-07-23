@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import {FormGroup, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
-import Select from "./Elements/Select";
 
 class FormPageMixed extends Component {
     constructor(props) {
