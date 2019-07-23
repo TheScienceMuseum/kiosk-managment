@@ -24,13 +24,16 @@ export default class SectionTextImage extends Component {
     }
 
     render() {
+        const { aspectRatio, data, packageId, packageVersionId } = this.props;
+        const shouldDisplayYear = data.parentPage.type === 'timeline';
+
         return (
             <div>
                 <FormGroup>
                     <Label>Title</Label>
                     <Input bsSize={'sm'}
                            name={'title'}
-                           value={this.props.data.data.title}
+                           value={data.data.title}
                            onChange={this.handleBSFormChange}
                            maxLength={40}
                     />
@@ -40,7 +43,7 @@ export default class SectionTextImage extends Component {
                     <Label>Content</Label>
                     <Input bsSize={'sm'}
                            name={'content'}
-                           value={this.props.data.data.content}
+                           value={data.data.content}
                            onChange={this.handleBSFormChange}
                            type={'textarea'}
                            rows={10}
@@ -48,11 +51,23 @@ export default class SectionTextImage extends Component {
                     />
                 </FormGroup>
 
-                {this.props.aspectRatio === '16:9' &&
+                {shouldDisplayYear &&
+                <FormGroup>
+                    <Label>Year</Label>
+                    <Input bsSize={'sm'}
+                           name={'date'}
+                           value={data.data.date}
+                           onChange={this.handleBSFormChange}
+                           maxLength={40}
+                    />
+                </FormGroup>
+                }
+
+                {aspectRatio === '16:9' &&
                 <FormGroup>
                     <Label>Layout</Label>
                     <Select className={'col-sm-9'}
-                            defaultValue={this.props.data.data.layout}
+                            defaultValue={data.data.layout}
                             field={'layout'}
                             handleFieldChange={this.handleFormChange}
                             options={[{
@@ -69,24 +84,24 @@ export default class SectionTextImage extends Component {
                 <FormGroup>
                     <Label>Audio</Label>
                     <Asset name={'audio'}
-                           value={this.props.data.data.audio}
-                           packageId={this.props.packageId}
-                           packageVersionId={this.props.packageVersionId}
+                           value={data.data.audio}
+                           packageId={packageId}
+                           packageVersionId={packageVersionId}
                            onChange={this.handleFormChange}
                            assetType={'audio'}
-                           aspectRatio={this.props.aspectRatio}
+                           aspectRatio={aspectRatio}
                     />
                 </FormGroup>
 
                 <FormGroup>
                     <Label>Image</Label>
                     <Asset name={'asset'}
-                           value={this.props.data.data.asset}
-                           packageId={this.props.packageId}
-                           packageVersionId={this.props.packageVersionId}
+                           value={data.data.asset}
+                           packageId={packageId}
+                           packageVersionId={packageVersionId}
                            onChange={this.handleFormChange}
                            assetType={'sectionTextImage'}
-                           aspectRatio={this.props.aspectRatio}
+                           aspectRatio={aspectRatio}
                     />
                 </FormGroup>
             </div>
