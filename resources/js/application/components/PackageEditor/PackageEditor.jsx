@@ -13,7 +13,7 @@ import {
     Navbar,
     Row
 } from 'reactstrap';
-import { extend, get, set } from 'lodash';
+import { extend, get, intersection, set } from 'lodash';
 import FormPackageConfiguration from './Forms/FormPackageConfiguration';
 import FormPage from './Forms/FormPage';
 import FormSection from './Forms/FormSection';
@@ -58,6 +58,7 @@ class PackageEditor extends Component {
         this.handleViewElement = this.handleViewElement.bind(this);
         this.setPackageDataState = this.setPackageDataState.bind(this);
         this.showPreview = this.showPreview.bind(this);
+        this.getValidSectionTypes = this.getValidSectionTypes.bind(this);
     }
 
     componentDidMount() {
@@ -247,6 +248,13 @@ class PackageEditor extends Component {
                 },
             };
 
+            if (
+                this.state.packageVersionData.content.contents[this.state.showElementAddModalParent].type === 'timeline'
+                && ['textImage', 'textAudio'].includes(setup.type)
+            ) {
+                setup.date = '';
+            }
+
             this.setState(prevState => {
                 let packageVersionData = prevState.packageVersionData;
 
@@ -258,6 +266,29 @@ class PackageEditor extends Component {
                 return {...prevState, packageVersionData, showElementAddModalParent: null};
             })
         }
+    }
+
+    getValidSectionTypes() {
+        const {showElementAddModalParent, packageVersionData} = this.state;
+
+        if (!showElementAddModalParent) {
+            return [];
+        }
+
+        const page = packageVersionData.content.contents[showElementAddModalParent];
+
+        const validForLandscape = ['textImage', 'video', 'image', 'textAudio'];
+        const validForPortrait = ['textImage', 'textAudio', 'textVideo'];
+        const validForLayout = packageVersionData.aspect_ratio === '16:9'
+            ? validForLandscape : validForPortrait;
+
+        const validForPageType = {
+            timeline: ['textImage', 'textAudio'],
+            mixed: ['textImage', 'video', 'image', 'textAudio', 'textVideo'],
+            video: [],
+        };
+
+        return intersection(validForLayout, validForPageType[page.type]);
     }
 
     handleRemoveElement(type, pageIndex, sectionIndex) {
@@ -294,6 +325,7 @@ class PackageEditor extends Component {
                     data,
                     pageIndex,
                     sectionIndex,
+                    parentPage: this.state.packageVersionData.content.contents[pageIndex],
                 };
 
                 return newState;
@@ -376,7 +408,7 @@ class PackageEditor extends Component {
                     type={this.state.showElementAddModalType}
                     validTypes={{
                         page: this.validPageTypes[packageVersionData.aspect_ratio || "16:9"],
-                        section: this.validSectionTypes[packageVersionData.aspect_ratio || "16:9"],
+                        section: this.getValidSectionTypes(),
                     }}
                 />
                 <Row>
