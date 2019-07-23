@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- auto refresher -->
-    <meta http-equiv="refresh" content="10">
+    <meta http-equiv="refresh" content="1">
 
     <title>Previewing: {{ $preview->package_version->package->name }} version {{ $preview->package_version->version }}</title>
 
@@ -23,8 +23,16 @@
 <div id="app">
 
     <div class="text-center" style="padding-top: 40vh;">
-        <h1>Currently Building Preview</h1>
-        <h3><small class="text-muted">you'll be redirected once we are finished building</small></h3>
+        <h3 class="text-muted">Please wait while your preview screen is loading - this may a few moments</h3>
+        <div class="progress" style="height: 40px;">
+            <div role="progressbar"
+                 class="progress-bar progress-bar-striped progress-bar-animated"
+                 aria-valuenow="{{ $preview->package_version->progress }}"
+                 aria-valuemin="0"
+                 aria-valuemax="100"
+                 style="width: {{ $preview->package_version->progress }}%;"
+            ></div>
+        </div>
     </div>
 
 </div>
