@@ -100,7 +100,7 @@ export default class FormPackageConfiguration extends Component {
         return (
             <div>
                 <FormGroup>
-                    <Label size={'lg'}>Package Configuration</Label>
+                    <Label size={'lg'}>Package &amp; Attractor Setup</Label>
                 </FormGroup>
 
                 <FormGroup>
