@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- auto refresher -->
-    <meta http-equiv="refresh" content="10">
+    <meta http-equiv="refresh" content="1">
 
     <title>Previewing: {{ $preview->package_version->package->name }} version {{ $preview->package_version->version }}</title>
 
