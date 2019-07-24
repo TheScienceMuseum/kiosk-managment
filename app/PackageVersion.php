@@ -23,8 +23,9 @@ use Spatie\TemporaryDirectory\TemporaryDirectory;
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property array|null $data
+ * @property array $data
  * @property int $progress
+ * @property int $valid
  * @property-read \Illuminate\Database\Eloquent\Collection|\OwenIt\Auditing\Models\Audit[] $audits
  * @property-read mixed $archive_path
  * @property-read mixed $archive_path_exists
@@ -42,6 +43,7 @@ use Spatie\TemporaryDirectory\TemporaryDirectory;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereProgress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereValid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereVersion($value)
  * @mixin \Eloquent
  */
