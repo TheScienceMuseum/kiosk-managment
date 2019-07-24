@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\PackageVersionPreview;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -40,22 +41,26 @@ class BuildPreviewPackageFromVersion implements ShouldQueue
      * Execute the job.
      *
      * @return void
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws \League\Flysystem\FileNotFoundException
      */
     public function handle()
     {
         $packageVersion = $this->packageVersionPreview->package_version;
+        $buildingFromDraft = !in_array($packageVersion->status, ['pending', 'approved'])
+            && $packageVersion->progress !== 100;
 
-        try {
-            $buildJob = new BuildPackageFromVersion($packageVersion, null);
-            $buildJob->handle();
-        } catch (\Exception $exception) {
-            $packageVersion->update([
-                'status' => 'draft',
-                'progress' => 0,
-            ]);
+        if ($buildingFromDraft) {
+            try {
+                $buildJob = new BuildPackageFromVersion($packageVersion, null);
+                $buildJob->handle();
+            } catch (Exception $exception) {
+                $packageVersion->update([
+                    'status' => 'draft',
+                    'progress' => 0,
+                ]);
 
-            return false;
+                return;
+            }
         }
 
         $previewPath = Str::random(16);
@@ -77,10 +82,12 @@ class BuildPreviewPackageFromVersion implements ShouldQueue
             FILE_APPEND
         );
 
-        $packageVersion->update([
-            'status' => 'draft',
-            'progress' => 0,
-        ]);
+        if ($buildingFromDraft) {
+            $packageVersion->update([
+                'status' => 'draft',
+                'progress' => 0,
+            ]);
+        }
 
         $process = new Process('tar -zxf package.tar.gz', storage_path('app/public/previews/'.$previewPath));
         $process->run();
