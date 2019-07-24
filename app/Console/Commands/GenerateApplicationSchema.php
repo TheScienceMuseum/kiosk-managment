@@ -250,8 +250,18 @@ class GenerateApplicationSchema extends Command
                                 "yes" => "Go ahead",
                                 "no" => "Cancel",
                             ],
-                        ],
-                        [
+                        ], [
+                            "label" => "Preview",
+                            "action" => [
+                                "new_window" => "/preview/{id}/build",
+                            ],
+                            "display_condition" => [
+                                "rules" => [
+                                    "status" => ["pending", "approved", "deployed"],
+                                    "progress" => 100,
+                                ],
+                            ],
+                        ], [
                             "label" => "Submit for Approval",
                             "action" => [
                                 "resource" => "package_version",
