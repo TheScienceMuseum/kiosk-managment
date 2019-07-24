@@ -55,6 +55,12 @@ class Api {
         return () => {
             if (has(action, 'action.path')) {
                 callbacks.path(this.getUrlFromPathAndInstance(get(action, 'action.path'), instance));
+            } else if (has(action, 'action.new_window')) {
+                window.open(
+                    this.getUrlFromPathAndInstance(get(action, 'action.new_window'), instance),
+                    "Previewing Package",
+                    `toolbar=no,scrollbars=no`
+                );
             } else {
 
                 const postAction = (response) => {
