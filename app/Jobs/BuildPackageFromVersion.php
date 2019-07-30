@@ -258,15 +258,34 @@ class BuildPackageFromVersion implements ShouldQueue
         }
 
         if ($assetEntry->assetType === 'image' && !empty($assetEntry->boundingBox)) {
-            $imageSize = getimagesize($this->getFullBuildPath().'/'.$assetEntry->assetSource);
-            $assetEntry->boundingBox->y = round($assetEntry->boundingBox->y / $imageSize[1], 2);
-            $assetEntry->boundingBox->height = round($assetEntry->boundingBox->height / $imageSize[1], 2);
-
-            $assetEntry->boundingBox->x = round($assetEntry->boundingBox->x / $imageSize[0], 2);
-            $assetEntry->boundingBox->width = round($assetEntry->boundingBox->width / $imageSize[0], 2);
+            $imgPath = $this->getFullBuildPath().'/'.$assetEntry->assetSource;
+            
+            //create asset thumbnail
+            $this->createAssetThumbnail($imgPath, $assetEntry->boundingBox->x,$assetEntry->boundingBox->y, $assetEntry->boundingBox->width, $assetEntry->boundingBox->height);
         }
 
         return $assetEntry;
+    }
+
+    private function createAssetThumbnail($imgPath, $x, $y, $width, $height) {
+        $imgType = exif_imagetype($imgPath);
+
+        switch($imgType) {
+            case IMAGETYPE_PNG:
+                $thumbnail = imagecreatefrompng($imgPath);
+                $newFilename = str_replace(".png", "", $imgPath) . "_boundingBox.jpg";
+            break;
+            case IMAGETYPE_JPEG:
+                $thumbnail = imagecreatefromjpeg($imgPath);
+                $newFilename = str_replace([".jpg", ".jpeg"], "", $imgPath) . "_boundingBox.jpg";
+            break;
+        }
+
+        $thumbnail = imagecrop($thumbnail, ['x' => $x, 'y' => $y, 'width' => $width, 'height' => $height]);
+
+        imagejpeg($thumbnail,$newFilename,100);
+
+        return $newFilename;
     }
 
     /**
