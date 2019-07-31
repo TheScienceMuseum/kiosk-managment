@@ -220,7 +220,7 @@ class GenerateApplicationSchema extends Command
                             ],
                             "display_condition" => [
                                 "rules" => [
-                                    "status" => ["draft", "failed"],
+                                    "status" => ["draft", "failed", "invalid"],
                                 ],
                             ],
                         ],
@@ -236,7 +236,7 @@ class GenerateApplicationSchema extends Command
                             "display_condition" => [[
                                 "rules" => [
                                     "PERMISSION" => "edit all packages",
-                                    "status" => ["draft", "failed"],
+                                    "status" => ["draft", "failed", 'invalid'],
                                 ],
                             ], [
                                 "rules" => [
