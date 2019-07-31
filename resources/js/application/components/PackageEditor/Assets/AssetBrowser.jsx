@@ -94,7 +94,7 @@ class AssetBrowser extends Component {
 
     render() {
         return (
-            <Modal isOpen={this.props.showModal} toggle={this.props.onToggleModal(this.props.chooseAssetFor)} className={this.props.className}
+            <Modal isOpen={this.props.showModal} toggle={this.props.onToggleModal(this.props.chooseAssetFor)} className={'AssetBrowser'}
                    size={'lg'}>
                 <ModalHeader toggle={this.props.onToggleModal(this.props.chooseAssetFor)}>
                     Choose an Asset

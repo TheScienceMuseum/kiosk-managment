@@ -74,10 +74,10 @@ export default class SectionTextImage extends Component {
                             field={'layout'}
                             handleFieldChange={this.handleFormChange}
                             options={[{
-                                label: "Left",
+                                label: "Image Left",
                                 value: "left",
                             }, {
-                                label: "Right",
+                                label: "Image Right",
                                 value: "right",
                             }]}
                     />
