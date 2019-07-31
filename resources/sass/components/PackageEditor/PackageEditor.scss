@@ -13,5 +13,12 @@
     &.btn-success {
       font-size: 1.1em;
     }
+    &.btn-danger {
+      font-size: 1.1em;
+    }
+  }
+
+  .form-control.is-invalid {
+    border: solid #d9534f 1px;
   }
 }

@@ -18,6 +18,7 @@ const Branch = (props) => {
         handleViewElement,
         handleRemoveElement,
         handleMoveElement,
+        validation,
     } = props;
 
     const shouldDisplayLeaves = (page) => ['mixed', 'timeline'].includes(page.type);
@@ -42,7 +43,7 @@ const Branch = (props) => {
 
                 <Input
                     value={`${CONSTANTS.LABELS.PAGE[page.type]}: ${page.title}`}
-                    className={`${shouldHighlightBranch ? 'active' : ''}`}
+                    className={`${shouldHighlightBranch ? 'active' : ''} ${validation.has(`content.contents[${index}]`) ? 'is-invalid' : ''}`}
                     disabled
                 />
 
@@ -71,6 +72,7 @@ const Branch = (props) => {
                     handleViewElement={handleViewElement}
                     handleRemoveElement={handleRemoveElement}
                     handleMoveElement={handleMoveElement}
+                    validation={validation}
                 />
             )}
             {shouldDisplayAddSection(page) &&
