@@ -10,6 +10,7 @@ use App\Http\Requests\PackageVersionSearchAssetRequest;
 use App\Http\Requests\PackageVersionShowRequest;
 use App\Http\Requests\PackageVersionUpdateRequest;
 use App\Http\Requests\PackageVersionUploadAssetRequest;
+use App\Http\Requests\PackageVersionValidRequest;
 use App\Http\Resources\PackageVersionAssetResource;
 use App\Http\Resources\PackageVersionResource;
 use App\Kiosk;
@@ -145,6 +146,24 @@ class PackageVersionController extends Controller
         $packageVersion->forceDelete();
 
         return response('', 204);
+    }
+
+    /**
+     * @param PackageVersionValidRequest $request
+     * @param Package $package
+     * @param PackageVersion $packageVersion
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function valid(PackageVersionValidRequest $request, Package $package, PackageVersion $packageVersion)
+    {
+        $data = (object) $request->get('data');
+
+        $validationMessages = $packageVersion->validatePackageData($data);
+
+        return response(
+            json_encode($validationMessages),
+            empty($validationMessages) ? 200 : 422
+        );
     }
 
     /**

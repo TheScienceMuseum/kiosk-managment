@@ -15,11 +15,22 @@ class PackageVersionResource extends JsonResource
      */
     public function toArray($request)
     {
+        $status = $this->status;
+
+        if ($this->kiosks()->count()) {
+            $status = 'deployed';
+        }
+
+        if (!$this->valid) {
+            $status = 'invalid';
+        }
+
         return [
             'id' => $this->id,
             'version' => $this->version,
             'download' => $this->archive_path_exists ? route('api.kiosk.package.download', [$this->package, $this]) : null,
-            'status' => $this->kiosks()->count() ? 'deployed' : $this->status,
+            'status' => $status,
+            'valid' => $this->valid,
             'progress' => $this->progress,
             'package_data' => $this->data,
             'package' => [
