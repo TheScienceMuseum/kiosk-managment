@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { extend } from 'lodash';
-import { Button, ButtonGroup } from 'reactstrap';
+import { extend, has } from 'lodash';
+import { Alert, Button, Col, Row } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { assetType } from '../PropTypes';
 import CONSTANTS from '../Constants';
 import Branch from './Branch';
+import Validation from '../../../../helpers/PackageDataValidation';
 
 class Tree extends Component {
     _types = {
@@ -30,15 +31,27 @@ class Tree extends Component {
             handleRemoveElement,
             handleMoveElement,
             currentViewing,
+            validationErrors
         } = this.props;
+
+        const validation = Validation(validationErrors);
 
         return (
             <>
+                {validationErrors &&
+                <Row>
+                    <Col>
+                        <Alert color={'danger'}>
+                            There are errors in this package, please resolve them and click "Validate Package"
+                        </Alert>
+                    </Col>
+                </Row>
+                }
                 <div className={'d-flex justify-content-between'}>
                     <div></div>
                     <Button
-                        color={'primary'}
-                        onClick={handleViewElement('title', extend(data.content.titles, { aspect_ratio: data.aspect_ratio }))}
+                        color={validation.has('content.titles') ? 'danger' : 'primary'}
+                        onClick={handleViewElement('title', extend(data.content.titles))}
                         size={'sm'}
                         className={'float-right'}
                     >
@@ -47,6 +60,11 @@ class Tree extends Component {
                 </div>
                 <hr />
                 <div className={'Tree'}>
+                    {data.content.contents.length === 0 &&
+                        <Alert color={'danger'} className={'text-center'}>
+                            You must add at least one page to the kiosk
+                        </Alert>
+                    }
                     {data.content.contents.map((page, pageIndex) =>
                         <Branch
                             key={`tree-page-${pageIndex}`}
@@ -59,6 +77,7 @@ class Tree extends Component {
                             handleViewElement={handleViewElement}
                             handleRemoveElement={handleRemoveElement}
                             handleMoveElement={handleMoveElement}
+                            validation={validation}
                         />
                     )}
                 </div>
@@ -84,8 +103,8 @@ Tree.propTypes = {
         content: PropTypes.shape({
             titles: PropTypes.shape({
                 image: assetType,
-                title: PropTypes.string.isRequired,
-                type: PropTypes.oneOf(['text']).isRequired,
+                title: PropTypes.string,
+                type: PropTypes.oneOf(['text']),
             }).isRequired,
             contents: PropTypes.arrayOf(PropTypes.shape({
                 articleID: PropTypes.string,

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {FormGroup, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
 import Select from "./Elements/Select";
+import Validation from '../../../../helpers/PackageDataValidation';
 
 export default class SectionImage extends Component {
     constructor(props) {
@@ -24,6 +25,10 @@ export default class SectionImage extends Component {
     }
 
     render() {
+        const {validationErrors} = this.props;
+
+        const validation = Validation(validationErrors);
+
         return (
             <div>
                 <FormGroup>
@@ -74,6 +79,7 @@ export default class SectionImage extends Component {
                            onChange={this.handleFormChange}
                            assetType={'sectionImage'}
                            aspectRatio={this.props.aspectRatio}
+                           invalid={validation.has(`content.contents[${this.props.data.pageIndex}].subpages[${this.props.data.sectionIndex}].asset`)}
                     />
                 </FormGroup>
             </div>

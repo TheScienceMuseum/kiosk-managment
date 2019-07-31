@@ -23,8 +23,9 @@ use Spatie\TemporaryDirectory\TemporaryDirectory;
  * @property string $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property array|null $data
+ * @property array $data
  * @property int $progress
+ * @property int $valid
  * @property-read \Illuminate\Database\Eloquent\Collection|\OwenIt\Auditing\Models\Audit[] $audits
  * @property-read mixed $archive_path
  * @property-read mixed $archive_path_exists
@@ -42,6 +43,7 @@ use Spatie\TemporaryDirectory\TemporaryDirectory;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereProgress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereValid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\PackageVersion whereVersion($value)
  * @mixin \Eloquent
  */
@@ -58,6 +60,7 @@ class PackageVersion extends Model implements HasMedia, Auditable
 
     protected $casts = [
         'data' => 'json',
+        'valid' => 'bool',
     ];
 
     public function registerMediaConversions(Media $media = null)
@@ -107,6 +110,40 @@ class PackageVersion extends Model implements HasMedia, Auditable
         $data['aspect_ratio'] = $this->package->aspect_ratio;
 
         return $data;
+    }
+
+    public function validatePackageData($data = null)
+    {
+        if (!$data) {
+            $data = (object) $this->data;
+        }
+
+        $validationSchema = (object) json_decode(file_get_contents(base_path('resources/package-schema.json')));
+
+        // Ignore models as these are pre-built
+        foreach($data->content['contents'] as $index => $content) {
+            if ($content['type'] === 'model') {
+                unset($data->content['contents'][$index]);
+            }
+        }
+
+        $validator = new \JsonSchema\Validator;
+        $validator->validate($data, $validationSchema, \JsonSchema\Constraints\Constraint::CHECK_MODE_TYPE_CAST);
+
+        $validationMessages = [];
+
+        if (! $validator->isValid()) {
+            foreach ($validator->getErrors() as $error) {
+                if (empty($validationMessages[$error['property']])) {
+                    $validationMessages[$error['property']] = $error['message'];
+                }
+            }
+        }
+
+        $this->valid = empty($validationMessages);
+        $this->save();
+
+        return $validationMessages;
     }
 
     public function kiosks()

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {FormGroup, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
+import Validation from '../../../../helpers/PackageDataValidation';
 
 class FormPageMixed extends Component {
     constructor(props) {
@@ -22,6 +23,10 @@ class FormPageMixed extends Component {
     }
 
     render() {
+        const {validationErrors} = this.props;
+
+        const validation = Validation(validationErrors);
+
         return (
             <div>
                 <FormGroup>
@@ -55,6 +60,7 @@ class FormPageMixed extends Component {
                            onChange={this.handleFormChange}
                            assetType={'titleImage'}
                            aspectRatio={this.props.aspectRatio}
+                           invalid={validation.has(`content.contents[${this.props.data.pageIndex}].titleImage`)}
                     />
                 </FormGroup>
             </div>

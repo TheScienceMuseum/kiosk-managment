@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import PropTypes from 'prop-types';
-import {Button, ButtonGroup, Table} from "reactstrap";
+import { Button, ButtonGroup, Table, UncontrolledTooltip } from 'reactstrap';
 import Api from "../../../../../../../helpers/Api";
 import DisplayCondition from "../../../../../../../helpers/DisplayCondition";
 import {BounceLoader} from "react-spinners";
-import {each, get, has} from 'lodash';
+import { each, get, has, kebabCase } from 'lodash';
 import {ucwords} from "locutus/php/strings";
 import ResourceListPagination from '../../../List/ResourceListPagination';
 import queryString from 'query-string';
@@ -190,6 +190,20 @@ class ResourceCollection extends Component {
                                                             >
                                                                 {ucwords(action.name)}
                                                             </Button>
+                                                        );
+                                                    } else if (DisplayCondition.getFailureMessage(action.display_condition, row)) {
+                                                        return (
+                                                            <Fragment key={`action-${row.id}-${kebabCase(action.name)}`}>
+                                                                <Button id={`action-${row.id}-${kebabCase(action.name)}`}
+                                                                        onClick={() => {}}
+                                                                        color={'primary disabled'}
+                                                                >
+                                                                    {ucwords(action.name)}
+                                                                </Button>
+                                                                <UncontrolledTooltip placement="auto" target={`action-${row.id}-${kebabCase(action.name)}`}>
+                                                                    {DisplayCondition.getFailureMessage(action.display_condition, row)}
+                                                                </UncontrolledTooltip>
+                                                            </Fragment>
                                                         );
                                                     }
                                                 })}

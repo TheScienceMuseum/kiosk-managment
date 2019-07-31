@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {FormGroup, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
 import Select from "./Elements/Select";
+import Validation from '../../../../helpers/PackageDataValidation';
 
 export default class SectionTextImage extends Component {
     constructor(props) {
@@ -24,8 +25,10 @@ export default class SectionTextImage extends Component {
     }
 
     render() {
-        const { aspectRatio, data, packageId, packageVersionId } = this.props;
+        const { aspectRatio, data, packageId, packageVersionId, validationErrors } = this.props;
         const shouldDisplayYear = data.parentPage.type === 'timeline';
+
+        const validation = Validation(validationErrors);
 
         return (
             <div>
@@ -90,6 +93,7 @@ export default class SectionTextImage extends Component {
                            onChange={this.handleFormChange}
                            assetType={'audio'}
                            aspectRatio={aspectRatio}
+                           invalid={validation.has(`content.contents[${this.props.data.pageIndex}].subpages[${this.props.data.sectionIndex}].audio`)}
                     />
                 </FormGroup>
 
@@ -102,6 +106,7 @@ export default class SectionTextImage extends Component {
                            onChange={this.handleFormChange}
                            assetType={'sectionTextImage'}
                            aspectRatio={aspectRatio}
+                           invalid={validation.has(`content.contents[${this.props.data.pageIndex}].subpages[${this.props.data.sectionIndex}].asset`)}
                     />
                 </FormGroup>
             </div>

@@ -17,6 +17,7 @@ const Leaf = (props) => {
         handleMoveElement,
         handleViewElement,
         handleRemoveElement,
+        validation,
     } = props;
 
     const shouldHighlightLeaf = !!props.currentlyViewing
@@ -36,7 +37,7 @@ const Leaf = (props) => {
 
             <Input
                 value={`${CONSTANTS.LABELS.SECTION[section.type]}: ${section.title}`}
-                className={`${shouldHighlightLeaf ? 'active' : ''}`}
+                className={`${shouldHighlightLeaf ? 'active' : ''} ${validation.has(`content.contents[${pageIndex}].subpages[${index}]`) ? 'is-invalid' : ''}`}
                 disabled
             />
 
