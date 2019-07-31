@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Api from "../../../helpers/Api";
+import Api from '../../../helpers/Api';
 import {
     Alert,
     Button,
@@ -19,8 +19,8 @@ import CONSTANTS from './Constants';
 import FormPackageConfiguration from './Forms/FormPackageConfiguration';
 import FormPage from './Forms/FormPage';
 import FormSection from './Forms/FormSection';
-import Tree from "./Tree/Tree";
-import AddElement from "./Forms/Elements/AddElement";
+import Tree from './Tree/Tree';
+import AddElement from './Forms/Elements/AddElement';
 import Help from '../Navigation/Help';
 
 class PackageEditor extends Component {
@@ -37,11 +37,12 @@ class PackageEditor extends Component {
             showElementAddModal: false,
             showElementAddModalType: 'page',
             showElementAddModalParent: null,
+            packageValidationErrors: null,
         };
 
         this.validPageTypes = {
-            "16:9": ['mixed', 'video', 'timeline', 'custom'],
-            "9:16": ['mixed', 'custom'],
+            '16:9': ['mixed', 'video', 'timeline', 'custom'],
+            '9:16': ['mixed', 'custom'],
         };
 
         this.getPackageVersionData = this.getPackageVersionData.bind(this);
@@ -55,6 +56,7 @@ class PackageEditor extends Component {
         this.handleViewElement = this.handleViewElement.bind(this);
         this.setPackageDataState = this.setPackageDataState.bind(this);
         this.showPreview = this.showPreview.bind(this);
+        this.validatePackage = this.validatePackage.bind(this);
         this.getValidSectionTypes = this.getValidSectionTypes.bind(this);
     }
 
@@ -62,29 +64,34 @@ class PackageEditor extends Component {
         this.getPackageVersionData(true);
     }
 
-    flushPackageVersionData(onFinish=null) {
+    flushPackageVersionData(onFinish = null) {
         axios.put(
             `/api/package/${this.props.packageId}/version/${this.props.packageVersionId}`,
-            {package_data: this.state.packageVersionData}
-        ).then(response => {
-            this.setPackageDataState(response.data);
+            { package_data: this.state.packageVersionData }
+        )
+            .then(response => {
+                this.setPackageDataState(response.data);
 
-            toastr.success('Updated package data successfully.')
+                toastr.success('Updated package data successfully.');
 
-            if (typeof onFinish === 'function') {
-                onFinish();
-            }
-        });
+                if (typeof onFinish === 'function') {
+                    onFinish();
+                }
+            });
     }
 
     getPackageVersionData(setPackageDataState = false) {
         this._api.request(
             'show',
             {},
-            {id: this.props.packageVersionId, package: {id: this.props.packageId}}
-        ).then(response => {
-            this.setPackageDataState(response.data, setPackageDataState);
-        })
+            {
+                id: this.props.packageVersionId,
+                package: { id: this.props.packageId }
+            }
+        )
+            .then(response => {
+                this.setPackageDataState(response.data, setPackageDataState);
+            });
     }
 
     setPackageDataState(responseData, openPackageConfig = false) {
@@ -99,16 +106,16 @@ class PackageEditor extends Component {
             currentStateFlushed: true,
             packageVersionData,
             packageVersionStatus,
-        }));
+        }), this.validatePackage);
 
         if (openPackageConfig) {
-            this.handleViewElement('title', extend(packageVersionData.content.titles, { aspect_ratio: packageVersionData.aspect_ratio}))();
+            this.handleViewElement('title', packageVersionData.content.titles)();
         }
     }
 
     handlePackageDataChange(path, value) {
         let resolvedPath = path;
-        const packageVersionData = {...this.state.packageVersionData};
+        const packageVersionData = { ...this.state.packageVersionData };
 
         if (this.state.currentlyViewingPage.sectionIndex != null) {
             resolvedPath = `subpages[${this.state.currentlyViewingPage.sectionIndex}].${resolvedPath}`;
@@ -125,7 +132,7 @@ class PackageEditor extends Component {
             this.setState(prevState => ({
                 ...prevState,
                 currentStateFlushed: false,
-                packageVersionData: {...packageVersionData}
+                packageVersionData: { ...packageVersionData }
             }));
         }
     }
@@ -139,7 +146,7 @@ class PackageEditor extends Component {
                 showElementAddModalType: type,
                 showElementAddModalParent: parent,
             }), this.handleToggleAddElementModal);
-        }
+        };
     }
 
     handleToggleAddElementModal() {
@@ -165,7 +172,11 @@ class PackageEditor extends Component {
                                 ...data
                             });
 
-                            return {...prevState, packageVersionData, showElementAddModalParent: null};
+                            return {
+                                ...prevState,
+                                packageVersionData,
+                                showElementAddModalParent: null
+                            };
                         });
                     });
 
@@ -173,21 +184,21 @@ class PackageEditor extends Component {
                 const defaults = {
                     mixed: {
                         subpages: [],
-                        title: "Mixed media page",
-                        subTitle: "",
+                        title: 'Mixed media page',
+                        subTitle: '',
                         titleImage: null,
-                        type: "mixed",
+                        type: 'mixed',
                     },
                     timeline: {
                         subpages: [],
-                        title: "Mixed Timeline Page",
-                        subTitle: "",
+                        title: 'Mixed Timeline Page',
+                        subTitle: '',
                         titleImage: null,
-                        type: "timeline",
+                        type: 'timeline',
                     },
                     video: {
-                        title: "A video page",
-                        subTitle: "",
+                        title: 'A video page',
+                        subTitle: '',
                         titleImage: null,
                         asset: null,
                     },
@@ -201,7 +212,11 @@ class PackageEditor extends Component {
                         ...setup,
                     });
 
-                    return {...prevState, packageVersionData, showElementAddModalParent: null};
+                    return {
+                        ...prevState,
+                        packageVersionData,
+                        showElementAddModalParent: null
+                    };
                 });
             }
         }
@@ -209,39 +224,39 @@ class PackageEditor extends Component {
         if (type === 'section') {
             const defaults = {
                 image: {
-                    content: "Image that is wide",
-                    image: null,
-                    layout: "left",
-                    title: "title",
-                    type: "image",
+                    content: 'Image that is wide',
+                    asset: null,
+                    layout: 'left',
+                    title: 'title',
+                    type: 'image',
                 },
                 video: {
                     asset: null,
-                    title: "A video page",
+                    title: 'A video page',
                 },
                 textVideo: {
-                    type: "textVideo",
-                    layout: "left",
+                    type: 'textVideo',
+                    layout: 'left',
                     asset: null,
-                    title: "A video with text",
+                    title: 'A video with text',
                     content: [
-                        "Some content here"
+                        'Some content here'
                     ],
                 },
                 textImage: {
-                    content: "This text will appear alongside the image",
-                    image: null,
-                    layout: "right",
-                    title: "title",
-                    type: "textImage",
+                    content: 'This text will appear alongside the image',
+                    asset: null,
+                    layout: 'right',
+                    title: 'title',
+                    type: 'textImage',
                 },
                 textAudio: {
-                    content: "This text will appear alongside the image and audio",
+                    content: 'This text will appear alongside the image and audio',
                     asset: null,
                     audio: null,
-                    layout: "right",
-                    title: "title",
-                    type: "textAudio",
+                    layout: 'right',
+                    title: 'title',
+                    type: 'textAudio',
                 },
             };
 
@@ -260,15 +275,19 @@ class PackageEditor extends Component {
                     ...setup,
                 });
 
-                return {...prevState, packageVersionData, showElementAddModalParent: null};
-            })
+                return {
+                    ...prevState,
+                    packageVersionData,
+                    showElementAddModalParent: null
+                };
+            });
         }
     }
 
     getValidSectionTypes() {
-        const {showElementAddModalParent, packageVersionData} = this.state;
+        const { showElementAddModalParent, packageVersionData } = this.state;
 
-        if (!showElementAddModalParent) {
+        if (showElementAddModalParent == null) {
             return [];
         }
 
@@ -284,6 +303,8 @@ class PackageEditor extends Component {
             mixed: ['textImage', 'video', 'image', 'textAudio', 'textVideo'],
             video: [],
         };
+
+        console.log(page.type, intersection(validForLayout, validForPageType[page.type]));
 
         return intersection(validForLayout, validForPageType[page.type]);
     }
@@ -310,14 +331,14 @@ class PackageEditor extends Component {
                         {message}
                         This will also delete the following sections:
                         <ul>
-                        {element.subpages.map((section, index) => (
-                            <li key={`delete-section-${index}`}>
-                                {CONSTANTS.LABELS.SECTION[section.type]}: {element.title}
-                            </li>
-                        ))}
+                            {element.subpages.map((section, index) => (
+                                <li key={`delete-section-${index}`}>
+                                    {CONSTANTS.LABELS.SECTION[section.type]}: {element.title}
+                                </li>
+                            ))}
                         </ul>
                     </div>
-                )
+                );
             }
 
             confirm({
@@ -326,43 +347,46 @@ class PackageEditor extends Component {
                 message,
                 confirmText: 'Delete',
                 cancelText: 'Cancel',
-            }).then(confirmed => {
+            })
+                .then(confirmed => {
 
-                if (confirmed) {
-                    if (type === 'page') {
-                        this.setState(prevState => {
-                            const packageVersionData = prevState.packageVersionData;
-                            packageVersionData.content.contents.splice(pageIndex, 1);
+                    if (confirmed) {
+                        if (type === 'page') {
+                            this.setState(prevState => {
+                                const packageVersionData = prevState.packageVersionData;
+                                packageVersionData.content.contents.splice(pageIndex, 1);
 
-                            return {
-                                ...prevState,
-                                packageVersionData
-                            };
-                        })
+                                return {
+                                    ...prevState,
+                                    packageVersionData
+                                };
+                            });
+                        }
+
+                        if (type === 'section') {
+                            this.setState(prevState => {
+                                const packageVersionData = prevState.packageVersionData;
+                                packageVersionData.content.contents[pageIndex].subpages.splice(sectionIndex, 1);
+
+                                return {
+                                    ...prevState,
+                                    packageVersionData
+                                };
+                            });
+                        }
                     }
-
-                    if (type === 'section') {
-                        this.setState(prevState => {
-                            const packageVersionData = prevState.packageVersionData;
-                            packageVersionData.content.contents[pageIndex].subpages.splice(sectionIndex, 1);
-
-                            return {
-                                ...prevState,
-                                packageVersionData
-                            };
-                        });
-                    }
-                }
-            });
-        }
+                });
+        };
     }
 
     handleViewElement(type, data, pageIndex = null, sectionIndex = null) {
         return (event) => {
-            if (event) { event.preventDefault(); }
+            if (event) {
+                event.preventDefault();
+            }
 
             this.setState(prevState => {
-                const newState = {...prevState};
+                const newState = { ...prevState };
 
                 newState.currentlyViewingPage = {
                     type,
@@ -374,10 +398,10 @@ class PackageEditor extends Component {
 
                 return newState;
             });
-        }
+        };
     }
 
-    handleMoveElement(direction, currentIndex, parentIndex=null) {
+    handleMoveElement(direction, currentIndex, parentIndex = null) {
         return (event) => {
             event.preventDefault();
 
@@ -417,7 +441,7 @@ class PackageEditor extends Component {
                     },
                 }));
             }
-        }
+        };
     }
 
     showPreview() {
@@ -430,113 +454,148 @@ class PackageEditor extends Component {
         this.flushPackageVersionData(() => {
             window.open(
                 `/preview/${packageVersionId}/build`,
-                "Previewing Package",
+                'Previewing Package',
                 `toolbar=no,scrollbars=no,resizable=no,width=${width},height=${height}`
             );
         });
     }
 
+    validatePackage() {
+        const { packageId, packageVersionId } = this.props;
+        const { packageVersionData } = this.state;
+
+        axios.post(`/api/package/${packageId}/version/${packageVersionId}/valid`, {
+            data: packageVersionData
+        })
+            .then(() => {
+                this.setState(prevState => ({
+                    ...prevState,
+                    packageValidationErrors: null,
+                }));
+            })
+            .catch(error => {
+                if (error.response.status === 422) {
+                    this.setState(prevState => ({
+                        ...prevState,
+                        packageValidationErrors: error.response.data,
+                    }));
+                }
+            });
+    }
+
     render() {
-        const { packageVersionData, currentlyViewingPage } = this.state;
+        const { packageVersionData, currentlyViewingPage, packageValidationErrors } = this.state;
         const { location } = this.props;
 
         return (
             <Container fluid className={'PackageEditor mb-3'}>
                 {this.state.packageVersionData &&
                 <>
-                <AddElement
-                    showModal={this.state.showElementAddModal}
-                    onToggleModal={this.handleToggleAddElementModal}
-                    onElementAdded={this.handleAddedElement}
-                    elementType={this.state.showElementAddModalType}
-                    type={this.state.showElementAddModalType}
-                    validTypes={{
-                        page: this.validPageTypes[packageVersionData.aspect_ratio || "16:9"],
-                        section: this.getValidSectionTypes(),
-                    }}
-                />
-                <Row>
-                    <Col lg={{size: 12}}>
-                        <Navbar className={'PackageEditorHeader d-flex justify-content-between mb-3'} dark color={'primary'}>
-                            <h1 className={'text-light my-auto'}>
-                                {this.state.packageVersionData.name} version {this.state.packageVersionData.version}
-                            </h1>
-                            <div>
-                                <ButtonGroup size={'lg'}>
-                                    <Help
-                                        className="btn btn-secondary"
-                                        location={location}
-                                        showIcon={false}
-                                        showText
-                                    />
-                                    <Button
-                                        color={'secondary'}
-                                        onClick={this.showPreview}
-                                    >Preview</Button>
-                                    <Button
-                                        color={'secondary'}
-                                        onClick={this.flushPackageVersionData}
-                                    >Save</Button>
-                                </ButtonGroup>
-                            </div>
-                        </Navbar>
-                        <Row>
-                            <Col sm={4}>
-                                <Card className={'TreeContainer'}>
-                                    <CardBody>
-                                        <Tree data={packageVersionData}
-                                              currentViewing={currentlyViewingPage}
-                                              handleAddElement={this.handleAddElement}
-                                              handleRemoveElement={this.handleRemoveElement}
-                                              handleViewElement={this.handleViewElement}
-                                              handleMoveElement={this.handleMoveElement}
+                    <AddElement
+                        showModal={this.state.showElementAddModal}
+                        onToggleModal={this.handleToggleAddElementModal}
+                        onElementAdded={this.handleAddedElement}
+                        elementType={this.state.showElementAddModalType}
+                        type={this.state.showElementAddModalType}
+                        validTypes={{
+                            page: this.validPageTypes[packageVersionData.aspect_ratio || '16:9'],
+                            section: this.getValidSectionTypes(),
+                        }}
+                    />
+                    <Row>
+                        <Col lg={{ size: 12 }}>
+                            <Navbar
+                                className={'PackageEditorHeader d-flex justify-content-between mb-3'}
+                                dark color={'primary'}>
+                                <h1 className={'text-light my-auto'}>
+                                    {this.state.packageVersionData.name} version {this.state.packageVersionData.version}
+                                </h1>
+                                <div>
+                                    <ButtonGroup size={'lg'}>
+                                        <Button
+                                            color={'secondary'}
+                                            onClick={this.validatePackage}
+                                        >Validate Package</Button>
+                                        <Help
+                                            className="btn btn-secondary"
+                                            location={location}
+                                            showIcon={false}
+                                            showText
                                         />
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                            <Col sm={8}>
-                                <Card>
-                                    <CardBody className="PackageEditorForm">
-                                        {(this.state.currentlyViewingPage === null &&
-                                            <Alert
-                                                color={'info'}
-                                                className={'my-auto text-center'}
-                                            >
-                                                Choose a page or section on the left to edit it here.
-                                            </Alert>
-                                        ) || (
-                                            (this.state.currentlyViewingPage.type === 'title' &&
-                                                <FormPackageConfiguration
-                                                    data={this.state.currentlyViewingPage}
-                                                    handlePackageDataChange={this.handlePackageDataChange}
-                                                    packageId={this.props.packageId}
-                                                    packageVersionId={this.props.packageVersionId}
-                                                    aspectRatio={this.state.packageVersionData.aspect_ratio}
-                                                />
-                                            ) || (this.state.currentlyViewingPage.type === 'page' &&
-                                                <FormPage
-                                                    data={this.state.currentlyViewingPage}
-                                                    handlePackageDataChange={this.handlePackageDataChange}
-                                                    packageId={this.props.packageId}
-                                                    packageVersionId={this.props.packageVersionId}
-                                                    aspectRatio={this.state.packageVersionData.aspect_ratio}
-                                                />
-                                            ) || (this.state.currentlyViewingPage.type === 'section' &&
-                                                <FormSection
-                                                    data={this.state.currentlyViewingPage}
-                                                    handlePackageDataChange={this.handlePackageDataChange}
-                                                    packageId={this.props.packageId}
-                                                    packageVersionId={this.props.packageVersionId}
-                                                    aspectRatio={this.state.packageVersionData.aspect_ratio}
-                                                />
-                                            )
-                                        )}
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
+                                        <Button
+                                            color={'secondary'}
+                                            onClick={this.showPreview}
+                                            disabled={!!packageValidationErrors}
+                                        >Preview</Button>
+                                        <Button
+                                            color={'secondary'}
+                                            onClick={this.flushPackageVersionData}
+                                        >Save</Button>
+                                    </ButtonGroup>
+                                </div>
+                            </Navbar>
+                            <Row>
+                                <Col sm={4}>
+                                    <Card className={'TreeContainer'}>
+                                        <CardBody>
+                                            <Tree data={packageVersionData}
+                                                  currentViewing={currentlyViewingPage}
+                                                  validationErrors={packageValidationErrors}
+                                                  handleAddElement={this.handleAddElement}
+                                                  handleRemoveElement={this.handleRemoveElement}
+                                                  handleViewElement={this.handleViewElement}
+                                                  handleMoveElement={this.handleMoveElement}
+                                            />
+                                        </CardBody>
+                                    </Card>
+                                </Col>
+                                <Col sm={8}>
+                                    <Card>
+                                        <CardBody className="PackageEditorForm">
+                                            {(this.state.currentlyViewingPage === null &&
+                                                <Alert
+                                                    color={'info'}
+                                                    className={'my-auto text-center'}
+                                                >
+                                                    Choose a page or section on the left to edit it
+                                                    here.
+                                                </Alert>
+                                            ) || (
+                                                (this.state.currentlyViewingPage.type === 'title' &&
+                                                    <FormPackageConfiguration
+                                                        data={this.state.currentlyViewingPage}
+                                                        validationErrors={packageValidationErrors}
+                                                        handlePackageDataChange={this.handlePackageDataChange}
+                                                        packageId={this.props.packageId}
+                                                        packageVersionId={this.props.packageVersionId}
+                                                        aspectRatio={this.state.packageVersionData.aspect_ratio}
+                                                    />
+                                                ) || (this.state.currentlyViewingPage.type === 'page' &&
+                                                    <FormPage
+                                                        data={this.state.currentlyViewingPage}
+                                                        validationErrors={packageValidationErrors}
+                                                        handlePackageDataChange={this.handlePackageDataChange}
+                                                        packageId={this.props.packageId}
+                                                        packageVersionId={this.props.packageVersionId}
+                                                        aspectRatio={this.state.packageVersionData.aspect_ratio}
+                                                    />
+                                                ) || (this.state.currentlyViewingPage.type === 'section' &&
+                                                    <FormSection
+                                                        data={this.state.currentlyViewingPage}
+                                                        validationErrors={packageValidationErrors}
+                                                        handlePackageDataChange={this.handlePackageDataChange}
+                                                        packageId={this.props.packageId}
+                                                        packageVersionId={this.props.packageVersionId}
+                                                        aspectRatio={this.state.packageVersionData.aspect_ratio}
+                                                    />
+                                                )
+                                            )}
+                                        </CardBody>
+                                    </Card>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
                 </>
                 }
             </Container>

@@ -279,11 +279,11 @@ class Asset extends Component {
     }
 
     render() {
-        const { packageId,  packageVersionId, assetType, name, value } = this.props;
+        const { packageId,  packageVersionId, assetType, name, value, invalid } = this.props;
         const { showAssetBrowser, browsingForAsset, cropperEnabled } = this.state;
 
         return (
-            <Alert color={'primary'} className={'mb-0 border-0 Asset'}>
+            <Alert color={invalid ? 'danger' : 'primary'} className={'mb-0 border-0 Asset'}>
                 <AssetBrowser packageId={packageId}
                               packageVersionId={packageVersionId}
                               showModal={showAssetBrowser}
@@ -445,6 +445,7 @@ Asset.propTypes = {
     onChange: PropTypes.func.isRequired,
     assetType: PropTypes.oneOf(keys(Asset._assetTypes)).isRequired,
     aspectRatio: PropTypes.oneOf(keys(Asset._cropRatios)).isRequired,
+    invalid: PropTypes.bool.isRequired,
 };
 
 export default Asset;

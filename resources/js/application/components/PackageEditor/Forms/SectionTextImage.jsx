@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {FormGroup, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
 import Select from "./Elements/Select";
+import Validation from '../../../../helpers/PackageDataValidation';
 
 export default class SectionTextImage extends Component {
     constructor(props) {
@@ -23,9 +24,10 @@ export default class SectionTextImage extends Component {
     }
 
     render() {
-        const { data } = this.props;
+        const { data, validationErrors } = this.props;
         const shouldDisplayYear = data.parentPage.type === 'timeline';
 
+        const validation = Validation(validationErrors);
         return (
             <div>
                 <FormGroup>
@@ -89,6 +91,7 @@ export default class SectionTextImage extends Component {
                            onChange={this.handleFormChange}
                            assetType={'sectionTextImage'}
                            aspectRatio={this.props.aspectRatio}
+                           invalid={validation.has(`content.contents[${this.props.data.pageIndex}].subpages[${this.props.data.sectionIndex}].asset`)}
                     />
                 </FormGroup>
             </div>

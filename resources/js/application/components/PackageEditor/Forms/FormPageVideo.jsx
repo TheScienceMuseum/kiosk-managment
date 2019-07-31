@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {FormGroup, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
+import Validation from '../../../../helpers/PackageDataValidation';
 
 class FormPageVideo extends Component {
     constructor(props) {
@@ -22,6 +23,10 @@ class FormPageVideo extends Component {
     }
 
     render() {
+        const {validationErrors} = this.props;
+
+        const validation = Validation(validationErrors);
+
         return (
             <div>
                 <FormGroup>
@@ -55,6 +60,7 @@ class FormPageVideo extends Component {
                            onChange={this.handleFormChange}
                            assetType={'contentVideo'}
                            aspectRatio={this.props.aspectRatio}
+                           invalid={validation.has(`content.contents[${this.props.data.pageIndex}].asset`)}
                     />
                 </FormGroup>
 
@@ -67,6 +73,7 @@ class FormPageVideo extends Component {
                            onChange={this.handleFormChange}
                            assetType={'contentVideoImage'}
                            aspectRatio={this.props.aspectRatio}
+                           invalid={validation.has(`content.contents[${this.props.data.pageIndex}].titleImage`)}
                     />
                 </FormGroup>
             </div>

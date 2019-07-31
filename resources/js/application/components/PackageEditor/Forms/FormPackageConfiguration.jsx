@@ -4,6 +4,7 @@ import {parseInt} from 'lodash';
 import {FormGroup, FormText, Input, Label} from "reactstrap";
 import Asset from "./Elements/Asset";
 import Select from "./Elements/Select";
+import {has} from 'lodash';
 
 export default class FormPackageConfiguration extends Component {
     static propTypes = {
@@ -38,6 +39,7 @@ export default class FormPackageConfiguration extends Component {
                 type: PropTypes.oneOf(["text"]).isRequired,
             }).isRequired,
         }).isRequired,
+        validationErrors: PropTypes.shape({}),
     };
 
     constructor(props) {
@@ -97,6 +99,8 @@ export default class FormPackageConfiguration extends Component {
     }
 
     render() {
+        const {validationErrors} = this.props;
+
         return (
             <div>
                 <FormGroup>
@@ -105,12 +109,13 @@ export default class FormPackageConfiguration extends Component {
 
                 <FormGroup>
                     <Label>Kiosk Title</Label>
-                        <Input bsSize={'sm'}
-                               name={'content.titles.title'}
-                               value={this.props.data.data.title}
-                               onChange={this.handleBSFormChange}
-                               maxLength={72}
-                        />
+                    <Input bsSize={'sm'}
+                           name={'content.titles.title'}
+                           value={this.props.data.data.title}
+                           onChange={this.handleBSFormChange}
+                           maxLength={72}
+                           invalid={has(validationErrors, 'content.titles.title')}
+                    />
                 </FormGroup>
 
                 {!!this.state.sites.length &&
@@ -130,8 +135,10 @@ export default class FormPackageConfiguration extends Component {
                            type={'number'}
                            value={this.props.data.data.idleTimeout}
                            onChange={this.handleBSFormChange}
+                           invalid={has(validationErrors, 'content.titles.idleTimeout')}
                     />
                 </FormGroup>
+
                 <FormGroup>
                     <Label>
                         Attractor
@@ -146,6 +153,7 @@ export default class FormPackageConfiguration extends Component {
                            onChange={this.handleFormChange}
                            assetType={'attractor'}
                            aspectRatio={this.props.aspectRatio}
+                           invalid={has(validationErrors, 'content.titles.attractor')}
                     />
                 </FormGroup>
             </div>
