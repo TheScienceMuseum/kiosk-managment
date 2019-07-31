@@ -60,6 +60,7 @@ class PackageVersion extends Model implements HasMedia, Auditable
 
     protected $casts = [
         'data' => 'json',
+        'valid' => 'bool',
     ];
 
     public function registerMediaConversions(Media $media = null)
