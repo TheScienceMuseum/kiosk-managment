@@ -56,6 +56,8 @@ class Tree extends Component {
                         className={'float-right'}
                     >
                         Package &amp; Attractor Setup
+                        &nbsp;
+                        <FontAwesomeIcon icon={['fal', 'edit']} />
                     </Button>
                 </div>
                 <hr />
