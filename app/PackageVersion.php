@@ -112,6 +112,40 @@ class PackageVersion extends Model implements HasMedia, Auditable
         return $data;
     }
 
+    public function validatePackageData($data = null)
+    {
+        if (!$data) {
+            $data = (object) $this->data;
+        }
+
+        $validationSchema = (object) json_decode(file_get_contents(base_path('resources/package-schema.json')));
+
+        // Ignore models as these are pre-built
+        foreach($data->content['contents'] as $index => $content) {
+            if ($content['type'] === 'model') {
+                unset($data->content['contents'][$index]);
+            }
+        }
+
+        $validator = new \JsonSchema\Validator;
+        $validator->validate($data, $validationSchema, \JsonSchema\Constraints\Constraint::CHECK_MODE_TYPE_CAST);
+
+        $validationMessages = [];
+
+        if (! $validator->isValid()) {
+            foreach ($validator->getErrors() as $error) {
+                if (empty($validationMessages[$error['property']])) {
+                    $validationMessages[$error['property']] = $error['message'];
+                }
+            }
+        }
+
+        $this->valid = empty($validationMessages);
+        $this->save();
+
+        return $validationMessages;
+    }
+
     public function kiosks()
     {
         return $this->hasMany(Kiosk::class, 'assigned_package_version_id');
