@@ -289,6 +289,18 @@
         },
         "bslAssetType": {
           "type": "string"
+        },
+        "subtitleAssetId": {
+          "type": "integer"
+        },
+        "subtitleAssetFilename": {
+          "type": "string"
+        },
+        "subtitleAssetMime": {
+          "type": "string"
+        },
+        "subtitleAssetType": {
+          "type": "string"
         }
       },
       "required": [
