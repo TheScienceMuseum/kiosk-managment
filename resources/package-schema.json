@@ -278,10 +278,28 @@
         "sourceText": {
           "type": "string"
         },
-        "bslSource": {
+        "bslAssetId": {
+          "type": "integer"
+        },
+        "bslAssetFilename": {
           "type": "string"
         },
-        "subtitlesSource": {
+        "bslAssetMime": {
+          "type": "string"
+        },
+        "bslAssetType": {
+          "type": "string"
+        },
+        "subtitleAssetId": {
+          "type": "integer"
+        },
+        "subtitleAssetFilename": {
+          "type": "string"
+        },
+        "subtitleAssetMime": {
+          "type": "string"
+        },
+        "subtitleAssetType": {
           "type": "string"
         }
       },
