@@ -162,7 +162,10 @@
           "type": "string"
         },
         "date": {
-          "type": ["integer", "null"]
+          "type": [
+            "integer",
+            "null"
+          ]
         },
         "layout": {
           "type": "string",
@@ -180,7 +183,40 @@
         "title",
         "type"
       ],
-      "title": "Subpage"
+      "title": "Subpage",
+      "anyOf": [
+        {
+          "properties": {
+            "type": {
+              "const": "video"
+            }
+          },
+          "required": [
+            "asset",
+            "title",
+            "type",
+            "titleImage"
+          ]
+        },
+        {
+          "properties": {
+            "type": {
+              "enum": [
+                "textImage",
+                "title",
+                "image",
+                "textVideo",
+                "textAudio"
+              ]
+            }
+          },
+          "required": [
+            "asset",
+            "title",
+            "type"
+          ]
+        }
+      ]
     },
     "AudioAssetClass": {
       "type": "object",
