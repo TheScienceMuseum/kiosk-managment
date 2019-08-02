@@ -326,7 +326,7 @@ class PackageEditor extends Component {
                 <p>Are you sure you want to delete {label}: {element.title}?</p>
             );
 
-            if (!elementIsSection && element.subpages.length) {
+            if (!elementIsSection && element.subpages && element.subpages.length) {
                 message = (
                     <div>
                         {message}
