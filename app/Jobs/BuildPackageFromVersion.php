@@ -182,6 +182,7 @@ class BuildPackageFromVersion implements ShouldQueue
                     $subpage->pageID = $packageVersion->version . '-' . $contentIndex . '-' . $subpageIndex;
                     if (!empty($subpage->asset)) $subpage->asset = $this->convertToManifestAsset($subpage->asset);
                     if (!empty($subpage->audio)) $subpage->audio = $this->convertToManifestAsset($subpage->audio);
+                    if (!empty($subpage->titleImage)) $subpage->titleImage = $this->convertToManifestAsset($subpage->titleImage);
                 }
             }
         }
@@ -259,7 +260,7 @@ class BuildPackageFromVersion implements ShouldQueue
 
         if ($assetEntry->assetType === 'image' && !empty($assetEntry->boundingBox)) {
             $imgPath = $this->getFullBuildPath().'/'.$assetEntry->assetSource;
-            
+
             //create asset thumbnail
             $this->createAssetThumbnail($imgPath, $assetEntry->boundingBox->x,$assetEntry->boundingBox->y, $assetEntry->boundingBox->width, $assetEntry->boundingBox->height);
         }
