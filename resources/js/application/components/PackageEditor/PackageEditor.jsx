@@ -185,20 +185,20 @@ class PackageEditor extends Component {
                     mixed: {
                         subpages: [],
                         title: 'Mixed media page',
-                        subTitle: '',
+                        subtitle: '',
                         titleImage: null,
                         type: 'mixed',
                     },
                     timeline: {
                         subpages: [],
                         title: 'Mixed Timeline Page',
-                        subTitle: '',
+                        subtitle: '',
                         titleImage: null,
                         type: 'timeline',
                     },
                     video: {
                         title: 'A video page',
-                        subTitle: '',
+                        subtitle: '',
                         titleImage: null,
                         asset: null,
                     },
