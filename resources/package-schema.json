@@ -163,6 +163,7 @@
         },
         "date": {
           "type": [
+            "string",
             "integer",
             "null"
           ]

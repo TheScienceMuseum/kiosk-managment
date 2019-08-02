@@ -37,18 +37,21 @@ class AssetBrowser extends Component {
 
     componentWillReceiveProps(nextProps) {
         const { chooseAssetFor } = nextProps;
-        let mime_type = this.state.filter.mime_type;
+        const { filter } = this.state;
+
+        filter.mime_type = get(this.props.filter, 'mime_type', '');
 
         if (chooseAssetFor === 'subtitleAsset') {
-            mime_type = 'text/vtt';
+            filter.mime_type = 'text/vtt';
+        }
+
+        if (chooseAssetFor === 'bslAsset') {
+            filter.mime_type = 'video/';
         }
 
         this.setState(prevState => ({
             ...prevState,
-            filter: {
-                ...prevState.filter,
-                mime_type,
-            }
+            filter,
         }));
 
         if (nextProps.showModal) {
