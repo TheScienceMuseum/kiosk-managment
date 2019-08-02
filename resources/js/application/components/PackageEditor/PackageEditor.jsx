@@ -233,6 +233,7 @@ class PackageEditor extends Component {
                 video: {
                     asset: null,
                     title: 'A video page',
+                    titleImage: null,
                 },
                 textVideo: {
                     type: 'textVideo',
