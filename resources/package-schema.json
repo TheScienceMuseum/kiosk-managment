@@ -4,7 +4,7 @@
   "definitions": {
     "SciMusPackageManifest": {
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "aspect_ratio": {
           "type": "string",
@@ -40,7 +40,7 @@
     },
     "SciMusPackageManifestContent": {
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "titles": {
           "$ref": "#/definitions/Titles"
@@ -61,7 +61,7 @@
     },
     "ContentElement": {
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "type": {
           "type": "string",
@@ -120,7 +120,7 @@
     },
     "Subpage": {
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "type": {
           "type": "string",
@@ -221,7 +221,7 @@
     },
     "AudioAssetClass": {
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "assetFilename": {
           "type": "string"
@@ -238,7 +238,10 @@
             "audio"
           ]
         },
-        "soundTitle": {
+        "sourceText": {
+          "type": "string"
+        },
+        "nameText": {
           "type": "string"
         },
         "transcript": {
@@ -255,7 +258,7 @@
     },
     "ImageAssetClass": {
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "assetFilename": {
           "type": "string"
@@ -291,7 +294,7 @@
     },
     "VideoAssetClass": {
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "assetFilename": {
           "type": "string"
@@ -348,7 +351,7 @@
     },
     "Titles": {
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "type": {
           "type": "string",
@@ -363,6 +366,13 @@
         "title": {
           "type": "string",
           "maxLength": 72
+        },
+        "aspect_ratio": {
+          "type": "string",
+          "enum": [
+            "16:9",
+            "9:16"
+          ]
         },
         "image": {
           "oneOf": [
@@ -401,7 +411,7 @@
     },
     "Requirements": {
       "type": "object",
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "client_version": {
           "type": "string"
