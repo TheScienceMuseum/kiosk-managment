@@ -85,8 +85,7 @@
           "minLength": 0
         },
         "titleImage": {
-          "anyOf": [
-            {
+          "anyOf": [{
               "$ref": "#/definitions/VideoAssetClass"
             },
             {
@@ -101,12 +100,14 @@
           }
         },
         "asset": {
-          "oneOf": [
-            {
+          "oneOf": [{
               "$ref": "#/definitions/VideoAssetClass"
             },
             {
               "$ref": "#/definitions/ImageAssetClass"
+            },
+            {
+              "$ref": "#/definitions/ModelAssetClass"
             }
           ]
         }
@@ -130,12 +131,12 @@
             "video",
             "image",
             "textVideo",
-            "textAudio"
+            "textAudio",
+            "hotspot"
           ]
         },
         "asset": {
-          "oneOf": [
-            {
+          "anyOf": [{
               "$ref": "#/definitions/VideoAssetClass"
             },
             {
@@ -144,11 +145,9 @@
           ]
         },
         "audio": {
-          "oneOf": [
-            {
-              "$ref": "#/definitions/AudioAssetClass"
-            }
-          ]
+          "oneOf": [{
+            "$ref": "#/definitions/AudioAssetClass"
+          }]
         },
         "titleImage": {
           "$ref": "#/definitions/ImageAssetClass"
@@ -180,13 +179,11 @@
         }
       },
       "required": [
-        "asset",
         "title",
         "type"
       ],
       "title": "Subpage",
-      "anyOf": [
-        {
+      "anyOf": [{
           "properties": {
             "type": {
               "const": "video"
@@ -212,7 +209,17 @@
             }
           },
           "required": [
-            "asset",
+            "title",
+            "type"
+          ]
+        },
+        {
+          "properties": {
+            "type": {
+              "const": "hotspot"
+            }
+          },
+          "required": [
             "title",
             "type"
           ]
@@ -349,6 +356,39 @@
       ],
       "title": "AssetClass"
     },
+    "ModelAssetClass": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "assetFilename": {
+          "type": "string"
+        },
+        "assetId": {
+          "type": "integer"
+        },
+        "assetMime": {
+          "type": "string"
+        },
+        "assetType": {
+          "type": "string",
+          "enum": [
+            "model"
+          ]
+        },
+        "nameText": {
+          "type": "string"
+        },
+        "sourceText": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "assetFilename",
+        "assetId",
+        "assetMime"
+      ],
+      "title": "AssetClass"
+    },
     "Titles": {
       "type": "object",
       "additionalProperties": true,
@@ -375,8 +415,7 @@
           ]
         },
         "image": {
-          "oneOf": [
-            {
+          "oneOf": [{
               "type": "null"
             },
             {
@@ -388,8 +427,7 @@
           ]
         },
         "attractor": {
-          "oneOf": [
-            {
+          "oneOf": [{
               "$ref": "#/definitions/VideoAssetClass"
             },
             {
@@ -423,8 +461,7 @@
       "title": "Requirements"
     },
     "ImageUnion": {
-      "anyOf": [
-        {
+      "anyOf": [{
           "$ref": "#/definitions/VideoAssetClass"
         },
         {
@@ -440,8 +477,7 @@
       "title": "ImageUnion"
     },
     "ContentUnion": {
-      "anyOf": [
-        {
+      "anyOf": [{
           "type": "string"
         },
         {
