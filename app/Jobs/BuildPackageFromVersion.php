@@ -262,7 +262,7 @@ class BuildPackageFromVersion implements ShouldQueue
             $imgPath = $this->getFullBuildPath().'/'.$assetEntry->assetSource;
 
             //create asset thumbnail
-            $this->createAssetThumbnail($imgPath, $assetEntry->boundingBox->x,$assetEntry->boundingBox->y, $assetEntry->boundingBox->width, $assetEntry->boundingBox->height);
+            $assetEntry->thumbnail = $this->createAssetThumbnail($imgPath, $assetEntry->boundingBox->x,$assetEntry->boundingBox->y, $assetEntry->boundingBox->width, $assetEntry->boundingBox->height);
         }
 
         return $assetEntry;
@@ -270,15 +270,15 @@ class BuildPackageFromVersion implements ShouldQueue
 
     private function createAssetThumbnail($imgPath, $x, $y, $width, $height) {
         $imgType = exif_imagetype($imgPath);
-
+        $randomInt = '-'.rand(0,999999).'-'.rand(0,999999);
         switch($imgType) {
             case IMAGETYPE_PNG:
                 $thumbnail = imagecreatefrompng($imgPath);
-                $newFilename = str_replace(".png", "", $imgPath) . "_boundingBox.jpg";
+                $newFilename = str_replace(".png", "", $imgPath) . $randomInt ."_boundingBox.jpg";
             break;
             case IMAGETYPE_JPEG:
                 $thumbnail = imagecreatefromjpeg($imgPath);
-                $newFilename = str_replace([".jpg", ".jpeg"], "", $imgPath) . "_boundingBox.jpg";
+                $newFilename = str_replace([".jpg", ".jpeg"], "", $imgPath) . $randomInt . "_boundingBox.jpg";
             break;
         }
 
