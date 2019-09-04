@@ -36,6 +36,7 @@ class FormPageMixed extends Component {
                            value={this.props.data.data.title}
                            onChange={this.handleBSFormChange}
                            maxLength={72}
+                           invalid={validation.has(`content.contents[${this.props.data.pageIndex}].title`)}
                     />
                 </FormGroup>
 

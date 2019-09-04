@@ -37,6 +37,7 @@ export default class SectionTextImage extends Component {
                            value={this.props.data.data.title}
                            onChange={this.handleBSFormChange}
                            maxLength={40}
+                           invalid={validation.has(`content.contents[${this.props.data.pageIndex}].subpages[${this.props.data.sectionIndex}].title`)}
                     />
                 </FormGroup>
 
@@ -48,6 +49,7 @@ export default class SectionTextImage extends Component {
                            value={this.props.data.data.date}
                            onChange={this.handleBSFormChange}
                            maxLength={40}
+                           invalid={validation.has(`content.contents[${this.props.data.pageIndex}].subpages[${this.props.data.sectionIndex}].date`)}
                     />
                 </FormGroup>
                 }
