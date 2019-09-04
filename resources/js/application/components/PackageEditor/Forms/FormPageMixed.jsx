@@ -9,6 +9,8 @@ class FormPageMixed extends Component {
 
         this.handleFormChange = this.handleFormChange.bind(this);
         this.handleBSFormChange = this.handleBSFormChange.bind(this);
+
+        console.log(props);
     }
 
     handleFormChange(field, value) {
