@@ -9,8 +9,6 @@ class FormPageMixed extends Component {
 
         this.handleFormChange = this.handleFormChange.bind(this);
         this.handleBSFormChange = this.handleBSFormChange.bind(this);
-
-        console.log(props);
     }
 
     handleFormChange(field, value) {
@@ -38,6 +36,7 @@ class FormPageMixed extends Component {
                            value={this.props.data.data.title}
                            onChange={this.handleBSFormChange}
                            maxLength={72}
+                           invalid={validation.has(`content.contents[${this.props.data.pageIndex}].title`)}
                     />
                 </FormGroup>
 

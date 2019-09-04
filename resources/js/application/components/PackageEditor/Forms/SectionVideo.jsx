@@ -37,6 +37,7 @@ class FormPageVideo extends Component {
                            value={this.props.data.data.title}
                            onChange={this.handleBSFormChange}
                            maxLength={100}
+                           invalid={validation.has(`content.contents[${this.props.data.pageIndex}].subpages[${this.props.data.sectionIndex}].title`)}
                     />
                 </FormGroup>
 
