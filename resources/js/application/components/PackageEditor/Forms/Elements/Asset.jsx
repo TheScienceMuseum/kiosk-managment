@@ -31,6 +31,10 @@ class Asset extends Component {
             hasCrop: true,
             maxSource: 100,
             maxTitle: 100,
+            helpText: {
+                '16:9': 'Minimum image size 1920 x 1080 pixels',
+                '9:16': 'Minimum image size 800 x 1280 pixels'
+            }
         },
         attractor: {
             hasName: false,
@@ -38,6 +42,10 @@ class Asset extends Component {
             hasCrop: true,
             hasSubs: false,
             hasBSL: false,
+            helpText: {
+                '16:9': 'Minimum image size 1920 x 1080 pixels',
+                '9:16': 'Minimum image size 800 x 1280 pixels'
+            }
         },
         attractorVideoLandscape: {
             mimeType: 'video/',
@@ -52,6 +60,10 @@ class Asset extends Component {
             hasName: true,
             hasSource: true,
             hasCrop: true,
+            helpText: {
+                '16:9': 'Minimum image size 1920 x 1080 pixels',
+                '9:16': 'Minimum image size 800 x 1280 pixels'
+            }
         },
         contentVideo: {
             mimeType: 'video/',
@@ -62,6 +74,10 @@ class Asset extends Component {
         },
         contentVideoImage: {
             mimeType: 'image/',
+            helpText: {
+                '16:9': 'Please ensure the image is exactly 1920 x 1080',
+                '9:16': 'Please ensure the image is exactly 800 x 1280'
+            }
         },
         sectionImage: {
             mimeType: 'image/',
@@ -70,6 +86,10 @@ class Asset extends Component {
             hasSource: true,
             maxSource: 100,
             maxTitle: 100,
+            helpText: {
+                '16:9': 'Minimum image size 1920 x 1080 pixels',
+                '9:16': 'Minimum image size 800 x 1280 pixels'
+            }
         },
         sectionTextImage: {
             mimeType: 'image/',
@@ -78,6 +98,10 @@ class Asset extends Component {
             hasSource: true,
             maxSource: 100,
             maxTitle: 100,
+            helpText: {
+                '16:9': 'Minimum image size 960 x 1080 pixels',
+                '9:16': 'Minimum image size 800 x 1280 pixels'
+            }
         },
         audio: {
             mimeType: 'audio/',
@@ -279,9 +303,8 @@ class Asset extends Component {
     }
 
     render() {
-        const { packageId,  packageVersionId, assetType, name, value, invalid } = this.props;
+        const { packageId,  packageVersionId, assetType, name, value, invalid, aspectRatio } = this.props;
         const { showAssetBrowser, browsingForAsset, cropperEnabled } = this.state;
-
         return (
             <Alert color={invalid ? 'danger' : 'primary'} className={'mb-0 border-0 Asset'}>
                 <AssetBrowser packageId={packageId}
@@ -334,8 +357,11 @@ class Asset extends Component {
                     </InputGroupAddon>
                 </InputGroup>
 
-
-
+                {Asset._assetTypes[assetType].helpText && (
+                    <div className="form-text text-muted">
+                        {Asset._assetTypes[assetType].helpText[aspectRatio]}
+                    </div>
+                )}
                 {value &&
                 <>
                     {value.assetType === 'image' && value.assetId &&
