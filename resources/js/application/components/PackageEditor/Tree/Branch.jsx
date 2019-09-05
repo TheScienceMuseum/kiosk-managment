@@ -19,10 +19,16 @@ const Branch = (props) => {
         handleRemoveElement,
         handleMoveElement,
         validation,
+        packageVersionData,
     } = props;
 
     const shouldDisplayLeaves = (page) => ['mixed', 'timeline'].includes(page.type);
-    const shouldDisplayAddSection = (page) => ['mixed', 'timeline'].includes(page.type);
+    const shouldDisplayAddSection = (page, packageVersionData) => {
+        if(packageVersionData.aspect_ratio === "9:16") {
+            return page.subpages.length < 1;
+        }
+        return ['mixed', 'timeline'].includes(page.type);
+    }
     const shouldDisplayEditPage = (page) => ['mixed', 'timeline', 'video'].includes(page.type);
 
     const shouldHighlightBranch = !!props.currentlyViewing
@@ -75,7 +81,7 @@ const Branch = (props) => {
                     validation={validation}
                 />
             )}
-            {shouldDisplayAddSection(page) &&
+            {shouldDisplayAddSection(page, packageVersionData) &&
             <Button
                 className={'float-right my-auto'}
                 onClick={handleAddElement('section', index)}
@@ -89,6 +95,7 @@ const Branch = (props) => {
 };
 
 Branch.propTypes = {
+    packageVersionData: PropTypes.object.isRequired,
     currentViewing: PropTypes.shape({
         pageIndex: PropTypes.number,
         sectionIndex: PropTypes.number,

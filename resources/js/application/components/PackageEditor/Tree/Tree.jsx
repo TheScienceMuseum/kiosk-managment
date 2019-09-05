@@ -31,7 +31,8 @@ class Tree extends Component {
             handleRemoveElement,
             handleMoveElement,
             currentViewing,
-            validationErrors
+            validationErrors,
+            packageVersionData
         } = this.props;
 
         const validation = Validation(validationErrors);
@@ -80,6 +81,7 @@ class Tree extends Component {
                             handleRemoveElement={handleRemoveElement}
                             handleMoveElement={handleMoveElement}
                             validation={validation}
+                            packageVersionData={packageVersionData}
                         />
                     )}
                 </div>
@@ -97,6 +99,7 @@ class Tree extends Component {
 }
 
 Tree.propTypes = {
+    packageVersionData: PropTypes.object.isRequired,
     currentViewing: PropTypes.shape({
         pageIndex: PropTypes.number,
         sectionIndex: PropTypes.number,

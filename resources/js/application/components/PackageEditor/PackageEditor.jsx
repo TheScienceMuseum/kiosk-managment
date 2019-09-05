@@ -546,6 +546,7 @@ class PackageEditor extends Component {
                                                   handleRemoveElement={this.handleRemoveElement}
                                                   handleViewElement={this.handleViewElement}
                                                   handleMoveElement={this.handleMoveElement}
+                                                  packageVersionData={this.state.packageVersionData}
                                             />
                                         </CardBody>
                                     </Card>
