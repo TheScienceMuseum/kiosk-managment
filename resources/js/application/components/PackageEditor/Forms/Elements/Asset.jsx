@@ -19,7 +19,7 @@ class Asset extends Component {
             attractor: 9 / 16,
             titleImage: 9 / 16,
             sectionImage: 9 / 16,
-            sectionTextImage: 9 / 8,
+            sectionTextImage: 9 / 16,
         },
     };
 
