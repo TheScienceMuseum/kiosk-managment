@@ -20,6 +20,7 @@ class Asset extends Component {
             titleImage: 9 / 16,
             sectionImage: 9 / 16,
             sectionTextImage: 9 / 16,
+            contentVideoImage: 9 / 16,
         },
     };
 
@@ -74,6 +75,7 @@ class Asset extends Component {
         },
         contentVideoImage: {
             mimeType: 'image/',
+            hasCrop: true,
             helpText: {
                 '16:9': 'Please ensure the image is exactly 1920 x 1080',
                 '9:16': 'Please ensure the image is exactly 800 x 1280'
