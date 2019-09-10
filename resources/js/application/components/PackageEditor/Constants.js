@@ -13,7 +13,7 @@ export default {
             textImage: '50/50 Text with Image',
             video: 'Fullscreen Video',
             hotspot: 'Model Hotspot',
-            textVideo: '50/50 Text with Video',
+            textVideo: 'Text with Video',
             textAudio: '50/50 Text with Audio and Image',
         },
     },

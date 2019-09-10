@@ -294,7 +294,7 @@ class PackageEditor extends Component {
 
         const page = packageVersionData.content.contents[showElementAddModalParent];
 
-        const validForLandscape = ['textImage', 'video', 'image', 'textAudio'];
+        const validForLandscape = ['textImage', 'textVideo', 'image', 'textAudio'];
         const validForPortrait = ['textImage', 'textAudio', 'textVideo'];
         const validForLayout = packageVersionData.aspect_ratio === '16:9'
             ? validForLandscape : validForPortrait;
@@ -304,8 +304,6 @@ class PackageEditor extends Component {
             mixed: ['textImage', 'video', 'image', 'textAudio', 'textVideo'],
             video: [],
         };
-
-        console.log(page.type, intersection(validForLayout, validForPageType[page.type]));
 
         return intersection(validForLayout, validForPageType[page.type]);
     }

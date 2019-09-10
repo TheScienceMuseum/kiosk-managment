@@ -116,6 +116,9 @@ export default class FormPackageConfiguration extends Component {
                            maxLength={72}
                            invalid={has(validationErrors, 'content.titles.title')}
                     />
+                    <FormText color="muted">
+                            Note: the Kiosk title is limited to 45 characters
+                    </FormText>
                 </FormGroup>
 
                 {!!this.state.sites.length &&
