@@ -72,6 +72,7 @@ class Asset extends Component {
             hasSource: true,
             hasSubs: true,
             hasBSL: true,
+            hasTranscript: true,
         },
         contentVideoImage: {
             mimeType: 'image/',
@@ -455,6 +456,20 @@ class Asset extends Component {
                                     Your browser does not support the video tag.
                                 </video>
                             </div>
+                            }
+
+                            {aspectRatio === '9:16' &&
+                                <FormGroup className={'mb-0 mt-3'}>
+                                    <InputGroup size={'sm'}>
+                                        <InputGroupAddon addonType="prepend">Transcript</InputGroupAddon>
+                                        <Input value={value.transcript}
+                                            name={'transcript'}
+                                            onChange={this.handleTextChange}
+                                            type={'textarea'}
+                                            rows={10}
+                                        />
+                                    </InputGroup>
+                                </FormGroup>
                             }
                         </>
                     }
