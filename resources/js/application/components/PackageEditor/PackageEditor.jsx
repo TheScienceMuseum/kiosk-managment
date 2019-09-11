@@ -118,10 +118,6 @@ class PackageEditor extends Component {
         let resolvedPath = path;
         const packageVersionData = { ...this.state.packageVersionData };
 
-        console.log(this.state.currentlyViewingPage.sectionIndex);
-        console.log(this.state.currentlyViewingPage.pageIndex);
-        console.log(path, value);
-
         if (this.state.currentlyViewingPage.sectionIndex != null) {
             resolvedPath = `subpages[${this.state.currentlyViewingPage.sectionIndex}].${resolvedPath}`;
         }
@@ -131,17 +127,10 @@ class PackageEditor extends Component {
             resolvedPath = `content.contents[${this.state.currentlyViewingPage.pageIndex}].${resolvedPath}`;
         }
 
-
-        console.log(resolvedPath);
-
         const currentValue = get(packageVersionData, resolvedPath);
 
-        console.log(currentValue, value);
-
         if (currentValue !== value) {
-            console.log(packageVersionData);
             set(packageVersionData, resolvedPath, value);
-            console.log(packageVersionData);
             this.setState(prevState => ({
                 ...prevState,
                 currentStateFlushed: false,

@@ -9,33 +9,55 @@ class Select extends Component {
 
         this.state = {
             options: props.options ? props.options : [],
+            defaultValue: props.defaultValue,
+            formattedDefaultValue: {
+                label: "Select an Option",
+                value: props.defaultValue,
+            },
         };
 
-        this.getDefaultValue = this.getDefaultValue.bind(this);
+        this.setDefaultValue = this.setDefaultValue.bind(this);
         this.handleFieldChange = this.handleFieldChange.bind(this);
     }
 
-    getDefaultValue() {
+    componentDidMount() {
+        this.setDefaultValue();
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.defaultValue !== this.props.defaultValue) {
+            this.setState({
+                defaultValue: this.props.defaultValue
+            }, () => {
+                this.setDefaultValue();
+            });
+        }
+    }
+
+    setDefaultValue() {
         const { options } = this.state;
-        const { defaultValue } = this.props;
+        const { defaultValue } = this.state;
         const groups = options.filter(option => has(option, 'options'));
         const hasOptionGroups = groups.length > 0;
 
         if (hasOptionGroups) {
             const allOptions = flatten(groups.map(group => group.options));
 
-            return {
+            const formattedDefaultValue = {
                 label: allOptions.find(el => el.value === defaultValue).label,
                 value: defaultValue,
             };
+            this.setState({formattedDefaultValue});
+            return;
         }
 
         const label = options.find(el => el.value === defaultValue);
 
-        return {
+        const formattedDefaultValue = {
             label: !!label ? label.label : "Select an Option",
             value: defaultValue,
         };
+        this.setState({formattedDefaultValue});
     }
 
     handleFieldChange(value) {
@@ -45,11 +67,12 @@ class Select extends Component {
 
     render() {
         const { field } = this.props;
-        const { options } = this.state;
+        const { options, formattedDefaultValue } = this.state;
         return (
             <ReactSelect name={field}
                          onChange={this.handleFieldChange}
-                         defaultValue={this.getDefaultValue()}
+                         defaultValue={formattedDefaultValue}
+                         value={formattedDefaultValue}
                          options={options}
                          styles={{
                              container: (base) => ({
