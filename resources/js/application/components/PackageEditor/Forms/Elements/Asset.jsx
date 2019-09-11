@@ -73,6 +73,10 @@ class Asset extends Component {
             hasSubs: true,
             hasBSL: true,
             hasTranscript: true,
+            helpText: {
+                '16:9': 'Minimum video dimensions 1920 x 1080 pixels',
+                '9:16': 'Minimum video dimensions 800 x 640 pixels'
+            }
         },
         contentVideoImage: {
             mimeType: 'image/',
