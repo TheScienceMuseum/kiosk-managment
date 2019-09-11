@@ -80,6 +80,8 @@ class Asset extends Component {
         },
         contentVideoImage: {
             mimeType: 'image/',
+            hasName: true,
+            hasSource: true,
             hasCrop: true,
             helpText: {
                 '16:9': 'Please ensure the image is exactly 1920 x 1080',
