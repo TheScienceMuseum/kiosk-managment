@@ -22,6 +22,7 @@ import FormSection from './Forms/FormSection';
 import Tree from './Tree/Tree';
 import AddElement from './Forms/Elements/AddElement';
 import Help from '../Navigation/Help';
+import { current } from 'locutus/php/array';
 
 class PackageEditor extends Component {
     constructor(props) {
@@ -117,18 +118,30 @@ class PackageEditor extends Component {
         let resolvedPath = path;
         const packageVersionData = { ...this.state.packageVersionData };
 
+        console.log(this.state.currentlyViewingPage.sectionIndex);
+        console.log(this.state.currentlyViewingPage.pageIndex);
+        console.log(path, value);
+
         if (this.state.currentlyViewingPage.sectionIndex != null) {
             resolvedPath = `subpages[${this.state.currentlyViewingPage.sectionIndex}].${resolvedPath}`;
         }
+
 
         if (this.state.currentlyViewingPage.pageIndex != null) {
             resolvedPath = `content.contents[${this.state.currentlyViewingPage.pageIndex}].${resolvedPath}`;
         }
 
-        const currentValue = get(packageVersionData, resolvedPath);
-        if (currentValue !== value) {
-            set(packageVersionData, resolvedPath, value);
 
+        console.log(resolvedPath);
+
+        const currentValue = get(packageVersionData, resolvedPath);
+
+        console.log(currentValue, value);
+
+        if (currentValue !== value) {
+            console.log(packageVersionData);
+            set(packageVersionData, resolvedPath, value);
+            console.log(packageVersionData);
             this.setState(prevState => ({
                 ...prevState,
                 currentStateFlushed: false,
