@@ -48,7 +48,7 @@ export default class SectionTextImage extends Component {
                            name={'date'}
                            value={this.props.data.data.date}
                            onChange={this.handleBSFormChange}
-                           maxLength={40}
+                           maxLength={4}
                            defaultValue='0000'
                            invalid={validation.has(`content.contents[${this.props.data.pageIndex}].subpages[${this.props.data.sectionIndex}].date`)}
                     />

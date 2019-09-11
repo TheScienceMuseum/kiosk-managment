@@ -68,8 +68,8 @@ class Asset extends Component {
         },
         contentVideo: {
             mimeType: 'video/',
-            hasName: true,
-            hasSource: true,
+            hasName: false,
+            hasSource: false,
             hasSubs: true,
             hasBSL: true,
             hasTranscript: true,
@@ -114,7 +114,7 @@ class Asset extends Component {
             mimeType: 'audio/',
             hasTranscript: true,
             hasName: true,
-            hasSource: true,
+            hasSource: false,
         },
     };
 
