@@ -63,6 +63,9 @@ export default class SectionTextImage extends Component {
                            onChange={this.handleBSFormChange}
                            maxLength={40}
                     />
+                    <span class="text-muted">
+                        Required: a date must be entered
+                    </span>
                 </FormGroup>
                 }
 
