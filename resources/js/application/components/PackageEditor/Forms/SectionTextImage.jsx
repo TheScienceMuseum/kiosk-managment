@@ -49,8 +49,12 @@ export default class SectionTextImage extends Component {
                            value={this.props.data.data.date}
                            onChange={this.handleBSFormChange}
                            maxLength={40}
+                           defaultValue='0000'
                            invalid={validation.has(`content.contents[${this.props.data.pageIndex}].subpages[${this.props.data.sectionIndex}].date`)}
                     />
+                    <span class="text-muted">
+                        Please ensure a valid year is entered
+                    </span>
                 </FormGroup>
                 }
 

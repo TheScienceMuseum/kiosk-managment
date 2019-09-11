@@ -11,3 +11,8 @@ by sentry.
 * the packaged version of the codebase is uploaded to S3
 * a deployment task is sent to CodeDeploy
 * the deployment is run using the lifecycle scripts under `./deployment/aws/lifecycle`
+
+### NOTE
+
+* `sudo service php7.3-fpm restart`
+* `sudo supervisorctl restart all`
