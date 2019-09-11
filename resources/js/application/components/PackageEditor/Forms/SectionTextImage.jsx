@@ -53,7 +53,7 @@ export default class SectionTextImage extends Component {
                            invalid={validation.has(`content.contents[${this.props.data.pageIndex}].subpages[${this.props.data.sectionIndex}].date`)}
                     />
                     <span class="text-muted">
-                        Please ensure a valid year is entered
+                        Required: a date must be entered
                     </span>
                 </FormGroup>
                 }
