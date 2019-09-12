@@ -295,8 +295,9 @@ class BuildPackageFromVersion implements ShouldQueue
      * @return string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    private function copyAssetToBuildDir(Media $media)
+    private function copyAssetToBuildDir($media)
     {
+        if(!$media) { return; }
         $diskConfig = config("filesystems.disks.{$media->disk}");
         $disk = Storage::disk($media->disk);
         $path = $media->getPath();
