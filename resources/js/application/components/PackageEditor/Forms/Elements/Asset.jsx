@@ -43,6 +43,7 @@ class Asset extends Component {
             hasCrop: true,
             hasSubs: false,
             hasBSL: false,
+            hasTranscript: false,
             helpText: {
                 '16:9': 'Minimum image size 1920 x 1080 pixels',
                 '9:16': 'Minimum image size 800 x 1280 pixels'
@@ -55,6 +56,7 @@ class Asset extends Component {
             hasCrop: false,
             hasSubs: false,
             hasBSL: false,
+            hasTranscript: false,
         },
         contentImageLandscape: {
             mimeType: 'image/',
@@ -464,7 +466,7 @@ class Asset extends Component {
                             </div>
                             }
 
-                            {aspectRatio === '9:16' &&
+                            {(aspectRatio === '9:16' && Asset._assetTypes[assetType].hasTranscript) &&
                                 <FormGroup className={'mb-0 mt-3'}>
                                     <InputGroup size={'sm'}>
                                         <InputGroupAddon addonType="prepend">Transcript</InputGroupAddon>
