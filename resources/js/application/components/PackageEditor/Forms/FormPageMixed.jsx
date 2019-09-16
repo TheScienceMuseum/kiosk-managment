@@ -23,7 +23,7 @@ class FormPageMixed extends Component {
     }
 
     render() {
-        const {validationErrors} = this.props;
+        const {validationErrors, aspectRatio} = this.props;
 
         const validation = Validation(validationErrors);
 
@@ -40,6 +40,7 @@ class FormPageMixed extends Component {
                     />
                 </FormGroup>
 
+                {aspectRatio != '9:16' && (
                 <FormGroup>
                     <Label>Subtitle</Label>
                     <Input bsSize={'sm'}
@@ -51,19 +52,21 @@ class FormPageMixed extends Component {
                            maxLength={300}
                     />
                 </FormGroup>
-
-                <FormGroup>
-                    <Label>Title Image</Label>
-                    <Asset name={'titleImage'}
-                           value={this.props.data.data.titleImage}
-                           packageId={this.props.packageId}
-                           packageVersionId={this.props.packageVersionId}
-                           onChange={this.handleFormChange}
-                           assetType={'titleImage'}
-                           aspectRatio={this.props.aspectRatio}
-                           invalid={validation.has(`content.contents[${this.props.data.pageIndex}].titleImage`)}
-                    />
-                </FormGroup>
+                )}
+                {aspectRatio != '9:16' && (
+                    <FormGroup>
+                        <Label>Title Image</Label>
+                        <Asset name={'titleImage'}
+                            value={this.props.data.data.titleImage}
+                            packageId={this.props.packageId}
+                            packageVersionId={this.props.packageVersionId}
+                            onChange={this.handleFormChange}
+                            assetType={'titleImage'}
+                            aspectRatio={this.props.aspectRatio}
+                            invalid={validation.has(`content.contents[${this.props.data.pageIndex}].titleImage`)}
+                        />
+                    </FormGroup>
+                )}
             </div>
         );
     }

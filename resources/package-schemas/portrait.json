@@ -1,0 +1,479 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/SciMusPackageManifest",
+    "definitions": {
+      "SciMusPackageManifest": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "version": {
+            "type": "integer"
+          },
+          "main": {
+            "type": "string"
+          },
+          "requirements": {
+            "$ref": "#/definitions/Requirements"
+          },
+          "content": {
+            "$ref": "#/definitions/SciMusPackageManifestContent"
+          }
+        },
+        "required": [
+          "content",
+          "main",
+          "name",
+          "requirements",
+          "version"
+        ],
+        "title": "SciMusPackageManifest"
+      },
+      "SciMusPackageManifestContent": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "titles": {
+            "$ref": "#/definitions/Titles"
+          },
+          "contents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/ContentElement"
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "contents",
+          "titles"
+        ],
+        "title": "SciMusPackageManifestContent"
+      },
+      "ContentElement": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "video",
+              "mixed",
+              "timeline",
+              "model"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 72
+          },
+          "subpages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Subpage"
+            }
+          }
+        },
+        "required": [
+          "title",
+          "type"
+        ],
+        "title": "ContentElement"
+      },
+      "Subpage": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "textImage",
+              "title",
+              "video",
+              "image",
+              "textVideo",
+              "textAudio",
+              "hotspot"
+            ]
+          },
+          "asset": {
+            "anyOf": [{
+                "$ref": "#/definitions/VideoAssetClass"
+              },
+              {
+                "$ref": "#/definitions/ImageAssetClass"
+              }
+            ]
+          },
+          "audio": {
+            "oneOf": [{
+              "$ref": "#/definitions/AudioAssetClass"
+            }]
+          },
+          "titleImage": {
+            "$ref": "#/definitions/ImageAssetClass"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "subtitle": {
+            "type": "string"
+          },
+          "date": {
+            "type": [
+              "string",
+              "integer",
+              "null"
+            ]
+          },
+          "layout": {
+            "type": "string",
+            "enum": [
+              "left",
+              "right"
+            ]
+          },
+          "content": {
+            "$ref": "#/definitions/ContentUnion"
+          }
+        },
+        "required": [
+          "title",
+          "type"
+        ],
+        "title": "Subpage",
+        "anyOf": [{
+            "properties": {
+              "type": {
+                "const": "video"
+              }
+            },
+            "required": [
+              "asset",
+              "title",
+              "type",
+              "titleImage"
+            ]
+          },
+          {
+            "properties": {
+              "type": {
+                "enum": [
+                  "textImage",
+                  "title",
+                  "image",
+                  "textVideo",
+                  "textAudio"
+                ]
+              }
+            },
+            "required": [
+              "title",
+              "type"
+            ]
+          },
+          {
+            "properties": {
+              "type": {
+                "const": "hotspot"
+              }
+            },
+            "required": [
+              "title",
+              "type"
+            ]
+          }
+        ]
+      },
+      "AudioAssetClass": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "assetFilename": {
+            "type": "string"
+          },
+          "assetId": {
+            "type": "integer"
+          },
+          "assetMime": {
+            "type": "string"
+          },
+          "assetType": {
+            "type": "string",
+            "enum": [
+              "audio"
+            ]
+          },
+          "sourceText": {
+            "type": "string"
+          },
+          "nameText": {
+            "type": "string"
+          },
+          "transcript": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "assetType",
+          "assetFilename",
+          "assetId",
+          "assetMime"
+        ],
+        "title": "AssetClass"
+      },
+      "ImageAssetClass": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "assetFilename": {
+            "type": "string"
+          },
+          "assetId": {
+            "type": "integer"
+          },
+          "assetMime": {
+            "type": "string"
+          },
+          "assetType": {
+            "type": "string",
+            "enum": [
+              "image"
+            ]
+          },
+          "boundingBox": {
+            "$ref": "#/definitions/BoundingBox"
+          },
+          "nameText": {
+            "type": "string"
+          },
+          "sourceText": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "assetFilename",
+          "assetId",
+          "assetMime"
+        ],
+        "title": "AssetClass"
+      },
+      "VideoAssetClass": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "assetFilename": {
+            "type": "string"
+          },
+          "assetId": {
+            "type": "integer"
+          },
+          "assetMime": {
+            "type": "string"
+          },
+          "assetType": {
+            "type": "string",
+            "enum": [
+              "video"
+            ]
+          },
+          "nameText": {
+            "type": "string"
+          },
+          "sourceText": {
+            "type": "string"
+          },
+          "bslAssetId": {
+            "type": "integer"
+          },
+          "bslAssetFilename": {
+            "type": "string"
+          },
+          "bslAssetMime": {
+            "type": "string"
+          },
+          "bslAssetType": {
+            "type": "string"
+          },
+          "subtitleAssetId": {
+            "type": "integer"
+          },
+          "subtitleAssetFilename": {
+            "type": "string"
+          },
+          "subtitleAssetMime": {
+            "type": "string"
+          },
+          "subtitleAssetType": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "assetFilename",
+          "assetId",
+          "assetMime"
+        ],
+        "title": "AssetClass"
+      },
+      "ModelAssetClass": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "assetFilename": {
+            "type": "string"
+          },
+          "assetId": {
+            "type": "integer"
+          },
+          "assetMime": {
+            "type": "string"
+          },
+          "assetType": {
+            "type": "string",
+            "enum": [
+              "model"
+            ]
+          },
+          "nameText": {
+            "type": "string"
+          },
+          "sourceText": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "assetFilename",
+          "assetId",
+          "assetMime"
+        ],
+        "title": "AssetClass"
+      },
+      "Titles": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "text",
+              "image"
+            ]
+          },
+          "gallery": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 72
+          },
+          "aspect_ratio": {
+            "type": "string",
+            "enum": [
+              "16:9",
+              "9:16"
+            ]
+          },
+          "image": {
+            "oneOf": [{
+                "type": "null"
+              },
+              {
+                "$ref": "#/definitions/VideoAssetClass"
+              },
+              {
+                "$ref": "#/definitions/ImageAssetClass"
+              }
+            ]
+          },
+          "attractor": {
+            "oneOf": [{
+                "$ref": "#/definitions/VideoAssetClass"
+              },
+              {
+                "$ref": "#/definitions/ImageAssetClass"
+              }
+            ]
+          },
+          "idleTimeout": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "gallery",
+          "title",
+          "type",
+          "attractor"
+        ],
+        "title": "Titles"
+      },
+      "Requirements": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "client_version": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_version"
+        ],
+        "title": "Requirements"
+      },
+      "ImageUnion": {
+        "anyOf": [{
+            "$ref": "#/definitions/VideoAssetClass"
+          },
+          {
+            "$ref": "#/definitions/ImageAssetClass"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "ImageUnion"
+      },
+      "ContentUnion": {
+        "anyOf": [{
+            "type": "string"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "BoundingBox": {
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "width": {
+            "type": "number"
+          },
+          "height": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+  
