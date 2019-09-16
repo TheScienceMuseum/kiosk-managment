@@ -118,7 +118,13 @@ class PackageVersion extends Model implements HasMedia, Auditable
             $data = (object) $this->data;
         }
 
-        $validationSchema = (object) json_decode(file_get_contents(base_path('resources/package-schema.json')));
+        if(isset($data->aspect_ratio) && $data->aspect_ratio == '9:16') {
+            // load in the portrait manifest to validate against
+            $validationSchema = (object) json_decode(file_get_contents(base_path('resources/package-schemas/portrait.json')));
+        } else {
+            //default to landscape
+            $validationSchema = (object) json_decode(file_get_contents(base_path('resources/package-schemas/landscape.json')));
+        }
 
         $validator = new \JsonSchema\Validator;
         $validator->validate($data, $validationSchema, \JsonSchema\Constraints\Constraint::CHECK_MODE_TYPE_CAST);
