@@ -441,6 +441,9 @@ class Asset extends Component {
                                     <Button color={'primary'} onClick={this.onToggleAssetBrowser('subtitleAsset')}>Choose Asset</Button>
                                     <Button color={'secondary'} onClick={this.onClearChosenAsset('subtitleAsset')}>Clear</Button>
                                 </InputGroupAddon>
+                                <div className="text-muted">
+                                    Position of subtitles is defined from within the subtitles file.
+                                </div>
                             </InputGroup>
                             }
 
