@@ -43,7 +43,9 @@ class Tree extends Component {
                 <Row>
                     <Col>
                         <Alert color={'danger'}>
-                            There are errors in this package, please resolve them and click "Validate Package"
+                        <b>Warning</b><Br />
+                        Some of the fields in this package are empty when they shouldn't be.<Br />
+                        You can save the package, but you will not be able to preview or publish.
                         </Alert>
                     </Col>
                 </Row>
