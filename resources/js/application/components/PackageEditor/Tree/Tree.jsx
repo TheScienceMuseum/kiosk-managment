@@ -43,9 +43,9 @@ class Tree extends Component {
                 <Row>
                     <Col>
                         <Alert color={'danger'}>
-                        <b>Warning</b><Br />
-                        Some of the fields in this package are empty when they shouldn't be.<Br />
-                        You can save the package, but you will not be able to preview or publish.
+                            <div><b>Warning</b></div>
+                            <div>Some of the fields in this package are empty when they shouldn't be.</div>
+                            <div>You can save the package, but you will not be able to preview or publish.</div>
                         </Alert>
                     </Col>
                 </Row>
