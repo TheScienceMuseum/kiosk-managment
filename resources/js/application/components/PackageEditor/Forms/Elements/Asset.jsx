@@ -442,7 +442,7 @@ class Asset extends Component {
                                     <Button color={'secondary'} onClick={this.onClearChosenAsset('subtitleAsset')}>Clear</Button>
                                 </InputGroupAddon>
                                 <div className="text-muted">
-                                    Position of subtitles is defined from within the subtitles file.
+                                    subtitles must be aligned to the top of the screen
                                 </div>
                             </InputGroup>
                             }
