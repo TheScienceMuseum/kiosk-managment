@@ -161,11 +161,9 @@
             "type": "string"
           },
           "date": {
-            "type": [
-              "string",
-              "integer",
-              "null"
-            ]
+            "type": "string",
+            "maxLength": 4,
+            "minLength": 1
           },
           "layout": {
             "type": "string",
