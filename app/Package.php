@@ -53,6 +53,15 @@ class Package extends Model implements Auditable
         return $this->hasMany(PackageVersion::class);
     }
 
+    /**
+     * Return a file friendy name for packages
+     */
+    public function getFileFriendlyName() {
+        $string = str_replace(' ', '-', $this->name); // Replaces all spaces with hyphens.
+
+        return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+    }
+
     public function createVersion()
     {
         /** @var PackageVersion $previousVersion */
