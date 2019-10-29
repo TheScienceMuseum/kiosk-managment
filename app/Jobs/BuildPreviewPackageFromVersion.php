@@ -72,9 +72,10 @@ class BuildPreviewPackageFromVersion implements ShouldQueue
         Storage::disk('local')
             ->makeDirectory('public/previews/'.$previewPath);
 
+        $archiveFilename = $packageVersion->package->getFileFriendlyName() . '_' . $packageVersion->version . '.package';
         $stream = Storage::disk('build-temp')
             ->getDriver()
-            ->readStream($packageVersion->archive_path);
+            ->readStream($archiveFilename);
 
         file_put_contents(
             storage_path('app/public/previews/'.$previewPath.'/package.tar.gz'),
