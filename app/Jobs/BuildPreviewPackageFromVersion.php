@@ -51,7 +51,7 @@ class BuildPreviewPackageFromVersion implements ShouldQueue
 
         if ($buildingFromDraft) {
             try {
-                $buildJob = new BuildPackageFromVersion($packageVersion, null);
+                $buildJob = new BuildPackageFromVersion($packageVersion, null, true);
                 $buildJob->handle();
             } catch (Exception $exception) {
                 $packageVersion->update([
@@ -72,7 +72,7 @@ class BuildPreviewPackageFromVersion implements ShouldQueue
         Storage::disk('local')
             ->makeDirectory('public/previews/'.$previewPath);
 
-        $stream = Storage::disk(config('filesystems.packages'))
+        $stream = Storage::disk('build-temp')
             ->getDriver()
             ->readStream($packageVersion->archive_path);
 
