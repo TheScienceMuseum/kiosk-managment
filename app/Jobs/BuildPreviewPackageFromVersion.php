@@ -49,7 +49,9 @@ class BuildPreviewPackageFromVersion implements ShouldQueue
         $buildingFromDraft = !in_array($packageVersion->status, ['pending', 'approved'])
             && $packageVersion->progress !== 100;
 
-        if ($buildingFromDraft) {
+        $archiveFilename = $packageVersion->package->getFileFriendlyName() . '_' . $packageVersion->version . '.package';
+
+        if ($buildingFromDraft || !$stream = Storage::disk('build-temp')->exists($archiveFilename)) {
             try {
                 $buildJob = new BuildPackageFromVersion($packageVersion, null, true);
                 $buildJob->handle();
@@ -72,7 +74,6 @@ class BuildPreviewPackageFromVersion implements ShouldQueue
         Storage::disk('local')
             ->makeDirectory('public/previews/'.$previewPath);
 
-        $archiveFilename = $packageVersion->package->getFileFriendlyName() . '_' . $packageVersion->version . '.package';
         $stream = Storage::disk('build-temp')
             ->getDriver()
             ->readStream($archiveFilename);
