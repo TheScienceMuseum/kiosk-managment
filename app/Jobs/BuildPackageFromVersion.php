@@ -104,8 +104,11 @@ class BuildPackageFromVersion implements ShouldQueue
             if(!$this->preview) { 
                 // copy the package
                 $this->updateProgress($this->packageVersion, 80);
+                // Storage::disk(config('filesystems.packages'))
+                //     ->put($this->packageVersion->archive_path, Storage::disk('build-temp')->get($archiveFilename));
+                $stream = Storage::disk('build-temp')->getDriver()->readStream($archiveFilename);
                 Storage::disk(config('filesystems.packages'))
-                    ->put($this->packageVersion->archive_path, Storage::disk('build-temp')->get($archiveFilename));
+                    ->put($this->packageVersion->archive_path, $stream);
             }
             // finish the process
             $this->updateProgress($this->packageVersion, 100);
