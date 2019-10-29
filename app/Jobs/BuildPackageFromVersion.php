@@ -41,6 +41,11 @@ class BuildPackageFromVersion implements ShouldQueue
     protected $approvingUser;
 
     /**
+     * @var Bool whether we're building a preview or not
+     */
+    protected $preview;
+
+    /**
      * Create a new job instance.
      *
      * @param PackageVersion $packageVersion
