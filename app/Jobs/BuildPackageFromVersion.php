@@ -93,7 +93,7 @@ class BuildPackageFromVersion implements ShouldQueue
             // compress package
             $this->updateProgress($this->packageVersion, 60);
             $archiveFilename = $this->packageVersion->package->getFileFriendlyName() . '_' . $this->packageVersion->version . '.package';
-            $this->createProcess(['tar', '-czvf', '../' . $archiveFilename, '.'], $this->buildDirectory)->mustRun();
+            $this->createProcess(['tar', '-cvf', '../' . $archiveFilename, '.'], $this->buildDirectory)->mustRun();
 
             // copy the package
             $this->updateProgress($this->packageVersion, 80);
