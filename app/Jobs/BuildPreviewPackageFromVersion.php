@@ -90,7 +90,7 @@ class BuildPreviewPackageFromVersion implements ShouldQueue
             ]);
         }
 
-        $process = new Process('tar -zxf package.tar.gz', storage_path('app/public/previews/'.$previewPath));
+        $process = new Process('tar -xf package.tar.gz', storage_path('app/public/previews/'.$previewPath));
         $process->run();
 
         $this->packageVersionPreview->update([
