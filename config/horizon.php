@@ -93,6 +93,7 @@ return [
                 'balance' => 'simple',
                 'processes' => 10,
                 'tries' => 3,
+                'timeout' => 360
             ],
             'supervisor-long-running' => [
                 'connection' => 'redis-long-running',
@@ -102,7 +103,7 @@ return [
                 'balance' => 'simple',
                 'processes' => 3,
                 'tries' => 1,
-                'timeout' => 1800,
+                'timeout' => 3600,
             ],
         ],
 
@@ -113,6 +114,7 @@ return [
                 'balance' => 'simple',
                 'processes' => 3,
                 'tries' => 3,
+                'timeout' => 360
             ],
             'supervisor-long-running' => [
                 'connection' => 'redis-long-running',
@@ -122,7 +124,7 @@ return [
                 'balance' => 'simple',
                 'processes' => 3,
                 'tries' => 1,
-                'timeout' => 1800,
+                'timeout' => 3600,
             ],
         ],
 
@@ -133,6 +135,7 @@ return [
                 'balance' => 'simple',
                 'processes' => 3,
                 'tries' => 3,
+                'timeout' => 360
             ],
             'supervisor-long-running' => [
                 'connection' => 'redis-long-running',
@@ -142,7 +145,7 @@ return [
                 'balance' => 'simple',
                 'processes' => 3,
                 'tries' => 1,
-                'timeout' => 1800,
+                'timeout' => 3600,
             ],
         ],
     ],
