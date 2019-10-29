@@ -51,7 +51,7 @@ class BuildPreviewPackageFromVersion implements ShouldQueue
 
         $archiveFilename = $packageVersion->package->getFileFriendlyName() . '_' . $packageVersion->version . '.package';
 
-        if ($buildingFromDraft || !$stream = Storage::disk('build-temp')->exists($archiveFilename)) {
+        if ($buildingFromDraft || !Storage::disk('build-temp')->exists($archiveFilename)) {
             try {
                 $buildJob = new BuildPackageFromVersion($packageVersion, null, true);
                 $buildJob->handle();
