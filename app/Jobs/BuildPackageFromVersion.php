@@ -46,11 +46,12 @@ class BuildPackageFromVersion implements ShouldQueue
      * @param PackageVersion $packageVersion
      * @param User|null $approvingUser
      */
-    public function __construct(PackageVersion $packageVersion, User $approvingUser = null)
+    public function __construct(PackageVersion $packageVersion, User $approvingUser = null, $preview = false)
     {
         $this->packageVersion = $packageVersion;
         $this->approvingUser = $approvingUser;
         $this->buildDirectory = 'package-build-' . str_random();
+        $this->preview = $preview;
 
         \Log::info('Queued a build of package version id: ' . $this->packageVersion->id . ' in directory ' . Storage::disk('build-temp')->path($this->buildDirectory));
     }
@@ -95,11 +96,12 @@ class BuildPackageFromVersion implements ShouldQueue
             $archiveFilename = $this->packageVersion->package->getFileFriendlyName() . '_' . $this->packageVersion->version . '.package';
             $this->createProcess(['tar', '-cvf', '../' . $archiveFilename, '.'], $this->buildDirectory)->mustRun();
 
-            // copy the package
-            $this->updateProgress($this->packageVersion, 80);
-            Storage::disk(config('filesystems.packages'))
-                ->put($this->packageVersion->archive_path, Storage::disk('build-temp')->get($archiveFilename));
-
+            if(!$this->preview) { 
+                // copy the package
+                $this->updateProgress($this->packageVersion, 80);
+                Storage::disk(config('filesystems.packages'))
+                    ->put($this->packageVersion->archive_path, Storage::disk('build-temp')->get($archiveFilename));
+            }
             // finish the process
             $this->updateProgress($this->packageVersion, 100);
 
