@@ -43,7 +43,13 @@ class PackageVersionController extends Controller
             $kiosks = $kiosks->where('package_id', $package->id);
         }
 
-        return PackageVersionResource::collection($kiosks->jsonPaginate());
+        if(isset($request->showAll)) { 
+            $kiosks = $kiosks->jsonPaginate(500, 500);
+        } else {
+            $kiosks = $kiosks->jsonPaginate();
+        }
+
+        return PackageVersionResource::collection($kiosks);
     }
 
     /**
