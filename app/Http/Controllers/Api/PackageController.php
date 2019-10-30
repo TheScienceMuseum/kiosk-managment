@@ -31,9 +31,13 @@ class PackageController extends Controller
             ->allowedFilters([
                 'name',
                 'aspect_ratio',
-            ])
-            ->jsonPaginate()
-        ;
+            ]);
+
+        if(isset($request->showAll)) { 
+            $kiosks = $kiosks->jsonPaginate(500, 500);
+        } else {
+            $kiosks = $kiosks->jsonPaginate();
+        }
 
         return PackageResource::collection($kiosks);
     }
