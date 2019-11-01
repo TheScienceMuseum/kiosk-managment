@@ -50,8 +50,12 @@ class BuildPreviewPackageFromVersion implements ShouldQueue
             && $packageVersion->progress !== 100;
 
         $archiveFilename = $packageVersion->package->getFileFriendlyName() . '_' . $packageVersion->version . '.package';
+        $exists = Storage::disk('build-temp')->exists($archiveFilename);
 
-        if ($buildingFromDraft || !Storage::disk('build-temp')->exists($archiveFilename)) {
+        \Log::info('Attempting preview of: ' . $packageVersion->id . ' | checking for file: ' . $archiveFilename);
+
+        if ($buildingFromDraft || !$exists) {
+            \Log::info('Filename does not exist or building from draft: ' . $exists . ' | ' . $buildingFromDraft);
             try {
                 $buildJob = new BuildPackageFromVersion($packageVersion, null, true);
                 $buildJob->handle();
