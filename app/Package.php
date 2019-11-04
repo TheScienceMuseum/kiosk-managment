@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * App\Package
  *
@@ -30,6 +30,7 @@ class Package extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable,
         \Staudenmeir\EloquentHasManyDeep\HasRelationships;
+    use SoftDeletes;
 
     protected $fillable = ['name', 'aspect_ratio'];
 
