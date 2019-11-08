@@ -30,7 +30,6 @@
           }
         },
         "required": [
-          "content",
           "main",
           "name",
           "requirements",
