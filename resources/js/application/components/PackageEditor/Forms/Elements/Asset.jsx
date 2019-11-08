@@ -147,6 +147,9 @@ class Asset extends Component {
     }
 
     componentDidUpdate(prevProps) {
+
+        this.forceUpdate();
+
         if(prevProps.value && get(prevProps, 'value.assetId', true) !== get(this.props, 'value.assetId', false)) {
             this.createCropper();
         }
