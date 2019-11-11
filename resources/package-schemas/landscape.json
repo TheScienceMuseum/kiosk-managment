@@ -482,6 +482,9 @@
             "items": {
               "type": ["string", "object"]
             }
+          },
+          {
+            "type": "null"
           }
         ]
       },
