@@ -87,7 +87,8 @@ class PackageVersion extends Model implements HasMedia, Auditable
 
     public function getArchivePathAttribute() : string
     {
-        return is_object($this->package->name) ? Str::kebab($this->package->name) . '_' . $this->version . '.package' : '';
+        $path = is_object($this->package->name) ? Str::kebab($this->package->name) . '_' . $this->version . '.package' : '';
+        return $path;
     }
 
     public function getArchivePathExistsAttribute() : bool
