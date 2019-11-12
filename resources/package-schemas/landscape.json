@@ -173,7 +173,8 @@
             ]
           },
           "content": {
-            "$ref": "#/definitions/ContentUnion"
+            "$ref": "#/definitions/ContentUnion",
+            "type": ["string", "null"]
           }
         },
         "required": [
@@ -483,9 +484,6 @@
             "items": {
               "type": ["string", "object"]
             }
-          },
-          {
-            "type": "null"
           }
         ]
       },

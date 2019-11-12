@@ -26,7 +26,8 @@
             "$ref": "#/definitions/Requirements"
           },
           "content": {
-            "$ref": "#/definitions/SciMusPackageManifestContent"
+            "$ref": "#/definitions/SciMusPackageManifestContent",
+            "type": ["string", "null"]
           }
         },
         "required": [
