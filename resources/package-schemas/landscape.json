@@ -173,8 +173,7 @@
             ]
           },
           "content": {
-            "$ref": "#/definitions/ContentUnion",
-            "type": ["string", "null"]
+            "$ref": "#/definitions/ContentUnion"
           }
         },
         "required": [
