@@ -148,6 +148,10 @@ class KioskController extends Controller
      */
     public function healthCheck(KioskHealthCheckRequest $request) : KioskResource
     {
+        // version check
+        if(preg_replace('/\./', '',  $request->input('client.version')) < 77) {
+            die();
+        }
         $kiosk = $this->getKioskFromRequest($request);
 
         /**
