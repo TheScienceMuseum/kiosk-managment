@@ -108,7 +108,7 @@ class PackageVersion extends Model implements HasMedia, Auditable
 
         $data = json_decode($this->attributes['data'], true);
 
-        $data['aspect_ratio'] = $this->package->aspect_ratio;
+        $data['aspect_ratio'] = is_object($this->package) ? $this->package->aspect_ratio : '16:9';
 
         return $data;
     }
