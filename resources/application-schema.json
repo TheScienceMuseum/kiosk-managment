@@ -133,6 +133,10 @@
           "update": {
             "verb": "put",
             "path": "/api/kiosk/{id}"
+          },
+          "delete": {
+            "verb": "delete",
+            "path": "/api/kiosk/{id}"
           }
         }
       },
