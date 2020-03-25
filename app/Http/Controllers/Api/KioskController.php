@@ -48,9 +48,13 @@ class KioskController extends Controller
                 Filter::custom('registered', UnregisteredKioskFilter::class),
                 Filter::custom('unseen_errors', UnseenKioskLogErrorFilter::class),
                 Filter::custom('client_outdated', ClientOutdatedKioskFilter::class),
-            ])
-            ->jsonPaginate()
-        ;
+            ]);
+
+        if(isset($request->showAll)) { 
+            $kiosks = $kiosks->jsonPaginate(500, 500);
+        } else {
+            $kiosks = $kiosks->jsonPaginate();
+        }
 
         return KioskResource::collection($kiosks);
     }
@@ -144,6 +148,10 @@ class KioskController extends Controller
      */
     public function healthCheck(KioskHealthCheckRequest $request) : KioskResource
     {
+        // version check
+        if(preg_replace('/\./', '',  $request->input('client.version')) < 77) {
+            die();
+        }
         $kiosk = $this->getKioskFromRequest($request);
 
         /**

@@ -45,9 +45,13 @@ class UserController extends Controller
                 'name',
                 'email',
                 Filter::custom('roles', UserRolesFilter::class),
-            ])
-            ->jsonPaginate()
-        ;
+            ]);
+
+        if(isset($request->showAll)) { 
+            $users = $users->jsonPaginate(500, 500);
+        } else {
+            $users = $users->jsonPaginate();
+        }
 
         return UserResource::collection($users);
     }

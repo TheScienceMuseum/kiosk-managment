@@ -87,7 +87,8 @@ class PackageVersion extends Model implements HasMedia, Auditable
 
     public function getArchivePathAttribute() : string
     {
-        return Str::kebab($this->package->name) . '_' . $this->version . '.package';
+        $packageName = $this->package ? $this->package->name : '';
+        return Str::kebab($packageName) . '_' . $this->version . '.package';
     }
 
     public function getArchivePathExistsAttribute() : bool
@@ -107,7 +108,7 @@ class PackageVersion extends Model implements HasMedia, Auditable
 
         $data = json_decode($this->attributes['data'], true);
 
-        $data['aspect_ratio'] = $this->package->aspect_ratio;
+        $data['aspect_ratio'] = is_object($this->package) ? $this->package->aspect_ratio : '16:9';
 
         return $data;
     }

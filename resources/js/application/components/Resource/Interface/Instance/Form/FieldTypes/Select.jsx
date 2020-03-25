@@ -67,6 +67,8 @@ export default class Select extends Component {
                     });
                 }
 
+                filters['showAll'] = true;
+
                 api.request('index', filters)
                     .then(response => {
                         this.setState(prevState => ({

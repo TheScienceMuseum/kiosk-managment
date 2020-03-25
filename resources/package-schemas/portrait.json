@@ -54,7 +54,6 @@
           }
         },
         "required": [
-          "contents",
           "titles"
         ],
         "title": "SciMusPackageManifestContent"
@@ -455,6 +454,9 @@
             "items": {
               "type": "string"
             }
+          },
+          {
+            "type": "null"
           }
         ]
       },
