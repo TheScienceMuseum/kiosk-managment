@@ -115,13 +115,21 @@
                   "resource": "kiosk",
                   "action": "delete"
                 },
+                "display_condition": [
+                  {
+                    "message": "You do not have permission to delete a Kiosk",
+                    "rules": {
+                      "PERMISSION": "delete kiosk"
+                    }
+                  }
+                ],
                 "confirmation": {
                   "text": "You are about to delete the kiosk <span class='text-dark'>{name}</span>, Are you sure?",
                   "yes": "Go ahead",
                   "no": "Cancel"
                 },
                 "post_action": {
-                  "path": "/admin/kiosks"
+                  "refresh": true
                 }
               }
             ]
