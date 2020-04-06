@@ -17,7 +17,7 @@ sudo LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
 # Install required servers
 sudo apt update
 sudo apt-get install -yq \
-    php7.2-fpm php7.2-mbstring php7.2-xml php7.2-imagick php7.2-zip php7.2-mysql php7.2-curl php7.2-gd \
+    php7.3-fpm php7.3-mbstring php7.3-xml php7.3-imagick php7.3-zip php7.3-mysql php7.3-curl php7.3-gd \
     composer nginx curl python-certbot-nginx
 
 # Setup lets encrypt for domain
