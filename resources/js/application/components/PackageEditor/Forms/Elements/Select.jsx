@@ -9,7 +9,7 @@ class Select extends Component {
 
         this.state = {
             options: props.options ? props.options : [],
-            defaultValue: props.value,
+            defaultValue: props.defaultValue,
             formattedDefaultValue: {
                 label: "Select an Option",
                 value: props.defaultValue,
