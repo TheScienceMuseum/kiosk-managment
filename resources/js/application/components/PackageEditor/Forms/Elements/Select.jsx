@@ -9,7 +9,7 @@ class Select extends Component {
 
         this.state = {
             options: props.options ? props.options : [],
-            defaultValue: props.defaultValue,
+            defaultValue: props.value,
             formattedDefaultValue: {
                 label: "Select an Option",
                 value: props.defaultValue,
@@ -71,7 +71,6 @@ class Select extends Component {
         return (
             <ReactSelect name={field}
                          onChange={this.handleFieldChange}
-                         defaultValue={formattedDefaultValue}
                          value={formattedDefaultValue}
                          options={options}
                          styles={{

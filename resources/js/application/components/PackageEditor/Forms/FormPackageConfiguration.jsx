@@ -124,9 +124,10 @@ export default class FormPackageConfiguration extends Component {
                 {!!this.state.sites.length &&
                 <FormGroup>
                     <Label>Gallery</Label>
-                    <Select defaultValue={1}
-                            field={`gallery`}
+                    <Select defaultValue={ this.props.data.data.gallery? this.props.data.data.gallery : 1 }
+                            field={'content.titles.gallery'}
                             handleFieldChange={this.handleFormChange}
+                            value={this.props.data.data.gallery}
                             options={this.state.sites}
                     />
                 </FormGroup>
