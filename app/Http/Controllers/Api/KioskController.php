@@ -15,6 +15,7 @@ use App\Http\Requests\KioskShowRequest;
 use App\Http\Requests\KioskUpdateRequest;
 use App\Http\Resources\KioskLogsResource;
 use App\Http\Resources\KioskResource;
+use App\Jobs\ProcessKioskLogs;
 use App\Kiosk;
 use App\KioskLog;
 use App\Package;
@@ -181,16 +182,9 @@ class KioskController extends Controller
 
         $kiosk->save();
 
-        if ($request->input('logs')) {
-            foreach ($request->input('logs') as $logEntry) {
-                if ($kiosk->logs()->whereTimestamp($logEntry['timestamp'])->get()->count() === 0) {
-                    $kiosk->logs()->create([
-                        'level' => $logEntry['level'],
-                        'message' => $logEntry['message'],
-                        'timestamp' => $logEntry['timestamp'],
-                    ]);
-                }
-            }
+        // queue the logs for insertion to reduce load
+        if ($request->input('logs')) {      
+            $this->dispatch(new ProcessKioskLogs($kiosk, $request->input('logs')));
         }
 
         return new KioskResource($kiosk);
