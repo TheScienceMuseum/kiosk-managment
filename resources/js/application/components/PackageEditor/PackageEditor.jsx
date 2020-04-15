@@ -115,8 +115,6 @@ class PackageEditor extends Component {
     }
 
     handlePackageDataChange(path, value) {
-        console.log('handlePackageDataChange:',path,value);
-        console.log('state',this.state);
 
         let resolvedPath = path;
         const packageVersionData = { ...this.state.packageVersionData };
