@@ -76,6 +76,24 @@ pipelines:
 
   branches:
     develop:
+      - parallel:
+        - step: *setup-test-environment
+        - step: *build-assets
+      - parallel:
+        - step: *unit-tests
+        - step: *feature-tests
+        - step: *browser-tests
+      - step:
+          name: deploy to development
+          deployment: development
+          image: atlassian/pipelines-awscli
+          script:
+          - rm -rf test-reports
+          - rm -rf tests/Browser/screenshots/*.png
+          - aws deploy push --application-name $APPLICATION_NAME --s3-location s3://$S3_BUCKET/$BITBUCKET_COMMIT
+          - aws deploy create-deployment --ignore-application-stop-failures --application-name $APPLICATION_NAME --s3-location bucket=$S3_BUCKET,key=$BITBUCKET_COMMIT,bundleType=zip --deployment-group-name="Development" --file-exists-behavior OVERWRITE
+
+    master:
     - parallel:
       - step: *setup-test-environment
       - step: *build-assets
@@ -93,21 +111,21 @@ pipelines:
         - aws deploy push --application-name $APPLICATION_NAME --s3-location s3://$S3_BUCKET/$BITBUCKET_COMMIT
         - aws deploy create-deployment --application-name $APPLICATION_NAME --s3-location bucket=$S3_BUCKET,key=$BITBUCKET_COMMIT,bundleType=zip --deployment-group-name="Staging" --file-exists-behavior OVERWRITE
 
-    master:
-    - parallel:
-      - step: *setup-test-environment
-      - step: *build-assets
-    - parallel:
-      - step: *unit-tests
-      - step: *feature-tests
-      - step: *browser-tests
-    - step:
-        name: deploy to production
-        deployment: production
-        trigger: manual
-        image: atlassian/pipelines-awscli
-        script:
-        - rm -rf test-reports
-        - rm -rf tests/Browser/screenshots/*.png
-        - aws deploy push --application-name $APPLICATION_NAME --s3-location s3://$S3_BUCKET/$BITBUCKET_COMMIT
-        - aws deploy create-deployment --application-name $APPLICATION_NAME --s3-location bucket=$S3_BUCKET,key=$BITBUCKET_COMMIT,bundleType=zip --deployment-group-name="Production" --file-exists-behavior OVERWRITE
+    # master:
+    # - parallel:
+    #   - step: *setup-test-environment
+    #   - step: *build-assets
+    # - parallel:
+    #   - step: *unit-tests
+    #   - step: *feature-tests
+    #   - step: *browser-tests
+    # - step:
+    #     name: deploy to production
+    #     deployment: production
+    #     trigger: manual
+    #     image: atlassian/pipelines-awscli
+    #     script:
+    #     - rm -rf test-reports
+    #     - rm -rf tests/Browser/screenshots/*.png
+    #     - aws deploy push --application-name $APPLICATION_NAME --s3-location s3://$S3_BUCKET/$BITBUCKET_COMMIT
+    #     - aws deploy create-deployment --application-name $APPLICATION_NAME --s3-location bucket=$S3_BUCKET,key=$BITBUCKET_COMMIT,bundleType=zip --deployment-group-name="Production" --file-exists-behavior OVERWRITE
