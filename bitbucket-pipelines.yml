@@ -84,8 +84,8 @@ pipelines:
         - step: *feature-tests
         - step: *browser-tests
       - step:
-          name: deploy to development
-          deployment: development
+          name: deploy to staging
+          deployment: staging
           image: atlassian/pipelines-awscli
           script:
           - rm -rf test-reports
@@ -103,7 +103,7 @@ pipelines:
       - step: *browser-tests
     - step:
         name: deploy to staging
-        deployment: staging
+        deployment: production
         image: atlassian/pipelines-awscli
         script:
         - rm -rf test-reports
