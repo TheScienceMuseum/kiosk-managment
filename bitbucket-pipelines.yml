@@ -103,7 +103,7 @@ pipelines:
       - step: *browser-tests
     - step:
         name: deploy to staging
-        deployment: staging
+        deployment: production
         image: atlassian/pipelines-awscli
         script:
         - rm -rf test-reports
