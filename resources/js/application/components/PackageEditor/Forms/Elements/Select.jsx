@@ -71,7 +71,6 @@ class Select extends Component {
         return (
             <ReactSelect name={field}
                          onChange={this.handleFieldChange}
-                         defaultValue={formattedDefaultValue}
                          value={formattedDefaultValue}
                          options={options}
                          styles={{

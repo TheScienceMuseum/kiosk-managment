@@ -57,6 +57,7 @@ class PermissionsSeeder extends Seeder
         $perm_destroy_all_kiosks = Permission::create(['name' => 'destroy all kiosks']);
         $perm_deploy_packages_to_all_kiosks = Permission::create(['name' => 'deploy packages to all kiosks']);
         $perm_view_kiosk_logs = Permission::create(['name' => 'view kiosk logs']);
+        $perm_view_kiosk_delete = Permission::create(['name' => 'delete kiosk']);
 
         $perm_group_kiosk = [
             $perm_create_new_kiosks,
@@ -65,6 +66,7 @@ class PermissionsSeeder extends Seeder
             $perm_destroy_all_kiosks,
             $perm_deploy_packages_to_all_kiosks,
             $perm_view_kiosk_logs,
+            $perm_view_kiosk_delete
         ];
 
         // Help Topic Permissions
